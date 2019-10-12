@@ -1,0 +1,27 @@
+Package: themis
+Title: What the Package Does (One Line, Title Case)
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Emil",
+           family = "Hvitfeldt",
+           role = c("aut", "cre"),
+           email = "emilhhvitfeldt@gmail.com",
+           comment = c(ORCID = "0000-0002-0679-1945"))
+Description: What the package does (one paragraph).
+License: GPL-3
+Suggests: 
+    testthat (>= 2.1.0)
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 6.1.1
+Depends: 
+    recipes (>= 0.1.4)
+Imports: 
+    tibble,
+    purrr,
+    withr,
+    generics,
+    dplyr,
+    DMwR,
+    rlang
