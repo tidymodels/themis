@@ -6,7 +6,7 @@
 \title{Apply SMOTE algorithm}
 \usage{
 step_smote(recipe, ..., role = NA, trained = FALSE, column = NULL,
-  perc.over = 200, k = 5, perc.under = 200, skip = TRUE,
+  perc_over = 200, neighbors = 5, perc_under = 200, skip = TRUE,
   seed = sample.int(10^5, 1), id = rand_id("smote"))
 
 \method{tidy}{step_smote}(x, ...)
@@ -30,13 +30,13 @@ preprocessing have been estimated.}
 \item{column}{A character string of the variable name that will
 be populated (eventually) by the \code{...} selectors.}
 
-\item{perc.over}{A numeric. Determines the of over-sampling of the
+\item{perc_over}{A numeric. Determines the of over-sampling of the
 minority class.}
 
-\item{k}{An integer. number of nearest neighbours that are used
+\item{neighbors}{An integer. Number of nearest neighbours that are used
 to generate the new examples of the minority class.}
 
-\item{perc.under}{A numeric. Determines the amount of extra cases
+\item{perc_under}{A numeric. Determines the amount of extra cases
 from the majority classes are selected for each case generated
 from the minority class.}
 
@@ -91,7 +91,7 @@ baked_okc <- bake(ds_rec, new_data = okc)
 table(baked_okc$Class, useNA = "always")
 
 ds_rec2 <- recipe(Class ~ age + height, data = okc) \%>\%
-  step_smote(Class, perc.over = 400) \%>\%
+  step_smote(Class, perc_over = 400) \%>\%
   prep()
 
 table(juice(ds_rec2)$Class, useNA = "always")

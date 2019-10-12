@@ -14,11 +14,11 @@
 #'  created.
 #' @param column A character string of the variable name that will
 #'  be populated (eventually) by the `...` selectors.
-#' @param perc.over A numeric. Determines the of over-sampling of the
+#' @param perc_over A numeric. Determines the of over-sampling of the
 #'  minority class.
-#' @param k An integer. number of nearest neighbours that are used
+#' @param neighbors An integer. Number of nearest neighbours that are used
 #'  to generate the new examples of the minority class.
-#' @param perc.under A numeric. Determines the amount of extra cases
+#' @param perc_under A numeric. Determines the amount of extra cases
 #' from the majority classes are selected for each case generated
 #' from the minority class.
 #' @param seed An integer that will be used as the seed when
@@ -57,7 +57,7 @@
 #' table(baked_okc$Class, useNA = "always")
 #'
 #' ds_rec2 <- recipe(Class ~ age + height, data = okc) %>%
-#'   step_smote(Class, perc.over = 400) %>%
+#'   step_smote(Class, perc_over = 400) %>%
 #'   prep()
 #'
 #' table(juice(ds_rec2)$Class, useNA = "always")
@@ -65,8 +65,8 @@
 #' @importFrom recipes rand_id add_step ellipse_check
 step_smote <-
   function(recipe, ..., role = NA, trained = FALSE,
-           column = NULL, perc.over = 200, k = 5, perc.under = 200, skip = TRUE,
-           seed = sample.int(10^5, 1), id = rand_id("smote")) {
+           column = NULL, perc_over = 200, neighbors = 5, perc_under = 200,
+           skip = TRUE, seed = sample.int(10^5, 1), id = rand_id("smote")) {
 
     add_step(recipe,
              step_smote_new(
@@ -74,9 +74,9 @@ step_smote <-
                role = role,
                trained = trained,
                column = column,
-               perc.over = perc.over,
-               k = k,
-               perc.under = perc.under,
+               perc_over = perc_over,
+               neighbors = neighbors,
+               perc_under = perc_under,
                skip = skip,
                seed = seed,
                id = id
@@ -85,17 +85,17 @@ step_smote <-
 
 #' @importFrom recipes step
 step_smote_new <-
-  function(terms, role, trained, column, perc.over, k, perc.under, skip, seed,
-           id) {
+  function(terms, role, trained, column, perc_over, neighbors, perc_under, skip,
+           seed, id) {
     step(
       subclass = "smote",
       terms = terms,
       role = role,
       trained = trained,
       column = column,
-      perc.over = perc.over,
-      k = k,
-      perc.under = perc.under,
+      perc_over = perc_over,
+      neighbors = neighbors,
+      perc_under = perc_under,
       skip = skip,
       id = id,
       seed = seed,
@@ -121,9 +121,9 @@ prep.step_smote <- function(x, training, info = NULL, ...) {
     role = x$role,
     trained = TRUE,
     column = col_name,
-    perc.over = x$perc.over,
-    k = x$k,
-    perc.under = x$perc.under,
+    perc_over = x$perc_over,
+    neighbors = x$neighbors,
+    perc_under = x$perc_under,
     skip = x$skip,
     seed = x$seed,
     id = x$id
@@ -153,8 +153,8 @@ bake.step_smote <- function(object, new_data, ...) {
     seed = object$seed,
     code = {
       new_data <- SMOTE(string2formula(object$column), new_data,
-                        perc.over = object$perc.over, k = object$k,
-                        perc.under = object$perc.under)
+                        perc.over = object$perc_over, k = object$neighbors,
+                        perc.under = object$perc_under)
     }
   )
 
