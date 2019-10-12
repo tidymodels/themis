@@ -4,7 +4,6 @@ library(dplyr)
 
 context("Down-sampling")
 
-
 iris2 <- iris[-(1:45),]
 iris2$Species[seq(6, 96, by = 5)] <- NA
 iris2$Species2 <- sample(iris2$Species)
@@ -59,7 +58,6 @@ test_that('ratio value', {
   expect_equal(te_xtab, og_xtab)
 })
 
-
 test_that('no skipping', {
   rec3 <- rec %>%
     step_downsample(tidyselect::matches("Species$"), skip = FALSE)
@@ -73,8 +71,6 @@ test_that('no skipping', {
   expect_equal(max(tr_xtab), 5)
   expect_equal(te_xtab, tr_xtab)
 })
-
-
 
 test_that('bad data', {
   expect_error(
