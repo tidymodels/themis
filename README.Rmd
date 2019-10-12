@@ -19,40 +19,45 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/themis)](https://CRAN.R-project.org/package=themis)
 <!-- badges: end -->
 
-The goal of themis is to ...
+**themis** contain extra steps for the
+[`recipes`](https://CRAN.R-project.org/package=recipes) package for
+dealingwith unbalanced data. The name **themis** is that of the [ancient Greek god](https://thishollowearth.wordpress.com/2012/07/02/god-of-the-week-themis/) who is typically  depicted with a balance.
+
+![](https://thishollowearth.files.wordpress.com/2012/07/themis.jpg)
 
 ## Installation
 
-You can install the released version of themis from [CRAN](https://CRAN.R-project.org) with:
+~~You can install the released version of themis from [CRAN](https://CRAN.R-project.org) with:~~
 
 ``` r
 install.packages("themis")
 ```
 
+Install the development version from GitHub with:
+
+``` r
+require("devtools")
+install_github("emilhvitfeldt/themis")
+```
+
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Following is a example of using the [SMOTE] algorithm to deal with unbalanced data
 
-```{r example}
+```{r example, message=FALSE}
+library(recipes)
 library(themis)
-## basic example code
+
+data(okc)
+
+sort(table(okc$Class, useNA = "always"))
+
+ds_rec <- recipe(Class ~ age + height, data = okc) %>%
+  step_smote(Class) %>%
+  prep()
+
+table(juice(ds_rec)$Class, useNA = "always")
 ```
-
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
-```{r cars}
-summary(cars)
-```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!
 
 ## Code of Conduct
 
