@@ -26,3 +26,5 @@ Imports:
     DMwR,
     rlang,
     tidyselect (>= 0.2.5)
+URL: https://github.com/EmilHvitfeldt/themis
+BugReports: https://github.com/EmilHvitfeldt/themis/issues
