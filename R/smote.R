@@ -162,6 +162,7 @@ bake.step_smote <- function(object, new_data, ...) {
 }
 
 #' @importFrom recipes printer terms_select
+#' @export
 print.step_smote <-
   function(x, width = max(20, options()$width - 26), ...) {
     cat("SMOTE based on ", sep = "")
