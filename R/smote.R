@@ -163,12 +163,6 @@ prep.step_smote <- function(x, training, info = NULL, ...) {
   )
 }
 
-string2formula <- function(x) {
-  out <- a ~ .
-  out[[2]] <- rlang::sym(x)
-  out
-}
-
 #' @importFrom tibble as_tibble tibble
 #' @importFrom withr with_seed
 #' @importFrom DMwR SMOTE
