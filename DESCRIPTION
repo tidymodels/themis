@@ -24,4 +24,5 @@ Imports:
     generics,
     dplyr,
     DMwR,
-    rlang
+    rlang,
+    tidyselect (>= 0.2.5)
