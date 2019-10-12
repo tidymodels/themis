@@ -6,7 +6,8 @@
 \title{Apply SMOTE algorithm}
 \usage{
 step_smote(recipe, ..., role = NA, trained = FALSE, column = NULL,
-  skip = TRUE, seed = sample.int(10^5, 1), id = rand_id("smote"))
+  perc.over = 200, k = 5, perc.under = 200, skip = TRUE,
+  seed = sample.int(10^5, 1), id = rand_id("smote"))
 
 \method{tidy}{step_smote}(x, ...)
 }
@@ -29,6 +30,16 @@ preprocessing have been estimated.}
 \item{column}{A character string of the variable name that will
 be populated (eventually) by the \code{...} selectors.}
 
+\item{perc.over}{A numeric. Determines the of over-sampling of the
+minority class.}
+
+\item{k}{An integer. number of nearest neighbours that are used
+to generate the new examples of the minority class.}
+
+\item{perc.under}{A numeric. Determines the amount of extra cases
+from the majority classes are selected for each case generated
+from the minority class.}
+
 \item{skip}{A logical. Should the step be skipped when the
 recipe is baked by \code{\link[=bake.recipe]{bake.recipe()}}? While all operations are baked
 when \code{\link[=prep.recipe]{prep.recipe()}} is run, some operations may not be able to be
@@ -36,7 +47,8 @@ conducted on new data (e.g. processing the outcome variable(s)).
 Care should be taken when using \code{skip = TRUE} as it may affect
 the computations for subsequent operations}
 
-\item{seed}{An integer that will be used as the seed when smote-ing.}
+\item{seed}{An integer that will be used as the seed when
+smote-ing.}
 
 \item{id}{A character string that is unique to this step to identify it.}
 
@@ -54,28 +66,10 @@ step that generate new examples of the  minority class using nearest
 neighbors of these cases.
 }
 \details{
-Down-sampling is intended to be performed on the \emph{training} set
-alone. For this reason, the default is \code{skip = TRUE}. It is
-advisable to use \code{prep(recipe, retain = TRUE)} when preparing
-the recipe; in this way \code{\link[=juice]{juice()}} can be used to obtain the
-down-sampled version of the data.
-
-If there are missing values in the factor variable that is used
-to define the sampling, missing data are selected at random in
-the same way that the other factor levels are sampled. Missing
-values are not used to determine the amount of data in the
-minority level
-
-For any data with factor levels occurring with the same
-frequency as the minority level, all data will be retained.
+TODO
 
 All columns in the data are sampled and returned by \code{\link[=juice]{juice()}}
 and \code{\link[=bake]{bake()}}.
-
-Keep in mind that the location of down-sampling in the step
-may have effects. For example, if centering and scaling,
-it is not clear whether those operations should be conducted
-\emph{before} or \emph{after} rows are removed.
 
 When used in modeling, users should strongly consider using the
 option \code{skip = TRUE} so that the extra sampling is \emph{not}
@@ -95,6 +89,13 @@ table(juice(ds_rec)$Class, useNA = "always")
 # since `skip` defaults to TRUE, baking the step has no effect
 baked_okc <- bake(ds_rec, new_data = okc)
 table(baked_okc$Class, useNA = "always")
+
+ds_rec2 <- recipe(Class ~ age + height, data = okc) \%>\%
+  step_smote(Class, perc.over = 400) \%>\%
+  prep()
+
+table(juice(ds_rec2)$Class, useNA = "always")
+
 }
 \concept{preprocessing}
 \concept{subsampling}

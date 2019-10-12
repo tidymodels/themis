@@ -14,34 +14,24 @@
 #'  created.
 #' @param column A character string of the variable name that will
 #'  be populated (eventually) by the `...` selectors.
-#' @param seed An integer that will be used as the seed when smote-ing.
+#' @param perc.over A numeric. Determines the of over-sampling of the
+#'  minority class.
+#' @param k An integer. number of nearest neighbours that are used
+#'  to generate the new examples of the minority class.
+#' @param perc.under A numeric. Determines the amount of extra cases
+#' from the majority classes are selected for each case generated
+#' from the minority class.
+#' @param seed An integer that will be used as the seed when
+#' smote-ing.
 #' @return An updated version of `recipe` with the new step
 #'  added to the sequence of existing steps (if any). For the
 #'  `tidy` method, a tibble with columns `terms` which is
 #'  the variable used to sample.
 #' @details
-#' Down-sampling is intended to be performed on the _training_ set
-#'  alone. For this reason, the default is `skip = TRUE`. It is
-#'  advisable to use `prep(recipe, retain = TRUE)` when preparing
-#'  the recipe; in this way [juice()] can be used to obtain the
-#'  down-sampled version of the data.
-#'
-#' If there are missing values in the factor variable that is used
-#'  to define the sampling, missing data are selected at random in
-#'  the same way that the other factor levels are sampled. Missing
-#'  values are not used to determine the amount of data in the
-#'  minority level
-#'
-#' For any data with factor levels occurring with the same
-#'  frequency as the minority level, all data will be retained.
+#' TODO
 #'
 #' All columns in the data are sampled and returned by [juice()]
 #'  and [bake()].
-#'
-#' Keep in mind that the location of down-sampling in the step
-#'  may have effects. For example, if centering and scaling,
-#'  it is not clear whether those operations should be conducted
-#'  _before_ or _after_ rows are removed.
 #'
 #' When used in modeling, users should strongly consider using the
 #'  option `skip = TRUE` so that the extra sampling is _not_
@@ -65,10 +55,17 @@
 #' # since `skip` defaults to TRUE, baking the step has no effect
 #' baked_okc <- bake(ds_rec, new_data = okc)
 #' table(baked_okc$Class, useNA = "always")
+#'
+#' ds_rec2 <- recipe(Class ~ age + height, data = okc) %>%
+#'   step_smote(Class, perc.over = 400) %>%
+#'   prep()
+#'
+#' table(juice(ds_rec2)$Class, useNA = "always")
+#'
 #' @importFrom recipes rand_id add_step ellipse_check
 step_smote <-
   function(recipe, ..., role = NA, trained = FALSE,
-           column = NULL, skip = TRUE,
+           column = NULL, perc.over = 200, k = 5, perc.under = 200, skip = TRUE,
            seed = sample.int(10^5, 1), id = rand_id("smote")) {
 
     add_step(recipe,
@@ -77,6 +74,9 @@ step_smote <-
                role = role,
                trained = trained,
                column = column,
+               perc.over = perc.over,
+               k = k,
+               perc.under = perc.under,
                skip = skip,
                seed = seed,
                id = id
@@ -85,13 +85,17 @@ step_smote <-
 
 #' @importFrom recipes step
 step_smote_new <-
-  function(terms, role, trained, column, skip, seed, id) {
+  function(terms, role, trained, column, perc.over, k, perc.under, skip, seed,
+           id) {
     step(
       subclass = "smote",
       terms = terms,
       role = role,
       trained = trained,
       column = column,
+      perc.over = perc.over,
+      k = k,
+      perc.under = perc.under,
       skip = skip,
       id = id,
       seed = seed,
@@ -117,6 +121,9 @@ prep.step_smote <- function(x, training, info = NULL, ...) {
     role = x$role,
     trained = TRUE,
     column = col_name,
+    perc.over = x$perc.over,
+    k = x$k,
+    perc.under = x$perc.under,
     skip = x$skip,
     seed = x$seed,
     id = x$id
@@ -131,6 +138,7 @@ string2formula <- function(x) {
 
 #' @importFrom tibble as_tibble tibble
 #' @importFrom withr with_seed
+#' @importFrom DMwR SMOTE
 #' @export
 bake.step_smote <- function(object, new_data, ...) {
   if (any(is.na(new_data[[object$column]])))
@@ -144,7 +152,9 @@ bake.step_smote <- function(object, new_data, ...) {
   with_seed(
     seed = object$seed,
     code = {
-      new_data <- DMwR::SMOTE(string2formula(object$column), new_data)
+      new_data <- SMOTE(string2formula(object$column), new_data,
+                        perc.over = object$perc.over, k = object$k,
+                        perc.under = object$perc.under)
     }
   )
 
