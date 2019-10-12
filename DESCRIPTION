@@ -26,6 +26,7 @@ Imports:
     DMwR,
     rlang,
     tidyselect (>= 0.2.5),
-    ROSE
+    ROSE,
+    unbalanced
 URL: https://github.com/EmilHvitfeldt/themis
 BugReports: https://github.com/EmilHvitfeldt/themis/issues

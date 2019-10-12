@@ -168,11 +168,6 @@ prep.step_smote <- function(x, training, info = NULL, ...) {
 #' @importFrom DMwR SMOTE
 #' @export
 bake.step_smote <- function(object, new_data, ...) {
-  if (any(is.na(new_data[[object$column]])))
-    missing <- new_data[is.na(new_data[[object$column]]),]
-  else
-    missing <- NULL
-  split_up <- split(new_data, new_data[[object$column]])
 
   new_data <- as.data.frame(new_data)
   # smote with seed for reproducibility
