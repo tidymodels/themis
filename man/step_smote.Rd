@@ -104,25 +104,25 @@ option \code{skip = TRUE} so that the extra sampling is \emph{not}
 conducted outside of the training set.
 }
 \examples{
-data(okc)
+data(credit_data)
 
-sort(table(okc$Class, useNA = "always"))
+sort(table(credit_data$Status, useNA = "always"))
 
-ds_rec <- recipe(Class ~ age + height, data = okc) \%>\%
-  step_smote(Class) \%>\%
+ds_rec <- recipe(Status ~ Age + Income + Assets, data = credit_data) \%>\%
+  step_smote(Status) \%>\%
   prep()
 
-table(juice(ds_rec)$Class, useNA = "always")
+table(juice(ds_rec)$Status, useNA = "always")
 
 # since `skip` defaults to TRUE, baking the step has no effect
-baked_okc <- bake(ds_rec, new_data = okc)
-table(baked_okc$Class, useNA = "always")
+baked_okc <- bake(ds_rec, new_data = credit_data)
+table(baked_okc$Status, useNA = "always")
 
-ds_rec2 <- recipe(Class ~ age + height, data = okc) \%>\%
-  step_smote(Class, perc_over = 400) \%>\%
+ds_rec2 <- recipe(Status ~ Age + Income + Assets, data = credit_data) \%>\%
+  step_smote(Status, perc_over = 400) \%>\%
   prep()
 
-table(juice(ds_rec2)$Class, useNA = "always")
+table(juice(ds_rec2)$Status, useNA = "always")
 
 }
 \references{
