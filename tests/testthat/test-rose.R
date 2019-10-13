@@ -1,6 +1,7 @@
 library(testthat)
 library(recipes)
 library(dplyr)
+set.seed(1234)
 
 context("ROSE")
 

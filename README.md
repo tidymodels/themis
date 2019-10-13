@@ -9,6 +9,10 @@
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/themis)](https://CRAN.R-project.org/package=themis)
+[![Travis build
+status](https://travis-ci.org/EmilHvitfeldt/themis.svg?branch=master)](https://travis-ci.org/EmilHvitfeldt/themis)
+[![Codecov test
+coverage](https://codecov.io/gh/EmilHvitfeldt/themis/branch/master/graph/badge.svg)](https://codecov.io/gh/EmilHvitfeldt/themis?branch=master)
 <!-- badges: end -->
 
 **themis** contain extra steps for the
@@ -38,8 +42,9 @@ install_github("emilhvitfeldt/themis")
 
 ## Example
 
-Following is a example of using the \[SMOTE\] algorithm to deal with
-unbalanced data
+Following is a example of using the
+[SMOTE](https://jair.org/index.php/jair/article/view/10302/24590)
+algorithm to deal with unbalanced data
 
 ``` r
 library(recipes)
