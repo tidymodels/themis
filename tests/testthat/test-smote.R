@@ -4,7 +4,7 @@ library(dplyr)
 
 context("SMOTE")
 
-iris2 <- iris[-(1:45), ]
+iris2 <- iris[-(1:30), ]
 
 rec <- recipe( ~ ., data = iris2)
 
@@ -34,42 +34,25 @@ test_that('basic usage', {
   og_xtab <- table(iris2$Species, useNA = "no")
 
   expect_equal(tr_xtab[["setosa"]],
-               og_xtab[["setosa"]] * 2 + og_xtab[["setosa"]])
-
-  expect_equal(
-    sum(tr_xtab[names(og_xtab) != "setosa"]),
-    og_xtab[["setosa"]] * 2 * 2
-  )
+               og_xtab[["setosa"]] * 1 + og_xtab[["setosa"]])
 
   expect_equal(te_xtab, og_xtab)
 
   expect_warning(prep(rec1, training = iris2), NA)
 })
 
-test_that('perc_over value', {
-  rec2 <- rec %>%
-    step_smote(tidyselect::matches("Species$"), perc_over = 100)
+test_that('majority classes are ignored  if there is more than 1', {
+  rec1_p2 <- rec %>%
+    step_smote(Species, id = "") %>%
+    prep() %>%
+    juice()
 
-  rec2_p <- prep(rec2, training = iris2, retain = TRUE)
-
-  tr_xtab <- table(juice(rec2_p)$Species, useNA = "no")
-  te_xtab <- table(bake(rec2_p, new_data = iris2)$Species, useNA = "no")
-  og_xtab <- table(iris2$Species, useNA = "no")
-
-  expect_equal(tr_xtab[["setosa"]],
-               og_xtab[["setosa"]] * 1 + og_xtab[["setosa"]])
-
-  expect_equal(
-    sum(tr_xtab[names(og_xtab) != "setosa"]),
-    og_xtab[["setosa"]] * 1 * 2
-  )
-
-  expect_equal(te_xtab, og_xtab)
+  expect_true(all(max(table(rec1_p2$Species)) <= 50))
 })
 
-test_that('perc_under value', {
+test_that('perc_over value', {
   rec2 <- rec %>%
-    step_smote(tidyselect::matches("Species$"), perc_under = 100)
+    step_smote(tidyselect::matches("Species$"), perc_over = 2)
 
   rec2_p <- prep(rec2, training = iris2, retain = TRUE)
 
@@ -79,11 +62,6 @@ test_that('perc_under value', {
 
   expect_equal(tr_xtab[["setosa"]],
                og_xtab[["setosa"]] * 2 + og_xtab[["setosa"]])
-
-  expect_equal(
-    sum(tr_xtab[names(og_xtab) != "setosa"]),
-    og_xtab[["setosa"]] * 2 * 1
-  )
 
   expect_equal(te_xtab, og_xtab)
 })
@@ -158,3 +136,27 @@ test_that("checks are done to ensure step_smote errors if character are present"
     "should be numeric"
   )
 })
+
+test_that("checks are done to ensure step_smote errors if NA are present", {
+  df_char <- data.frame(x = factor(1:2),
+                        y = c(NA, 1))
+
+  expect_error(
+    recipe( ~ ., data = df_char) %>%
+      step_smote(x) %>%
+      prep(),
+    "missing"
+  )
+})
+
+test_that("all minority classes are upsampled", {
+  iris3 <- iris[-c(1:25, 51:75), ]
+
+  out <- recipe( ~ ., data = iris3) %>%
+    step_smote(Species) %>%
+    prep() %>%
+    juice()
+
+  expect_equal(as.numeric(table(out$Species)), c(50, 50, 50))
+})
+

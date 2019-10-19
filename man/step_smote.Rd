@@ -6,7 +6,7 @@
 \title{Apply SMOTE algorithm}
 \usage{
 step_smote(recipe, ..., role = NA, trained = FALSE, column = NULL,
-  perc_over = 200, neighbors = 5, perc_under = 200, skip = TRUE,
+  perc_over = 1, neighbors = 5, skip = TRUE,
   seed = sample.int(10^5, 1), id = rand_id("smote"))
 
 \method{tidy}{step_smote}(x, ...)
@@ -31,14 +31,10 @@ preprocessing have been estimated.}
 be populated (eventually) by the \code{...} selectors.}
 
 \item{perc_over}{A numeric. Determines the of over-sampling of the
-minority class.}
+minority class. Defaults to 1.}
 
 \item{neighbors}{An integer. Number of nearest neighbours that are used
 to generate the new examples of the minority class.}
-
-\item{perc_under}{A numeric. Determines the amount of extra cases
-from the majority classes are selected for each case generated
-from the minority class.}
 
 \item{skip}{A logical. Should the step be skipped when the
 recipe is baked by \code{\link[=bake.recipe]{bake.recipe()}}? While all operations are baked
@@ -63,31 +59,21 @@ the variable used to sample.
 \description{
 \code{step_smote} creates a \emph{specification} of a recipe
 step that generate new examples of the  minority class using nearest
-neighbors of these cases. Using \code{\link[DMwR:SMOTE]{DMwR::SMOTE()}}.
+neighbors of these cases.
 }
 \details{
-The parameters \code{perc_over} and \code{perc_under} control the amount of
-over-sampling of the minority class and under-sampling of the
-majority classes, respectively. Both numbers are interpreted as
-procentages.
+The parameters \code{perc_over} control the amount of
+over-sampling of the minority class. The data used in smote must be numeric
+and complete, meaning no missing data.
 
-\code{perc_over} will typically be a number above 100. With this type of values,
+\code{perc_over} will typically be a number above 1. With this type of values,
 for each case in the orginal data set belonging to the minority class,
-\code{perc_over}/100 new examples of that class will be created. If \code{perc_over}
+\code{perc_over} new examples of that class will be created. If \code{perc_over}
 is a value below 100 than a single case will be generated for a randomly
-selected proportion (given by \code{perc_over}/100) of the cases belonging to the
+selected proportion (given by \code{perc_over}) of the cases belonging to the
 minority class on the original data set. This means that if there is 100
-minority cases, then if \code{perc_over} = 200, then 200/100 * 100 = 200 new cases
+minority cases, then if \code{perc_over} = 2, then 2 * 100 = 200 new cases
 will be generated for the minority class.
-
-The parameter \code{perc_under} controls the proportion of cases of the majority
-class that will be randomly selected for the final "balanced" data set.
-This proportion is calculated with respect to the number of newly generated
-minority class cases. For instance, if 200 new examples were generated for
-the minority class, a value of \code{perc_under} of 100 will randomly select
-exactly 200 cases belonging to the majority classes from the original
-data set to belong to the final data set. Values above 100 will
-select more examples from the majority classes.
 
 The parameter \code{neighbors} controls the way the new examples are created.
 For each currently existing minority class example X new examples will be
@@ -109,6 +95,7 @@ data(credit_data)
 sort(table(credit_data$Status, useNA = "always"))
 
 ds_rec <- recipe(Status ~ Age + Income + Assets, data = credit_data) \%>\%
+  step_meanimpute(all_predictors()) \%>\%
   step_smote(Status) \%>\%
   prep()
 
@@ -119,7 +106,8 @@ baked_okc <- bake(ds_rec, new_data = credit_data)
 table(baked_okc$Status, useNA = "always")
 
 ds_rec2 <- recipe(Status ~ Age + Income + Assets, data = credit_data) \%>\%
-  step_smote(Status, perc_over = 400) \%>\%
+  step_meanimpute(all_predictors()) \%>\%
+  step_smote(Status, perc_over = 4) \%>\%
   prep()
 
 table(juice(ds_rec2)$Status, useNA = "always")

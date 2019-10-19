@@ -55,6 +55,7 @@ data(okc)
 sort(table(okc$Class, useNA = "always"))
 
 ds_rec <- recipe(Class ~ age + height, data = okc) %>%
+  step_meanimpute(all_predictors()) %>%
   step_smote(Class) %>%
   prep()
 

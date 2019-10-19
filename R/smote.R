@@ -2,7 +2,7 @@
 #'
 #' `step_smote` creates a *specification* of a recipe
 #'  step that generate new examples of the  minority class using nearest
-#'  neighbors of these cases. Using [DMwR::SMOTE()].
+#'  neighbors of these cases.
 #'
 #' @inheritParams recipes::step_center
 #' @param ... One or more selector functions to choose which
@@ -15,12 +15,9 @@
 #' @param column A character string of the variable name that will
 #'  be populated (eventually) by the `...` selectors.
 #' @param perc_over A numeric. Determines the of over-sampling of the
-#'  minority class.
+#'  minority class. Defaults to 1.
 #' @param neighbors An integer. Number of nearest neighbours that are used
 #'  to generate the new examples of the minority class.
-#' @param perc_under A numeric. Determines the amount of extra cases
-#' from the majority classes are selected for each case generated
-#' from the minority class.
 #' @param seed An integer that will be used as the seed when
 #' smote-ing.
 #' @return An updated version of `recipe` with the new step
@@ -29,28 +26,19 @@
 #'  the variable used to sample.
 #'
 #' @details
-#' The parameters `perc_over` and `perc_under` control the amount of
-#' over-sampling of the minority class and under-sampling of the
-#' majority classes, respectively. Both numbers are interpreted as
-#' procentages.
+#' The parameters `perc_over` control the amount of
+#' over-sampling of the minority class. The data used in smote must be numeric
+#' and complete, meaning no missing data.
 #'
-#' `perc_over` will typically be a number above 100. With this type of values,
+#' `perc_over` will typically be a number above 1. With this type of values,
 #' for each case in the orginal data set belonging to the minority class,
-#' `perc_over`/100 new examples of that class will be created. If `perc_over`
+#' `perc_over` new examples of that class will be created. If `perc_over`
 #' is a value below 100 than a single case will be generated for a randomly
-#' selected proportion (given by `perc_over`/100) of the cases belonging to the
+#' selected proportion (given by `perc_over`) of the cases belonging to the
 #' minority class on the original data set. This means that if there is 100
-#' minority cases, then if `perc_over` = 200, then 200/100 * 100 = 200 new cases
+#' minority cases, then if `perc_over` = 2, then 2 * 100 = 200 new cases
 #' will be generated for the minority class.
-#'
-#' The parameter `perc_under` controls the proportion of cases of the majority
-#' class that will be randomly selected for the final "balanced" data set.
-#' This proportion is calculated with respect to the number of newly generated
-#' minority class cases. For instance, if 200 new examples were generated for
-#' the minority class, a value of `perc_under` of 100 will randomly select
-#' exactly 200 cases belonging to the majority classes from the original
-#' data set to belong to the final data set. Values above 100 will
-#' select more examples from the majority classes.
+
 #'
 #' The parameter `neighbors` controls the way the new examples are created.
 #' For each currently existing minority class example X new examples will be
@@ -80,6 +68,7 @@
 #' sort(table(credit_data$Status, useNA = "always"))
 #'
 #' ds_rec <- recipe(Status ~ Age + Income + Assets, data = credit_data) %>%
+#'   step_meanimpute(all_predictors()) %>%
 #'   step_smote(Status) %>%
 #'   prep()
 #'
@@ -90,7 +79,8 @@
 #' table(baked_okc$Status, useNA = "always")
 #'
 #' ds_rec2 <- recipe(Status ~ Age + Income + Assets, data = credit_data) %>%
-#'   step_smote(Status, perc_over = 400) %>%
+#'   step_meanimpute(all_predictors()) %>%
+#'   step_smote(Status, perc_over = 4) %>%
 #'   prep()
 #'
 #' table(juice(ds_rec2)$Status, useNA = "always")
@@ -98,7 +88,7 @@
 #' @importFrom recipes rand_id add_step ellipse_check
 step_smote <-
   function(recipe, ..., role = NA, trained = FALSE,
-           column = NULL, perc_over = 200, neighbors = 5, perc_under = 200,
+           column = NULL, perc_over = 1, neighbors = 5,
            skip = TRUE, seed = sample.int(10^5, 1), id = rand_id("smote")) {
 
     add_step(recipe,
@@ -109,7 +99,6 @@ step_smote <-
                column = column,
                perc_over = perc_over,
                neighbors = neighbors,
-               perc_under = perc_under,
                skip = skip,
                seed = seed,
                id = id
@@ -118,7 +107,7 @@ step_smote <-
 
 #' @importFrom recipes step
 step_smote_new <-
-  function(terms, role, trained, column, perc_over, neighbors, perc_under, skip,
+  function(terms, role, trained, column, perc_over, neighbors, skip,
            seed, id) {
     step(
       subclass = "smote",
@@ -128,7 +117,6 @@ step_smote_new <-
       column = column,
       perc_over = perc_over,
       neighbors = neighbors,
-      perc_under = perc_under,
       skip = skip,
       id = id,
       seed = seed,
@@ -148,6 +136,7 @@ prep.step_smote <- function(x, training, info = NULL, ...) {
     stop(col_name, " should be a factor variable.", call. = FALSE)
 
   check_type(select(training, -col_name), TRUE)
+  check_na(select(training, -col_name), "step_smote")
 
   step_smote_new(
     terms = x$terms,
@@ -156,7 +145,6 @@ prep.step_smote <- function(x, training, info = NULL, ...) {
     column = col_name,
     perc_over = x$perc_over,
     neighbors = x$neighbors,
-    perc_under = x$perc_under,
     skip = x$skip,
     seed = x$seed,
     id = x$id
@@ -165,7 +153,6 @@ prep.step_smote <- function(x, training, info = NULL, ...) {
 
 #' @importFrom tibble as_tibble tibble
 #' @importFrom withr with_seed
-#' @importFrom DMwR SMOTE
 #' @export
 bake.step_smote <- function(object, new_data, ...) {
 
@@ -174,9 +161,8 @@ bake.step_smote <- function(object, new_data, ...) {
   with_seed(
     seed = object$seed,
     code = {
-      new_data <- SMOTE(string2formula(object$column), new_data,
-                        perc.over = object$perc_over, k = object$neighbors,
-                        perc.under = object$perc_under)
+      new_data <- smote(new_data, object$column,
+                        k = object$neighbors, N = object$perc_over)
     }
   )
 

@@ -58,13 +58,14 @@ sort(table(okc$Class, useNA = "always"))
 #>     0  9539 50316
 
 ds_rec <- recipe(Class ~ age + height, data = okc) %>%
+  step_meanimpute(all_predictors()) %>%
   step_smote(Class) %>%
   prep()
 
 table(juice(ds_rec)$Class, useNA = "always")
 #> 
 #>  stem other  <NA> 
-#> 28617 38156     0
+#> 19078 50316     0
 ```
 
 ## Code of Conduct
