@@ -4,11 +4,11 @@ library(dplyr)
 
 context("SMOTE")
 
-iris2 <- iris[-(1:30), ]
+iris2 <- iris[-c(1:30), ]
 
-rec <- recipe( ~ ., data = iris2)
+rec <- recipe(~ ., data = iris2)
 
-test_that('basic usage', {
+test_that("basic usage", {
   rec1 <- rec %>%
     step_smote(Species, id = "")
 
@@ -33,15 +33,14 @@ test_that('basic usage', {
   te_xtab <- table(bake(rec1_p, new_data = iris2)$Species, useNA = "no")
   og_xtab <- table(iris2$Species, useNA = "no")
 
-  expect_equal(tr_xtab[["setosa"]],
-               og_xtab[["setosa"]] * 1 + og_xtab[["setosa"]])
+  expect_length(unique(tr_xtab[["setosa"]]), 1)
 
   expect_equal(te_xtab, og_xtab)
 
   expect_warning(prep(rec1, training = iris2), NA)
 })
 
-test_that('majority classes are ignored  if there is more than 1', {
+test_that("majority classes are ignored if there is more than 1", {
   rec1_p2 <- rec %>%
     step_smote(Species, id = "") %>%
     prep() %>%
@@ -50,9 +49,9 @@ test_that('majority classes are ignored  if there is more than 1', {
   expect_true(all(max(table(rec1_p2$Species)) <= 50))
 })
 
-test_that('perc_over value', {
+test_that("over_ratio value", {
   rec2 <- rec %>%
-    step_smote(tidyselect::matches("Species$"), perc_over = 2)
+    step_smote(tidyselect::matches("Species$"), over_ratio = 0.7)
 
   rec2_p <- prep(rec2, training = iris2, retain = TRUE)
 
@@ -60,13 +59,12 @@ test_that('perc_over value', {
   te_xtab <- table(bake(rec2_p, new_data = iris2)$Species, useNA = "no")
   og_xtab <- table(iris2$Species, useNA = "no")
 
-  expect_equal(tr_xtab[["setosa"]],
-               og_xtab[["setosa"]] * 2 + og_xtab[["setosa"]])
+  expect_equal(max(tr_xtab) * 0.7, min(tr_xtab))
 
   expect_equal(te_xtab, og_xtab)
 })
 
-test_that('no skipping', {
+test_that("no skipping", {
   rec3 <- rec %>%
     step_smote(tidyselect::matches("Species$"), skip = FALSE)
 
@@ -78,7 +76,7 @@ test_that('no skipping', {
   expect_equal(te_xtab, tr_xtab)
 })
 
-test_that('bad data', {
+test_that("bad data", {
   expect_error(
     rec %>%
       step_smote(Sepal.Width) %>%
@@ -96,7 +94,7 @@ test_that('bad data', {
   )
 })
 
-test_that('printing', {
+test_that("printing", {
   rec4 <- rec %>%
     step_smote(Species)
 
@@ -105,7 +103,7 @@ test_that('printing', {
   expect_output(prep(rec4, training = iris2, retain = TRUE, verbose = TRUE))
 })
 
-test_that('`seed` produces identical sampling', {
+test_that("`seed` produces identical sampling", {
 
   smote_with_seed <- function(rec, seed = sample.int(10^5, 1)) {
     rec %>%
@@ -124,13 +122,13 @@ test_that('`seed` produces identical sampling', {
 })
 
 
-test_that("checks are done to ensure step_smote errors if character are present", {
+test_that("step_smote errors if character are present", {
   df_char <- data.frame(x = factor(1:2),
                         y = c("A", "A"),
                         stringsAsFactors = FALSE)
 
   expect_error(
-    recipe( ~ ., data = df_char) %>%
+    recipe(~ ., data = df_char) %>%
       step_smote(x) %>%
       prep(),
     "should be numeric"
@@ -142,7 +140,7 @@ test_that("checks are done to ensure step_smote errors if NA are present", {
                         y = c(NA, 1))
 
   expect_error(
-    recipe( ~ ., data = df_char) %>%
+    recipe(~ ., data = df_char) %>%
       step_smote(x) %>%
       prep(),
     "missing"
@@ -152,11 +150,10 @@ test_that("checks are done to ensure step_smote errors if NA are present", {
 test_that("all minority classes are upsampled", {
   iris3 <- iris[-c(1:25, 51:75), ]
 
-  out <- recipe( ~ ., data = iris3) %>%
+  out <- recipe(~ ., data = iris3) %>%
     step_smote(Species) %>%
     prep() %>%
     juice()
 
   expect_equal(as.numeric(table(out$Species)), c(50, 50, 50))
 })
-

@@ -65,7 +65,7 @@ ds_rec <- recipe(Class ~ age + height, data = okc) %>%
 table(juice(ds_rec)$Class, useNA = "always")
 #> 
 #>  stem other  <NA> 
-#> 19078 50316     0
+#> 50316 50316     0
 ```
 
 ## Code of Conduct

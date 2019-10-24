@@ -6,3 +6,4 @@
 ^\.github$
 ^\.travis\.yml$
 ^codecov\.yml$
+^benchmarking.Rmd$
