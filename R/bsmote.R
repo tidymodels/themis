@@ -1,8 +1,8 @@
-#' Apply SMOTE algorithm
+#' Apply borderline-SMOTE algorithm
 #'
-#' `step_smote` creates a *specification* of a recipe
-#'  step that generate new examples of the  minority class using nearest
-#'  neighbors of these cases.
+#' `step_bsmote` creates a *specification* of a recipe
+#'  step that generate new examples of the minority class using nearest
+#'  neighbors of these cases in the border region between classes.
 #'
 #' @inheritParams recipes::step_center
 #' @inheritParams step_upsample
@@ -17,6 +17,7 @@
 #'  be populated (eventually) by the `...` selectors.
 #' @param neighbors An integer. Number of nearest neighbours that are used
 #'  to generate the new examples of the minority class.
+#' @param method Type of two borderline-SMOTE method. 1 or 2. Defaults to 1.
 #' @param seed An integer that will be used as the seed when
 #' smote-ing.
 #' @return An updated version of `recipe` with the new step
@@ -25,6 +26,18 @@
 #'  the variable used to sample.
 #'
 #' @details
+#' This methods works the same way as [step_smote()], expect that instead of
+#' generating points around every point of of the minority class each point is
+#' first being classified into the boxes "danger" and "not". For each point the
+#' k nearest neightbors is calculated. If all the neighbors comes from a
+#' different class it is labeled noise and put intothe "not" box. If more then
+#' half of the neightbours comes from a different class it is labeled "danger.
+#  Points will be generated around points labeled "danger".
+#'
+#' If method = 1 then points will be generated between nearest neighbours in its
+#' own class. If method = 2 then points will be generated between any nearest
+#' neigbors. See examples for visualization.
+#'
 #' The parameter `neighbors` controls the way the new examples are created.
 #' For each currently existing minority class example X new examples will be
 #' created (this is controlled by the parameter `over_ratio` as mentioned
@@ -39,9 +52,10 @@
 #'  option `skip = TRUE` so that the extra sampling is _not_
 #'  conducted outside of the training set.
 #'
-#' @references Chawla, N. V., Bowyer, K. W., Hall, L. O., and Kegelmeyer,
-#'  W. P. (2002). Smote: Synthetic minority over-sampling technique.
-#'  Journal of Artificial Intelligence Research, 16:321-357.
+#' @references Hui Han, Wen-Yuan Wang, and Bing-Huan Mao. Borderline-smote:
+#' a new over-sampling method in imbalanced data sets learning. In
+#' International Conference on Intelligent Computing, pages 878–887. Springer,
+#' 2005.
 #'
 #' @keywords datagen
 #' @concept preprocessing
@@ -54,7 +68,7 @@
 #'
 #' ds_rec <- recipe(Status ~ Age + Income + Assets, data = credit_data) %>%
 #'   step_meanimpute(all_predictors()) %>%
-#'   step_smote(Status) %>%
+#'   step_bsmote(Status) %>%
 #'   prep()
 #'
 #' table(juice(ds_rec)$Status, useNA = "always")
@@ -65,7 +79,7 @@
 #'
 #' ds_rec2 <- recipe(Status ~ Age + Income + Assets, data = credit_data) %>%
 #'   step_meanimpute(all_predictors()) %>%
-#'   step_smote(Status, over_ratio = 0.2) %>%
+#'   step_bsmote(Status, over_ratio = 0.2) %>%
 #'   prep()
 #'
 #' table(juice(ds_rec2)$Status, useNA = "always")
@@ -77,27 +91,36 @@
 #'   labs(title = "Without SMOTE")
 #'
 #' recipe(class ~ ., data = circle_example) %>%
-#'   step_smote(class) %>%
+#'   step_bsmote(class, method = 1) %>%
 #'   prep() %>%
 #'   juice() %>%
 #'   ggplot(aes(x, y, color = class)) +
 #'   geom_point() +
-#'   labs(title = "With SMOTE")
+#'   labs(title = "With borderline-SMOTE, method = 1")
+#'
+#' recipe(class ~ ., data = circle_example) %>%
+#'   step_bsmote(class, method = 2) %>%
+#'   prep() %>%
+#'   juice() %>%
+#'   ggplot(aes(x, y, color = class)) +
+#'   geom_point() +
+#'   labs(title = "With borderline-SMOTE, method = 2")
 #'
 #' @importFrom recipes rand_id add_step ellipse_check
-step_smote <-
+step_bsmote <-
   function(recipe, ..., role = NA, trained = FALSE,
-           column = NULL, over_ratio = 1, neighbors = 5,
-           skip = TRUE, seed = sample.int(10^5, 1), id = rand_id("smote")) {
+           column = NULL, over_ratio = 1, neighbors = 5, method = 1,
+           skip = TRUE, seed = sample.int(10^5, 1), id = rand_id("bsmote")) {
 
     add_step(recipe,
-             step_smote_new(
+             step_bsmote_new(
                terms = ellipse_check(...),
                role = role,
                trained = trained,
                column = column,
                over_ratio = over_ratio,
                neighbors = neighbors,
+               method = method,
                skip = skip,
                seed = seed,
                id = id
@@ -105,17 +128,18 @@ step_smote <-
   }
 
 #' @importFrom recipes step
-step_smote_new <-
-  function(terms, role, trained, column, over_ratio, neighbors, skip,
+step_bsmote_new <-
+  function(terms, role, trained, column, over_ratio, neighbors, method, skip,
            seed, id) {
     step(
-      subclass = "smote",
+      subclass = "bsmote",
       terms = terms,
       role = role,
       trained = trained,
       column = column,
       over_ratio = over_ratio,
       neighbors = neighbors,
+      method =  method,
       skip = skip,
       id = id,
       seed = seed,
@@ -126,7 +150,7 @@ step_smote_new <-
 #' @importFrom recipes bake prep check_type
 #' @importFrom dplyr select
 #' @export
-prep.step_smote <- function(x, training, info = NULL, ...) {
+prep.step_bsmote <- function(x, training, info = NULL, ...) {
 
   col_name <- terms_select(x$terms, info = info)
   if (length(col_name) != 1)
@@ -135,15 +159,16 @@ prep.step_smote <- function(x, training, info = NULL, ...) {
     stop(col_name, " should be a factor variable.", call. = FALSE)
 
   check_type(select(training, -col_name), TRUE)
-  check_na(select(training, -col_name), "step_smote")
+  check_na(select(training, -col_name), "step_bsmote")
 
-  step_smote_new(
+  step_bsmote_new(
     terms = x$terms,
     role = x$role,
     trained = TRUE,
     column = col_name,
     over_ratio = x$over_ratio,
     neighbors = x$neighbors,
+    method = x$method,
     skip = x$skip,
     seed = x$seed,
     id = x$id
@@ -153,15 +178,16 @@ prep.step_smote <- function(x, training, info = NULL, ...) {
 #' @importFrom tibble as_tibble tibble
 #' @importFrom withr with_seed
 #' @export
-bake.step_smote <- function(object, new_data, ...) {
+bake.step_bsmote <- function(object, new_data, ...) {
 
   new_data <- as.data.frame(new_data)
-  # smote with seed for reproducibility
+  # bsmote with seed for reproducibility
   with_seed(
     seed = object$seed,
     code = {
-      new_data <- smote(new_data, object$column,
-                        k = object$neighbors, over_ratio = object$over_ratio)
+      new_data <- bsmote(new_data, object$column,
+                         k = object$neighbors, over_ratio = object$over_ratio,
+                         method = object$method)
     }
   )
 
@@ -170,19 +196,19 @@ bake.step_smote <- function(object, new_data, ...) {
 
 #' @importFrom recipes printer terms_select
 #' @export
-print.step_smote <-
+print.step_bsmote <-
   function(x, width = max(20, options()$width - 26), ...) {
-    cat("SMOTE based on ", sep = "")
+    cat("BorderlineSMOTE based on ", sep = "")
     printer(x$column, x$terms, x$trained, width = width)
     invisible(x)
   }
 
-#' @rdname step_smote
-#' @param x A `step_smote` object.
+#' @rdname step_bsmote
+#' @param x A `step_bsmote` object.
 #' @importFrom generics tidy
 #' @importFrom recipes sel2char is_trained
 #' @export
-tidy.step_smote <- function(x, ...) {
+tidy.step_bsmote <- function(x, ...) {
   if (is_trained(x)) {
     res <- tibble(terms = x$column)
   }
