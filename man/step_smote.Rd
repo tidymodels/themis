@@ -103,6 +103,20 @@ ds_rec2 <- recipe(Status ~ Age + Income + Assets, data = credit_data) \%>\%
 
 table(juice(ds_rec2)$Status, useNA = "always")
 
+library(ggplot2)
+
+ggplot(circle_example, aes(x, y, color = class)) +
+  geom_point() +
+  labs(title = "Without SMOTE")
+
+recipe(class ~ ., data = circle_example) \%>\%
+  step_smote(class) \%>\%
+  prep() \%>\%
+  juice() \%>\%
+  ggplot(aes(x, y, color = class)) +
+  geom_point() +
+  labs(title = "With SMOTE")
+
 }
 \references{
 Chawla, N. V., Bowyer, K. W., Hall, L. O., and Kegelmeyer,

@@ -7,3 +7,4 @@
 ^\.travis\.yml$
 ^codecov\.yml$
 ^benchmarking.Rmd$
+^data-raw$

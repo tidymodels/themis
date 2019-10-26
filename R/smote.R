@@ -70,6 +70,20 @@
 #'
 #' table(juice(ds_rec2)$Status, useNA = "always")
 #'
+#' library(ggplot2)
+#'
+#' ggplot(circle_example, aes(x, y, color = class)) +
+#'   geom_point() +
+#'   labs(title = "Without SMOTE")
+#'
+#' recipe(class ~ ., data = circle_example) %>%
+#'   step_smote(class) %>%
+#'   prep() %>%
+#'   juice() %>%
+#'   ggplot(aes(x, y, color = class)) +
+#'   geom_point() +
+#'   labs(title = "With SMOTE")
+#'
 #' @importFrom recipes rand_id add_step ellipse_check
 step_smote <-
   function(recipe, ..., role = NA, trained = FALSE,
