@@ -30,7 +30,6 @@ Imports:
     tidyselect (>= 0.2.5),
     ROSE,
     unbalanced,
-    smotefamily,
     RANN
 URL: https://github.com/EmilHvitfeldt/themis
 BugReports: https://github.com/EmilHvitfeldt/themis/issues

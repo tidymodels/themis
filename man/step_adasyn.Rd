@@ -6,8 +6,8 @@
 \title{Adaptive Synthetic Sampling Approach}
 \usage{
 step_adasyn(recipe, ..., role = NA, trained = FALSE, column = NULL,
-  neighbors = 5, skip = TRUE, seed = sample.int(10^5, 1),
-  id = rand_id("adasyn"))
+  over_ratio = 1, neighbors = 5, skip = TRUE,
+  seed = sample.int(10^5, 1), id = rand_id("adasyn"))
 
 \method{tidy}{step_adasyn}(x, ...)
 }
@@ -29,6 +29,13 @@ preprocessing have been estimated.}
 
 \item{column}{A character string of the variable name that will
 be populated (eventually) by the \code{...} selectors.}
+
+\item{over_ratio}{A numeric value for the ratio of the
+majority-to-minority frequencies. The default value (1) means
+that all other levels are sampled up to have the same
+frequency as the most occurring level. A value of 0.5 would mean
+that the minority levels will have (at most) (approximately)
+half as many rows than the majority level.}
 
 \item{neighbors}{An integer. Number of nearest neighbours that are used
 to generate the new examples of the minority class.}
@@ -56,7 +63,6 @@ the variable used to sample.
 \description{
 \code{step_adasyn} creates a \emph{specification} of a recipe
 step that generates synthetic positive instances using ADASYN algorithm.
-Using \code{\link[smotefamily:ADAS]{smotefamily::ADAS()}}.
 }
 \details{
 All columns in the data are sampled and returned by \code{\link[=juice]{juice()}}
@@ -82,6 +88,20 @@ table(juice(ds_rec)$Class, useNA = "always")
 # since `skip` defaults to TRUE, baking the step has no effect
 baked_okc <- bake(ds_rec, new_data = okc)
 table(baked_okc$Class, useNA = "always")
+
+library(ggplot2)
+
+ggplot(circle_example, aes(x, y, color = class)) +
+  geom_point() +
+  labs(title = "Without ADASYN")
+
+recipe(class ~ ., data = circle_example) \%>\%
+  step_adasyn(class) \%>\%
+  prep() \%>\%
+  juice() \%>\%
+  ggplot(aes(x, y, color = class)) +
+  geom_point() +
+  labs(title = "With ADASYN")
 
 }
 \references{
