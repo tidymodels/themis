@@ -130,14 +130,15 @@ recipe(~., example_data) %>%
 
 ### Downsample / Under-sampling
 
-The following methods all share the tuning parameter `under_ratio`,
-which is the ratio of the minority-to-majority
+Most of the the following methods all share the tuning parameter
+`under_ratio`, which is the ratio of the minority-to-majority
 frequencies.
 
-| name                                            | function            | Multi-class          |
-| ----------------------------------------------- | ------------------- | -------------------- |
-| Random majority under-sampling with replacement | `step_downsample()` | :heavy\_check\_mark: |
-| NearMiss-1                                      | `step_nearmiss()`   | :heavy\_check\_mark: |
+| name                                            | function            | Multi-class          | under\_ratio         |
+| ----------------------------------------------- | ------------------- | -------------------- | -------------------- |
+| Random majority under-sampling with replacement | `step_downsample()` | :heavy\_check\_mark: | :heavy\_check\_mark: |
+| NearMiss-1                                      | `step_nearmiss()`   | :heavy\_check\_mark: | :heavy\_check\_mark: |
+| Extraction of majority-minority Tomek links     | `step_tomek()`      |                      |                      |
 
 By setting `under_ratio = 1` you bring the number of samples of all
 majority classes equal to 100% of the minority class.
