@@ -39,7 +39,7 @@ test_that("basic usage", {
 
   expect_equal(
     sum(tr_xtab),
-    sum(og_xtab)
+    max(og_xtab) * 2
   )
 
   expect_equal(sort(te_xtab), sort(og_xtab))

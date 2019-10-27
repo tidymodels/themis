@@ -5,6 +5,7 @@
 #'  space of minority and majority class example. Using [ROSE::ROSE()].
 #'
 #' @inheritParams recipes::step_center
+#' @inheritParams step_upsample
 #' @param ... One or more selector functions to choose which
 #'  variable is used to sample the data. See [selections()]
 #'  for more details. The selection should result in _single
@@ -95,9 +96,9 @@
 #' @importFrom recipes rand_id add_step ellipse_check
 step_rose <-
   function(recipe, ..., role = NA, trained = FALSE,
-           column = NULL, minority_prop = 0.5, minority_multiplier = 1,
-           majority_multiplier = 1, skip = TRUE, seed = sample.int(10^5, 1),
-           id = rand_id("rose")) {
+           column = NULL, over_ratio = 1, minority_prop = 0.5,
+           minority_multiplier = 1, majority_multiplier = 1, skip = TRUE,
+           seed = sample.int(10^5, 1), id = rand_id("rose")) {
 
     add_step(recipe,
              step_rose_new(
@@ -105,6 +106,7 @@ step_rose <-
                role = role,
                trained = trained,
                column = column,
+               over_ratio = over_ratio,
                minority_prop = minority_prop,
                minority_multiplier = minority_multiplier,
                majority_multiplier = majority_multiplier,
@@ -116,19 +118,19 @@ step_rose <-
 
 #' @importFrom recipes step
 step_rose_new <-
-  function(terms, role, trained, column, minority_prop, minority_multiplier,
-           majority_multiplier, skip, seed, id) {
+  function(terms, role, trained, column, over_ratio, minority_prop,
+           minority_multiplier, majority_multiplier, skip, seed, id) {
     step(
       subclass = "rose",
       terms = terms,
       role = role,
       trained = trained,
       column = column,
+      over_ratio = over_ratio,
       minority_prop = minority_prop,
       minority_multiplier = minority_multiplier,
       majority_multiplier = majority_multiplier,
       skip = skip,
-      id = id,
       seed = seed,
       id = id
     )
@@ -154,6 +156,7 @@ prep.step_rose <- function(x, training, info = NULL, ...) {
     role = x$role,
     trained = TRUE,
     column = col_name,
+    over_ratio = x$over_ratio,
     minority_prop = x$minority_prop,
     minority_multiplier = x$minority_multiplier,
     majority_multiplier = x$majority_multiplier,
@@ -176,10 +179,12 @@ bake.step_rose <- function(object, new_data, ...) {
 
   new_data <- as.data.frame(new_data)
   # rose with seed for reproducibility
+  majority_size <- max(table(new_data[[object$column]])) * 2
   with_seed(
     seed = object$seed,
     code = {
       new_data <- ROSE(string2formula(object$column), new_data,
+                       N = majority_size * object$over_ratio,
                        p = object$minority_prop,
                        hmult.majo = object$majority_multiplier,
                        hmult.mino = object$minority_multiplier)$data

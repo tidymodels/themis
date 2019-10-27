@@ -6,7 +6,7 @@
 \title{Apply ROSE algorithm}
 \usage{
 step_rose(recipe, ..., role = NA, trained = FALSE, column = NULL,
-  minority_prop = 0.5, minority_multiplier = 1,
+  over_ratio = 1, minority_prop = 0.5, minority_multiplier = 1,
   majority_multiplier = 1, skip = TRUE, seed = sample.int(10^5, 1),
   id = rand_id("rose"))
 
@@ -30,6 +30,13 @@ preprocessing have been estimated.}
 
 \item{column}{A character string of the variable name that will
 be populated (eventually) by the \code{...} selectors.}
+
+\item{over_ratio}{A numeric value for the ratio of the
+majority-to-minority frequencies. The default value (1) means
+that all other levels are sampled up to have the same
+frequency as the most occurring level. A value of 0.5 would mean
+that the minority levels will have (at most) (approximately)
+half as many rows than the majority level.}
 
 \item{minority_prop}{A numeric. Determines the of over-sampling of the
 minority class. Defaults to 0.5.}
