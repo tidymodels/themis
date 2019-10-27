@@ -189,7 +189,7 @@ supsamp <- function(x, num) {
 #' @export
 bake.step_upsample <- function(object, new_data, ...) {
   if (any(is.na(new_data[[object$column]])))
-    missing <- new_data[is.na(new_data[[object$column]]),]
+    missing <- new_data[is.na(new_data[[object$column]]), ]
   else
     missing <- NULL
   split_up <- split(new_data, new_data[[object$column]])

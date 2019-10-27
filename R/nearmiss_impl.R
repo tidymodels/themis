@@ -2,7 +2,7 @@ nearmiss <- function(df, var, k = 5, under_ratio = 1) {
   classes <- downsample_count(df, var, under_ratio)
 
   out_dfs <- list()
-  for(i in seq_along(classes)) {
+  for (i in seq_along(classes)) {
     class <- subset_to_matrix(df, var, names(classes)[i])
     not_class <- subset_to_matrix(df, var, names(classes)[i], FALSE)
 
@@ -30,7 +30,7 @@ downsample_count <- function(data, var, ratio) {
   table(data[[var]])[which_class] - ratio_target
 }
 
-subset_to_matrix <-function(data, var, class, equal = TRUE) {
+subset_to_matrix <- function(data, var, class, equal = TRUE) {
   if (equal) {
     return(as.matrix(data[data[[var]] == class, names(data) != var]))
   } else {

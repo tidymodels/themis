@@ -5,14 +5,14 @@ library(dplyr)
 
 context("Upsampling")
 
-iris2 <- iris[-(1:45),]
+iris2 <- iris[-c(1:45), ]
 iris2$Species[seq(6, 96, by = 5)] <- NA
 iris2$Species2 <- sample(iris2$Species)
 iris2$Species3 <- as.character(sample(iris2$Species))
 
-rec <- recipe( ~ ., data = iris2)
+rec <- recipe(~ ., data = iris2)
 
-test_that('basic usage', {
+test_that("basic usage", {
   rec1 <- rec %>%
     step_upsample(tidyselect::matches("Species$"), id = "")
 
@@ -42,7 +42,7 @@ test_that('basic usage', {
   expect_warning(prep(rec1, training = iris2), NA)
 })
 
-test_that('ratio value', {
+test_that("ratio value", {
   rec2 <- rec %>%
     step_upsample(tidyselect::matches("Species$"), ratio = .25)
 
@@ -59,7 +59,7 @@ test_that('ratio value', {
 })
 
 
-test_that('no skipping', {
+test_that("no skipping", {
   rec3 <- rec %>%
     step_upsample(tidyselect::matches("Species$"), skip = FALSE)
 
@@ -75,7 +75,7 @@ test_that('no skipping', {
 
 
 
-test_that('bad data', {
+test_that("bad data", {
   expect_error(
     rec %>%
       step_upsample(Sepal.Width) %>%
@@ -93,7 +93,7 @@ test_that('bad data', {
   )
 })
 
-test_that('printing', {
+test_that("printing", {
   rec4 <- rec %>%
     step_upsample(Species)
 
@@ -101,7 +101,7 @@ test_that('printing', {
   expect_output(prep(rec4, training = iris2, retain = TRUE, verbose = TRUE))
 })
 
-test_that('`seed` produces identical sampling', {
+test_that("`seed` produces identical sampling", {
 
   upsample_with_seed <- function(rec, seed = sample.int(10^5, 1)) {
     rec %>%
@@ -120,7 +120,7 @@ test_that('`seed` produces identical sampling', {
 })
 
 
-test_that('ratio deprecation', {
+test_that("ratio deprecation", {
 
   expect_message(
     new_rec <-
@@ -133,7 +133,7 @@ test_that('ratio deprecation', {
 
 
 
-test_that('tunable', {
+test_that("tunable", {
   rec <-
     recipe(~ ., data = iris) %>%
     step_upsample(all_predictors())
@@ -144,7 +144,6 @@ test_that('tunable', {
   expect_equal(nrow(rec_param), 1)
   expect_equal(
     names(rec_param),
-    c('name', 'call_info', 'source', 'component', 'component_id')
+    c("name", "call_info", "source", "component", "component_id")
   )
 })
-

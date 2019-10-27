@@ -95,8 +95,9 @@
 #' @importFrom recipes rand_id add_step ellipse_check
 step_rose <-
   function(recipe, ..., role = NA, trained = FALSE,
-           column = NULL, minority_prop = 0.5, minority_multiplier = 1, majority_multiplier = 1,
-           skip = TRUE, seed = sample.int(10^5, 1), id = rand_id("rose")) {
+           column = NULL, minority_prop = 0.5, minority_multiplier = 1,
+           majority_multiplier = 1, skip = TRUE, seed = sample.int(10^5, 1),
+           id = rand_id("rose")) {
 
     add_step(recipe,
              step_rose_new(
@@ -115,8 +116,8 @@ step_rose <-
 
 #' @importFrom recipes step
 step_rose_new <-
-  function(terms, role, trained, column, minority_prop, minority_multiplier, majority_multiplier, skip,
-           seed, id) {
+  function(terms, role, trained, column, minority_prop, minority_multiplier,
+           majority_multiplier, skip, seed, id) {
     step(
       subclass = "rose",
       terms = terms,
@@ -169,10 +170,9 @@ prep.step_rose <- function(x, training, info = NULL, ...) {
 #' @export
 bake.step_rose <- function(object, new_data, ...) {
   if (any(is.na(new_data[[object$column]])))
-    missing <- new_data[is.na(new_data[[object$column]]),]
+    missing <- new_data[is.na(new_data[[object$column]]), ]
   else
     missing <- NULL
-  split_up <- split(new_data, new_data[[object$column]])
 
   new_data <- as.data.frame(new_data)
   # rose with seed for reproducibility

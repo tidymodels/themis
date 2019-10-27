@@ -76,8 +76,8 @@
 #' table(baked_okc$diet, useNA = "always")
 
 step_downsample <-
-  function(recipe, ...,  under_ratio = 1, ratio = NA, role = NA, trained = FALSE,
-           column = NULL, target = NA, skip = TRUE,
+  function(recipe, ...,  under_ratio = 1, ratio = NA, role = NA,
+           trained = FALSE, column = NULL, target = NA, skip = TRUE,
            seed = sample.int(10^5, 1), id = rand_id("downsample")) {
 
     if (!is.na(ratio) & all(under_ratio != ratio)) {
@@ -108,7 +108,8 @@ step_downsample <-
   }
 
 step_downsample_new <-
-  function(terms, under_ratio, ratio, role, trained, column, target, skip, seed, id) {
+  function(terms, under_ratio, ratio, role, trained, column, target, skip, seed,
+           id) {
     step(
       subclass = "downsample",
       terms = terms,
@@ -166,7 +167,7 @@ subsamp <- function(x, num) {
 #' @export
 bake.step_downsample <- function(object, new_data, ...) {
   if (any(is.na(new_data[[object$column]])))
-    missing <- new_data[is.na(new_data[[object$column]]),]
+    missing <- new_data[is.na(new_data[[object$column]]), ]
   else
     missing <- NULL
   split_up <- split(new_data, new_data[[object$column]])

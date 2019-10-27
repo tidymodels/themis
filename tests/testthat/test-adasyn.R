@@ -6,9 +6,9 @@ context("adasyn")
 
 credit_data2 <- select(credit_data[1:100, ], Status, Time, Price)
 
-rec <- recipe( ~ ., data = credit_data2)
+rec <- recipe(~ ., data = credit_data2)
 
-test_that('basic usage', {
+test_that("basic usage", {
   rec1 <- rec %>%
     step_adasyn(Status, id = "")
 
@@ -48,19 +48,20 @@ test_that('basic usage', {
   expect_warning(prep(rec1, training = credit_data2), NA)
 })
 
-test_that('no skipping', {
+test_that("no skipping", {
   rec3 <- rec %>%
     step_adasyn(tidyselect::matches("Status$"), skip = FALSE)
 
   rec3_p <- prep(rec3, training = credit_data2, retain = TRUE)
 
   tr_xtab <- table(juice(rec3_p)$Status, useNA = "always")
-  te_xtab <- table(bake(rec3_p, new_data = credit_data2)$Status, useNA = "always")
+  te_xtab <- table(bake(rec3_p, new_data = credit_data2)$Status,
+                   useNA = "always")
 
   expect_equal(te_xtab, tr_xtab)
 })
 
-test_that('bad data', {
+test_that("bad data", {
   expect_error(
     rec %>%
       step_adasyn(Sepal.Width) %>%
@@ -78,22 +79,25 @@ test_that('bad data', {
   )
 })
 
-test_that('printing', {
+test_that("printing", {
   rec4 <- rec %>%
     step_adasyn(Status)
 
   expect_output(print(rec))
   expect_output(print(rec4))
-  expect_output(prep(rec4, training = credit_data2, retain = TRUE, verbose = TRUE))
+  expect_output(prep(rec4,
+                     training = credit_data2,
+                     retain = TRUE,
+                     verbose = TRUE))
 })
 
-test_that("checks are done to ensure step_adasyn errors if character are present", {
+test_that("step_adasyn errors if character are present", {
   df_char <- data.frame(x = factor(1:2),
                         y = c("A", "A"),
                         stringsAsFactors = FALSE)
 
   expect_error(
-    recipe( ~ ., data = df_char) %>%
+    recipe(~ ., data = df_char) %>%
       step_adasyn(x) %>%
       prep(),
     "should be numeric"
@@ -106,7 +110,7 @@ test_that("factors with more than 2 levels", {
                         stringsAsFactors = FALSE)
 
   expect_error(
-    recipe( ~ ., data = df_char) %>%
+    recipe(~ ., data = df_char) %>%
       step_adasyn(x) %>%
       prep(),
     "only have 2 levels."

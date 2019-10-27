@@ -11,7 +11,8 @@ smote_data <- function(data, k, n_samples, smote_ids = seq_len(nrow(data))) {
     index_selection <- iii + seq_len(index_len[row_num])
     # removes itself as nearest neighbour
     id_knn <- ids[row_num, ids[row_num, ] != row_num]
-    dif <- data[id_knn[sampleids[index_selection]], ] - data[rep(row_num, index_len[row_num]), ]
+    dif <- data[id_knn[sampleids[index_selection]], ] -
+      data[rep(row_num, index_len[row_num]), ]
     gap <- dif * runif_ids[index_selection]
     out[index_selection, ] <- data[rep(row_num, index_len[row_num]), ] + gap
     iii <- iii + index_len[row_num]

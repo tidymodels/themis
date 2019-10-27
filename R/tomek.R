@@ -146,7 +146,7 @@ response_0_1 <- function(x) {
 # Turns 0-1 coded variable back into factor variable
 response_0_1_to_org <- function(old, new) {
   ref <- names(sort(table(old)))
-  names(ref) <-c("1", "0")
+  names(ref) <- c("1", "0")
   factor(unname(ref[as.character(new)]))
 }
 
