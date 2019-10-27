@@ -153,8 +153,8 @@ bake.step_adasyn <- function(object, new_data, ...) {
   with_seed(
     seed = object$seed,
     code = {
-      new_data <- smote(new_data, object$column,
-                        k = object$neighbors, over_ratio = object$over_ratio)
+      new_data <- adasyn(new_data, object$column,
+                         k = object$neighbors, over_ratio = object$over_ratio)
     }
   )
 
