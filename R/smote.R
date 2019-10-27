@@ -193,3 +193,17 @@ tidy.step_smote <- function(x, ...) {
   res$id <- x$id
   res
 }
+
+#' @export
+tunable.step_smote <- function(x, ...) {
+  tibble::tibble(
+    name = c("over_ratio", "neighbors"),
+    call_info = list(
+      list(pkg = "dials", fun = "over_ratio"),
+      list(pkg = "dials", fun = "neighbors")
+    ),
+    source = "recipe",
+    component = "step_smote",
+    component_id = x$id
+  )
+}

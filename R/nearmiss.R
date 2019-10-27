@@ -194,3 +194,17 @@ tidy.step_nearmiss <- function(x, ...) {
   res$id <- x$id
   res
 }
+
+#' @export
+tunable.step_nearmiss <- function(x, ...) {
+  tibble::tibble(
+    name = c("under_ratio", "neighbors"),
+    call_info = list(
+      list(pkg = "dials", fun = "under_ratio"),
+      list(pkg = "dials", fun = "neighbors")
+    ),
+    source = "recipe",
+    component = "step_nearmiss",
+    component_id = x$id
+  )
+}

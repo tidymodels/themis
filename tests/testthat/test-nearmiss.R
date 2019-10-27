@@ -149,3 +149,18 @@ test_that("checks are done to ensure step_nearmiss errors if NA are present", {
     "not allowed"
   )
 })
+
+test_that("tunable", {
+  rec <-
+    recipe(~ ., data = iris) %>%
+    step_nearmiss(all_predictors(), under_ratio = 1)
+  rec_param <- tunable.step_nearmiss(rec$steps[[1]])
+  expect_equal(rec_param$name, c("under_ratio", "neighbors"))
+  expect_true(all(rec_param$source == "recipe"))
+  expect_true(is.list(rec_param$call_info))
+  expect_equal(nrow(rec_param), 2)
+  expect_equal(
+    names(rec_param),
+    c("name", "call_info", "source", "component", "component_id")
+  )
+})

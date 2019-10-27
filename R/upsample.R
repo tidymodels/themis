@@ -230,3 +230,16 @@ tidy.step_upsample <- function(x, ...) {
   res$id <- x$id
   res
 }
+
+#' @export
+tunable.step_upsample <- function(x, ...) {
+  tibble::tibble(
+    name = c("over_ratio"),
+    call_info = list(
+      list(pkg = "dials", fun = "over_ratio")
+    ),
+    source = "recipe",
+    component = "step_upsample",
+    component_id = x$id
+  )
+}

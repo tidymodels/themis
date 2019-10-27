@@ -116,7 +116,6 @@ test_that("`seed` produces identical sampling", {
   expect_false(identical(petal_width_1, petal_width_3))
 })
 
-
 test_that("ratio deprecation", {
 
   expect_message(
@@ -127,8 +126,6 @@ test_that("ratio deprecation", {
   )
   expect_equal(new_rec$steps[[1]]$under_ratio, 2)
 })
-
-
 
 test_that("tunable", {
   rec <-

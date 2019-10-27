@@ -186,3 +186,17 @@ tidy.step_adasyn <- function(x, ...) {
   res$id <- x$id
   res
 }
+
+#' @export
+tunable.step_adasyn <- function(x, ...) {
+  tibble::tibble(
+    name = c("over_ratio", "neighbors"),
+    call_info = list(
+      list(pkg = "dials", fun = "over_ratio"),
+      list(pkg = "dials", fun = "neighbors")
+    ),
+    source = "recipe",
+    component = "step_adasyn",
+    component_id = x$id
+  )
+}

@@ -219,3 +219,16 @@ tidy.step_rose <- function(x, ...) {
   res$id <- x$id
   res
 }
+
+#' @export
+tunable.step_rose <- function(x, ...) {
+  tibble::tibble(
+    name = c("over_ratio"),
+    call_info = list(
+      list(pkg = "dials", fun = "over_ratio")
+    ),
+    source = "recipe",
+    component = "step_rose",
+    component_id = x$id
+  )
+}
