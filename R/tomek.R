@@ -56,6 +56,24 @@
 #' baked_okc <- bake(ds_rec, new_data = okc)
 #' table(baked_okc$Class, useNA = "always")
 #'
+#' library(ggplot2)
+#'
+#' ggplot(circle_example, aes(x, y, color = class)) +
+#'   geom_point() +
+#'   labs(title = "Without Tomek") +
+#'   xlim(c(1, 15)) +
+#'   ylim(c(1, 15))
+#'
+#' recipe(class ~ ., data = circle_example) %>%
+#'   step_tomek(class) %>%
+#'   prep() %>%
+#'   juice() %>%
+#'   ggplot(aes(x, y, color = class)) +
+#'   geom_point() +
+#'   labs(title = "With Tomek") +
+#'   xlim(c(1, 15)) +
+#'   ylim(c(1, 15))
+#'
 #' @importFrom recipes rand_id add_step ellipse_check
 step_tomek <-
   function(recipe, ..., role = NA, trained = FALSE,

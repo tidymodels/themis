@@ -116,6 +116,20 @@ data.frame(
   train_freq = as.vector(training),
   baked_freq = as.vector(baked)
 )
+
+library(ggplot2)
+
+ggplot(circle_example, aes(x, y, color = class)) +
+  geom_point() +
+  labs(title = "Without upsample")
+
+recipe(class ~ ., data = circle_example) \%>\%
+  step_nearmiss(class) \%>\%
+  prep() \%>\%
+  juice() \%>\%
+  ggplot(aes(x, y, color = class)) +
+  geom_jitter() +
+  labs(title = "With upsample (with jittering)")
 }
 \concept{preprocessing}
 \concept{subsampling}

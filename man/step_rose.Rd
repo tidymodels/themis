@@ -106,6 +106,20 @@ ds_rec2 <- recipe(Class ~ age + height, data = okc) \%>\%
 
 table(juice(ds_rec2)$Class, useNA = "always")
 
+library(ggplot2)
+
+ggplot(circle_example, aes(x, y, color = class)) +
+  geom_point() +
+  labs(title = "Without ROSE")
+
+recipe(class ~ ., data = circle_example) \%>\%
+  step_rose(class) \%>\%
+  prep() \%>\%
+  juice() \%>\%
+  ggplot(aes(x, y, color = class)) +
+  geom_point() +
+  labs(title = "With ROSE")
+
 }
 \references{
 Lunardon, N., Menardi, G., and Torelli, N. (2014). ROSE: a

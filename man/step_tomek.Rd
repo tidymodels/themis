@@ -82,6 +82,24 @@ table(juice(ds_rec)$Class, useNA = "always")
 baked_okc <- bake(ds_rec, new_data = okc)
 table(baked_okc$Class, useNA = "always")
 
+library(ggplot2)
+
+ggplot(circle_example, aes(x, y, color = class)) +
+  geom_point() +
+  labs(title = "Without Tomek") +
+  xlim(c(1, 15)) +
+  ylim(c(1, 15))
+
+recipe(class ~ ., data = circle_example) \%>\%
+  step_tomek(class) \%>\%
+  prep() \%>\%
+  juice() \%>\%
+  ggplot(aes(x, y, color = class)) +
+  geom_point() +
+  labs(title = "With Tomek") +
+  xlim(c(1, 15)) +
+  ylim(c(1, 15))
+
 }
 \references{
 Tomek. Two modifications of cnn. IEEE Trans. Syst. Man Cybern.,

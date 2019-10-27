@@ -78,6 +78,20 @@
 #'
 #' table(juice(ds_rec2)$Class, useNA = "always")
 #'
+#' library(ggplot2)
+#'
+#' ggplot(circle_example, aes(x, y, color = class)) +
+#'   geom_point() +
+#'   labs(title = "Without ROSE")
+#'
+#' recipe(class ~ ., data = circle_example) %>%
+#'   step_rose(class) %>%
+#'   prep() %>%
+#'   juice() %>%
+#'   ggplot(aes(x, y, color = class)) +
+#'   geom_point() +
+#'   labs(title = "With ROSE")
+#'
 #' @importFrom recipes rand_id add_step ellipse_check
 step_rose <-
   function(recipe, ..., role = NA, trained = FALSE,

@@ -82,7 +82,20 @@
 #'   train_freq = as.vector(training),
 #'   baked_freq = as.vector(baked)
 #' )
-
+#'
+#' library(ggplot2)
+#'
+#' ggplot(circle_example, aes(x, y, color = class)) +
+#'   geom_point() +
+#'   labs(title = "Without upsample")
+#'
+#' recipe(class ~ ., data = circle_example) %>%
+#'   step_nearmiss(class) %>%
+#'   prep() %>%
+#'   juice() %>%
+#'   ggplot(aes(x, y, color = class)) +
+#'   geom_jitter() +
+#'   labs(title = "With upsample (with jittering)")
 step_upsample <-
   function(recipe, ...,  over_ratio = 1, ratio = NA, role = NA, trained = FALSE,
            column = NULL, target = NA, skip = TRUE,
@@ -117,7 +130,8 @@ step_upsample <-
   }
 
 step_upsample_new <-
-  function(terms, over_ratio, ratio, role, trained, column, target, skip, seed, id) {
+  function(terms, over_ratio, ratio, role, trained, column, target, skip, seed,
+           id) {
     step(
       subclass = "upsample",
       terms = terms,
