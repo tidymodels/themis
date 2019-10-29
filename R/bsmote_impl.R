@@ -2,7 +2,7 @@ danger <- function(x, k) {
   (x != k) & (k / 2 <= x)
 }
 
-bsmote <- function(df, var, k = 5,  over_ratio = 1, method = 1) {
+bsmote <- function(df, var, k = 5,  over_ratio = 1, all_neighbors = FALSE) {
   majority_count <- max(table(df[[var]]))
   ratio_target <- majority_count * over_ratio
   which_upsample <-  which(table(df[[var]]) < ratio_target)
@@ -22,13 +22,13 @@ bsmote <- function(df, var, k = 5,  over_ratio = 1, method = 1) {
            "' to perform SMOTE.", call. = FALSE)
     }
 
-    if (method == 1) {
+    if (all_neighbors == FALSE) {
       tmp_df <- as.data.frame(
         smote_data(data_mat[min_class_in, ], k, samples_needed[i],
                    which(danger_ids[min_class_in]))
       )
     }
-    if (method == 2) {
+    if (all_neighbors == TRUE) {
       tmp_df <- as.data.frame(
         smote_data(data_mat, k, samples_needed[i], which(danger_ids))
       )

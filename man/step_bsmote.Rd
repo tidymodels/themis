@@ -6,8 +6,8 @@
 \title{Apply borderline-SMOTE algorithm}
 \usage{
 step_bsmote(recipe, ..., role = NA, trained = FALSE, column = NULL,
-  over_ratio = 1, neighbors = 5, method = 1, skip = TRUE,
-  seed = sample.int(10^5, 1), id = rand_id("bsmote"))
+  over_ratio = 1, neighbors = 5, all_neighbors = FALSE,
+  skip = TRUE, seed = sample.int(10^5, 1), id = rand_id("bsmote"))
 
 \method{tidy}{step_bsmote}(x, ...)
 }
@@ -40,7 +40,8 @@ half as many rows than the majority level.}
 \item{neighbors}{An integer. Number of nearest neighbours that are used
 to generate the new examples of the minority class.}
 
-\item{method}{Type of two borderline-SMOTE method. 1 or 2. Defaults to 1.}
+\item{all_neighbors}{Type of two borderline-SMOTE method. Defaults to 1.
+See details.}
 
 \item{skip}{A logical. Should the step be skipped when the
 recipe is baked by \code{\link[=bake.recipe]{bake.recipe()}}? While all operations are baked
@@ -75,9 +76,9 @@ k nearest neightbors is calculated. If all the neighbors comes from a
 different class it is labeled noise and put intothe "not" box. If more then
 half of the neightbours comes from a different class it is labeled "danger.
 
-If method = 1 then points will be generated between nearest neighbours in its
-own class. If method = 2 then points will be generated between any nearest
-neigbors. See examples for visualization.
+If all_neighbors = FALSE then points will be generated between nearest
+neighbours in its own class. If all_neighbors = TRUE then points will be
+generated between any nearest neigbors. See examples for visualization.
 
 The parameter \code{neighbors} controls the way the new examples are created.
 For each currently existing minority class example X new examples will be
@@ -123,20 +124,20 @@ ggplot(circle_example, aes(x, y, color = class)) +
   labs(title = "Without SMOTE")
 
 recipe(class ~ ., data = circle_example) \%>\%
-  step_bsmote(class, method = 1) \%>\%
+  step_bsmote(class, all_neighbors = FALSE) \%>\%
   prep() \%>\%
   juice() \%>\%
   ggplot(aes(x, y, color = class)) +
   geom_point() +
-  labs(title = "With borderline-SMOTE, method = 1")
+  labs(title = "With borderline-SMOTE, all_neighbors = FALSE")
 
 recipe(class ~ ., data = circle_example) \%>\%
-  step_bsmote(class, method = 2) \%>\%
+  step_bsmote(class, all_neighbors = TRUE) \%>\%
   prep() \%>\%
   juice() \%>\%
   ggplot(aes(x, y, color = class)) +
   geom_point() +
-  labs(title = "With borderline-SMOTE, method = 2")
+  labs(title = "With borderline-SMOTE, all_neighbors = TRUE")
 
 }
 \references{

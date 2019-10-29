@@ -17,7 +17,8 @@
 #'  be populated (eventually) by the `...` selectors.
 #' @param neighbors An integer. Number of nearest neighbours that are used
 #'  to generate the new examples of the minority class.
-#' @param method Type of two borderline-SMOTE method. 1 or 2. Defaults to 1.
+#' @param all_neighbors Type of two borderline-SMOTE method. Defaults to 1.
+#'  See details.
 #' @param seed An integer that will be used as the seed when
 #' smote-ing.
 #' @return An updated version of `recipe` with the new step
@@ -34,9 +35,9 @@
 #' half of the neightbours comes from a different class it is labeled "danger.
 #  Points will be generated around points labeled "danger".
 #'
-#' If method = 1 then points will be generated between nearest neighbours in its
-#' own class. If method = 2 then points will be generated between any nearest
-#' neigbors. See examples for visualization.
+#' If all_neighbors = FALSE then points will be generated between nearest
+#' neighbours in its own class. If all_neighbors = TRUE then points will be
+#' generated between any nearest neigbors. See examples for visualization.
 #'
 #' The parameter `neighbors` controls the way the new examples are created.
 #' For each currently existing minority class example X new examples will be
@@ -91,25 +92,25 @@
 #'   labs(title = "Without SMOTE")
 #'
 #' recipe(class ~ ., data = circle_example) %>%
-#'   step_bsmote(class, method = 1) %>%
+#'   step_bsmote(class, all_neighbors = FALSE) %>%
 #'   prep() %>%
 #'   juice() %>%
 #'   ggplot(aes(x, y, color = class)) +
 #'   geom_point() +
-#'   labs(title = "With borderline-SMOTE, method = 1")
+#'   labs(title = "With borderline-SMOTE, all_neighbors = FALSE")
 #'
 #' recipe(class ~ ., data = circle_example) %>%
-#'   step_bsmote(class, method = 2) %>%
+#'   step_bsmote(class, all_neighbors = TRUE) %>%
 #'   prep() %>%
 #'   juice() %>%
 #'   ggplot(aes(x, y, color = class)) +
 #'   geom_point() +
-#'   labs(title = "With borderline-SMOTE, method = 2")
+#'   labs(title = "With borderline-SMOTE, all_neighbors = TRUE")
 #'
 #' @importFrom recipes rand_id add_step ellipse_check
 step_bsmote <-
   function(recipe, ..., role = NA, trained = FALSE,
-           column = NULL, over_ratio = 1, neighbors = 5, method = 1,
+           column = NULL, over_ratio = 1, neighbors = 5, all_neighbors = FALSE,
            skip = TRUE, seed = sample.int(10^5, 1), id = rand_id("bsmote")) {
 
     add_step(recipe,
@@ -120,7 +121,7 @@ step_bsmote <-
                column = column,
                over_ratio = over_ratio,
                neighbors = neighbors,
-               method = method,
+               all_neighbors = all_neighbors,
                skip = skip,
                seed = seed,
                id = id
@@ -129,7 +130,7 @@ step_bsmote <-
 
 #' @importFrom recipes step
 step_bsmote_new <-
-  function(terms, role, trained, column, over_ratio, neighbors, method, skip,
+  function(terms, role, trained, column, over_ratio, neighbors, all_neighbors, skip,
            seed, id) {
     step(
       subclass = "bsmote",
@@ -139,7 +140,7 @@ step_bsmote_new <-
       column = column,
       over_ratio = over_ratio,
       neighbors = neighbors,
-      method =  method,
+      all_neighbors =  all_neighbors,
       skip = skip,
       id = id,
       seed = seed,
@@ -168,7 +169,7 @@ prep.step_bsmote <- function(x, training, info = NULL, ...) {
     column = col_name,
     over_ratio = x$over_ratio,
     neighbors = x$neighbors,
-    method = x$method,
+    all_neighbors = x$all_neighbors,
     skip = x$skip,
     seed = x$seed,
     id = x$id
@@ -187,7 +188,7 @@ bake.step_bsmote <- function(object, new_data, ...) {
     code = {
       new_data <- bsmote(new_data, object$column,
                          k = object$neighbors, over_ratio = object$over_ratio,
-                         method = object$method)
+                         all_neighbors = object$all_neighbors)
     }
   )
 

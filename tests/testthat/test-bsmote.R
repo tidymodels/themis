@@ -66,9 +66,9 @@ test_that("over_ratio value", {
   expect_equal(te_xtab, og_xtab)
 })
 
-test_that("method argument", {
+test_that("all_neighbors argument", {
   rec2 <- rec %>%
-    step_bsmote(tidyselect::matches("Species$"), method = 2)
+    step_bsmote(tidyselect::matches("Species$"), all_neighbors = TRUE)
 
   rec2_p <- prep(rec2, training = iris2, retain = TRUE)
 
