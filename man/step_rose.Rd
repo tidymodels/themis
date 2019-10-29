@@ -6,8 +6,8 @@
 \title{Apply ROSE algorithm}
 \usage{
 step_rose(recipe, ..., role = NA, trained = FALSE, column = NULL,
-  over_ratio = 1, minority_prop = 0.5, minority_multiplier = 1,
-  majority_multiplier = 1, skip = TRUE, seed = sample.int(10^5, 1),
+  over_ratio = 1, minority_prop = 0.5, minority_smoothness = 1,
+  majority_smoothness = 1, skip = TRUE, seed = sample.int(10^5, 1),
   id = rand_id("rose"))
 
 \method{tidy}{step_rose}(x, ...)
@@ -41,11 +41,11 @@ half as many rows than the majority level.}
 \item{minority_prop}{A numeric. Determines the of over-sampling of the
 minority class. Defaults to 0.5.}
 
-\item{minority_multiplier}{A numeric. Shrink factor to be multiplied by the
+\item{minority_smoothness}{A numeric. Shrink factor to be multiplied by the
 smoothing parameters to estimate the conditional kernel density of the
 minority class. Defaults to 1.}
 
-\item{majority_multiplier}{A numeric. Shrink factor to be multiplied by the
+\item{majority_smoothness}{A numeric. Shrink factor to be multiplied by the
 smoothing parameters to estimate the conditional kernel density of the
 majority class. Defaults to 1.}
 

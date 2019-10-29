@@ -17,10 +17,10 @@
 #'  be populated (eventually) by the `...` selectors.
 #' @param minority_prop A numeric. Determines the of over-sampling of the
 #'  minority class. Defaults to 0.5.
-#' @param minority_multiplier A numeric. Shrink factor to be multiplied by the
+#' @param minority_smoothness A numeric. Shrink factor to be multiplied by the
 #'  smoothing parameters to estimate the conditional kernel density of the
 #'  minority class. Defaults to 1.
-#' @param majority_multiplier A numeric. Shrink factor to be multiplied by the
+#' @param majority_smoothness A numeric. Shrink factor to be multiplied by the
 #'  smoothing parameters to estimate the conditional kernel density of the
 #'  majority class. Defaults to 1.
 #' @param seed An integer that will be used as the seed when
@@ -97,7 +97,7 @@
 step_rose <-
   function(recipe, ..., role = NA, trained = FALSE,
            column = NULL, over_ratio = 1, minority_prop = 0.5,
-           minority_multiplier = 1, majority_multiplier = 1, skip = TRUE,
+           minority_smoothness = 1, majority_smoothness = 1, skip = TRUE,
            seed = sample.int(10^5, 1), id = rand_id("rose")) {
 
     add_step(recipe,
@@ -108,8 +108,8 @@ step_rose <-
                column = column,
                over_ratio = over_ratio,
                minority_prop = minority_prop,
-               minority_multiplier = minority_multiplier,
-               majority_multiplier = majority_multiplier,
+               minority_smoothness = minority_smoothness,
+               majority_smoothness = majority_smoothness,
                skip = skip,
                seed = seed,
                id = id
@@ -119,7 +119,7 @@ step_rose <-
 #' @importFrom recipes step
 step_rose_new <-
   function(terms, role, trained, column, over_ratio, minority_prop,
-           minority_multiplier, majority_multiplier, skip, seed, id) {
+           minority_smoothness, majority_smoothness, skip, seed, id) {
     step(
       subclass = "rose",
       terms = terms,
@@ -128,8 +128,8 @@ step_rose_new <-
       column = column,
       over_ratio = over_ratio,
       minority_prop = minority_prop,
-      minority_multiplier = minority_multiplier,
-      majority_multiplier = majority_multiplier,
+      minority_smoothness = minority_smoothness,
+      majority_smoothness = majority_smoothness,
       skip = skip,
       seed = seed,
       id = id
@@ -158,8 +158,8 @@ prep.step_rose <- function(x, training, info = NULL, ...) {
     column = col_name,
     over_ratio = x$over_ratio,
     minority_prop = x$minority_prop,
-    minority_multiplier = x$minority_multiplier,
-    majority_multiplier = x$majority_multiplier,
+    minority_smoothness = x$minority_smoothness,
+    majority_smoothness = x$majority_smoothness,
     skip = x$skip,
     seed = x$seed,
     id = x$id
@@ -186,8 +186,8 @@ bake.step_rose <- function(object, new_data, ...) {
       new_data <- ROSE(string2formula(object$column), new_data,
                        N = majority_size * object$over_ratio,
                        p = object$minority_prop,
-                       hmult.majo = object$majority_multiplier,
-                       hmult.mino = object$minority_multiplier)$data
+                       hmult.majo = object$majority_smoothness,
+                       hmult.mino = object$minority_smoothness)$data
     }
   )
 
