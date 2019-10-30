@@ -202,16 +202,3 @@ tidy.step_tomek <- function(x, ...) {
   res$id <- x$id
   res
 }
-
-#' @export
-tunable.step_tomek <- function(x, ...) {
-  tibble::tibble(
-    name = c("neighbors"),
-    call_info = list(
-      list(pkg = "dials", fun = "neighbors")
-    ),
-    source = "recipe",
-    component = "step_tomek",
-    component_id = x$id
-  )
-}

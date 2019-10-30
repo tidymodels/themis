@@ -219,17 +219,3 @@ tidy.step_bsmote <- function(x, ...) {
   res$id <- x$id
   res
 }
-
-#' @export
-tunable.step_bsmote <- function(x, ...) {
-  tibble::tibble(
-    name = c("over_ratio", "neighbors"),
-    call_info = list(
-      list(pkg = "dials", fun = "over_ratio"),
-      list(pkg = "dials", fun = "neighbors")
-    ),
-    source = "recipe",
-    component = "step_bsmote",
-    component_id = x$id
-  )
-}

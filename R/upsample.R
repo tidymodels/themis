@@ -208,7 +208,6 @@ bake.step_upsample <- function(object, new_data, ...) {
   as_tibble(new_data)
 }
 
-
 print.step_upsample <-
   function(x, width = max(20, options()$width - 26), ...) {
     cat("Up-sampling based on ", sep = "")
@@ -229,17 +228,4 @@ tidy.step_upsample <- function(x, ...) {
   }
   res$id <- x$id
   res
-}
-
-#' @export
-tunable.step_upsample <- function(x, ...) {
-  tibble::tibble(
-    name = c("over_ratio"),
-    call_info = list(
-      list(pkg = "dials", fun = "over_ratio")
-    ),
-    source = "recipe",
-    component = "step_upsample",
-    component_id = x$id
-  )
 }

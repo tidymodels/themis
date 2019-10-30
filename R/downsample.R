@@ -208,16 +208,3 @@ tidy.step_downsample <- function(x, ...) {
   res$id <- x$id
   res
 }
-
-#' @export
-tunable.step_downsample <- function(x, ...) {
-  tibble::tibble(
-    name = "under_ratio",
-    call_info = list(
-      list(pkg = "dials", fun = "under_ratio")
-    ),
-    source = "recipe",
-    component = "step_downsample",
-    component_id = x$id
-  )
-}
