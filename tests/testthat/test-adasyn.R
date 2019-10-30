@@ -116,3 +116,19 @@ test_that("factors with more than 2 levels", {
     "only have 2 levels."
   )
 })
+
+test_that("tunable", {
+  rec <-
+    recipe(~ ., data = iris) %>%
+    step_adasyn(all_predictors(), under_ratio = 1)
+  rec_param <- tunable.step_adasyn(rec$steps[[1]])
+  expect_equal(rec_param$name, c("over_ratio", "neighbors"))
+  expect_true(all(rec_param$source == "recipe"))
+  expect_true(is.list(rec_param$call_info))
+  expect_equal(nrow(rec_param), 2)
+  expect_equal(
+    names(rec_param),
+    c("name", "call_info", "source", "component", "component_id")
+  )
+})
+

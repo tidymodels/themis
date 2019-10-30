@@ -183,3 +183,18 @@ test_that("errors if there isn't enough danger data", {
     "Not enough danger observations"
   )
 })
+
+test_that("tunable", {
+  rec <-
+    recipe(~ ., data = iris) %>%
+    step_bsmote(all_predictors(), under_ratio = 1)
+  rec_param <- tunable.step_bsmote(rec$steps[[1]])
+  expect_equal(rec_param$name, c("over_ratio", "neighbors"))
+  expect_true(all(rec_param$source == "recipe"))
+  expect_true(is.list(rec_param$call_info))
+  expect_equal(nrow(rec_param), 2)
+  expect_equal(
+    names(rec_param),
+    c("name", "call_info", "source", "component", "component_id")
+  )
+})
