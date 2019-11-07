@@ -93,14 +93,6 @@ test_that("bad data", {
   )
 })
 
-test_that("printing", {
-  rec4 <- rec %>%
-    step_upsample(Species)
-
-  expect_output(print(rec))
-  expect_output(prep(rec4, training = iris2, retain = TRUE, verbose = TRUE))
-})
-
 test_that("`seed` produces identical sampling", {
 
   upsample_with_seed <- function(rec, seed = sample.int(10^5, 1)) {
@@ -147,3 +139,5 @@ test_that("tunable", {
     c("name", "call_info", "source", "component", "component_id")
   )
 })
+
+test_printing(step_upsample)

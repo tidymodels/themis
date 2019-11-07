@@ -76,15 +76,6 @@ test_that("bad data", {
   )
 })
 
-test_that("printing", {
-  rec4 <- rec %>%
-    step_tomek(Species)
-
-  expect_output(print(rec))
-  expect_output(print(rec4))
-  expect_output(prep(rec4, training = iris2, retain = TRUE, verbose = TRUE))
-})
-
 test_that("step_tomek errors if character are present", {
   df_char <- data.frame(x = factor(1:2),
                         y = c("A", "A"),
@@ -110,3 +101,5 @@ test_that("factors with more than 2 levels", {
     "only have 2 levels."
   )
 })
+
+test_printing(step_tomek)

@@ -97,15 +97,6 @@ test_that("bad data", {
   )
 })
 
-test_that("printing", {
-  rec4 <- rec %>%
-    step_nearmiss(Species)
-
-  expect_output(print(rec))
-  expect_output(print(rec4))
-  expect_output(prep(rec4, training = iris2, retain = TRUE, verbose = TRUE))
-})
-
 test_that("`seed` produces identical sampling", {
 
   nearmiss_with_seed <- function(rec, seed = sample.int(10^5, 1)) {
@@ -149,3 +140,5 @@ test_that("checks are done to ensure step_nearmiss errors if NA are present", {
     "not allowed"
   )
 })
+
+test_printing(step_nearmiss)

@@ -109,15 +109,6 @@ test_that("bad data", {
   )
 })
 
-test_that("printing", {
-  rec4 <- rec %>%
-    step_bsmote(Species)
-
-  expect_output(print(rec))
-  expect_output(print(rec4))
-  expect_output(prep(rec4, training = iris2, retain = TRUE, verbose = TRUE))
-})
-
 test_that("`seed` produces identical sampling", {
 
   bsmote_with_seed <- function(rec, seed = sample.int(10^5, 1)) {
@@ -183,3 +174,6 @@ test_that("errors if there isn't enough danger data", {
     "Not enough danger observations"
   )
 })
+
+test_printing(step_bsmote,
+              data = select(iris, class = Species, everything())[-c(51:75), ])

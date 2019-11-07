@@ -95,15 +95,6 @@ test_that("bad data", {
   )
 })
 
-test_that("printing", {
-  rec4 <- rec %>%
-    step_rose(Species)
-
-  expect_output(print(rec))
-  expect_output(print(rec4))
-  expect_output(prep(rec4, training = iris2, retain = TRUE, verbose = TRUE))
-})
-
 test_that("`seed` produces identical sampling", {
 
   rose_with_seed <- function(rec, seed = sample.int(10^5, 1)) {
@@ -148,3 +139,5 @@ test_that("factors with more than 2 levels", {
     "only have 2 levels."
   )
 })
+
+test_printing(step_rose)

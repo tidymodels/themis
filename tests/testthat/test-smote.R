@@ -94,15 +94,6 @@ test_that("bad data", {
   )
 })
 
-test_that("printing", {
-  rec4 <- rec %>%
-    step_smote(Species)
-
-  expect_output(print(rec))
-  expect_output(print(rec4))
-  expect_output(prep(rec4, training = iris2, retain = TRUE, verbose = TRUE))
-})
-
 test_that("`seed` produces identical sampling", {
 
   smote_with_seed <- function(rec, seed = sample.int(10^5, 1)) {
@@ -157,3 +148,5 @@ test_that("all minority classes are upsampled", {
 
   expect_equal(as.numeric(table(out$Species)), c(50, 50, 50))
 })
+
+test_printing(step_smote)
