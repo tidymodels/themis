@@ -65,36 +65,6 @@ test_that("minority_prop value", {
   expect_lt(tr_xtab1[["setosa"]], tr_xtab2[["setosa"]])
 })
 
-test_that("no skipping", {
-  rec3 <- rec %>%
-    step_rose(tidyselect::matches("Species$"), skip = FALSE)
-
-  rec3_p <- prep(rec3, training = iris2, retain = TRUE)
-
-  tr_xtab <- table(juice(rec3_p)$Species, useNA = "always")
-  te_xtab <- table(bake(rec3_p, new_data = iris2)$Species, useNA = "always")
-
-  expect_equal(te_xtab, tr_xtab)
-})
-
-test_that("bad data", {
-  expect_error(
-    rec %>%
-      step_rose(Sepal.Width) %>%
-      prep(retain = TRUE)
-  )
-  expect_error(
-    rec %>%
-      step_rose(Species3) %>%
-      prep(strings_as_factors = FALSE, retain = TRUE)
-  )
-  expect_error(
-    rec %>%
-      step_rose(Sepal.Length, Sepal.Width) %>%
-      prep(strings_as_factors = FALSE, retain = TRUE)
-  )
-})
-
 test_that("`seed` produces identical sampling", {
 
   rose_with_seed <- function(rec, seed = sample.int(10^5, 1)) {
@@ -141,3 +111,5 @@ test_that("factors with more than 2 levels", {
 })
 
 test_printing(step_rose)
+test_bad_data(step_rose)
+test_no_skipping(step_rose)

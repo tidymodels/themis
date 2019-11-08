@@ -67,36 +67,6 @@ test_that("under_ratio value", {
   expect_equal(te_xtab, og_xtab)
 })
 
-test_that("no skipping", {
-  rec3 <- rec %>%
-    step_nearmiss(tidyselect::matches("Species$"), skip = FALSE)
-
-  rec3_p <- prep(rec3, training = iris2, retain = TRUE)
-
-  tr_xtab <- table(juice(rec3_p)$Species, useNA = "always")
-  te_xtab <- table(bake(rec3_p, new_data = iris2)$Species, useNA = "always")
-
-  expect_equal(te_xtab, tr_xtab)
-})
-
-test_that("bad data", {
-  expect_error(
-    rec %>%
-      step_nearmiss(Sepal.Width) %>%
-      prep(retain = TRUE)
-  )
-  expect_error(
-    rec %>%
-      step_nearmiss(Species3) %>%
-      prep(strings_as_factors = FALSE, retain = TRUE)
-  )
-  expect_error(
-    rec %>%
-      step_nearmiss(Sepal.Length, Sepal.Width) %>%
-      prep(strings_as_factors = FALSE, retain = TRUE)
-  )
-})
-
 test_that("`seed` produces identical sampling", {
 
   nearmiss_with_seed <- function(rec, seed = sample.int(10^5, 1)) {
@@ -142,3 +112,5 @@ test_that("checks are done to ensure step_nearmiss errors if NA are present", {
 })
 
 test_printing(step_nearmiss)
+test_bad_data(step_nearmiss)
+test_no_skipping(step_nearmiss)

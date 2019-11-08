@@ -58,38 +58,6 @@ test_that("ratio value", {
   expect_equal(te_xtab, og_xtab)
 })
 
-test_that("no skipping", {
-  rec3 <- rec %>%
-    step_downsample(tidyselect::matches("Species$"), skip = FALSE)
-
-  rec3_p <- prep(rec3, training = iris2, retain = TRUE)
-
-  tr_xtab <- table(juice(rec3_p)$Species, useNA = "always")
-  te_xtab <- table(bake(rec3_p, new_data = iris2)$Species, useNA = "always")
-  og_xtab <- table(iris2$Species, useNA = "always")
-
-  expect_equal(max(tr_xtab), 5)
-  expect_equal(te_xtab, tr_xtab)
-})
-
-test_that("bad data", {
-  expect_error(
-    rec %>%
-      step_downsample(Sepal.Width) %>%
-      prep(retain = TRUE)
-  )
-  expect_error(
-    rec %>%
-      step_downsample(Species3) %>%
-      prep(strings_as_factors = FALSE, retain = TRUE)
-  )
-  expect_error(
-    rec %>%
-      step_downsample(Species, Species2) %>%
-      prep(strings_as_factors = FALSE, retain = TRUE)
-  )
-})
-
 test_that("`seed` produces identical sampling", {
 
   downsample_with_seed <- function(rec, seed = sample.int(10^5, 1)) {
@@ -138,3 +106,5 @@ test_that("tunable", {
 })
 
 test_printing(step_downsample)
+test_bad_data(step_downsample)
+test_no_skipping(step_downsample)

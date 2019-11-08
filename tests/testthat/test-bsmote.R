@@ -10,6 +10,9 @@ iris2 <- iris[-c(51:75), ]
 
 rec <- recipe(~ ., data = iris2)
 
+rec3 <- rec %>%
+  step_bsmote(tidyselect::matches("Species$"), skip = FALSE)
+
 test_that("basic usage", {
   rec1 <- rec %>%
     step_bsmote(Species, id = "")
@@ -77,36 +80,6 @@ test_that("all_neighbors argument", {
   og_xtab <- table(iris2$Species, useNA = "no")
 
   expect_equal(te_xtab, og_xtab)
-})
-
-test_that("no skipping", {
-  rec3 <- rec %>%
-    step_bsmote(tidyselect::matches("Species$"), skip = FALSE)
-
-  rec3_p <- prep(rec3, training = iris2, retain = TRUE)
-
-  tr_xtab <- table(juice(rec3_p)$Species, useNA = "always")
-  te_xtab <- table(bake(rec3_p, new_data = iris2)$Species, useNA = "always")
-
-  expect_equal(te_xtab, tr_xtab)
-})
-
-test_that("bad data", {
-  expect_error(
-    rec %>%
-      step_bsmote(Sepal.Width) %>%
-      prep(retain = TRUE)
-  )
-  expect_error(
-    rec %>%
-      step_bsmote(Species3) %>%
-      prep(strings_as_factors = FALSE, retain = TRUE)
-  )
-  expect_error(
-    rec %>%
-      step_bsmote(Sepal.Length, Sepal.Width) %>%
-      prep(strings_as_factors = FALSE, retain = TRUE)
-  )
 })
 
 test_that("`seed` produces identical sampling", {
@@ -177,3 +150,6 @@ test_that("errors if there isn't enough danger data", {
 
 test_printing(step_bsmote,
               data = select(iris, class = Species, everything())[-c(51:75), ])
+test_bad_data(step_bsmote)
+test_no_skipping(step_bsmote,
+                 data = select(iris, class = Species, everything())[-c(51:75), ])

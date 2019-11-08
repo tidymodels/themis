@@ -46,36 +46,6 @@ test_that("basic usage", {
   expect_warning(prep(rec1, training = iris2), NA)
 })
 
-test_that("no skipping", {
-  rec3 <- rec %>%
-    step_tomek(tidyselect::matches("Species$"), skip = FALSE)
-
-  rec3_p <- prep(rec3, training = iris2, retain = TRUE)
-
-  tr_xtab <- table(juice(rec3_p)$Species, useNA = "always")
-  te_xtab <- table(bake(rec3_p, new_data = iris2)$Species, useNA = "always")
-
-  expect_equal(te_xtab, tr_xtab)
-})
-
-test_that("bad data", {
-  expect_error(
-    rec %>%
-      step_tomek(Sepal.Width) %>%
-      prep(retain = TRUE)
-  )
-  expect_error(
-    rec %>%
-      step_tomek(Species3) %>%
-      prep(strings_as_factors = FALSE, retain = TRUE)
-  )
-  expect_error(
-    rec %>%
-      step_tomek(Sepal.Length, Sepal.Width) %>%
-      prep(strings_as_factors = FALSE, retain = TRUE)
-  )
-})
-
 test_that("step_tomek errors if character are present", {
   df_char <- data.frame(x = factor(1:2),
                         y = c("A", "A"),
@@ -103,3 +73,5 @@ test_that("factors with more than 2 levels", {
 })
 
 test_printing(step_tomek)
+test_bad_data(step_tomek)
+test_no_skipping(step_tomek)
