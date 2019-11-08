@@ -1,7 +1,7 @@
 smote_data <- function(data, k, n_samples, smote_ids = seq_len(nrow(data))) {
   ids <- RANN::nn2(data, k = k + 1, searchtype = "priority")$nn.idx
   indexes <- rep(sample(smote_ids), length.out = n_samples)
-  index_len <- tabulate(indexes)
+  index_len <- tabulate(indexes, NROW(data))
   out <- matrix(0, nrow = n_samples, ncol = ncol(data))
   sampleids <- sample.int(k, n_samples, TRUE)
   runif_ids <- stats::runif(n_samples)

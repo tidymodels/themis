@@ -85,19 +85,8 @@ test_that("`seed` produces identical sampling", {
   expect_false(identical(petal_width_1, petal_width_3))
 })
 
-test_that("checks are done to ensure step_nearmiss errors if NA are present", {
-  df_char <- data.frame(x = factor(1:2),
-                        y = c(NA, 1))
-
-  expect_error(
-    recipe(~ ., data = df_char) %>%
-      step_nearmiss(x) %>%
-      prep(),
-    "not allowed"
-  )
-})
-
 test_printing(step_nearmiss)
 test_bad_data(step_nearmiss)
 test_no_skipping(step_nearmiss)
 test_character_error(step_nearmiss)
+test_na_response(step_nearmiss)

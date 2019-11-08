@@ -17,26 +17,42 @@ test_printing <- function(step, data = NULL) {
 
 test_bad_data <- function(step) {
   iris2 <- iris[-c(1:45), ]
-  iris2$Species[seq(6, 96, by = 5)] <- NA
   iris2$Species2 <- sample(iris2$Species)
   iris2$Species3 <- as.character(sample(iris2$Species))
 
   rec <- recipe(~ ., data = iris2)
 
   test_that("bad data", {
+    # numeric check
     expect_error(
       rec %>%
         step(Sepal.Width) %>%
         prep(retain = TRUE)
     )
+    # Multiple variable check
     expect_error(
       rec %>%
         step(Species, Species2) %>%
         prep(strings_as_factors = FALSE, retain = TRUE)
     )
+    # character check
     expect_error(
       rec %>%
         step(Species3) %>%
+        prep(strings_as_factors = FALSE, retain = TRUE)
+    )
+  })
+}
+
+test_na_response <- function(step) {
+  iris2 <- iris[-c(1:45), ]
+  iris2$Species[seq(6, 96, by = 5)] <- NA
+
+  test_that("NA in response", {
+    # NA check
+    expect_error(
+      recipe(~ ., data = iris2) %>%
+        step(Species) %>%
         prep(strings_as_factors = FALSE, retain = TRUE)
     )
   })

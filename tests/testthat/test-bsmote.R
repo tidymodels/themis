@@ -100,18 +100,6 @@ test_that("`seed` produces identical sampling", {
   expect_false(identical(petal_width_1, petal_width_3))
 })
 
-test_that("checks are done to ensure step_bsmote errors if NA are present", {
-  df_char <- data.frame(x = factor(1:2),
-                        y = c(NA, 1))
-
-  expect_error(
-    recipe(~ ., data = df_char) %>%
-      step_bsmote(x) %>%
-      prep(),
-    "missing"
-  )
-})
-
 test_that("all minority classes are upsampled", {
   iris3 <- iris[-c(51:75, 101:110), ]
 
@@ -138,3 +126,4 @@ test_printing(step_bsmote)
 test_bad_data(step_bsmote)
 test_no_skipping(step_bsmote)
 test_character_error(step_bsmote)
+test_na_response(step_bsmote)

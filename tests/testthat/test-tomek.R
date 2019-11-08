@@ -63,3 +63,5 @@ test_printing(step_tomek)
 test_bad_data(step_tomek)
 test_no_skipping(step_tomek)
 test_character_error(step_tomek)
+test_na_response(step_tomek)
+
