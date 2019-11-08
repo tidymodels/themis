@@ -100,20 +100,6 @@ test_that("`seed` produces identical sampling", {
   expect_false(identical(petal_width_1, petal_width_3))
 })
 
-
-test_that("step_bsmote errors if character are present", {
-  df_char <- data.frame(x = factor(1:2),
-                        y = c("A", "A"),
-                        stringsAsFactors = FALSE)
-
-  expect_error(
-    recipe(~ ., data = df_char) %>%
-      step_bsmote(x) %>%
-      prep(),
-    "should be numeric"
-  )
-})
-
 test_that("checks are done to ensure step_bsmote errors if NA are present", {
   df_char <- data.frame(x = factor(1:2),
                         y = c(NA, 1))
@@ -148,8 +134,7 @@ test_that("errors if there isn't enough danger data", {
   )
 })
 
-test_printing(step_bsmote,
-              data = select(iris, class = Species, everything())[-c(51:75), ])
+test_printing(step_bsmote)
 test_bad_data(step_bsmote)
-test_no_skipping(step_bsmote,
-                 data = select(iris, class = Species, everything())[-c(51:75), ])
+test_no_skipping(step_bsmote)
+test_character_error(step_bsmote)

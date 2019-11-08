@@ -48,19 +48,7 @@ test_that("basic usage", {
   expect_warning(prep(rec1, training = credit_data2), NA)
 })
 
-test_that("step_adasyn errors if character are present", {
-  df_char <- data.frame(x = factor(1:2),
-                        y = c("A", "A"),
-                        stringsAsFactors = FALSE)
-
-  expect_error(
-    recipe(~ ., data = df_char) %>%
-      step_adasyn(x) %>%
-      prep(),
-    "should be numeric"
-  )
-})
-
 test_printing(step_adasyn)
 test_bad_data(step_adasyn)
 test_no_skipping(step_adasyn)
+test_character_error(step_adasyn)

@@ -46,19 +46,6 @@ test_that("basic usage", {
   expect_warning(prep(rec1, training = iris2), NA)
 })
 
-test_that("step_tomek errors if character are present", {
-  df_char <- data.frame(x = factor(1:2),
-                        y = c("A", "A"),
-                        stringsAsFactors = FALSE)
-
-  expect_error(
-    recipe(~ ., data = df_char) %>%
-      step_tomek(x) %>%
-      prep(),
-    "should be numeric"
-  )
-})
-
 test_that("factors with more than 2 levels", {
   df_char <- data.frame(x = factor(1:3),
                         y = c(1:3),
@@ -75,3 +62,4 @@ test_that("factors with more than 2 levels", {
 test_printing(step_tomek)
 test_bad_data(step_tomek)
 test_no_skipping(step_tomek)
+test_character_error(step_tomek)

@@ -2,7 +2,7 @@ library(rlang)
 
 test_printing <- function(step, data = NULL) {
   data <- data %||%
-    dplyr::select(credit_data[1:100, ], class = Status, Time, Price)
+    circle_example
   rec <- recipe(~ ., data = data) %>%
     step(class)
 
@@ -44,7 +44,7 @@ test_bad_data <- function(step) {
 
 test_no_skipping <- function(step, data = NULL) {
   data <- data %||%
-    dplyr::select(credit_data[1:100, ], class = Status, Time, Price)
+    circle_example
 
   rec <- recipe(~ ., data = data) %>%
     step(class, skip = FALSE)
@@ -57,5 +57,20 @@ test_no_skipping <- function(step, data = NULL) {
 
   test_that("no skipping", {
     expect_equal(te_xtab, tr_xtab)
+  })
+}
+
+test_character_error <- function(step) {
+  test_that("errors if character are present", {
+    df_char <- data.frame(x = factor(1:2),
+                          y = c("A", "A"),
+                          stringsAsFactors = FALSE)
+
+    expect_error(
+      recipe(~ ., data = df_char) %>%
+        step(x) %>%
+        prep(),
+      "should be numeric"
+    )
   })
 }

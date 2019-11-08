@@ -82,20 +82,6 @@ test_that("`seed` produces identical sampling", {
   expect_false(identical(petal_width_1, petal_width_3))
 })
 
-
-test_that("step_smote errors if character are present", {
-  df_char <- data.frame(x = factor(1:2),
-                        y = c("A", "A"),
-                        stringsAsFactors = FALSE)
-
-  expect_error(
-    recipe(~ ., data = df_char) %>%
-      step_smote(x) %>%
-      prep(),
-    "should be numeric"
-  )
-})
-
 test_that("checks are done to ensure step_smote errors if NA are present", {
   df_char <- data.frame(x = factor(1:2),
                         y = c(NA, 1))
@@ -122,3 +108,4 @@ test_that("all minority classes are upsampled", {
 test_printing(step_smote)
 test_bad_data(step_smote)
 test_no_skipping(step_smote)
+test_character_error(step_smote)

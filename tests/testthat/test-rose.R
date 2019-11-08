@@ -83,20 +83,6 @@ test_that("`seed` produces identical sampling", {
   expect_false(identical(petal_width_1, petal_width_3))
 })
 
-
-test_that("step_rose errors if character are present", {
-  df_char <- data.frame(x = factor(1:2),
-                        y = c("A", "A"),
-                        stringsAsFactors = FALSE)
-
-  expect_error(
-    recipe(~ ., data = df_char) %>%
-      step_rose(x) %>%
-      prep(),
-    "should be numeric"
-  )
-})
-
 test_that("factors with more than 2 levels", {
   df_char <- data.frame(x = factor(1:3),
                         y = c(1:3),
@@ -113,3 +99,4 @@ test_that("factors with more than 2 levels", {
 test_printing(step_rose)
 test_bad_data(step_rose)
 test_no_skipping(step_rose)
+test_character_error(step_rose)
