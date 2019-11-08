@@ -67,26 +67,9 @@ test_that("under_ratio value", {
   expect_equal(te_xtab, og_xtab)
 })
 
-test_that("`seed` produces identical sampling", {
-
-  nearmiss_with_seed <- function(rec, seed = sample.int(10^5, 1)) {
-    rec %>%
-      step_nearmiss(Species, seed = seed) %>%
-      prep(training = iris2, retain = TRUE) %>%
-      juice() %>%
-      pull(Petal.Width)
-  }
-
-  petal_width_1 <- nearmiss_with_seed(rec, seed = 1234)
-  petal_width_2 <- nearmiss_with_seed(rec, seed = 1234)
-  petal_width_3 <- nearmiss_with_seed(rec, seed = 12345)
-
-  expect_equal(petal_width_1, petal_width_2)
-  expect_false(identical(petal_width_1, petal_width_3))
-})
-
 test_printing(step_nearmiss)
 test_bad_data(step_nearmiss)
 test_no_skipping(step_nearmiss)
 test_character_error(step_nearmiss)
 test_na_response(step_nearmiss)
+test_seed(step_nearmiss)

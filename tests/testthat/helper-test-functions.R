@@ -90,3 +90,25 @@ test_character_error <- function(step) {
     )
   })
 }
+
+test_seed <- function(step, data = NULL) {
+  data <- data %||% circle_example
+
+  step_with_seed <- function(seed = sample.int(10^5, 1)) {
+    recipe(~ ., data = data) %>%
+      step(class, seed = seed) %>%
+      prep(training = data, retain = TRUE) %>%
+      juice() %>%
+      pull(x)
+  }
+
+  test_that("`seed` produces identical sampling", {
+    run_1 <- step_with_seed(seed = 1234)
+    run_2 <- step_with_seed(seed = 1234)
+    run_3 <- step_with_seed(seed = 12345)
+
+
+    expect_equal(run_1, run_2)
+    expect_false(identical(run_1, run_3))
+  })
+}

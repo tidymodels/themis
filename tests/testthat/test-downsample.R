@@ -58,25 +58,6 @@ test_that("ratio value", {
   expect_equal(te_xtab, og_xtab)
 })
 
-test_that("`seed` produces identical sampling", {
-
-  downsample_with_seed <- function(rec, seed = sample.int(10^5, 1)) {
-    rec %>%
-      step_downsample(Species, seed = seed) %>%
-      prep(training = iris2, retain = TRUE) %>%
-      juice() %>%
-      pull(Petal.Width)
-  }
-
-  petal_width_1 <- downsample_with_seed(rec, seed = 1234)
-  petal_width_2 <- downsample_with_seed(rec, seed = 1234)
-  petal_width_3 <- downsample_with_seed(rec, seed = 12345)
-
-  expect_equal(petal_width_1, petal_width_2)
-  expect_false(identical(petal_width_1, petal_width_3))
-})
-
-
 test_that("ratio deprecation", {
 
   expect_message(
@@ -108,3 +89,4 @@ test_that("tunable", {
 test_printing(step_downsample)
 test_bad_data(step_downsample)
 test_no_skipping(step_downsample)
+test_seed(step_downsample)

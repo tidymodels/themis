@@ -82,24 +82,6 @@ test_that("all_neighbors argument", {
   expect_equal(te_xtab, og_xtab)
 })
 
-test_that("`seed` produces identical sampling", {
-
-  bsmote_with_seed <- function(rec, seed = sample.int(10^5, 1)) {
-    rec %>%
-      step_bsmote(Species, seed = seed) %>%
-      prep(training = iris2, retain = TRUE) %>%
-      juice() %>%
-      pull(Petal.Width)
-  }
-
-  petal_width_1 <- bsmote_with_seed(rec, seed = 1234)
-  petal_width_2 <- bsmote_with_seed(rec, seed = 1234)
-  petal_width_3 <- bsmote_with_seed(rec, seed = 12345)
-
-  expect_equal(petal_width_1, petal_width_2)
-  expect_false(identical(petal_width_1, petal_width_3))
-})
-
 test_that("all minority classes are upsampled", {
   iris3 <- iris[-c(51:75, 101:110), ]
 
@@ -127,3 +109,4 @@ test_bad_data(step_bsmote)
 test_no_skipping(step_bsmote)
 test_character_error(step_bsmote)
 test_na_response(step_bsmote)
+test_seed(step_bsmote)

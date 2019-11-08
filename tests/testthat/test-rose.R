@@ -65,24 +65,6 @@ test_that("minority_prop value", {
   expect_lt(tr_xtab1[["setosa"]], tr_xtab2[["setosa"]])
 })
 
-test_that("`seed` produces identical sampling", {
-
-  rose_with_seed <- function(rec, seed = sample.int(10^5, 1)) {
-    rec %>%
-      step_rose(Species, seed = seed) %>%
-      prep(training = iris2, retain = TRUE) %>%
-      juice() %>%
-      pull(Petal.Width)
-  }
-
-  petal_width_1 <- rose_with_seed(rec, seed = 1234)
-  petal_width_2 <- rose_with_seed(rec, seed = 1234)
-  petal_width_3 <- rose_with_seed(rec, seed = 12345)
-
-  expect_equal(petal_width_1, petal_width_2)
-  expect_false(identical(petal_width_1, petal_width_3))
-})
-
 test_that("factors with more than 2 levels", {
   df_char <- data.frame(x = factor(1:3),
                         y = c(1:3),
@@ -101,3 +83,4 @@ test_bad_data(step_rose)
 test_no_skipping(step_rose)
 test_character_error(step_rose)
 test_na_response(step_rose)
+test_seed(step_rose)
