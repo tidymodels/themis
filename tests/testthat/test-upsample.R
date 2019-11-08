@@ -16,20 +16,7 @@ test_that("basic usage", {
   rec1 <- rec %>%
     step_upsample(tidyselect::matches("Species$"), id = "")
 
-  untrained <- tibble(
-    terms = "tidyselect::matches(\"Species$\")", id = ""
-  )
-
-  expect_equivalent(untrained, tidy(rec1, number = 1))
-
   rec1_p <- prep(rec1, training = iris2, retain = TRUE)
-
-  trained <- tibble(
-    terms = "Species",
-    id = ""
-  )
-
-  expect_equal(trained, tidy(rec1_p, number = 1))
 
   tr_xtab <- table(juice(rec1_p)$Species, useNA = "always")
   te_xtab <- table(bake(rec1_p, new_data = iris2)$Species, useNA = "always")
@@ -90,3 +77,4 @@ test_printing(step_upsample)
 test_bad_data(step_upsample)
 test_no_skipping(step_upsample)
 test_seed(step_upsample)
+test_tidy(step_upsample)

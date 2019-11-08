@@ -112,3 +112,26 @@ test_seed <- function(step, data = NULL) {
     expect_false(identical(run_1, run_3))
   })
 }
+
+test_tidy <- function(step) {
+
+  rec <- recipe(~ ., data = circle_example) %>%
+    step(class, id = "")
+
+  rec_p <- prep(rec, training = circle_example, retain = TRUE)
+
+  untrained <- tibble(
+    terms = "class",
+    id = ""
+  )
+
+  trained <- tibble(
+    terms = "class",
+    id = ""
+  )
+
+  test_that("basic usage", {
+    expect_equivalent(untrained, tidy(rec, number = 1))
+    expect_equal(trained, tidy(rec_p, number = 1))
+  })
+}

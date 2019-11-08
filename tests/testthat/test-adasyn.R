@@ -12,22 +12,7 @@ test_that("basic usage", {
   rec1 <- rec %>%
     step_adasyn(Status, id = "")
 
-  untrained <- tibble(
-    terms = "Status",
-    id = ""
-  )
-
-  expect_equivalent(untrained, tidy(rec1, number = 1))
-
   rec1_p <- prep(rec1, training = credit_data2, retain = TRUE)
-
-  trained <- tibble(
-    terms = "Status",
-    id = ""
-  )
-
-  expect_equal(trained, tidy(rec1_p, number = 1))
-
 
   tr_xtab <- table(juice(rec1_p)$Status, useNA = "no")
   te_xtab <- table(bake(rec1_p, new_data = credit_data2)$Status, useNA = "no")
@@ -54,3 +39,4 @@ test_no_skipping(step_adasyn)
 test_character_error(step_adasyn)
 test_na_response(step_adasyn)
 test_seed(step_adasyn)
+test_tidy(step_adasyn)

@@ -16,22 +16,7 @@ test_that("basic usage", {
   rec1 <- rec %>%
     step_rose(Species, id = "")
 
-  untrained <- tibble(
-    terms = "Species",
-    id = ""
-  )
-
-  expect_equivalent(untrained, tidy(rec1, number = 1))
-
   rec1_p <- prep(rec1, training = iris2, retain = TRUE)
-
-  trained <- tibble(
-    terms = "Species",
-    id = ""
-  )
-
-  expect_equal(trained, tidy(rec1_p, number = 1))
-
 
   tr_xtab <- table(juice(rec1_p)$Species, useNA = "no")
   te_xtab <- table(bake(rec1_p, new_data = iris2)$Species, useNA = "no")
@@ -84,3 +69,4 @@ test_no_skipping(step_rose)
 test_character_error(step_rose)
 test_na_response(step_rose)
 test_seed(step_rose)
+test_tidy(step_rose)
