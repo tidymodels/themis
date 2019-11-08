@@ -56,8 +56,6 @@ test_that("ratio deprecation", {
   expect_equal(new_rec$steps[[1]]$over_ratio, 2)
 })
 
-
-
 test_that("tunable", {
   rec <-
     recipe(~ ., data = iris) %>%

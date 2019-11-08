@@ -65,6 +65,21 @@ test_that("all minority classes are upsampled", {
   expect_equal(as.numeric(table(out$Species)), c(50, 50, 50))
 })
 
+test_that("tunable", {
+  rec <-
+    recipe(~ ., data = iris) %>%
+    step_smote(all_predictors(), under_ratio = 1)
+  rec_param <- tunable.step_smote(rec$steps[[1]])
+  expect_equal(rec_param$name, c("over_ratio", "neighbors"))
+  expect_true(all(rec_param$source == "recipe"))
+  expect_true(is.list(rec_param$call_info))
+  expect_equal(nrow(rec_param), 2)
+  expect_equal(
+    names(rec_param),
+    c("name", "call_info", "source", "component", "component_id")
+  )
+})
+
 test_printing(step_smote)
 test_bad_data(step_smote)
 test_no_skipping(step_smote)

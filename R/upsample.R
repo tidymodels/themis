@@ -208,7 +208,6 @@ bake.step_upsample <- function(object, new_data, ...) {
   as_tibble(new_data)
 }
 
-
 print.step_upsample <-
   function(x, width = max(20, options()$width - 26), ...) {
     cat("Up-sampling based on ", sep = "")
