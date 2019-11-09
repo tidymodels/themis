@@ -29,22 +29,6 @@ test_that("basic usage", {
   expect_warning(prep(rec1, training = iris2), NA)
 })
 
-test_that("ratio value", {
-  rec2 <- rec %>%
-    step_upsample(tidyselect::matches("Species$"), ratio = .25)
-
-  rec2_p <- prep(rec2, training = iris2, retain = TRUE)
-
-  tr_xtab <- table(juice(rec2_p)$Species, useNA = "always")
-  te_xtab <- table(bake(rec2_p, new_data = iris2)$Species, useNA = "always")
-  og_xtab <- table(iris2$Species, useNA = "always")
-
-  expect_equal(min(tr_xtab), 10)
-  expect_equal(sum(is.na(juice(rec2_p)$Species)),
-               sum(is.na(iris2$Species)))
-  expect_equal(te_xtab, og_xtab)
-})
-
 test_that("ratio deprecation", {
 
   expect_message(
@@ -76,3 +60,4 @@ test_bad_data(step_upsample)
 test_no_skipping(step_upsample)
 test_seed(step_upsample)
 test_tidy(step_upsample)
+test_over_ratio(step_upsample)

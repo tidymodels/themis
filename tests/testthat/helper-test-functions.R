@@ -156,3 +156,24 @@ test_under_ratio <- function(step) {
       )
   })
 }
+
+test_over_ratio <- function(step, ...) {
+  res1 <- recipe(~ ., data = circle_example) %>%
+    step(class, ...) %>%
+    prep() %>%
+    juice()
+
+  res1.5 <- recipe(~ ., data = circle_example) %>%
+    step(class, over_ratio = 0.5) %>%
+    prep() %>%
+    juice()
+
+  test_that("ratio value", {
+
+    expect_true(all(table(res1$class) == max(table(circle_example$class))))
+    expect_equal(
+      sort(as.numeric(table(res1.5$class))),
+      max(table(circle_example$class)) * c(0.5, 1)
+    )
+  })
+}

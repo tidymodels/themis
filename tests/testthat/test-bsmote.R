@@ -36,21 +36,6 @@ test_that("majority classes are ignored if there is more than 1", {
   expect_true(all(max(table(rec1_p2$Species)) <= 50))
 })
 
-test_that("over_ratio value", {
-  rec2 <- rec %>%
-    step_bsmote(tidyselect::matches("Species$"), over_ratio = 0.7)
-
-  rec2_p <- prep(rec2, training = iris2, retain = TRUE)
-
-  tr_xtab <- table(juice(rec2_p)$Species, useNA = "no")
-  te_xtab <- table(bake(rec2_p, new_data = iris2)$Species, useNA = "no")
-  og_xtab <- table(iris2$Species, useNA = "no")
-
-  expect_equal(max(tr_xtab) * 0.7, min(tr_xtab))
-
-  expect_equal(te_xtab, og_xtab)
-})
-
 test_that("all_neighbors argument", {
   rec2 <- rec %>%
     step_bsmote(tidyselect::matches("Species$"), all_neighbors = TRUE)
@@ -110,3 +95,6 @@ test_character_error(step_bsmote)
 test_na_response(step_bsmote)
 test_seed(step_bsmote)
 test_tidy(step_bsmote)
+test_over_ratio(step_bsmote)
+test_over_ratio(step_bsmote, all_neighbors = TRUE)
+
