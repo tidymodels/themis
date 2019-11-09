@@ -4,27 +4,17 @@ library(dplyr)
 
 context("Down-sampling")
 
-iris2 <- iris[-c(1:45), ]
-iris2$Species[seq(6, 96, by = 5)] <- NA
-iris2$Species2 <- sample(iris2$Species)
-iris2$Species3 <- as.character(sample(iris2$Species))
-
-rec <- recipe(~ ., data = iris2)
-
 test_that("ratio deprecation", {
-
   expect_message(
-    new_rec <-
-      rec %>%
-      step_downsample(tidyselect::matches("Species$"), ratio = 2),
+    new_rec <- recipe(~ ., data = circle_example) %>%
+      step_downsample(class, ratio = 2),
     "argument is now deprecated"
   )
   expect_equal(new_rec$steps[[1]]$under_ratio, 2)
 })
 
 test_that("tunable", {
-  rec <-
-    recipe(~ ., data = iris) %>%
+  rec <- recipe(~ ., data = iris) %>%
     step_downsample(all_predictors(), under_ratio = 1)
   rec_param <- tunable.step_downsample(rec$steps[[1]])
   expect_equal(rec_param$name, c("under_ratio"))

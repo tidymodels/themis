@@ -4,13 +4,6 @@ library(dplyr)
 
 context("tomek")
 
-iris2 <- iris
-iris2$Species <- factor(iris2$Species == "setosa",
-                        levels = c(TRUE, FALSE),
-                        labels = c("setosa", "not setosa"))
-
-rec <- recipe(~ ., data = iris2)
-
 test_that("factors with more than 2 levels", {
   df_char <- data.frame(x = factor(1:3),
                         y = c(1:3),

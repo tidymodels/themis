@@ -5,29 +5,23 @@ set.seed(1234)
 
 context("ROSE")
 
-iris2 <- iris
-iris2$Species <- factor(iris2$Species == "setosa",
-                        levels = c(TRUE, FALSE),
-                        labels = c("setosa", "not setosa"))
-
-rec <- recipe(~ ., data = iris2)
-
 test_that("minority_prop value", {
+  rec <- recipe(~ ., data = circle_example)
   rec21 <- rec %>%
-    step_rose(tidyselect::matches("Species$"), minority_prop = 0.1)
+    step_rose(class, minority_prop = 0.1)
 
   rec22 <- rec %>%
-    step_rose(tidyselect::matches("Species$"), minority_prop = 0.2)
+    step_rose(class, minority_prop = 0.2)
 
-  rec21_p <- prep(rec21, training = iris2, retain = TRUE)
-  rec22_p <- prep(rec22, training = iris2, retain = TRUE)
+  rec21_p <- prep(rec21, training = circle_example)
+  rec22_p <- prep(rec22, training = circle_example)
 
-  tr_xtab1 <- table(juice(rec21_p)$Species, useNA = "no")
-  tr_xtab2 <- table(juice(rec22_p)$Species, useNA = "no")
+  tr_xtab1 <- table(juice(rec21_p)$class, useNA = "no")
+  tr_xtab2 <- table(juice(rec22_p)$class, useNA = "no")
 
   expect_equal(sum(tr_xtab1), sum(tr_xtab2))
 
-  expect_lt(tr_xtab1[["setosa"]], tr_xtab2[["setosa"]])
+  expect_lt(tr_xtab1[["Circle"]], tr_xtab2[["Circle"]])
 })
 
 test_that("factors with more than 2 levels", {

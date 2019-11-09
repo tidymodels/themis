@@ -6,30 +6,14 @@ set.seed(1234)
 
 context("bsmote")
 
-iris2 <- iris[-c(51:75), ]
-
-rec <- recipe(~ ., data = iris2)
-
 test_that("majority classes are ignored if there is more than 1", {
-  rec1_p2 <- rec %>%
+  iris2 <- iris[-c(51:75), ]
+  rec1_p2 <- recipe(~ ., data = iris2) %>%
     step_bsmote(Species, id = "") %>%
     prep() %>%
     juice()
 
   expect_true(all(max(table(rec1_p2$Species)) <= 50))
-})
-
-test_that("all_neighbors argument", {
-  rec2 <- rec %>%
-    step_bsmote(tidyselect::matches("Species$"), all_neighbors = TRUE)
-
-  rec2_p <- prep(rec2, training = iris2, retain = TRUE)
-
-  tr_xtab <- table(juice(rec2_p)$Species, useNA = "no")
-  te_xtab <- table(bake(rec2_p, new_data = iris2)$Species, useNA = "no")
-  og_xtab <- table(iris2$Species, useNA = "no")
-
-  expect_equal(te_xtab, og_xtab)
 })
 
 test_that("all minority classes are upsampled", {

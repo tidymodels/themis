@@ -6,12 +6,7 @@ set.seed(1234)
 
 context("nearmiss")
 
-iris2 <- iris[-c(51:75), ]
-
-rec <- recipe(~ ., data = iris2)
-
 test_that("minority classes are ignored if there is more than 1", {
-
   rec1_p2 <- recipe(~., data = iris[-c(1:25, 51:75), ]) %>%
     step_nearmiss(Species, id = "") %>%
     prep() %>%
