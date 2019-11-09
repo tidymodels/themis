@@ -135,3 +135,24 @@ test_tidy <- function(step) {
     expect_equal(trained, tidy(rec_p, number = 1))
   })
 }
+
+test_under_ratio <- function(step) {
+  res1 <- recipe(~ ., data = circle_example) %>%
+    step(class) %>%
+    prep() %>%
+    juice()
+
+  res1.5 <- recipe(~ ., data = circle_example) %>%
+    step(class, under_ratio = 1.5) %>%
+    prep() %>%
+    juice()
+
+  test_that("ratio value", {
+
+    expect_true(all(table(res1$class) == min(table(circle_example$class))))
+    expect_equal(
+      sort(as.numeric(table(res1.5$class))),
+      min(table(circle_example$class)) * c(1, 1.5)
+      )
+  })
+}
