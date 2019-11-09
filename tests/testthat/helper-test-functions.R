@@ -195,7 +195,7 @@ test_basic_usage <- function(step, ...) {
 }
 
 test_2_class_only <- function(step) {
-  test_that("factors with more than 2 levels", {
+  test_that("only except 2 classes", {
     df_char <- data.frame(x = factor(1:3),
                           stringsAsFactors = FALSE)
 
@@ -204,6 +204,20 @@ test_2_class_only <- function(step) {
         step(x) %>%
         prep(),
       "only have 2 levels."
+    )
+  })
+}
+
+test_multiclass <- function(step, data = NULL) {
+
+  data <- data %||%
+    rename(iris, class = Species)
+  test_that("allows multi-class", {
+    expect_error(
+      recipe(~ ., data = data) %>%
+        step(class) %>%
+        prep(),
+      NA
     )
   })
 }
