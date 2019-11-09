@@ -11,26 +11,6 @@ iris2$Species <- factor(iris2$Species == "setosa",
 
 rec <- recipe(~ ., data = iris2)
 
-test_that("basic usage", {
-  rec1 <- rec %>%
-    step_tomek(Species, id = "")
-
-  rec1_p <- prep(rec1, training = iris2, retain = TRUE)
-
-  tr_xtab <- table(juice(rec1_p)$Species, useNA = "no")
-  te_xtab <- table(bake(rec1_p, new_data = iris2)$Species, useNA = "no")
-  og_xtab <- table(iris2$Species, useNA = "no")
-
-  expect_equal(
-    sum(tr_xtab),
-    sum(og_xtab)
-  )
-
-  expect_equal(sort(te_xtab), sort(og_xtab))
-
-  expect_warning(prep(rec1, training = iris2), NA)
-})
-
 test_that("factors with more than 2 levels", {
   df_char <- data.frame(x = factor(1:3),
                         y = c(1:3),
@@ -59,6 +39,7 @@ test_that("tunable", {
   )
 })
 
+test_basic_usage(step_tomek)
 test_printing(step_tomek)
 test_bad_data(step_tomek)
 test_no_skipping(step_tomek)

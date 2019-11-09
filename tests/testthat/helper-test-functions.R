@@ -177,3 +177,19 @@ test_over_ratio <- function(step, ...) {
     )
   })
 }
+
+test_basic_usage <- function(step, ...) {
+  rec1 <- recipe(~ ., data = circle_example) %>%
+    step(class, id = "", ...)
+
+  rec1_p <- prep(rec1)
+
+  te_xtab <- table(bake(rec1_p, new_data = circle_example)$class, useNA = "no")
+  og_xtab <- table(circle_example$class, useNA = "no")
+
+  test_that("basic usage", {
+    expect_equal(sort(te_xtab), sort(og_xtab))
+
+    expect_warning(prep(rec1, training = circle_example), NA)
+  })
+}

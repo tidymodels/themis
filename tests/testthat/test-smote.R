@@ -8,28 +8,6 @@ iris2 <- iris[-c(1:30), ]
 
 rec <- recipe(~ ., data = iris2)
 
-test_that("basic usage", {
-  rec1 <- rec %>%
-    step_smote(Species, id = "")
-
-  rec1_p <- prep(rec1, training = iris2, retain = TRUE)
-
-  trained <- tibble(
-    terms = "Species",
-    id = ""
-  )
-
-  tr_xtab <- table(juice(rec1_p)$Species, useNA = "no")
-  te_xtab <- table(bake(rec1_p, new_data = iris2)$Species, useNA = "no")
-  og_xtab <- table(iris2$Species, useNA = "no")
-
-  expect_length(unique(tr_xtab[["setosa"]]), 1)
-
-  expect_equal(te_xtab, og_xtab)
-
-  expect_warning(prep(rec1, training = iris2), NA)
-})
-
 test_that("majority classes are ignored if there is more than 1", {
   rec1_p2 <- rec %>%
     step_smote(Species, id = "") %>%
@@ -65,6 +43,7 @@ test_that("tunable", {
   )
 })
 
+test_basic_usage(step_smote)
 test_printing(step_smote)
 test_bad_data(step_smote)
 test_no_skipping(step_smote)

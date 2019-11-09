@@ -12,23 +12,6 @@ iris2$Species3 <- as.character(sample(iris2$Species))
 
 rec <- recipe(~ ., data = iris2)
 
-test_that("basic usage", {
-  rec1 <- rec %>%
-    step_upsample(tidyselect::matches("Species$"), id = "")
-
-  rec1_p <- prep(rec1, training = iris2, retain = TRUE)
-
-  tr_xtab <- table(juice(rec1_p)$Species, useNA = "always")
-  te_xtab <- table(bake(rec1_p, new_data = iris2)$Species, useNA = "always")
-  og_xtab <- table(iris2$Species, useNA = "always")
-
-  expect_equal(max(tr_xtab), max(og_xtab))
-  expect_equal(sum(is.na(juice(rec1_p)$Species)), max(og_xtab))
-  expect_equal(te_xtab, og_xtab)
-
-  expect_warning(prep(rec1, training = iris2), NA)
-})
-
 test_that("ratio deprecation", {
 
   expect_message(
@@ -55,6 +38,7 @@ test_that("tunable", {
   )
 })
 
+test_basic_usage(step_upsample)
 test_printing(step_upsample)
 test_bad_data(step_upsample)
 test_no_skipping(step_upsample)

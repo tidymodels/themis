@@ -10,23 +10,6 @@ iris2 <- iris[-c(51:75), ]
 
 rec <- recipe(~ ., data = iris2)
 
-test_that("basic usage", {
-  rec1 <- rec %>%
-    step_bsmote(Species, id = "")
-
-  rec1_p <- prep(rec1, training = iris2, retain = TRUE)
-
-  tr_xtab <- table(juice(rec1_p)$Species, useNA = "no")
-  te_xtab <- table(bake(rec1_p, new_data = iris2)$Species, useNA = "no")
-  og_xtab <- table(iris2$Species, useNA = "no")
-
-  expect_length(unique(tr_xtab[["setosa"]]), 1)
-
-  expect_equal(te_xtab, og_xtab)
-
-  expect_warning(prep(rec1, training = iris2), NA)
-})
-
 test_that("majority classes are ignored if there is more than 1", {
   rec1_p2 <- rec %>%
     step_bsmote(Species, id = "") %>%
@@ -86,8 +69,8 @@ test_that("tunable", {
   )
 })
 
-
-
+test_basic_usage(step_bsmote)
+test_basic_usage(step_bsmote, all_neighbors = TRUE)
 test_printing(step_bsmote)
 test_bad_data(step_bsmote)
 test_no_skipping(step_bsmote)
@@ -97,4 +80,3 @@ test_seed(step_bsmote)
 test_tidy(step_bsmote)
 test_over_ratio(step_bsmote)
 test_over_ratio(step_bsmote, all_neighbors = TRUE)
-

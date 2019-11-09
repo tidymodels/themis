@@ -12,26 +12,6 @@ iris2$Species <- factor(iris2$Species == "setosa",
 
 rec <- recipe(~ ., data = iris2)
 
-test_that("basic usage", {
-  rec1 <- rec %>%
-    step_rose(Species, id = "")
-
-  rec1_p <- prep(rec1, training = iris2, retain = TRUE)
-
-  tr_xtab <- table(juice(rec1_p)$Species, useNA = "no")
-  te_xtab <- table(bake(rec1_p, new_data = iris2)$Species, useNA = "no")
-  og_xtab <- table(iris2$Species, useNA = "no")
-
-  expect_equal(
-    sum(tr_xtab),
-    max(og_xtab) * 2
-  )
-
-  expect_equal(sort(te_xtab), sort(og_xtab))
-
-  expect_warning(prep(rec1, training = iris2), NA)
-})
-
 test_that("minority_prop value", {
   rec21 <- rec %>%
     step_rose(tidyselect::matches("Species$"), minority_prop = 0.1)
@@ -78,6 +58,7 @@ test_that("tunable", {
   )
 })
 
+test_basic_usage(step_rose)
 test_printing(step_rose)
 test_bad_data(step_rose)
 test_no_skipping(step_rose)
