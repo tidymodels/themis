@@ -24,19 +24,6 @@ test_that("minority_prop value", {
   expect_lt(tr_xtab1[["Circle"]], tr_xtab2[["Circle"]])
 })
 
-test_that("factors with more than 2 levels", {
-  df_char <- data.frame(x = factor(1:3),
-                        y = c(1:3),
-                        stringsAsFactors = FALSE)
-
-  expect_error(
-    recipe(~ ., data = df_char) %>%
-      step_rose(x) %>%
-      prep(),
-    "only have 2 levels."
-  )
-})
-
 test_that("tunable", {
   rec <-
     recipe(~ ., data = iris) %>%
@@ -60,3 +47,4 @@ test_character_error(step_rose)
 test_na_response(step_rose)
 test_seed(step_rose)
 test_tidy(step_rose)
+test_2_class_only(step_rose)

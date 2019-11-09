@@ -11,3 +11,8 @@ check_na <- function(data, step) {
          paste(names(na_cols), collapse = ", "), ".", call. = FALSE)
   }
 }
+
+check_2_levels_only <- function(data, col_name) {
+  if (length(levels(data[[col_name]])) != 2)
+    stop("`", col_name, "`` must only have 2 levels.", call. = FALSE)
+}

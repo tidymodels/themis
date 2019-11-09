@@ -4,19 +4,6 @@ library(dplyr)
 
 context("tomek")
 
-test_that("factors with more than 2 levels", {
-  df_char <- data.frame(x = factor(1:3),
-                        y = c(1:3),
-                        stringsAsFactors = FALSE)
-
-  expect_error(
-    recipe(~ ., data = df_char) %>%
-      step_tomek(x) %>%
-      prep(),
-    "only have 2 levels."
-  )
-})
-
 test_that("tunable", {
   rec <-
     recipe(~ ., data = iris) %>%
@@ -39,3 +26,4 @@ test_no_skipping(step_tomek)
 test_character_error(step_tomek)
 test_na_response(step_tomek)
 test_tidy(step_tomek)
+test_2_class_only(step_tomek)

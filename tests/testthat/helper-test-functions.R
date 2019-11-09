@@ -193,3 +193,17 @@ test_basic_usage <- function(step, ...) {
     expect_warning(prep(rec1, training = circle_example), NA)
   })
 }
+
+test_2_class_only <- function(step) {
+  test_that("factors with more than 2 levels", {
+    df_char <- data.frame(x = factor(1:3),
+                          stringsAsFactors = FALSE)
+
+    expect_error(
+      recipe(~ ., data = df_char) %>%
+        step(x) %>%
+        prep(),
+      "only have 2 levels."
+    )
+  })
+}
