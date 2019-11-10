@@ -6,16 +6,6 @@ set.seed(1234)
 
 context("bsmote")
 
-test_that("majority classes are ignored if there is more than 1", {
-  iris2 <- iris[-c(51:75), ]
-  rec1_p2 <- recipe(~ ., data = iris2) %>%
-    step_bsmote(Species, id = "") %>%
-    prep() %>%
-    juice()
-
-  expect_true(all(max(table(rec1_p2$Species)) <= 50))
-})
-
 test_that("all minority classes are upsampled", {
   iris3 <- iris[-c(51:75, 101:110), ]
 
@@ -65,3 +55,5 @@ test_tidy(step_bsmote)
 test_over_ratio(step_bsmote)
 test_over_ratio(step_bsmote, all_neighbors = TRUE)
 test_multiclass(step_bsmote)
+test_multi_majority(step_bsmote)
+test_multi_majority(step_bsmote, all_neighbors = TRUE)

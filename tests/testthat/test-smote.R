@@ -8,15 +8,6 @@ iris2 <- iris[-c(1:30), ]
 
 rec <- recipe(~ ., data = iris2)
 
-test_that("majority classes are ignored if there is more than 1", {
-  rec1_p2 <- rec %>%
-    step_smote(Species, id = "") %>%
-    prep() %>%
-    juice()
-
-  expect_true(all(max(table(rec1_p2$Species)) <= 50))
-})
-
 test_that("all minority classes are upsampled", {
   iris3 <- iris[-c(1:25, 51:75), ]
 
@@ -53,3 +44,4 @@ test_seed(step_smote)
 test_tidy(step_smote)
 test_over_ratio(step_smote)
 test_multiclass(step_smote)
+test_multi_majority(step_smote)

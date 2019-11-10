@@ -180,7 +180,7 @@ test_over_ratio <- function(step, ...) {
 
 test_basic_usage <- function(step, ...) {
   rec1 <- recipe(~ ., data = circle_example) %>%
-    step(class, id = "", ...)
+    step(class, ...)
 
   rec1_p <- prep(rec1)
 
@@ -219,5 +219,17 @@ test_multiclass <- function(step, data = NULL) {
         prep(),
       NA
     )
+  })
+}
+
+test_multi_majority <- function(step, ...) {
+  browser()
+  rec1_p2 <- recipe(~ ., data = iris[-c(51:75), ]) %>%
+    step(Species, ...) %>%
+    prep() %>%
+    juice()
+
+  test_that("majority classes are ignored if there is more than 1", {
+    expect_true(all(max(table(rec1_p2$Species)) <= 50))
   })
 }
