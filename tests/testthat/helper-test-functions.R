@@ -223,7 +223,6 @@ test_multiclass <- function(step, data = NULL) {
 }
 
 test_multi_majority <- function(step, ...) {
-  browser()
   rec1_p2 <- recipe(~ ., data = iris[-c(51:75), ]) %>%
     step(Species, ...) %>%
     prep() %>%
@@ -231,5 +230,16 @@ test_multi_majority <- function(step, ...) {
 
   test_that("majority classes are ignored if there is more than 1", {
     expect_true(all(max(table(rec1_p2$Species)) <= 50))
+  })
+}
+
+test_multi_minority <- function(step, ...) {
+  rec1_p2 <- recipe(~., data = iris[-c(1:25, 51:75), ]) %>%
+    step(Species, ...) %>%
+    prep() %>%
+    juice()
+
+  test_that("minority classes are ignored if there is more than 1", {
+    expect_true(all(max(table(rec1_p2$Species)) == 25))
   })
 }
