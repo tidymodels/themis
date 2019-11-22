@@ -39,7 +39,7 @@ adasyn <- function(df, var, k = 5,  over_ratio = 1) {
 
 adasyn_sampler <- function(data, k, n_samples, smote_ids) {
   ids <- RANN::nn2(data, k = k + 1, searchtype = "priority")$nn.idx
-  index_len <- tabulate(smote_ids)
+  index_len <- tabulate(smote_ids, NROW(data))
   out <- matrix(0, nrow = n_samples, ncol = ncol(data))
   sampleids <- sample.int(k, n_samples, TRUE)
   runif_ids <- stats::runif(n_samples)

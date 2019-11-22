@@ -146,9 +146,8 @@ prep.step_rose <- function(x, training, info = NULL, ...) {
     stop("Please select a single factor variable.", call. = FALSE)
   if (!is.factor(training[[col_name]]))
     stop(col_name, " should be a factor variable.", call. = FALSE)
-  if (length(levels(training[[col_name]])) != 2)
-    stop(col_name, " must only have 2 levels.", call. = FALSE)
 
+  check_2_levels_only(training, col_name)
   check_type(select(training, -col_name), TRUE)
 
   step_rose_new(
