@@ -17,7 +17,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Emil Hvitfeldt \email{emilhhvitfeldt@gmail.com} (0000-0002-0679-1945)
+\strong{Maintainer}: Emil Hvitfeldt \email{emilhhvitfeldt@gmail.com} (\href{https://orcid.org/0000-0002-0679-1945}{ORCID})
 
 }
 \keyword{internal}

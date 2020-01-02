@@ -42,6 +42,7 @@
 #' @export
 #' @examples
 #' library(recipes)
+#' library(modeldata)
 #' data(okc)
 #'
 #' sort(table(okc$Class, useNA = "always"))

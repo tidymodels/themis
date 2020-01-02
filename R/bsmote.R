@@ -63,6 +63,8 @@
 #' @concept subsampling
 #' @export
 #' @examples
+#' library(recipes)
+#' library(modeldata)
 #' data(credit_data)
 #'
 #' sort(table(credit_data$Status, useNA = "always"))

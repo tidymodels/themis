@@ -56,6 +56,8 @@
 #' @concept subsampling
 #' @export
 #' @examples
+#' library(recipes)
+#' library(modeldata)
 #' data(okc)
 #'
 #' orig <- table(okc$diet, useNA = "always")
