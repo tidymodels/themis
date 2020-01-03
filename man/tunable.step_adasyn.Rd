@@ -7,7 +7,6 @@
 \alias{tunable.step_nearmiss}
 \alias{tunable.step_rose}
 \alias{tunable.step_smote}
-\alias{tunable.step_tomek}
 \alias{tunable.step_upsample}
 \title{tunable methods for themis}
 \usage{
@@ -22,8 +21,6 @@ tunable.step_nearmiss(x, ...)
 tunable.step_rose(x, ...)
 
 tunable.step_smote(x, ...)
-
-tunable.step_tomek(x, ...)
 
 tunable.step_upsample(x, ...)
 }

@@ -96,20 +96,6 @@ tunable.step_smote <- function(x, ...) {
 
 #' @export
 #' @rdname tunable.step_adasyn
-tunable.step_tomek <- function(x, ...) {
-  tibble::tibble(
-    name = c("neighbors"),
-    call_info = list(
-      list(pkg = "dials", fun = "neighbors", range = c(1, 10))
-    ),
-    source = "recipe",
-    component = "step_tomek",
-    component_id = x$id
-  )
-}
-
-#' @export
-#' @rdname tunable.step_adasyn
 tunable.step_upsample <- function(x, ...) {
   tibble::tibble(
     name = c("over_ratio"),
