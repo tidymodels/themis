@@ -38,7 +38,8 @@ bsmote <- function(df, var, k = 5,  over_ratio = 1, all_neighbors = FALSE) {
     tmp_df[[var]] <- min_names[i]
     out_dfs[[i]] <- tmp_df
   }
-  final <- rbind(do.call(rbind, out_dfs), df)
+
+  final <- rbind(df, do.call(rbind, out_dfs))
   final[[var]] <- factor(final[[var]])
   rownames(final) <- NULL
   final

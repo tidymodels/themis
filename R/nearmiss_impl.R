@@ -18,7 +18,6 @@ nearmiss <- function(df, var, k = 5, under_ratio = 1) {
   out_dfs[[i + 1]] <- df[!(df[[var]] %in% names(classes)), ]
 
   final <- do.call(rbind, out_dfs)
-  final <- final[sample.int(nrow(final)), ]
   rownames(final) <- NULL
   final
 }

@@ -39,7 +39,6 @@ smote <- function(df, var, k = 5, over_ratio = 1) {
   }
 
   final <- do.call(rbind, data)
-  final <- final[sample.int(nrow(final)), ]
   rownames(final) <- NULL
   final
 }
