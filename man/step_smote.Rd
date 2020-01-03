@@ -85,6 +85,8 @@ The parameter \code{neighbors} controls how many of these neighbours are used.
 All columns in the data are sampled and returned by \code{\link[=juice]{juice()}}
 and \code{\link[=bake]{bake()}}.
 
+All columns used in this step must be numeric with no missing data.
+
 When used in modeling, users should strongly consider using the
 option \code{skip = TRUE} so that the extra sampling is \emph{not}
 conducted outside of the training set.
