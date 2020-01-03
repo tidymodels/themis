@@ -17,7 +17,7 @@
 #'  be populated (eventually) by the `...` selectors.
 #' @param neighbors An integer. Number of nearest neighbours that are used
 #'  to generate the new examples of the minority class.
-#' @param all_neighbors Type of two borderline-SMOTE method. Defaults to 1.
+#' @param all_neighbors Type of two borderline-SMOTE method. Defaults to FALSE.
 #'  See details.
 #' @param seed An integer that will be used as the seed when
 #' smote-ing.

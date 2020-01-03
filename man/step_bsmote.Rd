@@ -50,7 +50,7 @@ half as many rows than the majority level.}
 \item{neighbors}{An integer. Number of nearest neighbours that are used
 to generate the new examples of the minority class.}
 
-\item{all_neighbors}{Type of two borderline-SMOTE method. Defaults to 1.
+\item{all_neighbors}{Type of two borderline-SMOTE method. Defaults to FALSE.
 See details.}
 
 \item{skip}{A logical. Should the step be skipped when the
