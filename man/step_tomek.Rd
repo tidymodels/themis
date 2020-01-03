@@ -66,6 +66,9 @@ step that removes majority class instances of tomek links. Using
 The factor variable used to balance around must only have 2 levels. All
 other variables must be numerics with no missing data.
 
+A tomek link is defined as a pair of points from different classes and are
+each others nearest neighbors.
+
 All columns in the data are sampled and returned by \code{\link[=juice]{juice()}}
 and \code{\link[=bake]{bake()}}.
 
