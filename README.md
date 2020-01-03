@@ -13,6 +13,8 @@ status](https://www.r-pkg.org/badges/version/themis)](https://CRAN.R-project.org
 status](https://travis-ci.org/EmilHvitfeldt/themis.svg?branch=master)](https://travis-ci.org/EmilHvitfeldt/themis)
 [![Codecov test
 coverage](https://codecov.io/gh/EmilHvitfeldt/themis/branch/master/graph/badge.svg)](https://codecov.io/gh/EmilHvitfeldt/themis?branch=master)
+[![Travis build
+status](https://travis-ci.org/tidymodels/themis.svg?branch=master)](https://travis-ci.org/tidymodels/themis)
 <!-- badges: end -->
 
 **themis** contain extra steps for the
