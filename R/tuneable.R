@@ -13,7 +13,7 @@ tunable.step_adasyn <- function(x, ...) {
     name = c("over_ratio", "neighbors"),
     call_info = list(
       list(pkg = "dials", fun = "over_ratio"),
-      list(pkg = "dials", fun = "neighbors")
+      list(pkg = "dials", fun = "neighbors", range = c(1, 10))
     ),
     source = "recipe",
     component = "step_adasyn",
@@ -57,7 +57,7 @@ tunable.step_nearmiss <- function(x, ...) {
     name = c("under_ratio", "neighbors"),
     call_info = list(
       list(pkg = "dials", fun = "under_ratio"),
-      list(pkg = "dials", fun = "neighbors")
+      list(pkg = "dials", fun = "neighbors", range = c(1, 10))
     ),
     source = "recipe",
     component = "step_nearmiss",
@@ -86,7 +86,7 @@ tunable.step_smote <- function(x, ...) {
     name = c("over_ratio", "neighbors"),
     call_info = list(
       list(pkg = "dials", fun = "over_ratio"),
-      list(pkg = "dials", fun = "neighbors")
+      list(pkg = "dials", fun = "neighbors", range = c(1, 10))
     ),
     source = "recipe",
     component = "step_smote",
@@ -100,7 +100,7 @@ tunable.step_tomek <- function(x, ...) {
   tibble::tibble(
     name = c("neighbors"),
     call_info = list(
-      list(pkg = "dials", fun = "neighbors")
+      list(pkg = "dials", fun = "neighbors", range = c(1, 10))
     ),
     source = "recipe",
     component = "step_tomek",
