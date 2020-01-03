@@ -47,10 +47,6 @@
 #' All columns in the data are sampled and returned by [juice()]
 #'  and [bake()].
 #'
-#' When used in modeling, users should strongly consider using the
-#'  option `skip = TRUE` so that the extra sampling is _not_
-#'  conducted outside of the training set.
-#'
 #' @keywords datagen
 #' @concept preprocessing
 #' @concept subsampling
