@@ -1,5 +1,5 @@
 Package: themis
-Title: What the Package Does (One Line, Title Case)
+Title: Extra Recipes Steps For Dealing With Unbalanced Data
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Emil",
@@ -7,7 +7,12 @@ Authors@R:
            role = c("aut", "cre"),
            email = "emilhhvitfeldt@gmail.com",
            comment = c(ORCID = "0000-0002-0679-1945"))
-Description: What the package does (one paragraph).
+Description: A dataset with an uneven number of cases in each class is said to 
+    be unbalanced. Many models produce a subpar performance on unbalanced 
+    datasets. A dataset can be balanced by increasing the number of minority 
+    cases using  SMOTE <arXiv:1106.1813>, BorderlineSMOTE and ADASYN. Or by 
+    decreasing the number of majority cases using NearMiss or Tomek link 
+    removal.
 License: MIT + file LICENSE
 Suggests: 
     testthat (>= 2.1.0),
@@ -32,5 +37,5 @@ Imports:
     ROSE,
     unbalanced,
     RANN
-URL: https://github.com/EmilHvitfeldt/themis
-BugReports: https://github.com/EmilHvitfeldt/themis/issues
+URL: https://github.com/tidymodels/themis
+BugReports: https://github.com/tidymodels/themis/issues

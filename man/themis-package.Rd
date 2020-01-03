@@ -4,15 +4,20 @@
 \name{themis-package}
 \alias{themis}
 \alias{themis-package}
-\title{themis: What the Package Does (One Line, Title Case)}
+\title{themis: Extra Recipes Steps For Dealing With Unbalanced Data}
 \description{
-What the package does (one paragraph).
+A dataset with an uneven number of cases in each class is said to 
+    be unbalanced. Many models produce a subpar performance on unbalanced 
+    datasets. A dataset can be balanced by increasing the number of minority 
+    cases using  SMOTE <arXiv:1106.1813>, BorderlineSMOTE and ADASYN. Or by 
+    decreasing the number of majority cases using NearMiss or Tomek link 
+    removal.
 }
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/EmilHvitfeldt/themis}
-  \item Report bugs at \url{https://github.com/EmilHvitfeldt/themis/issues}
+  \item \url{https://github.com/tidymodels/themis}
+  \item Report bugs at \url{https://github.com/tidymodels/themis/issues}
 }
 
 }

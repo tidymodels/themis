@@ -10,9 +10,9 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 [![CRAN
 status](https://www.r-pkg.org/badges/version/themis)](https://CRAN.R-project.org/package=themis)
 [![Travis build
-status](https://travis-ci.org/EmilHvitfeldt/themis.svg?branch=master)](https://travis-ci.org/EmilHvitfeldt/themis)
+status](https://travis-ci.org/tidymodels/themis.svg?branch=master)](https://travis-ci.org/tidymodels/themis)
 [![Codecov test
-coverage](https://codecov.io/gh/EmilHvitfeldt/themis/branch/master/graph/badge.svg)](https://codecov.io/gh/EmilHvitfeldt/themis?branch=master)
+coverage](https://codecov.io/gh/tidymodels/themis/branch/master/graph/badge.svg)](https://codecov.io/gh/tidymodels/themis?branch=master)
 [![Travis build
 status](https://travis-ci.org/tidymodels/themis.svg?branch=master)](https://travis-ci.org/tidymodels/themis)
 <!-- badges: end -->
@@ -39,7 +39,7 @@ Install the development version from GitHub with:
 
 ``` r
 require("devtools")
-install_github("emilhvitfeldt/themis")
+install_github("tidymodels/themis")
 ```
 
 ## Example
