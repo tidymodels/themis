@@ -8,7 +8,7 @@ Authors@R:
            email = "emilhhvitfeldt@gmail.com",
            comment = c(ORCID = "0000-0002-0679-1945"))
 Description: What the package does (one paragraph).
-License: GPL-3
+License: MIT + file LICENSE
 Suggests: 
     testthat (>= 2.1.0),
     covr,
