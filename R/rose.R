@@ -69,7 +69,7 @@
 #'   step_rose(Class) %>%
 #'   prep()
 #'
-#' table(juice(ds_rec)$Class, useNA = "always")
+#' sort(table(juice(ds_rec)$Class, useNA = "always"))
 #'
 #' # since `skip` defaults to TRUE, baking the step has no effect
 #' baked_okc <- bake(ds_rec, new_data = okc)

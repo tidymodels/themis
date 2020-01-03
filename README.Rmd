@@ -60,7 +60,7 @@ ds_rec <- recipe(Class ~ age + height, data = okc) %>%
   step_smote(Class) %>%
   prep()
 
-table(juice(ds_rec)$Class, useNA = "always")
+sort(table(juice(ds_rec)$Class, useNA = "always"))
 ```
 
 ## Methods

@@ -32,7 +32,7 @@ adasyn <- function(df, var, k = 5,  over_ratio = 1) {
     out_dfs[[i]] <- tmp_df
   }
   final <- rbind(df, do.call(rbind, out_dfs))
-  final[[var]] <- factor(final[[var]])
+  final[[var]] <- factor(final[[var]], levels = levels(df[[var]]))
   rownames(final) <- NULL
   final
 }

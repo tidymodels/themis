@@ -74,7 +74,7 @@
 #'   step_bsmote(Status) %>%
 #'   prep()
 #'
-#' table(juice(ds_rec)$Status, useNA = "always")
+#' sort(table(juice(ds_rec)$Status, useNA = "always"))
 #'
 #' # since `skip` defaults to TRUE, baking the step has no effect
 #' baked_okc <- bake(ds_rec, new_data = credit_data)
