@@ -5,9 +5,19 @@
 \alias{tidy.step_downsample}
 \title{Down-Sample a Data Set Based on a Factor Variable}
 \usage{
-step_downsample(recipe, ..., under_ratio = 1, ratio = NA, role = NA,
-  trained = FALSE, column = NULL, target = NA, skip = TRUE,
-  seed = sample.int(10^5, 1), id = rand_id("downsample"))
+step_downsample(
+  recipe,
+  ...,
+  under_ratio = 1,
+  ratio = NA,
+  role = NA,
+  trained = FALSE,
+  column = NULL,
+  target = NA,
+  skip = TRUE,
+  seed = sample.int(10^5, 1),
+  id = rand_id("downsample")
+)
 
 \method{tidy}{step_downsample}(x, ...)
 }
@@ -43,8 +53,8 @@ be populated (eventually) by the \code{...} selectors.}
 should not be set by the user and will be populated by \code{prep}.}
 
 \item{skip}{A logical. Should the step be skipped when the
-recipe is baked by \code{\link[=bake.recipe]{bake.recipe()}}? While all operations are baked
-when \code{\link[=prep.recipe]{prep.recipe()}} is run, some operations may not be able to be
+recipe is baked by \code{\link[recipes:bake.recipe]{bake.recipe()}}? While all operations are baked
+when \code{\link[recipes:prep.recipe]{prep.recipe()}} is run, some operations may not be able to be
 conducted on new data (e.g. processing the outcome variable(s)).
 Care should be taken when using \code{skip = TRUE} as it may affect
 the computations for subsequent operations}
@@ -95,6 +105,8 @@ option \code{skip = TRUE} so that the extra sampling is \emph{not}
 conducted outside of the training set.
 }
 \examples{
+library(recipes)
+library(modeldata)
 data(okc)
 
 sort(table(okc$diet, useNA = "always"))

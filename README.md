@@ -48,6 +48,7 @@ algorithm to deal with unbalanced data
 
 ``` r
 library(recipes)
+library(modeldata)
 library(themis)
 
 data(okc)

@@ -5,9 +5,18 @@
 \alias{tidy.step_adasyn}
 \title{Adaptive Synthetic Sampling Approach}
 \usage{
-step_adasyn(recipe, ..., role = NA, trained = FALSE, column = NULL,
-  over_ratio = 1, neighbors = 5, skip = TRUE,
-  seed = sample.int(10^5, 1), id = rand_id("adasyn"))
+step_adasyn(
+  recipe,
+  ...,
+  role = NA,
+  trained = FALSE,
+  column = NULL,
+  over_ratio = 1,
+  neighbors = 5,
+  skip = TRUE,
+  seed = sample.int(10^5, 1),
+  id = rand_id("adasyn")
+)
 
 \method{tidy}{step_adasyn}(x, ...)
 }
@@ -41,8 +50,8 @@ half as many rows than the majority level.}
 to generate the new examples of the minority class.}
 
 \item{skip}{A logical. Should the step be skipped when the
-recipe is baked by \code{\link[=bake.recipe]{bake.recipe()}}? While all operations are baked
-when \code{\link[=prep.recipe]{prep.recipe()}} is run, some operations may not be able to be
+recipe is baked by \code{\link[recipes:bake.recipe]{bake.recipe()}}? While all operations are baked
+when \code{\link[recipes:prep.recipe]{prep.recipe()}} is run, some operations may not be able to be
 conducted on new data (e.g. processing the outcome variable(s)).
 Care should be taken when using \code{skip = TRUE} as it may affect
 the computations for subsequent operations}
@@ -74,6 +83,7 @@ conducted outside of the training set.
 }
 \examples{
 library(recipes)
+library(modeldata)
 data(okc)
 
 sort(table(okc$Class, useNA = "always"))

@@ -48,6 +48,7 @@ Following is a example of using the [SMOTE](https://jair.org/index.php/jair/arti
 
 ```{r example, message=FALSE}
 library(recipes)
+library(modeldata)
 library(themis)
 
 data(okc)

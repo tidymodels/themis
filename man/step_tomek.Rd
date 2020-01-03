@@ -5,8 +5,16 @@
 \alias{tidy.step_tomek}
 \title{UEnder-sampling by removing Tomek’s links.}
 \usage{
-step_tomek(recipe, ..., role = NA, trained = FALSE, column = NULL,
-  skip = TRUE, seed = sample.int(10^5, 1), id = rand_id("tomek"))
+step_tomek(
+  recipe,
+  ...,
+  role = NA,
+  trained = FALSE,
+  column = NULL,
+  skip = TRUE,
+  seed = sample.int(10^5, 1),
+  id = rand_id("tomek")
+)
 
 \method{tidy}{step_tomek}(x, ...)
 }
@@ -30,8 +38,8 @@ preprocessing have been estimated.}
 be populated (eventually) by the \code{...} selectors.}
 
 \item{skip}{A logical. Should the step be skipped when the
-recipe is baked by \code{\link[=bake.recipe]{bake.recipe()}}? While all operations are baked
-when \code{\link[=prep.recipe]{prep.recipe()}} is run, some operations may not be able to be
+recipe is baked by \code{\link[recipes:bake.recipe]{bake.recipe()}}? While all operations are baked
+when \code{\link[recipes:prep.recipe]{prep.recipe()}} is run, some operations may not be able to be
 conducted on new data (e.g. processing the outcome variable(s)).
 Care should be taken when using \code{skip = TRUE} as it may affect
 the computations for subsequent operations}
@@ -67,6 +75,7 @@ conducted outside of the training set.
 }
 \examples{
 library(recipes)
+library(modeldata)
 data(okc)
 
 sort(table(okc$Class, useNA = "always"))
