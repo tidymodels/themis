@@ -3,6 +3,10 @@
 language: R
 cache: packages
 
+r_github_packages:
+  - r-lib/pkgdown
+  - tidyverse/tidytemplate
+
 matrix:
   include:
   - r: devel
@@ -12,8 +16,7 @@ matrix:
   - r: 3.3
   - r: 3.2
 
-before_cache: Rscript -e 'remotes::install_cran("pkgdown")'
 deploy:
   provider: script
-  script: Rscript -e 'pkgdown::deploy_site_github()'
+  script: Rscript -e 'pkgdown::deploy_site_github(verbose = TRUE, run_dont_run = TRUE)'
   skip_cleanup: true
