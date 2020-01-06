@@ -268,8 +268,8 @@ Discovery, 28:92–122.</p>
   <span class='fu'><a href='https://rdrr.io/pkg/recipes/man/prep.html'>prep</a></span>()
 
 <span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/recipes/man/juice.html'>juice</a></span>(<span class='no'>ds_rec</span>)$<span class='no'>Class</span>, <span class='kw'>useNA</span> <span class='kw'>=</span> <span class='st'>"always"</span>))</div><div class='output co'>#&gt; 
-#&gt;  &lt;NA&gt; other  stem 
-#&gt;     0 50309 50323 </div><div class='input'>
+#&gt;  &lt;NA&gt;  stem other 
+#&gt;     0 50255 50377 </div><div class='input'>
 <span class='co'># since `skip` defaults to TRUE, baking the step has no effect</span>
 <span class='no'>baked_okc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/recipes/man/bake.html'>bake</a></span>(<span class='no'>ds_rec</span>, <span class='kw'>new_data</span> <span class='kw'>=</span> <span class='no'>okc</span>)
 <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='no'>baked_okc</span>$<span class='no'>Class</span>, <span class='kw'>useNA</span> <span class='kw'>=</span> <span class='st'>"always"</span>)</div><div class='output co'>#&gt; 
@@ -281,7 +281,7 @@ Discovery, 28:92–122.</p>
 
 <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/recipes/man/juice.html'>juice</a></span>(<span class='no'>ds_rec2</span>)$<span class='no'>Class</span>, <span class='kw'>useNA</span> <span class='kw'>=</span> <span class='st'>"always"</span>)</div><div class='output co'>#&gt; 
 #&gt; other  stem  &lt;NA&gt; 
-#&gt; 70272 30360     0 </div><div class='input'>
+#&gt; 70180 30452     0 </div><div class='input'>
 <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>ggplot2</span>)
 
 <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='no'>circle_example</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>color</span> <span class='kw'>=</span> <span class='no'>class</span>)) +
