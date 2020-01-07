@@ -9,3 +9,23 @@ development:
 
 home:
   strip_header: true
+
+reference:
+  - title: "Over-sampling"
+    contents:
+      - step_upsample
+      - step_smote
+      - step_bsmote
+      - step_adasyn
+      - step_rose
+  - title: "Under-sampling"
+    contents:
+      - step_downsample
+      - step_nearmiss
+      - step_tomek
+  - title: "Datasets"
+    contents:
+      - circle_example
+  - title: "Dials Objects"
+    contents:
+      - all_neighbors

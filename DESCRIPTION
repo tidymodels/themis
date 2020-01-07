@@ -1,5 +1,5 @@
 Package: themis
-Title: Extra Recipes Steps For Dealing With Unbalanced Data
+Title: Extra Recipes Steps for Dealing with Unbalanced Data
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Emil",

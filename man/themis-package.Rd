@@ -4,7 +4,7 @@
 \name{themis-package}
 \alias{themis}
 \alias{themis-package}
-\title{themis: Extra Recipes Steps For Dealing With Unbalanced Data}
+\title{themis: Extra Recipes Steps for Dealing with Unbalanced Data}
 \description{
 A dataset with an uneven number of cases in each class is said to 
     be unbalanced. Many models produce a subpar performance on unbalanced 

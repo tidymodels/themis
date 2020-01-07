@@ -171,9 +171,3 @@ recipe(~., example_data) %>%
 ```
 
 <img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
-
-## Code of Conduct
-
-Please note that the ‘themis’ project is released with a [Contributor
-Code of Conduct](.github/CODE_OF_CONDUCT.md). By contributing to this
-project, you agree to abide by its terms.
