@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 # themis
 
 <!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![CRAN status](https://www.r-pkg.org/badges/version/themis)](https://CRAN.R-project.org/package=themis)
 [![Travis build status](https://travis-ci.org/tidymodels/themis.svg?branch=master)](https://travis-ci.org/tidymodels/themis)
 [![Codecov test coverage](https://codecov.io/gh/tidymodels/themis/branch/master/graph/badge.svg)](https://codecov.io/gh/tidymodels/themis?branch=master)
@@ -30,7 +30,7 @@ dealingwith unbalanced data. The name **themis** is that of the [ancient Greek g
 
 ## Installation
 
-~~You can install the released version of themis from [CRAN](https://CRAN.R-project.org) with:~~
+You can install the released version of themis from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
 install.packages("themis")

@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/themis)](https://CRAN.R-project.org/package=themis)
 [![Travis build
@@ -28,8 +28,8 @@ who is typically depicted with a balance.
 
 ## Installation
 
-~~You can install the released version of themis from
-[CRAN](https://CRAN.R-project.org) with:~~
+You can install the released version of themis from
+[CRAN](https://CRAN.R-project.org) with:
 
 ``` r
 install.packages("themis")
