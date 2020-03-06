@@ -34,8 +34,8 @@ smote <- function(df, var, k = 5, over_ratio = 1) {
     minority <- as.matrix(minority_df[names(minority_df) != var])
     synthetic <- smote_data(minority, k = k, n_samples = samples_needed[i])
     out_df <- as.data.frame(rbind(minority, synthetic))
-    out_df[var] <- data[[i]][[var]][1]
-    data[[i]] <- out_df[, names(minority_df)]
+    out_df[var] <- data[[names(samples_needed)[i]]][[var]][1]
+    data[[names(samples_needed)[i]]] <- out_df[, names(minority_df)]
   }
 
   final <- do.call(rbind, data)
