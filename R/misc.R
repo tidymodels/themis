@@ -7,12 +7,13 @@ string2formula <- function(x) {
 check_na <- function(data, step) {
   na_cols <- vapply(data, function(x) any(is.na(x)), FUN.VALUE = logical(1))
   if (any(na_cols)) {
-    stop("`", step, "` cannot have any missing values. NAs found ind: ",
-         paste(names(na_cols), collapse = ", "), ".", call. = FALSE)
+    rlang::abort(paste0("`", step,
+                        "` cannot have any missing values. NAs found ind: ",
+                 paste(names(na_cols), collapse = ", "), "."))
   }
 }
 
 check_2_levels_only <- function(data, col_name) {
   if (length(levels(data[[col_name]])) != 2)
-    stop("`", col_name, "`` must only have 2 levels.", call. = FALSE)
+    rlang::abort(paste0("`", col_name, "`` must only have 2 levels."))
 }

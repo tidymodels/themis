@@ -18,8 +18,8 @@ bsmote <- function(df, var, k = 5,  over_ratio = 1, all_neighbors = FALSE) {
                                         ncol = ncol(ids))) - 1, k)
 
     if (sum(danger_ids) <= k) {
-      stop("Not enough danger observations of '", min_names[i],
-           "' to perform SMOTE.", call. = FALSE)
+      rlang::abort(paste0("Not enough danger observations of '", min_names[i],
+                          "' to perform SMOTE."))
     }
 
     if (all_neighbors == FALSE) {

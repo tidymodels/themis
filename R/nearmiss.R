@@ -129,15 +129,14 @@ prep.step_nearmiss <- function(x, training, info = NULL, ...) {
 
   col_name <- terms_select(x$terms, info = info)
   if (length(col_name) != 1)
-    stop("Please select a single factor variable.", call. = FALSE)
+    rlang::abort("Please select a single factor variable.")
   if (!is.factor(training[[col_name]]))
-    stop(col_name, " should be a factor variable.", call. = FALSE)
+    rlang::abort(paste0(col_name, " should be a factor variable."))
 
   check_type(select(training, -col_name), TRUE)
 
   if (any(map_lgl(training, ~ any(is.na(.x)))))
-    stop("`NA` values are not allowed when using `step_nearmiss`",
-         call. = FALSE)
+    rlang::abort("`NA` values are not allowed when using `step_nearmiss`")
 
   step_nearmiss_new(
     terms = x$terms,
