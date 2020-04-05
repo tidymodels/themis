@@ -11,7 +11,7 @@ status](https://github.com/tidymodels/themis/workflows/R-CMD-check/badge.svg)](h
 coverage](https://codecov.io/gh/tidymodels/themis/branch/master/graph/badge.svg)](https://codecov.io/gh/tidymodels/themis?branch=master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/themis)](https://CRAN.R-project.org/package=themis)
-[![Downloads](http://cranlogs.r-pkg.org/badges/textrecipes)](https://CRAN.R-project.org/package=textrecipes)
+[![Downloads](http://cranlogs.r-pkg.org/badges/themis)](https://CRAN.R-project.org/package=themis)
 [![Lifecycle:
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 <!-- badges: end -->
