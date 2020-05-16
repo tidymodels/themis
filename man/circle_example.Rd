@@ -4,12 +4,14 @@
 \name{circle_example}
 \alias{circle_example}
 \title{Synthetic Dataset with a circle}
-\format{A data frame with 200 rows and 3 variables:
+\format{
+A data frame with 200 rows and 3 variables:
 \describe{
 \item{x}{Numeric.}
 \item{y}{Numeric.}
 \item{class}{Factor, values "Circle" and "Rest".}
-}}
+}
+}
 \usage{
 circle_example
 }
