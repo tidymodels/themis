@@ -31,7 +31,6 @@ Imports:
     rlang,
     ROSE,
     tibble,
-    tidyselect (>= 0.2.5),
     unbalanced,
     withr
 Suggests: 
