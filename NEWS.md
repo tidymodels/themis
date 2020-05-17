@@ -1,3 +1,5 @@
+# themis (development version)
+
 # themis 0.1.1
 
 * `step_smote()` now work regardless of order of classes. Thanks to @sebastien-foulle for point it out #14.
