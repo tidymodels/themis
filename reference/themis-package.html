@@ -10,22 +10,26 @@
 
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -35,12 +39,15 @@
 
 
 <meta property="og:title" content="themis: Extra Recipes Steps for Dealing with Unbalanced Data — themis-package" />
-<meta property="og:description" content="A dataset with an uneven number of cases in each class is said to 
-    be unbalanced. Many models produce a subpar performance on unbalanced 
-    datasets. A dataset can be balanced by increasing the number of minority 
-    cases using  SMOTE &amp;lt;arXiv:1106.1813&amp;gt;, BorderlineSMOTE and ADASYN. Or by 
-    decreasing the number of majority cases using NearMiss or Tomek link 
-    removal." />
+<meta property="og:description" content="A dataset with an uneven number of cases in each
+    class is said to be unbalanced. Many models produce a subpar
+    performance on unbalanced datasets. A dataset can be balanced by
+    increasing the number of minority cases using SMOTE 2011
+    &amp;lt;arXiv:1106.1813&amp;gt;, BorderlineSMOTE 2005 &amp;lt;doi:10.1007/11538059_91&amp;gt; and
+    ADASYN 2008 &amp;lt;https://ieeexplore.ieee.org/document/4633969&amp;gt;. Or by
+    decreasing the number of majority cases using NearMiss 2003
+    &amp;lt;https://www.site.uottawa.ca/~nat/Workshop2003/jzhang.pdf&amp;gt; or Tomek
+    link removal 1976 &amp;lt;https://ieeexplore.ieee.org/document/4309452&amp;gt;." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -67,7 +74,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -82,9 +89,9 @@
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">themis</a>
-        <div class="info">
+        <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
         </div>
       </div>
     </div>
@@ -99,8 +106,11 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li>
+  <a href="../news/index.html">Changelog</a>
+</li>
         <li>
-  <a href="https://github.com/tidymodels/themis">
+  <a href="https://github.com/tidymodels/themis/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -124,12 +134,15 @@
     </div>
 
     <div class="ref-description">
-    <p>A dataset with an uneven number of cases in each class is said to 
-    be unbalanced. Many models produce a subpar performance on unbalanced 
-    datasets. A dataset can be balanced by increasing the number of minority 
-    cases using  SMOTE &lt;arXiv:1106.1813&gt;, BorderlineSMOTE and ADASYN. Or by 
-    decreasing the number of majority cases using NearMiss or Tomek link 
-    removal.</p>
+    <p>A dataset with an uneven number of cases in each
+    class is said to be unbalanced. Many models produce a subpar
+    performance on unbalanced datasets. A dataset can be balanced by
+    increasing the number of minority cases using SMOTE 2011
+    &lt;arXiv:1106.1813&gt;, BorderlineSMOTE 2005 &lt;doi:10.1007/11538059_91&gt; and
+    ADASYN 2008 &lt;https://ieeexplore.ieee.org/document/4633969&gt;. Or by
+    decreasing the number of majority cases using NearMiss 2003
+    &lt;https://www.site.uottawa.ca/~nat/Workshop2003/jzhang.pdf&gt; or Tomek
+    link removal 1976 &lt;https://ieeexplore.ieee.org/document/4309452&gt;.</p>
     </div>
 
 
@@ -145,13 +158,9 @@
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#see-also">See also</a></li>
-    </ul>
-
-    <h2>Author</h2>
-    <p><strong>Maintainer</strong>: Emil Hvitfeldt <a href='mailto:emilhhvitfeldt@gmail.com'>emilhhvitfeldt@gmail.com</a> (<a href='https://orcid.org/0000-0002-0679-1945'>ORCID</a>)</p>
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
