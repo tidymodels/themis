@@ -186,11 +186,13 @@ bake.step_rose <- function(object, new_data, ...) {
   with_seed(
     seed = object$seed,
     code = {
+      original_levels <- levels(new_data[[object$column]])
       new_data <- ROSE(string2formula(object$column), new_data,
                        N = majority_size * object$over_ratio,
                        p = object$minority_prop,
                        hmult.majo = object$majority_smoothness,
                        hmult.mino = object$minority_smoothness)$data
+      new_data[[object$column]] <- factor(new_data[[object$column]], levels = original_levels)
     }
   )
 
