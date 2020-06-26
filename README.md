@@ -90,8 +90,7 @@ example_data %>%
 ### Upsample / Over-sampling
 
 The following methods all share the tuning parameter `over_ratio`, which
-is the ratio of the majority-to-minority
-frequencies.
+is the ratio of the majority-to-minority frequencies.
 
 | name                                                            | function                  | Multi-class          |
 | --------------------------------------------------------------- | ------------------------- | -------------------- |
@@ -170,3 +169,24 @@ recipe(~., example_data) %>%
 ```
 
 <img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+
+## Contributing
+
+This project is released with a [Contributor Code of
+Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.
+
+  - For questions and discussions about tidymodels packages, modeling,
+    and machine learning, [join us on RStudio
+    Community](https://rstd.io/tidymodels-community).
+
+  - If you think you have encountered a bug, please [submit an
+    issue](https://github.com/tidymodels/themis/issues).
+
+  - Either way, learn how to create and share a
+    [reprex](https://rstd.io/reprex) (a minimal, reproducible example),
+    to clearly communicate about your code.
+
+  - Check out further details on [contributing guidelines for tidymodels
+    packages](https://www.tidymodels.org/contribute/) and [how to get
+    help](https://www.tidymodels.org/help/).
