@@ -89,7 +89,7 @@ same class." />
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">themis</a>
         <div class="info hidden-xs hidden-sm">
-          <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
+          <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
           <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.1.9000</span>
         </div>
       </div>
@@ -139,7 +139,7 @@ in the majority class based on their distance to other points in the
 same class.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/themis/man/step_nearmiss.html'>step_nearmiss</a></span>(
+    <pre class="usage"><span class='fu'>step_nearmiss</span>(
   <span class='kw'>recipe</span>,
   <span class='kw'>...</span>,
   role = <span class='fl'>NA</span>,
@@ -256,7 +256,7 @@ of workshop on learning from imbalanced datasets, 2003.</p>
 #&gt;     0  9539 50316 </div><div class='input'>
 <span class='kw'>ds_rec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span>(<span class='kw'>Class</span> <span class='op'>~</span> <span class='kw'>age</span> <span class='op'>+</span> <span class='kw'>height</span>, data = <span class='kw'>okc</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://recipes.tidymodels.org/reference/step_meanimpute.html'>step_meanimpute</a></span>(<span class='fu'><a href='https://recipes.tidymodels.org/reference/has_role.html'>all_predictors</a></span>()) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/themis/man/step_nearmiss.html'>step_nearmiss</a></span>(<span class='kw'>Class</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'>step_nearmiss</span>(<span class='kw'>Class</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span>()
 
 <span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='https://recipes.tidymodels.org/reference/juice.html'>juice</a></span>(<span class='kw'>ds_rec</span>)<span class='op'>$</span><span class='kw'>Class</span>, useNA = <span class='st'>"always"</span>))</div><div class='output co'>#&gt; 
@@ -275,7 +275,7 @@ of workshop on learning from imbalanced datasets, 2003.</p>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/lims.html'>xlim</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>15</span>)) <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/lims.html'>ylim</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>15</span>))</div><div class='img'><img src='step_nearmiss-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span>(<span class='kw'>class</span> <span class='op'>~</span> <span class='kw'>.</span>, data = <span class='kw'>circle_example</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/themis/man/step_nearmiss.html'>step_nearmiss</a></span>(<span class='kw'>class</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'>step_nearmiss</span>(<span class='kw'>class</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span>() <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://recipes.tidymodels.org/reference/juice.html'>juice</a></span>() <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span>, <span class='kw'>y</span>, color = <span class='kw'>class</span>)) <span class='op'>+</span>

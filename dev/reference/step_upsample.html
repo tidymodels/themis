@@ -88,7 +88,7 @@ levels in a specific factor level equal." />
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">themis</a>
         <div class="info hidden-xs hidden-sm">
-          <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
+          <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
           <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.1.9000</span>
         </div>
       </div>
@@ -137,7 +137,7 @@ will replicate rows of a data set to make the occurrence of
 levels in a specific factor level equal.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://recipes.tidymodels.org/reference/step_upsample.html'>step_upsample</a></span>(
+    <pre class="usage"><span class='fu'>step_upsample</span>(
   <span class='kw'>recipe</span>,
   <span class='kw'>...</span>,
   over_ratio = <span class='fl'>1</span>,
@@ -270,7 +270,7 @@ and <code><a href='https://recipes.tidymodels.org/reference/bake.html'>bake()</a
 <span class='kw'>up_rec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span>( <span class='op'>~</span> <span class='kw'>.</span>, data = <span class='kw'>okc</span>) <span class='op'>%&gt;%</span>
   <span class='co'># Bring the minority levels up to about 200 each</span>
   <span class='co'># 200/16562 is approx 0.0121</span>
-  <span class='fu'><a href='https://recipes.tidymodels.org/reference/step_upsample.html'>step_upsample</a></span>(<span class='kw'>diet</span>, over_ratio = <span class='fl'>0.0121</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'>step_upsample</span>(<span class='kw'>diet</span>, over_ratio = <span class='fl'>0.0121</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span>(training = <span class='kw'>okc</span>, retain = <span class='fl'>TRUE</span>)
 
 <span class='kw'>training</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='https://recipes.tidymodels.org/reference/juice.html'>juice</a></span>(<span class='kw'>up_rec</span>)<span class='op'>$</span><span class='kw'>diet</span>, useNA = <span class='st'>"always"</span>)
@@ -312,7 +312,7 @@ and <code><a href='https://recipes.tidymodels.org/reference/bake.html'>bake()</a
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>() <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span>(title = <span class='st'>"Without upsample"</span>)</div><div class='img'><img src='step_upsample-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span>(<span class='kw'>class</span> <span class='op'>~</span> <span class='kw'>.</span>, data = <span class='kw'>circle_example</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/themis/man/step_nearmiss.html'>step_nearmiss</a></span>(<span class='kw'>class</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='step_nearmiss.html'>step_nearmiss</a></span>(<span class='kw'>class</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span>() <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://recipes.tidymodels.org/reference/juice.html'>juice</a></span>() <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span>, <span class='kw'>y</span>, color = <span class='kw'>class</span>)) <span class='op'>+</span>

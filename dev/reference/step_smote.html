@@ -88,7 +88,7 @@ neighbors of these cases." />
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">themis</a>
         <div class="info hidden-xs hidden-sm">
-          <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
+          <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
           <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.1.9000</span>
         </div>
       </div>
@@ -137,7 +137,7 @@ step that generate new examples of the  minority class using nearest
 neighbors of these cases.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/themis/man/step_smote.html'>step_smote</a></span>(
+    <pre class="usage"><span class='fu'>step_smote</span>(
   <span class='kw'>recipe</span>,
   <span class='kw'>...</span>,
   role = <span class='fl'>NA</span>,
@@ -258,7 +258,7 @@ Journal of Artificial Intelligence Research, 16:321-357.</p>
 #&gt;    0 1254 3200 </div><div class='input'>
 <span class='kw'>ds_rec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span>(<span class='kw'>Status</span> <span class='op'>~</span> <span class='kw'>Age</span> <span class='op'>+</span> <span class='kw'>Income</span> <span class='op'>+</span> <span class='kw'>Assets</span>, data = <span class='kw'>credit_data</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://recipes.tidymodels.org/reference/step_meanimpute.html'>step_meanimpute</a></span>(<span class='fu'><a href='https://recipes.tidymodels.org/reference/has_role.html'>all_predictors</a></span>()) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/themis/man/step_smote.html'>step_smote</a></span>(<span class='kw'>Status</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'>step_smote</span>(<span class='kw'>Status</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span>()
 
 <span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='https://recipes.tidymodels.org/reference/juice.html'>juice</a></span>(<span class='kw'>ds_rec</span>)<span class='op'>$</span><span class='kw'>Status</span>, useNA = <span class='st'>"always"</span>))</div><div class='output co'>#&gt; 
@@ -271,7 +271,7 @@ Journal of Artificial Intelligence Research, 16:321-357.</p>
 #&gt; 1254 3200    0 </div><div class='input'>
 <span class='kw'>ds_rec2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span>(<span class='kw'>Status</span> <span class='op'>~</span> <span class='kw'>Age</span> <span class='op'>+</span> <span class='kw'>Income</span> <span class='op'>+</span> <span class='kw'>Assets</span>, data = <span class='kw'>credit_data</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://recipes.tidymodels.org/reference/step_meanimpute.html'>step_meanimpute</a></span>(<span class='fu'><a href='https://recipes.tidymodels.org/reference/has_role.html'>all_predictors</a></span>()) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/themis/man/step_smote.html'>step_smote</a></span>(<span class='kw'>Status</span>, over_ratio = <span class='fl'>0.2</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'>step_smote</span>(<span class='kw'>Status</span>, over_ratio = <span class='fl'>0.2</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span>()
 
 <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='https://recipes.tidymodels.org/reference/juice.html'>juice</a></span>(<span class='kw'>ds_rec2</span>)<span class='op'>$</span><span class='kw'>Status</span>, useNA = <span class='st'>"always"</span>)</div><div class='output co'>#&gt; 
@@ -283,7 +283,7 @@ Journal of Artificial Intelligence Research, 16:321-357.</p>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>() <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span>(title = <span class='st'>"Without SMOTE"</span>)</div><div class='img'><img src='step_smote-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span>(<span class='kw'>class</span> <span class='op'>~</span> <span class='kw'>.</span>, data = <span class='kw'>circle_example</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/themis/man/step_smote.html'>step_smote</a></span>(<span class='kw'>class</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'>step_smote</span>(<span class='kw'>class</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span>() <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://recipes.tidymodels.org/reference/juice.html'>juice</a></span>() <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span>, <span class='kw'>y</span>, color = <span class='kw'>class</span>)) <span class='op'>+</span>

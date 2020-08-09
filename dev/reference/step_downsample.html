@@ -88,7 +88,7 @@ of levels in a specific factor level equal." />
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">themis</a>
         <div class="info hidden-xs hidden-sm">
-          <span class="partof">part of <a href="https://github.com/tidymodels">tidymodels</a></span>
+          <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
           <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.1.9000</span>
         </div>
       </div>
@@ -137,7 +137,7 @@ step that will remove rows of a data set to make the occurrence
 of levels in a specific factor level equal.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://recipes.tidymodels.org/reference/step_downsample.html'>step_downsample</a></span>(
+    <pre class="usage"><span class='fu'>step_downsample</span>(
   <span class='kw'>recipe</span>,
   <span class='kw'>...</span>,
   under_ratio = <span class='fl'>1</span>,
@@ -270,7 +270,7 @@ it is not clear whether those operations should be conducted
 #&gt;            anything     mostly anything                &lt;NA&gt; 
 #&gt;                6174               16562               24360 </div><div class='input'>
 <span class='kw'>ds_rec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span>( <span class='op'>~</span> <span class='kw'>.</span>, data = <span class='kw'>okc</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://recipes.tidymodels.org/reference/step_downsample.html'>step_downsample</a></span>(<span class='kw'>diet</span>) <span class='op'>%&gt;%</span>
+  <span class='fu'>step_downsample</span>(<span class='kw'>diet</span>) <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span>(training = <span class='kw'>okc</span>, retain = <span class='fl'>TRUE</span>)
 
 <span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='https://recipes.tidymodels.org/reference/juice.html'>juice</a></span>(<span class='kw'>ds_rec</span>)<span class='op'>$</span><span class='kw'>diet</span>, useNA = <span class='st'>"always"</span>))</div><div class='output co'>#&gt; 
