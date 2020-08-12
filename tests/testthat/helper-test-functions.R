@@ -294,3 +294,24 @@ test_result_ordering <- function(step, ...) {
 
   })
 }
+
+test_id_variables_are_ignores <- function(step, ...) {
+  circle_example2 <- circle_example %>%
+    mutate(id = as.character(row_number())) %>%
+    as_tibble()
+
+  res <- recipe(class ~ ., data = circle_example2) %>%
+    update_role(id, new_role = "id") %>%
+    step(class, ...) %>%
+    prep() %>%
+    juice()
+
+  test_that("non-predictor variables are ignored", {
+
+    expect_equal(
+      c(circle_example2$id, rep(NA, nrow(res) - nrow(circle_example2))),
+      as.character(res$id)
+    )
+
+  })
+}

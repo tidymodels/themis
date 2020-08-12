@@ -113,6 +113,7 @@ step_rose <-
                minority_prop = minority_prop,
                minority_smoothness = minority_smoothness,
                majority_smoothness = majority_smoothness,
+               predictors = NULL,
                skip = skip,
                seed = seed,
                id = id
@@ -121,7 +122,8 @@ step_rose <-
 
 step_rose_new <-
   function(terms, role, trained, column, over_ratio, minority_prop,
-           minority_smoothness, majority_smoothness, skip, seed, id) {
+           minority_smoothness, majority_smoothness, predictors, skip, seed,
+           id) {
     step(
       subclass = "rose",
       terms = terms,
@@ -132,6 +134,7 @@ step_rose_new <-
       minority_prop = minority_prop,
       minority_smoothness = minority_smoothness,
       majority_smoothness = majority_smoothness,
+      predictors = predictors,
       skip = skip,
       seed = seed,
       id = id
@@ -148,7 +151,10 @@ prep.step_rose <- function(x, training, info = NULL, ...) {
     rlang::abort(paste0(col_name, " should be a factor variable."))
 
   check_2_levels_only(training, col_name)
-  check_type(select(training, -col_name), TRUE)
+
+  predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
+
+  check_type(training[, predictors], TRUE)
 
   step_rose_new(
     terms = x$terms,
@@ -159,6 +165,7 @@ prep.step_rose <- function(x, training, info = NULL, ...) {
     minority_prop = x$minority_prop,
     minority_smoothness = x$minority_smoothness,
     majority_smoothness = x$majority_smoothness,
+    predictors = predictors,
     skip = x$skip,
     seed = x$seed,
     id = x$id
@@ -174,20 +181,29 @@ bake.step_rose <- function(object, new_data, ...) {
     missing <- NULL
 
   new_data <- as.data.frame(new_data)
+
+  predictor_data <- new_data[, unique(c(object$predictors, object$column))]
+
   # rose with seed for reproducibility
-  majority_size <- max(table(new_data[[object$column]])) * 2
+  majority_size <- max(table(predictor_data[[object$column]])) * 2
   with_seed(
     seed = object$seed,
     code = {
-      original_levels <- levels(new_data[[object$column]])
-      new_data <- ROSE(string2formula(object$column), new_data,
-                       N = majority_size * object$over_ratio,
-                       p = object$minority_prop,
-                       hmult.majo = object$majority_smoothness,
-                       hmult.mino = object$minority_smoothness)$data
-      new_data[[object$column]] <- factor(new_data[[object$column]], levels = original_levels)
+      original_levels <- levels(predictor_data[[object$column]])
+      synthetic_data <- ROSE(
+        string2formula(object$column),
+        predictor_data,
+        N = majority_size * object$over_ratio,
+        p = object$minority_prop,
+        hmult.majo = object$majority_smoothness,
+        hmult.mino = object$minority_smoothness
+      )
+      synthetic_data <- synthetic_data$data
+      synthetic_data[[object$column]] <- factor(synthetic_data[[object$column]],
+                                          levels = original_levels)
     }
   )
+  new_data <- na_splice(new_data, synthetic_data, object)
 
   as_tibble(new_data)
 }

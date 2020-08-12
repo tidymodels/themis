@@ -1,4 +1,4 @@
-#' @importFrom dplyr bind_rows mutate select
+#' @importFrom dplyr bind_cols bind_rows mutate select
 #' @importFrom generics tidy
 #' @importFrom purrr map_dfr map_lgl
 #' @importFrom recipes add_step bake check_type ellipse_check is_trained prep

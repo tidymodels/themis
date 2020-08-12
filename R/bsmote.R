@@ -125,6 +125,7 @@ step_bsmote <-
                over_ratio = over_ratio,
                neighbors = neighbors,
                all_neighbors = all_neighbors,
+               predictors = NULL,
                skip = skip,
                seed = seed,
                id = id
@@ -132,8 +133,8 @@ step_bsmote <-
   }
 
 step_bsmote_new <-
-  function(terms, role, trained, column, over_ratio, neighbors, all_neighbors, skip,
-           seed, id) {
+  function(terms, role, trained, column, over_ratio, neighbors, all_neighbors,
+           predictors, skip, seed, id) {
     step(
       subclass = "bsmote",
       terms = terms,
@@ -143,6 +144,7 @@ step_bsmote_new <-
       over_ratio = over_ratio,
       neighbors = neighbors,
       all_neighbors =  all_neighbors,
+      predictors = predictors,
       skip = skip,
       id = id,
       seed = seed,
@@ -159,7 +161,9 @@ prep.step_bsmote <- function(x, training, info = NULL, ...) {
   if (!is.factor(training[[col_name]]))
     rlang::abort(paste0(col_name, " should be a factor variable."))
 
-  check_type(select(training, -col_name), TRUE)
+  predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
+
+  check_type(training[, predictors], TRUE)
   check_na(select(training, -col_name), "step_bsmote")
 
   step_bsmote_new(
@@ -170,6 +174,7 @@ prep.step_bsmote <- function(x, training, info = NULL, ...) {
     over_ratio = x$over_ratio,
     neighbors = x$neighbors,
     all_neighbors = x$all_neighbors,
+    predictors = predictors,
     skip = x$skip,
     seed = x$seed,
     id = x$id
@@ -180,15 +185,21 @@ prep.step_bsmote <- function(x, training, info = NULL, ...) {
 bake.step_bsmote <- function(object, new_data, ...) {
 
   new_data <- as.data.frame(new_data)
+
+  predictor_data <- new_data[, unique(c(object$predictors, object$column))]
   # bsmote with seed for reproducibility
   with_seed(
     seed = object$seed,
     code = {
-      new_data <- bsmote(new_data, object$column,
-                         k = object$neighbors, over_ratio = object$over_ratio,
-                         all_neighbors = object$all_neighbors)
+      synthetic_data <- bsmote(
+        predictor_data,
+        object$column,
+        k = object$neighbors,
+        over_ratio = object$over_ratio,
+        all_neighbors = object$all_neighbors)
     }
   )
+  new_data <- na_splice(new_data, synthetic_data, object)
 
   as_tibble(new_data)
 }

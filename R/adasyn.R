@@ -87,6 +87,7 @@ step_adasyn <-
                column = column,
                over_ratio = over_ratio,
                neighbors = neighbors,
+               predictors = NULL,
                skip = skip,
                seed = seed,
                id = id
@@ -94,8 +95,8 @@ step_adasyn <-
   }
 
 step_adasyn_new <-
-  function(terms, role, trained, column, over_ratio, neighbors, skip, seed,
-           id) {
+  function(terms, role, trained, column, over_ratio, neighbors, predictors,
+           skip, seed, id) {
     step(
       subclass = "adasyn",
       terms = terms,
@@ -104,6 +105,7 @@ step_adasyn_new <-
       column = column,
       over_ratio = over_ratio,
       neighbors = neighbors,
+      predictors = predictors,
       skip = skip,
       id = id,
       seed = seed,
@@ -120,7 +122,9 @@ prep.step_adasyn <- function(x, training, info = NULL, ...) {
   if (!is.factor(training[[col_name]]))
     rlang::abort(paste0(col_name, " should be a factor variable."))
 
-  check_type(select(training, -col_name), TRUE)
+  predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
+
+  check_type(training[, predictors], TRUE)
 
   if (any(map_lgl(training, ~ any(is.na(.x)))))
     rlang::abort("`NA` values are not allowed when using `step_adasyn`")
@@ -132,6 +136,7 @@ prep.step_adasyn <- function(x, training, info = NULL, ...) {
     column = col_name,
     over_ratio = x$over_ratio,
     neighbors = x$neighbors,
+    predictors = predictors,
     skip = x$skip,
     seed = x$seed,
     id = x$id
@@ -141,14 +146,22 @@ prep.step_adasyn <- function(x, training, info = NULL, ...) {
 #' @export
 bake.step_adasyn <- function(object, new_data, ...) {
 
+  new_data <- as.data.frame(new_data)
+
+  predictor_data <- new_data[, unique(c(object$predictors, object$column))]
+
   # adasyn with seed for reproducibility
   with_seed(
     seed = object$seed,
     code = {
-      new_data <- adasyn(new_data, object$column,
-                         k = object$neighbors, over_ratio = object$over_ratio)
+      synthetic_data <- adasyn(
+        predictor_data,
+        object$column,
+        k = object$neighbors,
+        over_ratio = object$over_ratio)
     }
   )
+  new_data <- na_splice(new_data, synthetic_data, object)
 
   as_tibble(new_data)
 }
