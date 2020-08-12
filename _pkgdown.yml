@@ -29,5 +29,3 @@ reference:
     contents:
       - circle_example
   - title: "Dials Objects"
-    contents:
-      - all_neighbors
