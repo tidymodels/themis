@@ -1,11 +1,11 @@
 ## Release Summary
 
-This is the 2th CRAN release of themis. Includes couple of bug fixes.
+This is the 3th CRAN release of themis. Includes a couple of bug fixes.
 
 ## Test environments
-* local R installation, R 4.0.0
-* ubuntu 16.04 (on travis-ci), R 4.0.0
-* win-builder (devel and release)
+* local R installation, R 4.0.2
+* ubuntu 16.04 (on travis-ci), R 4.0.2
+* win-builder (devel)
 
 ## R CMD check results
 
