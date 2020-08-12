@@ -278,3 +278,20 @@ test_factor_level_memory <- function(step, ...) {
   })
 
 }
+
+test_result_ordering <- function(step, ...) {
+  browser()
+  res <- recipe(~ ., data = circle_example) %>%
+    step(class, ...) %>%
+    prep() %>%
+    juice()
+
+  test_that("ordering of newly generated points are right", {
+
+    expect_equal(
+      res[seq_len(nrow(circle_example)), ],
+      as_tibble(circle_example)
+    )
+
+  })
+}
