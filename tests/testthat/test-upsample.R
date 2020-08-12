@@ -38,4 +38,6 @@ test_over_ratio(step_upsample)
 test_multiclass(step_upsample)
 test_multi_majority(step_upsample)
 test_factor_level_memory(step_upsample)
-test_result_ordering(step_upsample)
+
+# add back in once step_upsample is completely deprecated
+# test_result_ordering(step_upsample)

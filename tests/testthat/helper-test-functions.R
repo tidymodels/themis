@@ -280,7 +280,6 @@ test_factor_level_memory <- function(step, ...) {
 }
 
 test_result_ordering <- function(step, ...) {
-  browser()
   res <- recipe(~ ., data = circle_example) %>%
     step(class, ...) %>%
     prep() %>%

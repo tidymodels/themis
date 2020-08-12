@@ -29,16 +29,20 @@ smote <- function(df, var, k = 5, over_ratio = 1) {
   samples_needed <- ratio_target - table(df[[var]])[which_upsample]
   min_names <- names(samples_needed)
 
+  out_dfs <- list()
+
   for (i in seq_along(samples_needed)) {
     minority_df <- data[[min_names[i]]]
     minority <- as.matrix(minority_df[names(minority_df) != var])
     synthetic <- smote_data(minority, k = k, n_samples = samples_needed[i])
-    out_df <- as.data.frame(rbind(minority, synthetic))
+    out_df <- as.data.frame(synthetic)
     out_df[var] <- data[[names(samples_needed)[i]]][[var]][1]
-    data[[names(samples_needed)[i]]] <- out_df[, names(minority_df)]
+    names(out_df) <- names(df)
+    out_dfs[[i]] <- out_df
   }
 
-  final <- do.call(rbind, data)
+  final <- rbind(df, do.call(rbind, out_dfs))
+  final[[var]] <- factor(final[[var]], levels = levels(df[[var]]))
   rownames(final) <- NULL
   final
 }
