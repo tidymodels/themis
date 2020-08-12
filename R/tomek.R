@@ -78,7 +78,6 @@
 #'   xlim(c(1, 15)) +
 #'   ylim(c(1, 15))
 #'
-#' @importFrom recipes rand_id add_step ellipse_check
 step_tomek <-
   function(recipe, ..., role = NA, trained = FALSE,
            column = NULL, skip = TRUE, seed = sample.int(10^5, 1),
@@ -96,7 +95,6 @@ step_tomek <-
              ))
   }
 
-#' @importFrom recipes step
 step_tomek_new <-
   function(terms, role, trained, column, skip, seed, id) {
     step(
@@ -112,9 +110,6 @@ step_tomek_new <-
     )
   }
 
-#' @importFrom recipes bake prep check_type
-#' @importFrom dplyr select
-#' @importFrom purrr map_lgl
 #' @export
 prep.step_tomek <- function(x, training, info = NULL, ...) {
 
@@ -153,11 +148,6 @@ response_0_1_to_org <- function(old, new) {
   factor(unname(ref[as.character(new)]))
 }
 
-#' @importFrom tibble as_tibble tibble
-#' @importFrom withr with_seed
-#' @importFrom unbalanced ubTomek
-#' @importFrom dplyr mutate
-#' @importFrom rlang :=
 #' @export
 bake.step_tomek <- function(object, new_data, ...) {
 
@@ -180,7 +170,6 @@ bake.step_tomek <- function(object, new_data, ...) {
   as_tibble(new_data0[names(new_data)])
 }
 
-#' @importFrom recipes printer terms_select
 #' @export
 print.step_tomek <-
   function(x, width = max(20, options()$width - 26), ...) {
@@ -191,8 +180,6 @@ print.step_tomek <-
 
 #' @rdname step_tomek
 #' @param x A `step_tomek` object.
-#' @importFrom generics tidy
-#' @importFrom recipes sel2char is_trained
 #' @export
 tidy.step_tomek <- function(x, ...) {
   if (is_trained(x)) {

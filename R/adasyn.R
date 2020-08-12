@@ -74,7 +74,6 @@
 #'   geom_point() +
 #'   labs(title = "With ADASYN")
 #'
-#' @importFrom recipes rand_id add_step ellipse_check
 step_adasyn <-
   function(recipe, ..., role = NA, trained = FALSE, column = NULL,
            over_ratio = 1, neighbors = 5, skip = TRUE,
@@ -94,7 +93,6 @@ step_adasyn <-
              ))
   }
 
-#' @importFrom recipes step
 step_adasyn_new <-
   function(terms, role, trained, column, over_ratio, neighbors, skip, seed,
            id) {
@@ -113,9 +111,6 @@ step_adasyn_new <-
     )
   }
 
-#' @importFrom recipes bake prep check_type
-#' @importFrom dplyr select
-#' @importFrom purrr map_lgl
 #' @export
 prep.step_adasyn <- function(x, training, info = NULL, ...) {
 
@@ -143,10 +138,6 @@ prep.step_adasyn <- function(x, training, info = NULL, ...) {
   )
 }
 
-#' @importFrom tibble as_tibble tibble
-#' @importFrom withr with_seed
-#' @importFrom dplyr mutate
-#' @importFrom rlang :=
 #' @export
 bake.step_adasyn <- function(object, new_data, ...) {
 
@@ -162,7 +153,6 @@ bake.step_adasyn <- function(object, new_data, ...) {
   as_tibble(new_data)
 }
 
-#' @importFrom recipes printer terms_select
 #' @export
 print.step_adasyn <-
   function(x, width = max(20, options()$width - 26), ...) {
@@ -173,8 +163,6 @@ print.step_adasyn <-
 
 #' @rdname step_adasyn
 #' @param x A `step_adasyn` object.
-#' @importFrom generics tidy
-#' @importFrom recipes sel2char is_trained
 #' @export
 tidy.step_adasyn <- function(x, ...) {
   if (is_trained(x)) {

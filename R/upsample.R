@@ -183,7 +183,6 @@ supsamp <- function(x, num) {
   out
 }
 
-#' @importFrom purrr map_dfr
 #' @export
 bake.step_upsample <- function(object, new_data, ...) {
   if (any(is.na(new_data[[object$column]])))

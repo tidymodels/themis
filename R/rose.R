@@ -97,7 +97,6 @@
 #'   geom_point() +
 #'   labs(title = "With ROSE")
 #'
-#' @importFrom recipes rand_id add_step ellipse_check
 step_rose <-
   function(recipe, ..., role = NA, trained = FALSE,
            column = NULL, over_ratio = 1, minority_prop = 0.5,
@@ -120,7 +119,6 @@ step_rose <-
              ))
   }
 
-#' @importFrom recipes step
 step_rose_new <-
   function(terms, role, trained, column, over_ratio, minority_prop,
            minority_smoothness, majority_smoothness, skip, seed, id) {
@@ -140,8 +138,6 @@ step_rose_new <-
     )
   }
 
-#' @importFrom recipes bake prep check_type
-#' @importFrom dplyr select
 #' @export
 prep.step_rose <- function(x, training, info = NULL, ...) {
 
@@ -170,9 +166,6 @@ prep.step_rose <- function(x, training, info = NULL, ...) {
 }
 
 
-#' @importFrom tibble as_tibble tibble
-#' @importFrom withr with_seed
-#' @importFrom ROSE ROSE
 #' @export
 bake.step_rose <- function(object, new_data, ...) {
   if (any(is.na(new_data[[object$column]])))
@@ -197,7 +190,6 @@ bake.step_rose <- function(object, new_data, ...) {
   as_tibble(new_data)
 }
 
-#' @importFrom recipes printer terms_select
 #' @export
 print.step_rose <-
   function(x, width = max(20, options()$width - 26), ...) {
@@ -208,8 +200,6 @@ print.step_rose <-
 
 #' @rdname step_rose
 #' @param x A `step_rose` object.
-#' @importFrom generics tidy
-#' @importFrom recipes sel2char is_trained
 #' @export
 tidy.step_rose <- function(x, ...) {
   if (is_trained(x)) {

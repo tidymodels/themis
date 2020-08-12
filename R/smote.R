@@ -88,7 +88,6 @@
 #'   geom_point() +
 #'   labs(title = "With SMOTE")
 #'
-#' @importFrom recipes rand_id add_step ellipse_check
 step_smote <-
   function(recipe, ..., role = NA, trained = FALSE,
            column = NULL, over_ratio = 1, neighbors = 5,
@@ -108,7 +107,6 @@ step_smote <-
              ))
   }
 
-#' @importFrom recipes step
 step_smote_new <-
   function(terms, role, trained, column, over_ratio, neighbors, skip,
            seed, id) {
@@ -127,8 +125,6 @@ step_smote_new <-
     )
   }
 
-#' @importFrom recipes bake prep check_type
-#' @importFrom dplyr select
 #' @export
 prep.step_smote <- function(x, training, info = NULL, ...) {
 
@@ -154,8 +150,6 @@ prep.step_smote <- function(x, training, info = NULL, ...) {
   )
 }
 
-#' @importFrom tibble as_tibble tibble
-#' @importFrom withr with_seed
 #' @export
 bake.step_smote <- function(object, new_data, ...) {
 
@@ -172,7 +166,6 @@ bake.step_smote <- function(object, new_data, ...) {
   as_tibble(new_data)
 }
 
-#' @importFrom recipes printer terms_select
 #' @export
 print.step_smote <-
   function(x, width = max(20, options()$width - 26), ...) {
@@ -183,8 +176,6 @@ print.step_smote <-
 
 #' @rdname step_smote
 #' @param x A `step_smote` object.
-#' @importFrom generics tidy
-#' @importFrom recipes sel2char is_trained
 #' @export
 tidy.step_smote <- function(x, ...) {
   if (is_trained(x)) {

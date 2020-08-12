@@ -160,7 +160,6 @@ subsamp <- function(x, num) {
   out
 }
 
-#' @importFrom dplyr bind_rows
 #' @export
 bake.step_downsample <- function(object, new_data, ...) {
   if (any(is.na(new_data[[object$column]])))

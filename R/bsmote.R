@@ -111,7 +111,6 @@
 #'   geom_point() +
 #'   labs(title = "With borderline-SMOTE, all_neighbors = TRUE")
 #'
-#' @importFrom recipes rand_id add_step ellipse_check
 step_bsmote <-
   function(recipe, ..., role = NA, trained = FALSE,
            column = NULL, over_ratio = 1, neighbors = 5, all_neighbors = FALSE,
@@ -132,7 +131,6 @@ step_bsmote <-
              ))
   }
 
-#' @importFrom recipes step
 step_bsmote_new <-
   function(terms, role, trained, column, over_ratio, neighbors, all_neighbors, skip,
            seed, id) {
@@ -152,8 +150,6 @@ step_bsmote_new <-
     )
   }
 
-#' @importFrom recipes bake prep check_type
-#' @importFrom dplyr select
 #' @export
 prep.step_bsmote <- function(x, training, info = NULL, ...) {
 
@@ -180,8 +176,6 @@ prep.step_bsmote <- function(x, training, info = NULL, ...) {
   )
 }
 
-#' @importFrom tibble as_tibble tibble
-#' @importFrom withr with_seed
 #' @export
 bake.step_bsmote <- function(object, new_data, ...) {
 
@@ -199,7 +193,6 @@ bake.step_bsmote <- function(object, new_data, ...) {
   as_tibble(new_data)
 }
 
-#' @importFrom recipes printer terms_select
 #' @export
 print.step_bsmote <-
   function(x, width = max(20, options()$width - 26), ...) {
@@ -210,8 +203,6 @@ print.step_bsmote <-
 
 #' @rdname step_bsmote
 #' @param x A `step_bsmote` object.
-#' @importFrom generics tidy
-#' @importFrom recipes sel2char is_trained
 #' @export
 tidy.step_bsmote <- function(x, ...) {
   if (is_trained(x)) {
