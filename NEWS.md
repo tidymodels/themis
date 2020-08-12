@@ -1,6 +1,7 @@
 # themis (development version)
 
 * tuneable steps now properly work with tune package.
+* Steps now Retain original factor level ordering. (#22)
 
 # themis 0.1.1
 
