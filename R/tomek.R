@@ -142,10 +142,10 @@ response_0_1 <- function(x) {
   ifelse(x == names(sort(table(x)))[1], 1, 0)
 }
 # Turns 0-1 coded variable back into factor variable
-response_0_1_to_org <- function(old, new) {
+response_0_1_to_org <- function(old, new, levels) {
   ref <- names(sort(table(old)))
   names(ref) <- c("1", "0")
-  factor(unname(ref[as.character(new)]))
+  factor(unname(ref[as.character(new)]), levels = levels)
 }
 
 #' @export
@@ -155,6 +155,7 @@ bake.step_tomek <- function(object, new_data, ...) {
   with_seed(
     seed = object$seed,
     code = {
+      original_levels <- levels(new_data[[object$column]])
       tomek_data <- ubTomek(X = select(new_data, -!!object$column),
                             Y = response_0_1(new_data[[object$column]]),
                             verbose = FALSE)
@@ -164,7 +165,7 @@ bake.step_tomek <- function(object, new_data, ...) {
   new_data0 <- mutate(
     tomek_data$X,
     !!object$column := response_0_1_to_org(new_data[[object$column]],
-                                           tomek_data$Y)
+                                           tomek_data$Y, levels = original_levels)
     )
 
   as_tibble(new_data0[names(new_data)])

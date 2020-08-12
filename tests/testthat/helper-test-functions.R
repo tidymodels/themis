@@ -243,3 +243,38 @@ test_multi_minority <- function(step, ...) {
     expect_true(all(max(table(rec1_p2$Species)) == 25))
   })
 }
+
+test_factor_level_memory <- function(step, ...) {
+  # Only checks for two level case
+
+  circle_example_alt_levels <- list()
+  for(i in 1:4) circle_example_alt_levels[[i]] <- circle_example
+
+  # Checking for forgetting levels by majority/minor switching
+  for(i in c(2, 4)){
+    levels(circle_example_alt_levels[[i]]$class) <- rev(levels(circle_example_alt_levels[[i]]$class))
+  }
+
+  # Checking for forgetting levels by alphabetical switching
+  for(i in c(3, 4)){
+    circle_example_alt_levels[[i]]$class <- factor(circle_example_alt_levels[[i]]$class, levels = rev(levels(circle_example_alt_levels[[i]]$class)))
+  }
+
+  test_that("factor levels are not affected by alphabet ordering or class sizes", {
+    for(i in 1:4){
+      rec_p <- recipe(~ ., data = circle_example_alt_levels[[i]]) %>%
+        step(class) %>%
+        prep(training = circle_example_alt_levels[[i]])
+
+      expect_equal(
+        levels(circle_example_alt_levels[[i]]$class), # Original levels
+        rec_p$levels$class$values                     # New levels
+      )
+      expect_equal(
+        levels(circle_example_alt_levels[[i]]$class), # Original levels
+        levels(juice(rec_p)$class)                    # New levels
+      )
+    }
+  })
+
+}

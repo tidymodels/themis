@@ -153,9 +153,11 @@ bake.step_nearmiss <- function(object, new_data, ...) {
   with_seed(
     seed = object$seed,
     code = {
+      original_levels <- levels(new_data[[object$column]])
       new_data <- nearmiss(new_data, object$column,
                            k = object$neighbors,
                            under_ratio = object$under_ratio)
+      new_data[[object$column]] <- factor(new_data[[object$column]], levels = original_levels)
     }
   )
 
