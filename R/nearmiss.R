@@ -186,3 +186,12 @@ tidy.step_nearmiss <- function(x, ...) {
   res$id <- x$id
   res
 }
+
+
+
+#' @rdname required_pkgs.step
+#' @export
+required_pkgs.step_nearmiss <- function(x, ...) {
+  c("themis")
+}
+

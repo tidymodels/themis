@@ -226,3 +226,9 @@ tidy.step_upsample <- function(x, ...) {
   res$id <- x$id
   res
 }
+
+#' @rdname required_pkgs.step
+#' @export
+required_pkgs.step_upsample <- function(x, ...) {
+  c("themis")
+}

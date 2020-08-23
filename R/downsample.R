@@ -204,3 +204,10 @@ tidy.step_downsample <- function(x, ...) {
   res$id <- x$id
   res
 }
+
+
+#' @rdname required_pkgs.step
+#' @export
+required_pkgs.step_downsample <- function(x, ...) {
+  c("themis")
+}

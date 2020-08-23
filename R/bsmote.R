@@ -226,3 +226,9 @@ tidy.step_bsmote <- function(x, ...) {
   res$id <- x$id
   res
 }
+
+#' @rdname required_pkgs.step
+#' @export
+required_pkgs.step_bsmote <- function(x, ...) {
+  c("themis")
+}
