@@ -188,3 +188,16 @@ tidy.step_adasyn <- function(x, ...) {
   res$id <- x$id
   res
 }
+
+
+#' S3 methods for tracking which additional packages are needed for steps.
+#'
+#' @param x A recipe step
+#' @return A character vector
+#' @rdname required_pkgs.step
+#' @keywords internal
+#' @export
+required_pkgs.step_adasy <- function(x, ...) {
+  c("themis")
+}
+
