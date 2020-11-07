@@ -10,19 +10,19 @@
 \alias{tunable.step_upsample}
 \title{tunable methods for themis}
 \usage{
-tunable.step_adasyn(x, ...)
+\method{tunable}{step_adasyn}(x, ...)
 
-tunable.step_bsmote(x, ...)
+\method{tunable}{step_bsmote}(x, ...)
 
-tunable.step_downsample(x, ...)
+\method{tunable}{step_downsample}(x, ...)
 
-tunable.step_nearmiss(x, ...)
+\method{tunable}{step_nearmiss}(x, ...)
 
-tunable.step_rose(x, ...)
+\method{tunable}{step_rose}(x, ...)
 
-tunable.step_smote(x, ...)
+\method{tunable}{step_smote}(x, ...)
 
-tunable.step_upsample(x, ...)
+\method{tunable}{step_upsample}(x, ...)
 }
 \arguments{
 \item{x}{A recipe step object}

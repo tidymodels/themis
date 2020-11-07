@@ -12,21 +12,21 @@
 \alias{required_pkgs.step_upsample}
 \title{S3 methods for tracking which additional packages are needed for steps.}
 \usage{
-required_pkgs.step_adasy(x, ...)
+\method{required_pkgs}{step_adasy}(x, ...)
 
-required_pkgs.step_bsmote(x, ...)
+\method{required_pkgs}{step_bsmote}(x, ...)
 
-required_pkgs.step_downsample(x, ...)
+\method{required_pkgs}{step_downsample}(x, ...)
 
-required_pkgs.step_nearmiss(x, ...)
+\method{required_pkgs}{step_nearmiss}(x, ...)
 
-required_pkgs.step_rose(x, ...)
+\method{required_pkgs}{step_rose}(x, ...)
 
-required_pkgs.step_smote(x, ...)
+\method{required_pkgs}{step_smote}(x, ...)
 
-required_pkgs.step_tomek(x, ...)
+\method{required_pkgs}{step_tomek}(x, ...)
 
-required_pkgs.step_upsample(x, ...)
+\method{required_pkgs}{step_upsample}(x, ...)
 }
 \arguments{
 \item{x}{A recipe step}
