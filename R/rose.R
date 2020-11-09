@@ -234,7 +234,7 @@ tidy.step_rose <- function(x, ...) {
 #' @rdname required_pkgs.step
 #' @export
 required_pkgs.step_rose <- function(x, ...) {
-  c("themis")
+  c("themis", "ROSE")
 }
 
 
