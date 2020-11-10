@@ -21,10 +21,10 @@ URL: https://github.com/tidymodels/themis, https://themis.tidymodels.org
 BugReports: https://github.com/tidymodels/themis/issues
 Depends: 
     R (>= 2.10),
-    recipes (>= 0.1.4)
+    recipes (>= 0.1.14.9000)
 Imports: 
     dplyr,
-    generics,
+    generics (>= 0.1.0),
     purrr,
     RANN,
     rlang,
@@ -40,4 +40,6 @@ Suggests:
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.1.9000
+Remotes:
+    tidymodels/recipes

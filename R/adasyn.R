@@ -197,7 +197,7 @@ tidy.step_adasyn <- function(x, ...) {
 #' @rdname required_pkgs.step
 #' @keywords internal
 #' @export
-required_pkgs.step_adasy <- function(x, ...) {
+required_pkgs.step_adasyn <- function(x, ...) {
   c("themis")
 }
 
