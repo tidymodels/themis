@@ -88,11 +88,11 @@
 #'   labs(title = "Without upsample")
 #'
 #' recipe(class ~ ., data = circle_example) %>%
-#'   step_nearmiss(class) %>%
+#'   step_upsample(class) %>%
 #'   prep() %>%
 #'   juice() %>%
 #'   ggplot(aes(x, y, color = class)) +
-#'   geom_jitter() +
+#'   geom_jitter(width = 0.1, height = 0.1) +
 #'   labs(title = "With upsample (with jittering)")
 step_upsample <-
   function(recipe, ...,  over_ratio = 1, ratio = NA, role = NA, trained = FALSE,
