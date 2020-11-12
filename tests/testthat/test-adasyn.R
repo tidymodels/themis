@@ -18,6 +18,21 @@ test_that("tunable", {
   )
 })
 
+test_that("errors if there isn't enough data", {
+  iris4 <- iris
+
+  iris4$Species <- as.character(iris4$Species)
+  iris4$Species[1] <- "dummy"
+  iris4$Species <- as.factor(iris4$Species)
+
+  expect_error(
+    recipe(~ ., data = iris4) %>%
+      step_adasyn(Species) %>%
+      prep(),
+    "Not enough observations"
+  )
+})
+
 test_basic_usage(step_adasyn)
 test_printing(step_adasyn)
 test_bad_data(step_adasyn)

@@ -34,6 +34,12 @@ smote <- function(df, var, k = 5, over_ratio = 1) {
   for (i in seq_along(samples_needed)) {
     minority_df <- data[[min_names[i]]]
     minority <- as.matrix(minority_df[names(minority_df) != var])
+
+    if (nrow(minority) <= k) {
+      rlang::abort(paste0("Not enough observations of '", min_names[i],
+                          "' to perform SMOTE."))
+    }
+
     synthetic <- smote_data(minority, k = k, n_samples = samples_needed[i])
     out_df <- as.data.frame(synthetic)
     out_df[var] <- data[[names(samples_needed)[i]]][[var]][1]

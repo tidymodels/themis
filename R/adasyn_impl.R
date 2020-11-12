@@ -22,8 +22,15 @@ adasyn <- function(df, var, k = 5,  over_ratio = 1) {
     danger_ids <- sample(seq_along(r_value), samples_needed[i], TRUE,
                               prob = r_value)
 
+    minority <- data_mat[!min_class_in, , drop = FALSE]
+
+    if (nrow(minority) <= k) {
+      rlang::abort(paste0("Not enough observations of '", min_names[i],
+                          "' to perform ADASYN."))
+    }
+
       tmp_df <- as.data.frame(
-        adasyn_sampler(data_mat[!min_class_in, ], k, samples_needed[i],
+        adasyn_sampler(minority, k, samples_needed[i],
                    danger_ids)
       )
 

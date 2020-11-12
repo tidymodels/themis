@@ -6,6 +6,12 @@ nearmiss <- function(df, var, k = 5, under_ratio = 1) {
     class <- subset_to_matrix(df, var, names(classes)[i])
     not_class <- subset_to_matrix(df, var, names(classes)[i], FALSE)
 
+    if (nrow(not_class) <= k) {
+      rlang::abort(paste0("Not enough danger observations of '",
+                          names(classes)[i],
+                          "' to perform NEARMISS."))
+    }
+
     dists <- RANN::nn2(not_class, class, k = k)$nn.dists
 
     selected_rows <- class[order(rowMeans(dists)) <=
