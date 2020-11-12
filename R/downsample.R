@@ -63,7 +63,7 @@
 #'
 #' sort(table(okc$diet, useNA = "always"))
 #'
-#' ds_rec <- recipe( ~ ., data = okc) %>%
+#' ds_rec <- recipe(~., data = okc) %>%
 #'   step_downsample(diet) %>%
 #'   prep(training = okc, retain = TRUE)
 #'
@@ -72,12 +72,10 @@
 #' # since `skip` defaults to TRUE, baking the step has no effect
 #' baked_okc <- bake(ds_rec, new_data = okc)
 #' table(baked_okc$diet, useNA = "always")
-
 step_downsample <-
-  function(recipe, ...,  under_ratio = 1, ratio = NA, role = NA,
+  function(recipe, ..., under_ratio = 1, ratio = NA, role = NA,
            trained = FALSE, column = NULL, target = NA, skip = TRUE,
            seed = sample.int(10^5, 1), id = rand_id("downsample")) {
-
     if (!is.na(ratio) & all(under_ratio != ratio)) {
       message(
         paste(
@@ -90,19 +88,21 @@ step_downsample <-
       }
     }
 
-    add_step(recipe,
-             step_downsample_new(
-               terms = ellipse_check(...),
-               under_ratio = under_ratio,
-               ratio = ratio,
-               role = role,
-               trained = trained,
-               column = column,
-               target = target,
-               skip = skip,
-               seed = seed,
-               id = id
-             ))
+    add_step(
+      recipe,
+      step_downsample_new(
+        terms = ellipse_check(...),
+        under_ratio = under_ratio,
+        ratio = ratio,
+        role = role,
+        trained = trained,
+        column = column,
+        target = target,
+        skip = skip,
+        seed = seed,
+        id = id
+      )
+    )
   }
 
 step_downsample_new <-
@@ -127,10 +127,12 @@ step_downsample_new <-
 #' @export
 prep.step_downsample <- function(x, training, info = NULL, ...) {
   col_name <- terms_select(x$terms, info = info)
-  if (length(col_name) != 1)
+  if (length(col_name) != 1) {
     rlang::abort("Please select a single factor variable.")
-  if (!is.factor(training[[col_name]]))
+  }
+  if (!is.factor(training[[col_name]])) {
     rlang::abort(paste0(col_name, " should be a factor variable."))
+  }
 
   obs_freq <- table(training[[col_name]])
   minority <- min(obs_freq)
@@ -152,20 +154,22 @@ prep.step_downsample <- function(x, training, info = NULL, ...) {
 
 subsamp <- function(x, num) {
   n <- nrow(x)
-  if (nrow(x) == num)
+  if (nrow(x) == num) {
     out <- x
-  else
+  } else {
     # downsampling is done without replacement
     out <- x[sample(1:n, min(num, n)), ]
+  }
   out
 }
 
 #' @export
 bake.step_downsample <- function(object, new_data, ...) {
-  if (any(is.na(new_data[[object$column]])))
+  if (any(is.na(new_data[[object$column]]))) {
     missing <- new_data[is.na(new_data[[object$column]]), ]
-  else
+  } else {
     missing <- NULL
+  }
   split_up <- split(new_data, new_data[[object$column]])
 
   # Downsample with seed for reproducibility

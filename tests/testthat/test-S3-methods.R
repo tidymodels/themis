@@ -25,13 +25,14 @@ test_that("required packages", {
   expect_equal(required_pkgs(r7), c("recipes", "themis"))
   expect_equal(required_pkgs(r8), c("recipes", "themis", "unbalanced"))
   expect_equal(required_pkgs(r9), c("recipes", "themis"))
-
 })
 
 test_that("tunable arguments", {
   expect_equal(tunable(r2)$name, c("over_ratio", "neighbors"))
-  expect_equal(tunable(r3)$name,
-               c("over_ratio", "neighbors", "all_neighbors"))
+  expect_equal(
+    tunable(r3)$name,
+    c("over_ratio", "neighbors", "all_neighbors")
+  )
   expect_equal(tunable(r4)$name, "under_ratio")
   expect_equal(tunable(r5)$name, c("under_ratio", "neighbors"))
   expect_equal(tunable(r6)$name, "over_ratio")

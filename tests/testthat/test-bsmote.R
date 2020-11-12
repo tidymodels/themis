@@ -9,7 +9,7 @@ context("bsmote")
 test_that("all minority classes are upsampled", {
   iris3 <- iris[-c(51:75, 101:110), ]
 
-  out <- recipe(~ ., data = iris3) %>%
+  out <- recipe(~., data = iris3) %>%
     step_bsmote(Species) %>%
     prep() %>%
     bake(new_data = NULL)
@@ -21,7 +21,7 @@ test_that("errors if there isn't enough danger data", {
   iris4 <- iris[-c(1:10), ]
 
   expect_error(
-    recipe(~ ., data = iris4) %>%
+    recipe(~., data = iris4) %>%
       step_bsmote(Species) %>%
       prep(),
     "Not enough danger observations"
@@ -30,7 +30,7 @@ test_that("errors if there isn't enough danger data", {
 
 test_that("tunable", {
   rec <-
-    recipe(~ ., data = iris) %>%
+    recipe(~., data = iris) %>%
     step_bsmote(all_predictors(), under_ratio = 1)
   rec_param <- tunable.step_bsmote(rec$steps[[1]])
   expect_equal(rec_param$name, c("over_ratio", "neighbors", "all_neighbors"))

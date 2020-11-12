@@ -96,28 +96,28 @@
 #'   ggplot(aes(x, y, color = class)) +
 #'   geom_point() +
 #'   labs(title = "With ROSE")
-#'
 step_rose <-
   function(recipe, ..., role = NA, trained = FALSE,
            column = NULL, over_ratio = 1, minority_prop = 0.5,
            minority_smoothness = 1, majority_smoothness = 1, skip = TRUE,
            seed = sample.int(10^5, 1), id = rand_id("rose")) {
-
-    add_step(recipe,
-             step_rose_new(
-               terms = ellipse_check(...),
-               role = role,
-               trained = trained,
-               column = column,
-               over_ratio = over_ratio,
-               minority_prop = minority_prop,
-               minority_smoothness = minority_smoothness,
-               majority_smoothness = majority_smoothness,
-               predictors = NULL,
-               skip = skip,
-               seed = seed,
-               id = id
-             ))
+    add_step(
+      recipe,
+      step_rose_new(
+        terms = ellipse_check(...),
+        role = role,
+        trained = trained,
+        column = column,
+        over_ratio = over_ratio,
+        minority_prop = minority_prop,
+        minority_smoothness = minority_smoothness,
+        majority_smoothness = majority_smoothness,
+        predictors = NULL,
+        skip = skip,
+        seed = seed,
+        id = id
+      )
+    )
   }
 
 step_rose_new <-
@@ -143,12 +143,13 @@ step_rose_new <-
 
 #' @export
 prep.step_rose <- function(x, training, info = NULL, ...) {
-
   col_name <- terms_select(x$terms, info = info)
-  if (length(col_name) != 1)
+  if (length(col_name) != 1) {
     rlang::abort("Please select a single factor variable.")
-  if (!is.factor(training[[col_name]]))
+  }
+  if (!is.factor(training[[col_name]])) {
     rlang::abort(paste0(col_name, " should be a factor variable."))
+  }
 
   check_2_levels_only(training, col_name)
 
@@ -175,10 +176,11 @@ prep.step_rose <- function(x, training, info = NULL, ...) {
 
 #' @export
 bake.step_rose <- function(object, new_data, ...) {
-  if (any(is.na(new_data[[object$column]])))
+  if (any(is.na(new_data[[object$column]]))) {
     missing <- new_data[is.na(new_data[[object$column]]), ]
-  else
+  } else {
     missing <- NULL
+  }
 
   new_data <- as.data.frame(new_data)
 
@@ -199,8 +201,10 @@ bake.step_rose <- function(object, new_data, ...) {
         hmult.mino = object$minority_smoothness
       )
       synthetic_data <- synthetic_data$data
-      synthetic_data[[object$column]] <- factor(synthetic_data[[object$column]],
-                                          levels = original_levels)
+      synthetic_data[[object$column]] <- factor(
+        synthetic_data[[object$column]],
+        levels = original_levels
+      )
     }
   )
   new_data <- na_splice(new_data, synthetic_data, object)
@@ -236,5 +240,3 @@ tidy.step_rose <- function(x, ...) {
 required_pkgs.step_rose <- function(x, ...) {
   c("themis", "ROSE")
 }
-
-

@@ -80,25 +80,25 @@
 #'   labs(title = "With NEARMISS") +
 #'   xlim(c(1, 15)) +
 #'   ylim(c(1, 15))
-#'
 step_nearmiss <-
   function(recipe, ..., role = NA, trained = FALSE,
-           column = NULL,  under_ratio = 1, neighbors = 5, skip = TRUE,
+           column = NULL, under_ratio = 1, neighbors = 5, skip = TRUE,
            seed = sample.int(10^5, 1),
            id = rand_id("nearmiss")) {
-
-    add_step(recipe,
-             step_nearmiss_new(
-               terms = ellipse_check(...),
-               role = role,
-               trained = trained,
-               column = column,
-               under_ratio = under_ratio,
-               neighbors = neighbors,
-               skip = skip,
-               seed = seed,
-               id = id
-             ))
+    add_step(
+      recipe,
+      step_nearmiss_new(
+        terms = ellipse_check(...),
+        role = role,
+        trained = trained,
+        column = column,
+        under_ratio = under_ratio,
+        neighbors = neighbors,
+        skip = skip,
+        seed = seed,
+        id = id
+      )
+    )
   }
 
 step_nearmiss_new <-
@@ -121,17 +121,19 @@ step_nearmiss_new <-
 
 #' @export
 prep.step_nearmiss <- function(x, training, info = NULL, ...) {
-
   col_name <- terms_select(x$terms, info = info)
-  if (length(col_name) != 1)
+  if (length(col_name) != 1) {
     rlang::abort("Please select a single factor variable.")
-  if (!is.factor(training[[col_name]]))
+  }
+  if (!is.factor(training[[col_name]])) {
     rlang::abort(paste0(col_name, " should be a factor variable."))
+  }
 
   check_type(select(training, -col_name), TRUE)
 
-  if (any(map_lgl(training, ~ any(is.na(.x)))))
+  if (any(map_lgl(training, ~ any(is.na(.x))))) {
     rlang::abort("`NA` values are not allowed when using `step_nearmiss`")
+  }
 
   step_nearmiss_new(
     terms = x$terms,
@@ -154,10 +156,14 @@ bake.step_nearmiss <- function(object, new_data, ...) {
     seed = object$seed,
     code = {
       original_levels <- levels(new_data[[object$column]])
-      new_data <- nearmiss(new_data, object$column,
-                           k = object$neighbors,
-                           under_ratio = object$under_ratio)
-      new_data[[object$column]] <- factor(new_data[[object$column]], levels = original_levels)
+      new_data <- nearmiss(
+        df = new_data,
+        var = object$column,
+        k = object$neighbors,
+        under_ratio = object$under_ratio
+      )
+      new_data[[object$column]] <- factor(new_data[[object$column]],
+                                          levels = original_levels)
     }
   )
 
@@ -194,4 +200,3 @@ tidy.step_nearmiss <- function(x, ...) {
 required_pkgs.step_nearmiss <- function(x, ...) {
   c("themis")
 }
-

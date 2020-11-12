@@ -152,7 +152,6 @@ recipe(class ~ ., data = circle_example) \%>\%
   ggplot(aes(x, y, color = class)) +
   geom_point() +
   labs(title = "With borderline-SMOTE, all_neighbors = TRUE")
-
 }
 \references{
 Hui Han, Wen-Yuan Wang, and Bing-Huan Mao. Borderline-smote:

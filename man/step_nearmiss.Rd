@@ -123,7 +123,6 @@ recipe(class ~ ., data = circle_example) \%>\%
   labs(title = "With NEARMISS") +
   xlim(c(1, 15)) +
   ylim(c(1, 15))
-
 }
 \references{
 Inderjeet Mani and I Zhang. knn approach to unbalanced data

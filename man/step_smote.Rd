@@ -129,7 +129,6 @@ recipe(class ~ ., data = circle_example) \%>\%
   ggplot(aes(x, y, color = class)) +
   geom_point() +
   labs(title = "With SMOTE")
-
 }
 \references{
 Chawla, N. V., Bowyer, K. W., Hall, L. O., and Kegelmeyer,

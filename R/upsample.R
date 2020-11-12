@@ -60,7 +60,7 @@
 #'
 #' sort(orig, decreasing = TRUE)
 #'
-#' up_rec <- recipe( ~ ., data = okc) %>%
+#' up_rec <- recipe(~., data = okc) %>%
 #'   # Bring the minority levels up to about 200 each
 #'   # 200/16562 is approx 0.0121
 #'   step_upsample(diet, over_ratio = 0.0121) %>%
@@ -95,11 +95,10 @@
 #'   geom_jitter(width = 0.1, height = 0.1) +
 #'   labs(title = "With upsample (with jittering)")
 step_upsample <-
-  function(recipe, ...,  over_ratio = 1, ratio = NA, role = NA, trained = FALSE,
+  function(recipe, ..., over_ratio = 1, ratio = NA, role = NA, trained = FALSE,
            column = NULL, target = NA, skip = TRUE,
            seed = sample.int(10^5, 1),
            id = rand_id("upsample")) {
-
     if (!is.na(ratio) & all(over_ratio != ratio)) {
       message(
         paste(
@@ -112,19 +111,21 @@ step_upsample <-
       }
     }
 
-    add_step(recipe,
-             step_upsample_new(
-               terms = ellipse_check(...),
-               over_ratio = over_ratio,
-               ratio = ratio,
-               role = role,
-               trained = trained,
-               column = column,
-               target = target,
-               skip = skip,
-               seed = seed,
-               id = id
-             ))
+    add_step(
+      recipe,
+      step_upsample_new(
+        terms = ellipse_check(...),
+        over_ratio = over_ratio,
+        ratio = ratio,
+        role = role,
+        trained = trained,
+        column = column,
+        target = target,
+        skip = skip,
+        seed = seed,
+        id = id
+      )
+    )
   }
 
 step_upsample_new <-
@@ -149,10 +150,12 @@ step_upsample_new <-
 #' @export
 prep.step_upsample <- function(x, training, info = NULL, ...) {
   col_name <- terms_select(x$terms, info = info)
-  if (length(col_name) != 1)
+  if (length(col_name) != 1) {
     rlang::abort("Please select a single factor variable.")
-  if (!is.factor(training[[col_name]]))
+  }
+  if (!is.factor(training[[col_name]])) {
     rlang::abort(paste0(col_name, " should be a factor variable."))
+  }
 
 
   obs_freq <- table(training[[col_name]])
@@ -175,20 +178,22 @@ prep.step_upsample <- function(x, training, info = NULL, ...) {
 
 supsamp <- function(x, num) {
   n <- nrow(x)
-  if (nrow(x) == num)
+  if (nrow(x) == num) {
     out <- x
-  else
+  } else {
     # upsampling is done with replacement
     out <- x[sample(1:n, max(num, n), replace = TRUE), ]
+  }
   out
 }
 
 #' @export
 bake.step_upsample <- function(object, new_data, ...) {
-  if (any(is.na(new_data[[object$column]])))
+  if (any(is.na(new_data[[object$column]]))) {
     missing <- new_data[is.na(new_data[[object$column]]), ]
-  else
+  } else {
     missing <- NULL
+  }
   split_up <- split(new_data, new_data[[object$column]])
 
   # Upsample with seed for reproducibility

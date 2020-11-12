@@ -107,7 +107,7 @@ data(okc)
 
 sort(table(okc$diet, useNA = "always"))
 
-ds_rec <- recipe( ~ ., data = okc) \%>\%
+ds_rec <- recipe(~., data = okc) \%>\%
   step_downsample(diet) \%>\%
   prep(training = okc, retain = TRUE)
 

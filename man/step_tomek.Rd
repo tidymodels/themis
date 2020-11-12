@@ -111,7 +111,6 @@ recipe(class ~ ., data = circle_example) \%>\%
   labs(title = "With Tomek") +
   xlim(c(1, 15)) +
   ylim(c(1, 15))
-
 }
 \references{
 Tomek. Two modifications of cnn. IEEE Trans. Syst. Man Cybern.,

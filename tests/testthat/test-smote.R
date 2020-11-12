@@ -6,12 +6,12 @@ context("SMOTE")
 
 iris2 <- iris[-c(1:30), ]
 
-rec <- recipe(~ ., data = iris2)
+rec <- recipe(~., data = iris2)
 
 test_that("all minority classes are upsampled", {
   iris3 <- iris[-c(1:25, 51:75), ]
 
-  out <- recipe(~ ., data = iris3) %>%
+  out <- recipe(~., data = iris3) %>%
     step_smote(Species) %>%
     prep() %>%
     bake(new_data = NULL)
@@ -21,7 +21,7 @@ test_that("all minority classes are upsampled", {
 
 test_that("tunable", {
   rec <-
-    recipe(~ ., data = iris) %>%
+    recipe(~., data = iris) %>%
     step_smote(all_predictors(), under_ratio = 1)
   rec_param <- tunable.step_smote(rec$steps[[1]])
   expect_equal(rec_param$name, c("over_ratio", "neighbors"))
@@ -42,7 +42,7 @@ test_that("errors if there isn't enough data", {
   iris4$Species <- as.factor(iris4$Species)
 
   expect_error(
-    recipe(~ ., data = iris4) %>%
+    recipe(~., data = iris4) %>%
       step_smote(Species) %>%
       prep(),
     "Not enough observations"

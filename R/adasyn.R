@@ -73,25 +73,25 @@
 #'   ggplot(aes(x, y, color = class)) +
 #'   geom_point() +
 #'   labs(title = "With ADASYN")
-#'
 step_adasyn <-
   function(recipe, ..., role = NA, trained = FALSE, column = NULL,
            over_ratio = 1, neighbors = 5, skip = TRUE,
            seed = sample.int(10^5, 1), id = rand_id("adasyn")) {
-
-    add_step(recipe,
-             step_adasyn_new(
-               terms = ellipse_check(...),
-               role = role,
-               trained = trained,
-               column = column,
-               over_ratio = over_ratio,
-               neighbors = neighbors,
-               predictors = NULL,
-               skip = skip,
-               seed = seed,
-               id = id
-             ))
+    add_step(
+      recipe,
+      step_adasyn_new(
+        terms = ellipse_check(...),
+        role = role,
+        trained = trained,
+        column = column,
+        over_ratio = over_ratio,
+        neighbors = neighbors,
+        predictors = NULL,
+        skip = skip,
+        seed = seed,
+        id = id
+      )
+    )
   }
 
 step_adasyn_new <-
@@ -115,19 +115,21 @@ step_adasyn_new <-
 
 #' @export
 prep.step_adasyn <- function(x, training, info = NULL, ...) {
-
   col_name <- terms_select(x$terms, info = info)
-  if (length(col_name) != 1)
+  if (length(col_name) != 1) {
     rlang::abort("Please select a single factor variable.")
-  if (!is.factor(training[[col_name]]))
+  }
+  if (!is.factor(training[[col_name]])) {
     rlang::abort(paste0(col_name, " should be a factor variable."))
+  }
 
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
 
   check_type(training[, predictors], TRUE)
 
-  if (any(map_lgl(training, ~ any(is.na(.x)))))
+  if (any(map_lgl(training, ~ any(is.na(.x))))) {
     rlang::abort("`NA` values are not allowed when using `step_adasyn`")
+  }
 
   step_adasyn_new(
     terms = x$terms,
@@ -145,7 +147,6 @@ prep.step_adasyn <- function(x, training, info = NULL, ...) {
 
 #' @export
 bake.step_adasyn <- function(object, new_data, ...) {
-
   new_data <- as.data.frame(new_data)
 
   predictor_data <- new_data[, unique(c(object$predictors, object$column))]
@@ -158,7 +159,8 @@ bake.step_adasyn <- function(object, new_data, ...) {
         predictor_data,
         object$column,
         k = object$neighbors,
-        over_ratio = object$over_ratio)
+        over_ratio = object$over_ratio
+      )
     }
   )
   new_data <- na_splice(new_data, synthetic_data, object)
@@ -200,4 +202,3 @@ tidy.step_adasyn <- function(x, ...) {
 required_pkgs.step_adasyn <- function(x, ...) {
   c("themis")
 }
-

@@ -5,7 +5,7 @@ library(dplyr)
 context("adasyn")
 
 test_that("tunable", {
-  rec <- recipe(~ ., data = iris) %>%
+  rec <- recipe(~., data = iris) %>%
     step_adasyn(all_predictors(), under_ratio = 1)
   rec_param <- tunable.step_adasyn(rec$steps[[1]])
   expect_equal(rec_param$name, c("over_ratio", "neighbors"))
@@ -26,7 +26,7 @@ test_that("errors if there isn't enough data", {
   iris4$Species <- as.factor(iris4$Species)
 
   expect_error(
-    recipe(~ ., data = iris4) %>%
+    recipe(~., data = iris4) %>%
       step_adasyn(Species) %>%
       prep(),
     "Not enough observations"

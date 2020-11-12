@@ -8,7 +8,7 @@ context("nearmiss")
 
 test_that("tunable", {
   rec <-
-    recipe(~ ., data = iris) %>%
+    recipe(~., data = iris) %>%
     step_nearmiss(all_predictors(), under_ratio = 1)
   rec_param <- tunable.step_nearmiss(rec$steps[[1]])
   expect_equal(rec_param$name, c("under_ratio", "neighbors"))

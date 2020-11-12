@@ -6,7 +6,7 @@ set.seed(1234)
 context("ROSE")
 
 test_that("minority_prop value", {
-  rec <- recipe(~ ., data = circle_example)
+  rec <- recipe(~., data = circle_example)
   rec21 <- rec %>%
     step_rose(class, minority_prop = 0.1)
 
@@ -26,7 +26,7 @@ test_that("minority_prop value", {
 
 test_that("tunable", {
   rec <-
-    recipe(~ ., data = iris) %>%
+    recipe(~., data = iris) %>%
     step_rose(all_predictors(), under_ratio = 1)
   rec_param <- tunable.step_rose(rec$steps[[1]])
   expect_equal(rec_param$name, c("over_ratio"))

@@ -1,7 +1,7 @@
-adasyn <- function(df, var, k = 5,  over_ratio = 1) {
+adasyn <- function(df, var, k = 5, over_ratio = 1) {
   majority_count <- max(table(df[[var]]))
   ratio_target <- majority_count * over_ratio
-  which_upsample <-  which(table(df[[var]]) < ratio_target)
+  which_upsample <- which(table(df[[var]]) < ratio_target)
   samples_needed <- ratio_target - table(df[[var]])[which_upsample]
   min_names <- names(samples_needed)
   out_dfs <- list()
@@ -10,29 +10,32 @@ adasyn <- function(df, var, k = 5,  over_ratio = 1) {
   ids_full <- RANN::nn2(data_mat, k = k + 1, searchtype = "priority")$nn.idx
 
   for (i in seq_along(min_names)) {
-
     min_class_in <- df[[var]] != min_names[i]
 
     r_value <- pmax(
       0,
-      rowSums(matrix((min_class_in)[ids_full],
-                     ncol = ncol(ids_full))) - 1
-    )[!min_class_in]
-
+      rowSums(matrix((min_class_in)[ids_full], ncol = ncol(ids_full))) - 1
+    )
+    r_value <- r_value[!min_class_in]
     danger_ids <- sample(seq_along(r_value), samples_needed[i], TRUE,
-                              prob = r_value)
+      prob = r_value
+    )
 
     minority <- data_mat[!min_class_in, , drop = FALSE]
 
     if (nrow(minority) <= k) {
-      rlang::abort(paste0("Not enough observations of '", min_names[i],
-                          "' to perform ADASYN."))
+      rlang::abort(paste0(
+        "Not enough observations of '", min_names[i],
+        "' to perform ADASYN."
+      ))
     }
 
-      tmp_df <- as.data.frame(
-        adasyn_sampler(minority, k, samples_needed[i],
-                   danger_ids)
+    tmp_df <- as.data.frame(
+      adasyn_sampler(
+        minority, k, samples_needed[i],
+        danger_ids
       )
+    )
 
     colnames(tmp_df) <- colnames(data_mat)
     tmp_df[[var]] <- min_names[i]

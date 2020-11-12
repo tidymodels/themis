@@ -6,7 +6,7 @@ context("Upsampling")
 
 test_that("ratio deprecation", {
   expect_message(
-    new_rec <- recipe(~ ., data = circle_example) %>%
+    new_rec <- recipe(~., data = circle_example) %>%
       step_upsample(class, ratio = 2),
     "argument is now deprecated"
   )
@@ -15,7 +15,7 @@ test_that("ratio deprecation", {
 
 test_that("tunable", {
   rec <-
-    recipe(~ ., data = iris) %>%
+    recipe(~., data = iris) %>%
     step_upsample(all_predictors())
   rec_param <- tunable.step_upsample(rec$steps[[1]])
   expect_equal(rec_param$name, c("over_ratio"))

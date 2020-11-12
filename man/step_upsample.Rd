@@ -104,7 +104,7 @@ orig <- table(okc$diet, useNA = "always")
 
 sort(orig, decreasing = TRUE)
 
-up_rec <- recipe( ~ ., data = okc) \%>\%
+up_rec <- recipe(~., data = okc) \%>\%
   # Bring the minority levels up to about 200 each
   # 200/16562 is approx 0.0121
   step_upsample(diet, over_ratio = 0.0121) \%>\%

@@ -140,7 +140,6 @@ recipe(class ~ ., data = circle_example) \%>\%
   ggplot(aes(x, y, color = class)) +
   geom_point() +
   labs(title = "With ROSE")
-
 }
 \references{
 Lunardon, N., Menardi, G., and Torelli, N. (2014). ROSE: a

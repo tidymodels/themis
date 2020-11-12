@@ -114,7 +114,6 @@ recipe(class ~ ., data = circle_example) \%>\%
   ggplot(aes(x, y, color = class)) +
   geom_point() +
   labs(title = "With ADASYN")
-
 }
 \references{
 He, H., Bai, Y., Garcia, E. and Li, S. 2008. ADASYN: Adaptive

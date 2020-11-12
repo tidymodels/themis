@@ -110,26 +110,26 @@
 #'   ggplot(aes(x, y, color = class)) +
 #'   geom_point() +
 #'   labs(title = "With borderline-SMOTE, all_neighbors = TRUE")
-#'
 step_bsmote <-
   function(recipe, ..., role = NA, trained = FALSE,
            column = NULL, over_ratio = 1, neighbors = 5, all_neighbors = FALSE,
            skip = TRUE, seed = sample.int(10^5, 1), id = rand_id("bsmote")) {
-
-    add_step(recipe,
-             step_bsmote_new(
-               terms = ellipse_check(...),
-               role = role,
-               trained = trained,
-               column = column,
-               over_ratio = over_ratio,
-               neighbors = neighbors,
-               all_neighbors = all_neighbors,
-               predictors = NULL,
-               skip = skip,
-               seed = seed,
-               id = id
-             ))
+    add_step(
+      recipe,
+      step_bsmote_new(
+        terms = ellipse_check(...),
+        role = role,
+        trained = trained,
+        column = column,
+        over_ratio = over_ratio,
+        neighbors = neighbors,
+        all_neighbors = all_neighbors,
+        predictors = NULL,
+        skip = skip,
+        seed = seed,
+        id = id
+      )
+    )
   }
 
 step_bsmote_new <-
@@ -143,7 +143,7 @@ step_bsmote_new <-
       column = column,
       over_ratio = over_ratio,
       neighbors = neighbors,
-      all_neighbors =  all_neighbors,
+      all_neighbors = all_neighbors,
       predictors = predictors,
       skip = skip,
       id = id,
@@ -154,12 +154,13 @@ step_bsmote_new <-
 
 #' @export
 prep.step_bsmote <- function(x, training, info = NULL, ...) {
-
   col_name <- terms_select(x$terms, info = info)
-  if (length(col_name) != 1)
+  if (length(col_name) != 1) {
     rlang::abort("Please select a single factor variable.")
-  if (!is.factor(training[[col_name]]))
+  }
+  if (!is.factor(training[[col_name]])) {
     rlang::abort(paste0(col_name, " should be a factor variable."))
+  }
 
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
 
@@ -183,7 +184,6 @@ prep.step_bsmote <- function(x, training, info = NULL, ...) {
 
 #' @export
 bake.step_bsmote <- function(object, new_data, ...) {
-
   new_data <- as.data.frame(new_data)
 
   predictor_data <- new_data[, unique(c(object$predictors, object$column))]
@@ -196,7 +196,8 @@ bake.step_bsmote <- function(object, new_data, ...) {
         object$column,
         k = object$neighbors,
         over_ratio = object$over_ratio,
-        all_neighbors = object$all_neighbors)
+        all_neighbors = object$all_neighbors
+      )
     }
   )
   new_data <- na_splice(new_data, synthetic_data, object)
