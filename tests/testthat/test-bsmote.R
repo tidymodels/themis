@@ -12,7 +12,7 @@ test_that("all minority classes are upsampled", {
   out <- recipe(~ ., data = iris3) %>%
     step_bsmote(Species) %>%
     prep() %>%
-    juice()
+    bake(new_data = NULL)
 
   expect_equal(as.numeric(table(out$Species)), c(50, 50, 50))
 })

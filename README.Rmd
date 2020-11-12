@@ -61,7 +61,7 @@ ds_rec <- recipe(Class ~ age + height, data = okc) %>%
   step_smote(Class) %>%
   prep()
 
-sort(table(juice(ds_rec)$Class, useNA = "always"))
+sort(table(bake(ds_rec, new_data = NULL)$Class, useNA = "always"))
 ```
 
 ## Methods
@@ -98,7 +98,7 @@ By setting `over_ratio = 1` you bring the number of samples of all minority clas
 recipe(~., example_data) %>%
   step_upsample(class, over_ratio = 1) %>%
   prep() %>%
-  juice() %>%
+  bake(new_data = NULL) %>%
   ggplot(aes(class)) +
   geom_bar()
 ```
@@ -109,7 +109,7 @@ and by setting `over_ratio = 0.5` we upsample any minority class with less sampl
 recipe(~., example_data) %>%
   step_upsample(class, over_ratio = 0.5) %>%
   prep() %>%
-  juice() %>%
+  bake(new_data = NULL) %>%
   ggplot(aes(class)) +
   geom_bar()
 ```
@@ -130,7 +130,7 @@ By setting `under_ratio = 1` you bring the number of samples of all majority cla
 recipe(~., example_data) %>%
   step_downsample(class, under_ratio = 1) %>%
   prep() %>%
-  juice() %>%
+  bake(new_data = NULL) %>%
   ggplot(aes(class)) +
   geom_bar()
 ```
@@ -141,7 +141,7 @@ and by setting `under_ratio = 2` we downsample any majority class with more then
 recipe(~., example_data) %>%
   step_downsample(class, under_ratio = 2) %>%
   prep() %>%
-  juice() %>%
+  bake(new_data = NULL) %>%
   ggplot(aes(class)) +
   geom_bar()
 ```

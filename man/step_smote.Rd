@@ -103,7 +103,7 @@ ds_rec <- recipe(Status ~ Age + Income + Assets, data = credit_data) \%>\%
   step_smote(Status) \%>\%
   prep()
 
-sort(table(juice(ds_rec)$Status, useNA = "always"))
+sort(table(bake(ds_rec, new_data = NULL)$Status, useNA = "always"))
 
 # since `skip` defaults to TRUE, baking the step has no effect
 baked_okc <- bake(ds_rec, new_data = credit_data)
@@ -114,7 +114,7 @@ ds_rec2 <- recipe(Status ~ Age + Income + Assets, data = credit_data) \%>\%
   step_smote(Status, over_ratio = 0.2) \%>\%
   prep()
 
-table(juice(ds_rec2)$Status, useNA = "always")
+table(bake(ds_rec2, new_data = NULL)$Status, useNA = "always")
 
 library(ggplot2)
 
@@ -125,7 +125,7 @@ ggplot(circle_example, aes(x, y, color = class)) +
 recipe(class ~ ., data = circle_example) \%>\%
   step_smote(class) \%>\%
   prep() \%>\%
-  juice() \%>\%
+  bake(new_data = NULL) \%>\%
   ggplot(aes(x, y, color = class)) +
   geom_point() +
   labs(title = "With SMOTE")

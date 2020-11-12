@@ -16,8 +16,8 @@ test_that("minority_prop value", {
   rec21_p <- prep(rec21, training = circle_example)
   rec22_p <- prep(rec22, training = circle_example)
 
-  tr_xtab1 <- table(juice(rec21_p)$class, useNA = "no")
-  tr_xtab2 <- table(juice(rec22_p)$class, useNA = "no")
+  tr_xtab1 <- table(bake(rec21_p, new_data = NULL)$class, useNA = "no")
+  tr_xtab2 <- table(bake(rec22_p, new_data = NULL)$class, useNA = "no")
 
   expect_equal(sum(tr_xtab1), sum(tr_xtab2))
 

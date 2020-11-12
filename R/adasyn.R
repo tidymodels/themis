@@ -54,7 +54,7 @@
 #'   step_adasyn(Class) %>%
 #'   prep()
 #'
-#' sort(table(juice(ds_rec)$Class, useNA = "always"))
+#' sort(table(bake(ds_rec, new_data = NULL)$Class, useNA = "always"))
 #'
 #' # since `skip` defaults to TRUE, baking the step has no effect
 #' baked_okc <- bake(ds_rec, new_data = okc)
@@ -69,7 +69,7 @@
 #' recipe(class ~ ., data = circle_example) %>%
 #'   step_adasyn(class) %>%
 #'   prep() %>%
-#'   juice() %>%
+#'   bake(new_data = NULL) %>%
 #'   ggplot(aes(x, y, color = class)) +
 #'   geom_point() +
 #'   labs(title = "With ADASYN")

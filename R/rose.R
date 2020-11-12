@@ -71,7 +71,7 @@
 #'   step_rose(Class) %>%
 #'   prep()
 #'
-#' sort(table(juice(ds_rec)$Class, useNA = "always"))
+#' sort(table(bake(ds_rec, new_data = NULL)$Class, useNA = "always"))
 #'
 #' # since `skip` defaults to TRUE, baking the step has no effect
 #' baked_okc <- bake(ds_rec, new_data = okc)
@@ -81,7 +81,7 @@
 #'   step_rose(Class, minority_prop = 0.3) %>%
 #'   prep()
 #'
-#' table(juice(ds_rec2)$Class, useNA = "always")
+#' table(bake(ds_rec2, new_data = NULL)$Class, useNA = "always")
 #'
 #' library(ggplot2)
 #'
@@ -92,7 +92,7 @@
 #' recipe(class ~ ., data = circle_example) %>%
 #'   step_rose(class) %>%
 #'   prep() %>%
-#'   juice() %>%
+#'   bake(new_data = NULL) %>%
 #'   ggplot(aes(x, y, color = class)) +
 #'   geom_point() +
 #'   labs(title = "With ROSE")

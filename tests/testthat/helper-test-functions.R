@@ -67,9 +67,8 @@ test_no_skipping <- function(step, data = NULL) {
 
   rec_p <- prep(rec, training = data, retain = TRUE)
 
-  tr_xtab <- table(juice(rec_p)$class, useNA = "always")
-  te_xtab <- table(bake(rec_p, new_data = data)$class,
-                   useNA = "always")
+  tr_xtab <- table(bake(rec_p, new_data = NULL)$class, useNA = "always")
+  te_xtab <- table(bake(rec_p, new_data = data)$class, useNA = "always")
 
   test_that("no skipping", {
     expect_equal(te_xtab, tr_xtab)
@@ -98,7 +97,7 @@ test_seed <- function(step, data = NULL) {
     recipe(~ ., data = data) %>%
       step(class, seed = seed) %>%
       prep(training = data, retain = TRUE) %>%
-      juice() %>%
+      bake(new_data = NULL) %>%
       pull(x)
   }
 
@@ -140,12 +139,12 @@ test_under_ratio <- function(step) {
   res1 <- recipe(~ ., data = circle_example) %>%
     step(class) %>%
     prep() %>%
-    juice()
+    bake(new_data = NULL)
 
   res1.5 <- recipe(~ ., data = circle_example) %>%
     step(class, under_ratio = 1.5) %>%
     prep() %>%
-    juice()
+    bake(new_data = NULL)
 
   test_that("ratio value", {
 
@@ -161,12 +160,12 @@ test_over_ratio <- function(step, ...) {
   res1 <- recipe(~ ., data = circle_example) %>%
     step(class, ...) %>%
     prep() %>%
-    juice()
+    bake(new_data = NULL)
 
   res1.5 <- recipe(~ ., data = circle_example) %>%
     step(class, over_ratio = 0.5) %>%
     prep() %>%
-    juice()
+    bake(new_data = NULL)
 
   test_that("ratio value", {
 
@@ -226,7 +225,7 @@ test_multi_majority <- function(step, ...) {
   rec1_p2 <- recipe(~ ., data = iris[-c(51:75), ]) %>%
     step(Species, ...) %>%
     prep() %>%
-    juice()
+    bake(new_data = NULL)
 
   test_that("majority classes are ignored if there is more than 1", {
     expect_true(all(max(table(rec1_p2$Species)) <= 50))
@@ -237,7 +236,7 @@ test_multi_minority <- function(step, ...) {
   rec1_p2 <- recipe(~., data = iris[-c(1:25, 51:75), ]) %>%
     step(Species, ...) %>%
     prep() %>%
-    juice()
+    bake(new_data = NULL)
 
   test_that("minority classes are ignored if there is more than 1", {
     expect_true(all(max(table(rec1_p2$Species)) == 25))
@@ -272,7 +271,7 @@ test_factor_level_memory <- function(step, ...) {
       )
       expect_equal(
         levels(circle_example_alt_levels[[i]]$class), # Original levels
-        levels(juice(rec_p)$class)                    # New levels
+        levels(bake(rec_p, new_data = NULL)$class)    # New levels
       )
     }
   })
@@ -283,7 +282,7 @@ test_result_ordering <- function(step, ...) {
   res <- recipe(~ ., data = circle_example) %>%
     step(class, ...) %>%
     prep() %>%
-    juice()
+    bake(new_data = NULL)
 
   test_that("ordering of newly generated points are right", {
 
@@ -304,7 +303,7 @@ test_id_variables_are_ignores <- function(step, ...) {
     update_role(id, new_role = "id") %>%
     step(class, ...) %>%
     prep() %>%
-    juice()
+    bake(new_data = NULL)
 
   test_that("non-predictor variables are ignored", {
 

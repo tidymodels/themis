@@ -111,7 +111,7 @@ ds_rec <- recipe( ~ ., data = okc) \%>\%
   step_downsample(diet) \%>\%
   prep(training = okc, retain = TRUE)
 
-sort(table(juice(ds_rec)$diet, useNA = "always"))
+sort(table(bake(ds_rec, new_data = NULL)$diet, useNA = "always"))
 
 # since `skip` defaults to TRUE, baking the step has no effect
 baked_okc <- bake(ds_rec, new_data = okc)
