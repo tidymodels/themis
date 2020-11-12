@@ -89,7 +89,7 @@ space of minority and majority class example. Using ROSE::ROSE()." />
         <a class="navbar-brand" href="../index.html">themis</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.2.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.3.9000</span>
         </div>
       </div>
     </div>
@@ -240,7 +240,7 @@ the variable used to sample.</p>
 
     <p>The factor variable used to balance around must only have 2 levels.</p>
 <p>The ROSE algorithm works by selecting an observation belonging to class k
-and generates new examples  in its neightborhood is determined by some matrix
+and generates new examples  in its neighborhood is determined by some matrix
 H_k. Smaller values of these arguments have the effect of shrinking the
 entries of the corresponding smoothing matrix H_k, Shrinking would be a
 cautious choice if there is a concern that excessively large neighborhoods
@@ -304,8 +304,7 @@ Discovery, 28:92–122.</p>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, color <span class='op'>=</span> <span class='va'>class</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"With ROSE"</span><span class='op'>)</span>
-</div><div class='img'><img src='step_rose-2.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+</div><div class='img'><img src='step_rose-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

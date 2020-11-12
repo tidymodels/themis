@@ -89,7 +89,7 @@ levels in a specific factor level equal." />
         <a class="navbar-brand" href="../index.html">themis</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.2.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.3.9000</span>
         </div>
       </div>
     </div>
@@ -262,7 +262,7 @@ and <code><a href='https://recipes.tidymodels.org/reference/bake.html'>bake()</a
 #&gt;                 136                  86                  48                  18 
 #&gt;     strictly kosher               halal              kosher 
 #&gt;                  18                  11                  11 </div><div class='input'>
-<span class='va'>up_rec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span><span class='op'>(</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>okc</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+<span class='va'>up_rec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>okc</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
   <span class='co'># Bring the minority levels up to about 200 each</span>
   <span class='co'># 200/16562 is approx 0.0121</span>
   <span class='fu'>step_upsample</span><span class='op'>(</span><span class='va'>diet</span>, over_ratio <span class='op'>=</span> <span class='fl'>0.0121</span><span class='op'>)</span> <span class='op'>%&gt;%</span>

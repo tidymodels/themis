@@ -52,7 +52,7 @@
         <a class="navbar-brand" href="index.html">themis</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.2.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.1.3.9000</span>
         </div>
       </div>
     </div>
@@ -86,7 +86,7 @@
 
 <!-- badges: start -->
 
-<p><strong>themis</strong> contain extra steps for the <a href="https://CRAN.R-project.org/package=recipes"><code>recipes</code></a> package for dealingwith unbalanced data. The name <strong>themis</strong> is that of the <a href="https://thishollowearth.wordpress.com/2012/07/02/god-of-the-week-themis/">ancient Greek god</a> who is typically depicted with a balance.</p>
+<p><strong>themis</strong> contain extra steps for the <a href="https://CRAN.R-project.org/package=recipes"><code>recipes</code></a> package for dealin gwith unbalanced data. The name <strong>themis</strong> is that of the <a href="https://thishollowearth.wordpress.com/2012/07/02/god-of-the-week-themis/">ancient Greek god</a> who is typically depicted with a balance.</p>
 <p><img src="https://thishollowearth.files.wordpress.com/2012/07/themis.jpg"></p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -120,7 +120,7 @@
   <span class="fu"><a href="reference/step_smote.html">step_smote</a></span><span class="op">(</span><span class="va">Class</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://recipes.tidymodels.org/reference/prep.html">prep</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/juice.html">juice</a></span><span class="op">(</span><span class="va">ds_rec</span><span class="op">)</span><span class="op">$</span><span class="va">Class</span>, useNA <span class="op">=</span> <span class="st">"always"</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/bake.html">bake</a></span><span class="op">(</span><span class="va">ds_rec</span>, new_data <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span><span class="op">$</span><span class="va">Class</span>, useNA <span class="op">=</span> <span class="st">"always"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  &lt;NA&gt;  stem other </span>
 <span class="co">#&gt;     0 50316 50316</span></code></pre></div>
@@ -192,7 +192,7 @@
 <code class="sourceCode R"><span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html">recipe</a></span><span class="op">(</span><span class="op">~</span><span class="va">.</span>, <span class="va">example_data</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/step_upsample.html">step_upsample</a></span><span class="op">(</span><span class="va">class</span>, over_ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://recipes.tidymodels.org/reference/prep.html">prep</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://recipes.tidymodels.org/reference/juice.html">juice</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://recipes.tidymodels.org/reference/bake.html">bake</a></span><span class="op">(</span>new_data <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
@@ -201,7 +201,7 @@
 <code class="sourceCode R"><span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html">recipe</a></span><span class="op">(</span><span class="op">~</span><span class="va">.</span>, <span class="va">example_data</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/step_upsample.html">step_upsample</a></span><span class="op">(</span><span class="va">class</span>, over_ratio <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://recipes.tidymodels.org/reference/prep.html">prep</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://recipes.tidymodels.org/reference/juice.html">juice</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://recipes.tidymodels.org/reference/bake.html">bake</a></span><span class="op">(</span>new_data <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-4-1.png" width="100%"></p>
@@ -249,7 +249,7 @@
 <code class="sourceCode R"><span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html">recipe</a></span><span class="op">(</span><span class="op">~</span><span class="va">.</span>, <span class="va">example_data</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/step_downsample.html">step_downsample</a></span><span class="op">(</span><span class="va">class</span>, under_ratio <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://recipes.tidymodels.org/reference/prep.html">prep</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://recipes.tidymodels.org/reference/juice.html">juice</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://recipes.tidymodels.org/reference/bake.html">bake</a></span><span class="op">(</span>new_data <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-5-1.png" width="100%"></p>
@@ -258,7 +258,7 @@
 <code class="sourceCode R"><span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html">recipe</a></span><span class="op">(</span><span class="op">~</span><span class="va">.</span>, <span class="va">example_data</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="reference/step_downsample.html">step_downsample</a></span><span class="op">(</span><span class="va">class</span>, under_ratio <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://recipes.tidymodels.org/reference/prep.html">prep</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://recipes.tidymodels.org/reference/juice.html">juice</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://recipes.tidymodels.org/reference/bake.html">bake</a></span><span class="op">(</span>new_data <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">class</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html">geom_bar</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-6-1.png" width="100%"></p>
