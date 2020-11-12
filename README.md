@@ -18,8 +18,8 @@ maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www
 
 **themis** contain extra steps for the
 [`recipes`](https://CRAN.R-project.org/package=recipes) package for
-dealingwith unbalanced data. The name **themis** is that of the [ancient
-Greek
+dealin gwith unbalanced data. The name **themis** is that of the
+[ancient Greek
 god](https://thishollowearth.wordpress.com/2012/07/02/god-of-the-week-themis/)
 who is typically depicted with a balance.
 
@@ -64,7 +64,7 @@ ds_rec <- recipe(Class ~ age + height, data = okc) %>%
   step_smote(Class) %>%
   prep()
 
-sort(table(juice(ds_rec)$Class, useNA = "always"))
+sort(table(bake(ds_rec, new_data = NULL)$Class, useNA = "always"))
 #> 
 #>  <NA>  stem other 
 #>     0 50316 50316
@@ -108,7 +108,7 @@ minority classes equal to 100% of the majority class.
 recipe(~., example_data) %>%
   step_upsample(class, over_ratio = 1) %>%
   prep() %>%
-  juice() %>%
+  bake(new_data = NULL) %>%
   ggplot(aes(class)) +
   geom_bar()
 ```
@@ -122,7 +122,7 @@ less samples then 50% of the majority up to have 50% of the majority.
 recipe(~., example_data) %>%
   step_upsample(class, over_ratio = 0.5) %>%
   prep() %>%
-  juice() %>%
+  bake(new_data = NULL) %>%
   ggplot(aes(class)) +
   geom_bar()
 ```
@@ -148,7 +148,7 @@ majority classes equal to 100% of the minority class.
 recipe(~., example_data) %>%
   step_downsample(class, under_ratio = 1) %>%
   prep() %>%
-  juice() %>%
+  bake(new_data = NULL) %>%
   ggplot(aes(class)) +
   geom_bar()
 ```
@@ -163,7 +163,7 @@ samples of the minority.
 recipe(~., example_data) %>%
   step_downsample(class, under_ratio = 2) %>%
   prep() %>%
-  juice() %>%
+  bake(new_data = NULL) %>%
   ggplot(aes(class)) +
   geom_bar()
 ```
