@@ -89,19 +89,13 @@ space of minority and majority class example. Using ROSE::ROSE()." />
         <a class="navbar-brand" href="../index.html">themis</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.2</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
         </div>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li>
@@ -137,23 +131,23 @@ step that generates sample of synthetic data by enlarging the features
 space of minority and majority class example. Using <code><a href='https://rdrr.io/pkg/ROSE/man/ROSE.html'>ROSE::ROSE()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>step_rose</span>(
-  <span class='kw'>recipe</span>,
-  <span class='kw'>...</span>,
-  role = <span class='fl'>NA</span>,
-  trained = <span class='fl'>FALSE</span>,
-  column = <span class='kw'>NULL</span>,
-  over_ratio = <span class='fl'>1</span>,
-  minority_prop = <span class='fl'>0.5</span>,
-  minority_smoothness = <span class='fl'>1</span>,
-  majority_smoothness = <span class='fl'>1</span>,
-  skip = <span class='fl'>TRUE</span>,
-  seed = <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample.int</a></span>(<span class='fl'>10</span><span class='op'>^</span><span class='fl'>5</span>, <span class='fl'>1</span>),
-  id = <span class='fu'><a href='https://recipes.tidymodels.org/reference/rand_id.html'>rand_id</a></span>(<span class='st'>"rose"</span>)
-)
+    <pre class="usage"><span class='fu'>step_rose</span><span class='op'>(</span>
+  <span class='va'>recipe</span>,
+  <span class='va'>...</span>,
+  role <span class='op'>=</span> <span class='cn'>NA</span>,
+  trained <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  column <span class='op'>=</span> <span class='cn'>NULL</span>,
+  over_ratio <span class='op'>=</span> <span class='fl'>1</span>,
+  minority_prop <span class='op'>=</span> <span class='fl'>0.5</span>,
+  minority_smoothness <span class='op'>=</span> <span class='fl'>1</span>,
+  majority_smoothness <span class='op'>=</span> <span class='fl'>1</span>,
+  skip <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  seed <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample.int</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>^</span><span class='fl'>5</span>, <span class='fl'>1</span><span class='op'>)</span>,
+  id <span class='op'>=</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/rand_id.html'>rand_id</a></span><span class='op'>(</span><span class='st'>"rose"</span><span class='op'>)</span>
+<span class='op'>)</span>
 
 <span class='co'># S3 method for step_rose</span>
-<span class='fu'><a href='https://rdrr.io/pkg/generics/man/tidy.html'>tidy</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -246,7 +240,7 @@ the variable used to sample.</p>
 
     <p>The factor variable used to balance around must only have 2 levels.</p>
 <p>The ROSE algorithm works by selecting an observation belonging to class k
-and generates new examples  in its neightborhood is determined by some matrix
+and generates new examples  in its neighborhood is determined by some matrix
 H_k. Smaller values of these arguments have the effect of shrinking the
 entries of the corresponding smoothing matrix H_k, Shrinking would be a
 cautious choice if there is a concern that excessively large neighborhoods
@@ -267,44 +261,50 @@ classification rules with imbalanced data. Data Mining and Knowledge
 Discovery, 28:92–122.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://github.com/tidymodels/recipes'>recipes</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='https://modeldata.tidymodels.org'>modeldata</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>okc</span>)
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/tidymodels/recipes'>recipes</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://modeldata.tidymodels.org'>modeldata</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>okc</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='kw'>okc</span><span class='op'>$</span><span class='kw'>Class</span>, useNA = <span class='st'>"always"</span>))</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>okc</span><span class='op'>$</span><span class='va'>Class</span>, useNA <span class='op'>=</span> <span class='st'>"always"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt;  &lt;NA&gt;  stem other 
 #&gt;     0  9539 50316 </div><div class='input'>
-<span class='kw'>ds_rec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span>(<span class='kw'>Class</span> <span class='op'>~</span> <span class='kw'>age</span> <span class='op'>+</span> <span class='kw'>height</span>, data = <span class='kw'>okc</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>step_rose</span>(<span class='kw'>Class</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span>()
+<span class='va'>ds_rec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span><span class='op'>(</span><span class='va'>Class</span> <span class='op'>~</span> <span class='va'>age</span> <span class='op'>+</span> <span class='va'>height</span>, data <span class='op'>=</span> <span class='va'>okc</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>step_rose</span><span class='op'>(</span><span class='va'>Class</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='https://recipes.tidymodels.org/reference/juice.html'>juice</a></span>(<span class='kw'>ds_rec</span>)<span class='op'>$</span><span class='kw'>Class</span>, useNA = <span class='st'>"always"</span>))</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span><span class='va'>ds_rec</span>, new_data <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span><span class='op'>$</span><span class='va'>Class</span>, useNA <span class='op'>=</span> <span class='st'>"always"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt;  &lt;NA&gt;  stem other 
 #&gt;     0 50255 50377 </div><div class='input'>
 <span class='co'># since `skip` defaults to TRUE, baking the step has no effect</span>
-<span class='kw'>baked_okc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span>(<span class='kw'>ds_rec</span>, new_data = <span class='kw'>okc</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='kw'>baked_okc</span><span class='op'>$</span><span class='kw'>Class</span>, useNA = <span class='st'>"always"</span>)</div><div class='output co'>#&gt; 
+<span class='va'>baked_okc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span><span class='va'>ds_rec</span>, new_data <span class='op'>=</span> <span class='va'>okc</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>baked_okc</span><span class='op'>$</span><span class='va'>Class</span>, useNA <span class='op'>=</span> <span class='st'>"always"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt;  stem other  &lt;NA&gt; 
 #&gt;  9539 50316     0 </div><div class='input'>
-<span class='kw'>ds_rec2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span>(<span class='kw'>Class</span> <span class='op'>~</span> <span class='kw'>age</span> <span class='op'>+</span> <span class='kw'>height</span>, data = <span class='kw'>okc</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>step_rose</span>(<span class='kw'>Class</span>, minority_prop = <span class='fl'>0.3</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span>()
+<span class='va'>ds_rec2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span><span class='op'>(</span><span class='va'>Class</span> <span class='op'>~</span> <span class='va'>age</span> <span class='op'>+</span> <span class='va'>height</span>, data <span class='op'>=</span> <span class='va'>okc</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>step_rose</span><span class='op'>(</span><span class='va'>Class</span>, minority_prop <span class='op'>=</span> <span class='fl'>0.3</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span>(<span class='fu'><a href='https://recipes.tidymodels.org/reference/juice.html'>juice</a></span>(<span class='kw'>ds_rec2</span>)<span class='op'>$</span><span class='kw'>Class</span>, useNA = <span class='st'>"always"</span>)</div><div class='output co'>#&gt; 
+<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span><span class='va'>ds_rec2</span>, new_data <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span><span class='op'>$</span><span class='va'>Class</span>, useNA <span class='op'>=</span> <span class='st'>"always"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; 
 #&gt;  stem other  &lt;NA&gt; 
 #&gt; 30452 70180     0 </div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='kw'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
 
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='kw'>circle_example</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span>, <span class='kw'>y</span>, color = <span class='kw'>class</span>)) <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>() <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span>(title = <span class='st'>"Without ROSE"</span>)</div><div class='img'><img src='step_rose-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span>(<span class='kw'>class</span> <span class='op'>~</span> <span class='kw'>.</span>, data = <span class='kw'>circle_example</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'>step_rose</span>(<span class='kw'>class</span>) <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span>() <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://recipes.tidymodels.org/reference/juice.html'>juice</a></span>() <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span>(<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span>(<span class='kw'>x</span>, <span class='kw'>y</span>, color = <span class='kw'>class</span>)) <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span>() <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span>(title = <span class='st'>"With ROSE"</span>)</div><div class='img'><img src='step_rose-2.png' alt='' width='700' height='433' /></div><div class='input'></div></pre>
+<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>circle_example</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, color <span class='op'>=</span> <span class='va'>class</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Without ROSE"</span><span class='op'>)</span>
+</div><div class='img'><img src='step_rose-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span><span class='op'>(</span><span class='va'>class</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>circle_example</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'>step_rose</span><span class='op'>(</span><span class='va'>class</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span>new_data <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, color <span class='op'>=</span> <span class='va'>class</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"With ROSE"</span><span class='op'>)</span>
+</div><div class='img'><img src='step_rose-2.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
