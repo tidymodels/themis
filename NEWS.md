@@ -4,7 +4,7 @@
 
 * tuneable steps now properly work with tune package.
 * Steps now Retain original factor level ordering. (#22)
-* Oversampling steps now ignore non-predictor variables when appropiate. (#20)
+* Oversampling steps now ignore non-predictor variables when appropriate. (#20)
 
 # themis 0.1.1
 

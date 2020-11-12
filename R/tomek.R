@@ -1,4 +1,4 @@
-#' UEnder-sampling by removing Tomek’s links.
+#' Under-sampling by removing Tomek’s links.
 #'
 #' `step_tomek` creates a *specification* of a recipe
 #'  step that removes majority class instances of tomek links. Using

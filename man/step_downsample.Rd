@@ -38,7 +38,7 @@ frequency as the least occurring level. A value of 2 would mean
 that the majority levels will have (at most) (approximately)
 twice as many rows than the minority level.}
 
-\item{ratio}{Depracated argument; same as \code{under_ratio}}
+\item{ratio}{Deprecated argument; same as \code{under_ratio}}
 
 \item{role}{Not used by this step since no new variables are
 created.}

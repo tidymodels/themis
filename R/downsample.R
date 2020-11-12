@@ -20,7 +20,7 @@
 #'  frequency as the least occurring level. A value of 2 would mean
 #'  that the majority levels will have (at most) (approximately)
 #'  twice as many rows than the minority level.
-#' @param ratio Depracated argument; same as `under_ratio`
+#' @param ratio Deprecated argument; same as `under_ratio`
 #' @param target An integer that will be used to subsample. This
 #'  should not be set by the user and will be populated by `prep`.
 #' @param seed An integer that will be used as the seed when downsampling.

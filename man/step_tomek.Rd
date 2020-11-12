@@ -3,7 +3,7 @@
 \name{step_tomek}
 \alias{step_tomek}
 \alias{tidy.step_tomek}
-\title{UEnder-sampling by removing Tomek’s links.}
+\title{Under-sampling by removing Tomek’s links.}
 \usage{
 step_tomek(
   recipe,

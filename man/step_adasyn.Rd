@@ -46,7 +46,7 @@ frequency as the most occurring level. A value of 0.5 would mean
 that the minority levels will have (at most) (approximately)
 half as many rows than the majority level.}
 
-\item{neighbors}{An integer. Number of nearest neighbours that are used
+\item{neighbors}{An integer. Number of nearest neighbor that are used
 to generate the new examples of the minority class.}
 
 \item{skip}{A logical. Should the step be skipped when the

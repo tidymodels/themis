@@ -88,7 +88,7 @@ space of minority and majority class example. Using \code{\link[ROSE:ROSE]{ROSE:
 The factor variable used to balance around must only have 2 levels.
 
 The ROSE algorithm works by selecting an observation belonging to class k
-and generates new examples  in its neightborhood is determined by some matrix
+and generates new examples  in its neighborhood is determined by some matrix
 H_k. Smaller values of these arguments have the effect of shrinking the
 entries of the corresponding smoothing matrix H_k, Shrinking would be a
 cautious choice if there is a concern that excessively large neighborhoods

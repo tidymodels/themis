@@ -14,7 +14,7 @@
 #'  created.
 #' @param column A character string of the variable name that will
 #'  be populated (eventually) by the `...` selectors.
-#' @param neighbors An integer. Number of nearest neighbours that are used
+#' @param neighbors An integer. Number of nearest neighbor that are used
 #'  to generate the new examples of the minority class.
 #' @param seed An integer that will be used as the seed when
 #' applied.
