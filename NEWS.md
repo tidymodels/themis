@@ -1,4 +1,6 @@
-# themis (development version)
+# themis 0.1.3
+
+* Steps that use nearest neighbors gives cleaner errors.
 
 # themis 0.1.2
 

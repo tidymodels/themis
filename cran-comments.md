@@ -1,6 +1,6 @@
 ## Release Summary
 
-This is the 3th CRAN release of themis. Includes a couple of bug fixes.
+This is the 4th CRAN release of themis. Includes a couple of bug fixes.
 
 ## Test environments
 * local R installation, R 4.0.2
