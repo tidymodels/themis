@@ -16,9 +16,9 @@ status](https://www.r-pkg.org/badges/version/themis)](https://CRAN.R-project.org
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 <!-- badges: end -->
 
-**themis** contain extra steps for the
+**themis** contains extra steps for the
 [`recipes`](https://CRAN.R-project.org/package=recipes) package for
-dealin gwith unbalanced data. The name **themis** is that of the
+dealing with unbalanced data. The name **themis** is that of the
 [ancient Greek
 god](https://thishollowearth.wordpress.com/2012/07/02/god-of-the-week-themis/)
 who is typically depicted with a balance.
