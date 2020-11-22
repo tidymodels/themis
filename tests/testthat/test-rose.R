@@ -39,6 +39,29 @@ test_that("tunable", {
   )
 })
 
+test_that("row matching works correctly #36", {
+  expect_error(
+  recipe(class ~ ., data = circle_example) %>%
+    step_rose(class, over_ratio = 1.2) %>%
+    prep(),
+  NA
+  )
+
+  expect_error(
+    recipe(class ~ ., data = circle_example) %>%
+      step_rose(class, over_ratio = 0.8) %>%
+      prep(),
+    NA
+  )
+
+  expect_error(
+    recipe(class ~ ., data = circle_example) %>%
+      step_rose(class, over_ratio = 1.7) %>%
+      prep(),
+    NA
+  )
+})
+
 test_basic_usage(step_rose)
 test_printing(step_rose)
 test_bad_data(step_rose)
