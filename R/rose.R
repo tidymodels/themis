@@ -195,7 +195,7 @@ bake.step_rose <- function(object, new_data, ...) {
       synthetic_data <- ROSE(
         string2formula(object$column),
         predictor_data,
-        N = majority_size * object$over_ratio,
+        N = floor(majority_size * object$over_ratio),
         p = object$minority_prop,
         hmult.majo = object$majority_smoothness,
         hmult.mino = object$minority_smoothness
