@@ -94,6 +94,7 @@ step_nearmiss <-
         column = column,
         under_ratio = under_ratio,
         neighbors = neighbors,
+        predictors = NULL,
         skip = skip,
         seed = seed,
         id = id
@@ -102,8 +103,8 @@ step_nearmiss <-
   }
 
 step_nearmiss_new <-
-  function(terms, role, trained, column, under_ratio, neighbors, skip, seed,
-           id) {
+  function(terms, role, trained, column, under_ratio, neighbors, predictors,
+           skip, seed, id) {
     step(
       subclass = "nearmiss",
       terms = terms,
@@ -112,6 +113,7 @@ step_nearmiss_new <-
       column = column,
       under_ratio = under_ratio,
       neighbors = neighbors,
+      predictors = predictors,
       skip = skip,
       id = id,
       seed = seed,
@@ -129,7 +131,9 @@ prep.step_nearmiss <- function(x, training, info = NULL, ...) {
     rlang::abort(paste0(col_name, " should be a factor variable."))
   }
 
-  check_type(select(training, -col_name), TRUE)
+  predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
+
+  check_type(training[, predictors], TRUE)
 
   if (any(map_lgl(training, ~ any(is.na(.x))))) {
     rlang::abort("`NA` values are not allowed when using `step_nearmiss`")
@@ -142,6 +146,7 @@ prep.step_nearmiss <- function(x, training, info = NULL, ...) {
     column = col_name,
     under_ratio = x$under_ratio,
     neighbors = x$neighbors,
+    predictors = predictors,
     skip = x$skip,
     seed = x$seed,
     id = x$id
@@ -151,6 +156,8 @@ prep.step_nearmiss <- function(x, training, info = NULL, ...) {
 #' @export
 bake.step_nearmiss <- function(object, new_data, ...) {
 
+  ignore_vars <- setdiff(names(new_data), c(object$predictors, object$column))
+
   # nearmiss with seed for reproducibility
   with_seed(
     seed = object$seed,
@@ -159,6 +166,7 @@ bake.step_nearmiss <- function(object, new_data, ...) {
       new_data <- nearmiss(
         df = new_data,
         var = object$column,
+        ignore_vars = ignore_vars,
         k = object$neighbors,
         under_ratio = object$under_ratio
       )

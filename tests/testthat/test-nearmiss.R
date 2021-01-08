@@ -32,3 +32,13 @@ test_under_ratio(step_nearmiss)
 test_multiclass(step_nearmiss, rename(iris[-c(1:25, 51:75), ], class = Species))
 test_multi_minority(step_nearmiss)
 test_factor_level_memory(step_nearmiss)
+
+test_that("id variables are ignored", {
+  rec_id <- recipe(class ~ ., data = circle_example) %>%
+    update_role(x, new_role = "ID") %>%
+    step_nearmiss(class, under_ratio = 1) %>%
+    prep()
+
+  expect_equal(ncol(bake(rec_id, new_data = NULL)), 3)
+})
+

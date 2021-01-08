@@ -1,4 +1,4 @@
-nearmiss <- function(df, var, k = 5, under_ratio = 1) {
+nearmiss <- function(df, var, ignore_vars, k = 5, under_ratio = 1) {
   classes <- downsample_count(df, var, under_ratio)
 
   out_dfs <- list()
@@ -14,7 +14,11 @@ nearmiss <- function(df, var, k = 5, under_ratio = 1) {
       ))
     }
 
-    dists <- RANN::nn2(not_class, class, k = k)$nn.dists
+    dists <- RANN::nn2(
+      not_class[, !(colnames(not_class) %in% ignore_vars)],
+      class[, !(colnames(class) %in% ignore_vars)],
+      k = k
+    )$nn.dists
 
     selected_ind <- order(rowMeans(dists)) <= (nrow(class) - classes[i])
     selected_rows <- class[selected_ind, ]
