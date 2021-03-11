@@ -20,6 +20,7 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/themis)](https://CRAN.R-project.org/package=themis)
 [![Downloads](http://cranlogs.r-pkg.org/badges/themis)](https://CRAN.R-project.org/package=themis)
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![R-CMD-check](https://github.com/tidymodels/themis/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/themis/actions)
 <!-- badges: end -->
 
 **themis** contains extra steps for the
