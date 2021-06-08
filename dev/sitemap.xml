@@ -1,10 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://themis.tidymodels.org/CODE_OF_CONDUCT.html</loc>
+  </url>
+  <url>
+    <loc>https://themis.tidymodels.org/CONTRIBUTING.html</loc>
+  </url>
+  <url>
+    <loc>https://themis.tidymodels.org/ISSUE_TEMPLATE.html</loc>
+  </url>
+  <url>
+    <loc>https://themis.tidymodels.org/LICENSE-text.html</loc>
+  </url>
+  <url>
+    <loc>https://themis.tidymodels.org/LICENSE.html</loc>
+  </url>
+  <url>
+    <loc>https://themis.tidymodels.org/SUPPORT.html</loc>
+  </url>
+  <url>
+    <loc>https://themis.tidymodels.org/authors.html</loc>
+  </url>
+  <url>
     <loc>https://themis.tidymodels.org/index.html</loc>
   </url>
   <url>
+    <loc>https://themis.tidymodels.org/news/index.html</loc>
+  </url>
+  <url>
     <loc>https://themis.tidymodels.org/reference/circle_example.html</loc>
+  </url>
+  <url>
+    <loc>https://themis.tidymodels.org/reference/index.html</loc>
   </url>
   <url>
     <loc>https://themis.tidymodels.org/reference/reexports.html</loc>
