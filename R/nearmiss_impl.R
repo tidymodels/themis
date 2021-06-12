@@ -1,4 +1,4 @@
-nearmiss <- function(df, var, ignore_vars, k = 5, under_ratio = 1) {
+nearmiss_impl <- function(df, var, ignore_vars, k = 5, under_ratio = 1) {
   classes <- downsample_count(df, var, under_ratio)
 
   out_dfs <- list()

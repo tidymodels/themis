@@ -1,8 +1,4 @@
-danger <- function(x, k) {
-  (x != k) & (k / 2 <= x)
-}
-
-bsmote <- function(df, var, k = 5, over_ratio = 1, all_neighbors = FALSE) {
+bsmote_impl <- function(df, var, k = 5, over_ratio = 1, all_neighbors = FALSE) {
   majority_count <- max(table(df[[var]]))
   ratio_target <- majority_count * over_ratio
   which_upsample <- which(table(df[[var]]) < ratio_target)
@@ -51,4 +47,8 @@ bsmote <- function(df, var, k = 5, over_ratio = 1, all_neighbors = FALSE) {
   final[[var]] <- factor(final[[var]], levels = levels(df[[var]]))
   rownames(final) <- NULL
   final
+}
+
+danger <- function(x, k) {
+  (x != k) & (k / 2 <= x)
 }

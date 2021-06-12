@@ -155,7 +155,7 @@ bake.step_adasyn <- function(object, new_data, ...) {
   with_seed(
     seed = object$seed,
     code = {
-      synthetic_data <- adasyn(
+      synthetic_data <- adasyn_impl(
         predictor_data,
         object$column,
         k = object$neighbors,

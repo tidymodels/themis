@@ -163,7 +163,7 @@ bake.step_nearmiss <- function(object, new_data, ...) {
     seed = object$seed,
     code = {
       original_levels <- levels(new_data[[object$column]])
-      new_data <- nearmiss(
+      new_data <- nearmiss_impl(
         df = new_data,
         var = object$column,
         ignore_vars = ignore_vars,

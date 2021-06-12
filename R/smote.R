@@ -167,7 +167,7 @@ bake.step_smote <- function(object, new_data, ...) {
   with_seed(
     seed = object$seed,
     code = {
-      synthetic_data <- smote(
+      synthetic_data <- smote_impl(
         predictor_data,
         object$column,
         k = object$neighbors,

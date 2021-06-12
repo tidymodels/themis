@@ -191,7 +191,7 @@ bake.step_bsmote <- function(object, new_data, ...) {
   with_seed(
     seed = object$seed,
     code = {
-      synthetic_data <- bsmote(
+      synthetic_data <- bsmote_impl(
         predictor_data,
         object$column,
         k = object$neighbors,
