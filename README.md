@@ -14,6 +14,7 @@ status](https://www.r-pkg.org/badges/version/themis)](https://CRAN.R-project.org
 [![Downloads](http://cranlogs.r-pkg.org/badges/themis)](https://CRAN.R-project.org/package=themis)
 [![Lifecycle:
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![R-CMD-check](https://github.com/tidymodels/themis/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/themis/actions)
 <!-- badges: end -->
 
 **themis** contains extra steps for the
@@ -63,6 +64,8 @@ ds_rec <- recipe(Class ~ age + height, data = okc) %>%
   step_meanimpute(all_predictors()) %>%
   step_smote(Class) %>%
   prep()
+#> Warning: `step_meanimpute()` was deprecated in recipes 0.1.16.
+#> Please use `step_impute_mean()` instead.
 
 sort(table(bake(ds_rec, new_data = NULL)$Class, useNA = "always"))
 #> 
@@ -93,7 +96,7 @@ The following methods all share the tuning parameter `over_ratio`, which
 is the ratio of the majority-to-minority frequencies.
 
 | name                                                            | function                  | Multi-class          |
-| --------------------------------------------------------------- | ------------------------- | -------------------- |
+|-----------------------------------------------------------------|---------------------------|----------------------|
 | Random minority over-sampling with replacement                  | `step_upsample()`         | :heavy\_check\_mark: |
 | Synthetic Minority Over-sampling Technique                      | `step_smote()`            | :heavy\_check\_mark: |
 | Borderline SMOTE-1                                              | `step_bsmote(method = 1)` | :heavy\_check\_mark: |
@@ -136,7 +139,7 @@ Most of the the following methods all share the tuning parameter
 frequencies.
 
 | name                                            | function            | Multi-class          | under\_ratio         |
-| ----------------------------------------------- | ------------------- | -------------------- | -------------------- |
+|-------------------------------------------------|---------------------|----------------------|----------------------|
 | Random majority under-sampling with replacement | `step_downsample()` | :heavy\_check\_mark: | :heavy\_check\_mark: |
 | NearMiss-1                                      | `step_nearmiss()`   | :heavy\_check\_mark: | :heavy\_check\_mark: |
 | Extraction of majority-minority Tomek links     | `step_tomek()`      |                      |                      |
@@ -176,17 +179,17 @@ This project is released with a [Contributor Code of
 Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
 
-  - For questions and discussions about tidymodels packages, modeling,
+-   For questions and discussions about tidymodels packages, modeling,
     and machine learning, [join us on RStudio
     Community](https://rstd.io/tidymodels-community).
 
-  - If you think you have encountered a bug, please [submit an
+-   If you think you have encountered a bug, please [submit an
     issue](https://github.com/tidymodels/themis/issues).
 
-  - Either way, learn how to create and share a
+-   Either way, learn how to create and share a
     [reprex](https://rstd.io/reprex) (a minimal, reproducible example),
     to clearly communicate about your code.
 
-  - Check out further details on [contributing guidelines for tidymodels
+-   Check out further details on [contributing guidelines for tidymodels
     packages](https://www.tidymodels.org/contribute/) and [how to get
     help](https://www.tidymodels.org/help/).
