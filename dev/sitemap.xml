@@ -28,6 +28,12 @@
     <loc>https://themis.tidymodels.org/news/index.html</loc>
   </url>
   <url>
+    <loc>https://themis.tidymodels.org/reference/adasyn.html</loc>
+  </url>
+  <url>
+    <loc>https://themis.tidymodels.org/reference/bsmote.html</loc>
+  </url>
+  <url>
     <loc>https://themis.tidymodels.org/reference/circle_example.html</loc>
   </url>
   <url>
@@ -38,6 +44,9 @@
   </url>
   <url>
     <loc>https://themis.tidymodels.org/reference/required_pkgs.step.html</loc>
+  </url>
+  <url>
+    <loc>https://themis.tidymodels.org/reference/smote.html</loc>
   </url>
   <url>
     <loc>https://themis.tidymodels.org/reference/step_adasyn.html</loc>
