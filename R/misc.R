@@ -21,6 +21,19 @@ check_2_levels_only <- function(data, col_name) {
   }
 }
 
+check_numeric <- function(dat) {
+    all_good <- vapply(dat, is.numeric, logical(1))
+    label <- "numeric"
+
+  if (!all(all_good))
+    rlang::abort(
+      paste0(
+        "All columns for this function should be numeric."
+      )
+    )
+  invisible(all_good)
+}
+
 
 na_splice <- function(new_data, synthetic_data, object) {
   non_predictor <- setdiff(names(new_data), c(object$column, object$predictors))

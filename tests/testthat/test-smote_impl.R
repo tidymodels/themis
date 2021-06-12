@@ -10,11 +10,11 @@ test_that("order doesn't matter", {
     target = rep(c("Yes", "No"), c(10, 50)),
     x = rep(1:2, c(10, 50))
   )
-  expect_equal(100, nrow(themis:::smote_impl(df, "target")))
+  expect_equal(100, nrow(themis:::smote_impl(df, "target", 5, 1)))
 
   df <- data.frame(
     target = rep(c("Yes", "No"), c(50, 10)),
     x = rep(1:2, c(50, 10))
   )
-  expect_equal(100, nrow(themis:::smote_impl(df, "target")))
+  expect_equal(100, nrow(themis:::smote_impl(df, "target", 5, 1)))
 })
