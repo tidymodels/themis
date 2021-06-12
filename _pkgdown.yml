@@ -28,4 +28,9 @@ reference:
   - title: "Datasets"
     contents:
       - circle_example
+  - title: "Methods"
+    contents:
+      - smote
+      - bsmote
+      - adasyn
   - title: "Dials Objects"
