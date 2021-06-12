@@ -1,3 +1,58 @@
+#' Adaptive Synthetic Sampling Approach algorithm
+#'
+#' Generates synthetic positive instances using ADASYN algorithm.
+#'
+#' @inheritParams step_adasyn
+#' @param df data.frame or tibble. Must have 1 factor variable and remaining
+#'  numeric variables.
+#' @param var Character, name of variable containing factor variable.
+#' @param k An integer. Number of nearest neighbor that are used
+#'  to generate the new examples of the minority class.
+#'
+#' @return A data.frame or tibble, depending on type of `df`.
+#' @export
+#'
+#' @details
+#' All columns used in this function must be numeric with no missing data.
+#'
+#' @references Chawla, N. V., Bowyer, K. W., Hall, L. O., and Kegelmeyer,
+#'  W. P. (2002). Smote: Synthetic minority over-sampling technique.
+#'  Journal of Artificial Intelligence Research, 16:321-357.
+#'
+#' @examples
+#' adasyn(circle_example, var = "class")
+#'
+#' adasyn(circle_example, var = "class", k = 10)
+#'
+#' adasyn(circle_example, var = "class", over_ratio = 0.8)
+adasyn <- function(df, var, k = 5, over_ratio = 1) {
+
+  if (length(var) != 1) {
+    rlang::abort("Please select a single factor variable for `var`.")
+  }
+
+  var <- rlang::arg_match(var, colnames(df))
+
+  if (!(is.factor(df[[var]]) | is.character(df[[var]]))) {
+    rlang::abort(paste0(var, " should be a factor or character variable."))
+  }
+
+  if (length(k) != 1) {
+    rlang::abort("`k` must be length 1.")
+  }
+
+  if (k < 1) {
+    rlang::abort("`k` must be non-negative.")
+  }
+
+  predictors <- setdiff(colnames(df), var)
+
+  check_numeric(df[, predictors])
+  check_na(select(df, -var), "smote")
+
+  adasyn_impl(df, var, k, over_ratio)
+}
+
 adasyn_impl <- function(df, var, k = 5, over_ratio = 1) {
   majority_count <- max(table(df[[var]]))
   ratio_target <- majority_count * over_ratio
