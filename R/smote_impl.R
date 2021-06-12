@@ -45,6 +45,14 @@ smote <- function(df, var, k = 5, over_ratio = 1) {
     rlang::abort(paste0(var, " should be a factor or character variable."))
   }
 
+  if (length(k) != 1) {
+    rlang::abort("`k` must be length 1.")
+  }
+
+  if (k < 1) {
+    rlang::abort("`k` must be non-negative.")
+  }
+
   predictors <- setdiff(colnames(df), var)
 
   check_numeric(df[, predictors])

@@ -10,7 +10,7 @@ check_na <- function(data, step) {
     rlang::abort(paste0(
       "`", step,
       "` cannot have any missing values. NAs found ind: ",
-      paste(names(na_cols), collapse = ", "), "."
+      paste(names(na_cols)[na_cols], collapse = ", "), "."
     ))
   }
 }

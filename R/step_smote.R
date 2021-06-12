@@ -142,7 +142,6 @@ prep.step_smote <- function(x, training, info = NULL, ...) {
   check_type(training[, predictors], TRUE)
   check_na(select(training, -col_name), "step_smote")
 
-
   step_smote_new(
     terms = x$terms,
     role = x$role,
