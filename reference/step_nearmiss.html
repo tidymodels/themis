@@ -71,9 +71,15 @@ same class." />
   gtag('config', 'UA-115082821-1');
 </script>
 
+  
+
+  
+
   </head>
 
   <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -90,7 +96,7 @@ same class." />
         <a class="navbar-brand" href="../index.html">themis</a>
         <div class="info hidden-xs hidden-sm">
           <span class="partof">part of <a href="https://tidymodels.org">tidymodels</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
         </div>
       </div>
     </div>
@@ -104,7 +110,7 @@ same class." />
 </li>
         <li>
   <a href="https://github.com/tidymodels/themis/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -122,7 +128,7 @@ same class." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Under-sampling by removing points near other classes.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidymodels/themis/blob/master/R/nearmiss.R'><code>R/nearmiss.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/themis/blob/master/R/step_nearmiss.R'><code>R/step_nearmiss.R</code></a></small>
     <div class="hidden name"><code>step_nearmiss.Rd</code></div>
     </div>
 
@@ -133,7 +139,7 @@ in the majority class based on their distance to other points in the
 same class.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>step_nearmiss</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>step_nearmiss</span><span class='op'>(</span>
   <span class='va'>recipe</span>,
   <span class='va'>...</span>,
   role <span class='op'>=</span> <span class='cn'>NA</span>,
@@ -147,7 +153,7 @@ same class.</p>
 <span class='op'>)</span>
 
 <span class='co'># S3 method for step_nearmiss</span>
-<span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -241,47 +247,54 @@ distributions: a case study involving information extraction. In Proceedings
 of workshop on learning from imbalanced datasets, 2003.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/tidymodels/recipes'>recipes</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://modeldata.tidymodels.org'>modeldata</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>okc</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>okc</span><span class='op'>$</span><span class='va'>Class</span>, useNA <span class='op'>=</span> <span class='st'>"always"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt;  &lt;NA&gt;  stem other 
-#&gt;     0  9539 50316 </div><div class='input'>
-<span class='va'>ds_rec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span><span class='op'>(</span><span class='va'>Class</span> <span class='op'>~</span> <span class='va'>age</span> <span class='op'>+</span> <span class='va'>height</span>, data <span class='op'>=</span> <span class='va'>okc</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://recipes.tidymodels.org/reference/step_meanimpute.html'>step_meanimpute</a></span><span class='op'>(</span><span class='fu'><a href='https://recipes.tidymodels.org/reference/has_role.html'>all_predictors</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>step_nearmiss</span><span class='op'>(</span><span class='va'>Class</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span><span class='va'>ds_rec</span>, new_data <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span><span class='op'>$</span><span class='va'>Class</span>, useNA <span class='op'>=</span> <span class='st'>"always"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt;  &lt;NA&gt;  stem other 
-#&gt;     0  9539  9539 </div><div class='input'>
-<span class='co'># since `skip` defaults to TRUE, baking the step has no effect</span>
-<span class='va'>baked_okc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span><span class='va'>ds_rec</span>, new_data <span class='op'>=</span> <span class='va'>okc</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>baked_okc</span><span class='op'>$</span><span class='va'>Class</span>, useNA <span class='op'>=</span> <span class='st'>"always"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt;  stem other  &lt;NA&gt; 
-#&gt;  9539 50316     0 </div><div class='input'>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
-
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>circle_example</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, color <span class='op'>=</span> <span class='va'>class</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Without NEARMISS"</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/lims.html'>xlim</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>15</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/lims.html'>ylim</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>15</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='step_nearmiss-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span><span class='op'>(</span><span class='va'>class</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>circle_example</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>step_nearmiss</span><span class='op'>(</span><span class='va'>class</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span>new_data <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, color <span class='op'>=</span> <span class='va'>class</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"With NEARMISS"</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/lims.html'>xlim</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>15</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/lims.html'>ylim</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>15</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='step_nearmiss-2.png' alt='' width='700' height='433' /></div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/tidymodels/recipes'>recipes</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://modeldata.tidymodels.org'>modeldata</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>okc</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>okc</span><span class='op'>$</span><span class='va'>Class</span>, useNA <span class='op'>=</span> <span class='st'>"always"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  &lt;NA&gt;  stem other </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     0  9539 50316 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>ds_rec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span><span class='op'>(</span><span class='va'>Class</span> <span class='op'>~</span> <span class='va'>age</span> <span class='op'>+</span> <span class='va'>height</span>, data <span class='op'>=</span> <span class='va'>okc</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://recipes.tidymodels.org/reference/step_impute_mean.html'>step_meanimpute</a></span><span class='op'>(</span><span class='fu'><a href='https://recipes.tidymodels.org/reference/has_role.html'>all_predictors</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>step_nearmiss</span><span class='op'>(</span><span class='va'>Class</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> <span class='warning'>Warning: </span>`step_meanimpute()` was deprecated in recipes 0.1.16.</span>
+<span class='r-wrn co'><span class='r-pr'>#&gt;</span> Please use `step_impute_mean()` instead.</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span><span class='va'>ds_rec</span>, new_data <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span><span class='op'>$</span><span class='va'>Class</span>, useNA <span class='op'>=</span> <span class='st'>"always"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  &lt;NA&gt;  stem other </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     0  9539  9539 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># since `skip` defaults to TRUE, baking the step has no effect</span></span>
+<span class='r-in'><span class='va'>baked_okc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span><span class='va'>ds_rec</span>, new_data <span class='op'>=</span> <span class='va'>okc</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>baked_okc</span><span class='op'>$</span><span class='va'>Class</span>, useNA <span class='op'>=</span> <span class='st'>"always"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  stem other  &lt;NA&gt; </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  9539 50316     0 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>circle_example</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, color <span class='op'>=</span> <span class='va'>class</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Without NEARMISS"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/lims.html'>xlim</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>15</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/lims.html'>ylim</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>15</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='step_nearmiss-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span><span class='op'>(</span><span class='va'>class</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>circle_example</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>step_nearmiss</span><span class='op'>(</span><span class='va'>class</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span>new_data <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, color <span class='op'>=</span> <span class='va'>class</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"With NEARMISS"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/lims.html'>xlim</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>15</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/lims.html'>ylim</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>15</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='step_nearmiss-2.png' alt='' width='700' height='433' /></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -308,6 +321,8 @@ of workshop on learning from imbalanced datasets, 2003.</p>
 
   
 
+
+  
 
   </body>
 </html>
