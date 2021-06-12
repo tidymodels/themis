@@ -1,6 +1,6 @@
 #' SMOTE algorithm
 #'
-#' SMOOTE generates new examples of the minority class using nearest neighbors
+#' SMOTE generates new examples of the minority class using nearest neighbors
 #' of these cases.
 #'
 #' @inheritParams step_smote

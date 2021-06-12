@@ -26,7 +26,7 @@ half as many rows than the majority level.}
 A data.frame or tibble, depending on type of \code{df}.
 }
 \description{
-SMOOTE generates new examples of the minority class using nearest neighbors
+SMOTE generates new examples of the minority class using nearest neighbors
 of these cases.
 }
 \details{

@@ -1,6 +1,6 @@
 # themis (development version)
 
-* export `smote()`, `adasyn()` functions to users.
+* export `smote()`, `adasyn()`, and `bsmote()` functions to users.
 
 # themis 0.1.3
 
