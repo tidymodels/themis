@@ -1,8 +1,8 @@
 pandoc: 2.7.3
 pkgdown: 1.6.1.9001
-pkgdown_sha: 9ce6af43b55cd21e9563526e12a12d1243657bf6
+pkgdown_sha: ce9781a15c7ea07df9fb17a11295ba4abec0b54b
 articles: {}
-last_built: 2021-06-12T23:23Z
+last_built: 2021-08-01T07:00Z
 urls:
   reference: https://themis.tidymodels.org/reference
   article: https://themis.tidymodels.org/articles

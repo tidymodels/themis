@@ -219,7 +219,7 @@ recipe is baked by <code><a href='https://recipes.tidymodels.org/reference/bake.
 when <code><a href='https://recipes.tidymodels.org/reference/prep.html'>prep.recipe()</a></code> is run, some operations may not be able to be
 conducted on new data (e.g. processing the outcome variable(s)).
 Care should be taken when using <code>skip = TRUE</code> as it may affect
-the computations for subsequent operations</p></td>
+the computations for subsequent operations.</p></td>
     </tr>
     <tr>
       <th>seed</th>
@@ -254,7 +254,6 @@ could lead to blur the boundaries between the regions of the feature space
 associated with each class.</p>
 <p>All columns in the data are sampled and returned by <code><a href='https://recipes.tidymodels.org/reference/juice.html'>juice()</a></code>
 and <code><a href='https://recipes.tidymodels.org/reference/bake.html'>bake()</a></code>.</p>
-<p>All columns used in this step must be numeric.</p>
 <p>When used in modeling, users should strongly consider using the
 option <code>skip = TRUE</code> so that the extra sampling is <em>not</em>
 conducted outside of the training set.</p>
