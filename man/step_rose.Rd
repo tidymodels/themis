@@ -64,7 +64,7 @@ recipe is baked by \code{\link[recipes:bake]{bake.recipe()}}? While all operatio
 when \code{\link[recipes:prep]{prep.recipe()}} is run, some operations may not be able to be
 conducted on new data (e.g. processing the outcome variable(s)).
 Care should be taken when using \code{skip = TRUE} as it may affect
-the computations for subsequent operations}
+the computations for subsequent operations.}
 
 \item{seed}{An integer that will be used as the seed when
 rose-ing.}
@@ -97,8 +97,6 @@ associated with each class.
 
 All columns in the data are sampled and returned by \code{\link[=juice]{juice()}}
 and \code{\link[=bake]{bake()}}.
-
-All columns used in this step must be numeric.
 
 When used in modeling, users should strongly consider using the
 option \code{skip = TRUE} so that the extra sampling is \emph{not}

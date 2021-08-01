@@ -44,8 +44,6 @@
 #' All columns in the data are sampled and returned by [juice()]
 #'  and [bake()].
 #'
-#' All columns used in this step must be numeric.
-#'
 #' When used in modeling, users should strongly consider using the
 #'  option `skip = TRUE` so that the extra sampling is _not_
 #'  conducted outside of the training set.
@@ -154,8 +152,6 @@ prep.step_rose <- function(x, training, info = NULL, ...) {
   check_2_levels_only(training, col_name)
 
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
-
-  check_type(training[, predictors], TRUE)
 
   step_rose_new(
     terms = x$terms,

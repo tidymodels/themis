@@ -1,5 +1,7 @@
 # themis (development version)
 
+* `step_rose()` now correctly allows you to use characters variables. (#26)
+
 # themis 0.1.4
 
 * export `smote()`, `adasyn()`, and `bsmote()` functions to users.
