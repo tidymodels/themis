@@ -54,7 +54,7 @@ recipe is baked by \code{\link[recipes:bake]{bake.recipe()}}? While all operatio
 when \code{\link[recipes:prep]{prep.recipe()}} is run, some operations may not be able to be
 conducted on new data (e.g. processing the outcome variable(s)).
 Care should be taken when using \code{skip = TRUE} as it may affect
-the computations for subsequent operations}
+the computations for subsequent operations.}
 
 \item{seed}{An integer that will be used as the seed when
 applied.}
