@@ -39,12 +39,7 @@ test_that("printing", {
   rec <- recipe(~., data = circle_example) %>%
     step_nearmiss(class)
   expect_output(print(rec))
-  expect_output(
-    prep(
-      rec,
-      retain = TRUE,
-      verbose = TRUE
-  ))
+  expect_output(prep(rec, verbose = TRUE))
 })
 
 test_that("bad data", {
@@ -57,19 +52,19 @@ test_that("bad data", {
   expect_error(
     rec %>%
       step_nearmiss(Sepal.Width) %>%
-      prep(retain = TRUE)
+      prep()
   )
   # Multiple variable check
   expect_error(
     rec %>%
       step_nearmiss(Species, Species2) %>%
-      prep(strings_as_factors = FALSE, retain = TRUE)
+      prep(strings_as_factors = FALSE)
   )
   # character check
   expect_error(
     rec %>%
       step_nearmiss(Species3) %>%
-      prep(strings_as_factors = FALSE, retain = TRUE)
+      prep(strings_as_factors = FALSE)
   )
 })
 
@@ -95,7 +90,7 @@ test_that("NA in response", {
   expect_error(
     recipe(~., data = iris2) %>%
       step_nearmiss(Species) %>%
-      prep(strings_as_factors = FALSE, retain = TRUE)
+      prep(strings_as_factors = FALSE)
   )
 })
 
@@ -103,7 +98,7 @@ test_that("test tidy()", {
   rec <- recipe(~., data = circle_example) %>%
     step_nearmiss(class, id = "")
 
-  rec_p <- prep(rec, retain = TRUE)
+  rec_p <- prep(rec)
 
   untrained <- tibble(
     terms = "class",

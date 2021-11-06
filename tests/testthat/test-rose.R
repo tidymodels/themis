@@ -80,12 +80,7 @@ test_that("printing", {
   rec <- recipe(~., data = circle_example) %>%
     step_rose(class)
   expect_output(print(rec))
-  expect_output(
-    prep(
-      rec,
-      retain = TRUE,
-      verbose = TRUE
-    ))
+  expect_output(prep(rec, verbose = TRUE))
 })
 
 test_that("bad data", {
@@ -98,19 +93,19 @@ test_that("bad data", {
   expect_error(
     rec %>%
       step_rose(Sepal.Width) %>%
-      prep(retain = TRUE)
+      prep()
   )
   # Multiple variable check
   expect_error(
     rec %>%
       step_rose(Species, Species2) %>%
-      prep(strings_as_factors = FALSE, retain = TRUE)
+      prep(strings_as_factors = FALSE)
   )
   # character check
   expect_error(
     rec %>%
       step_rose(Species3) %>%
-      prep(strings_as_factors = FALSE, retain = TRUE)
+      prep(strings_as_factors = FALSE)
   )
 })
 
@@ -121,7 +116,7 @@ test_that("NA in response", {
   expect_error(
     recipe(~., data = iris2) %>%
       step_rose(Species) %>%
-      prep(strings_as_factors = FALSE, retain = TRUE)
+      prep(strings_as_factors = FALSE)
   )
 })
 
@@ -129,7 +124,7 @@ test_that("`seed` produces identical sampling", {
   step_with_seed <- function(seed = sample.int(10^5, 1)) {
     recipe(~., data = circle_example) %>%
       step_rose(class, seed = seed) %>%
-      prep(retain = TRUE) %>%
+      prep() %>%
       bake(new_data = NULL) %>%
       pull(x)
   }
@@ -146,7 +141,7 @@ test_that("test tidy()", {
   rec <- recipe(~., data = circle_example) %>%
     step_rose(class, id = "")
 
-  rec_p <- prep(rec,retain = TRUE)
+  rec_p <- prep(rec)
 
   untrained <- tibble(
     terms = "class",
