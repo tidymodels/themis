@@ -60,20 +60,14 @@ test_that("basic usage", {
 
   expect_equal(sort(te_xtab), sort(og_xtab))
 
-  expect_warning(prep(rec1, training = circle_example), NA)
+  expect_warning(prep(rec1), NA)
 })
 
 test_that("printing", {
   rec <- recipe(~., data = circle_example) %>%
     step_smote(class)
   expect_output(print(rec))
-  expect_output(
-    prep(
-      rec,
-      training = circle_example,
-      retain = TRUE,
-      verbose = TRUE
-    ))
+  expect_output(prep(rec, verbose = TRUE))
 })
 
 test_that("bad data", {
@@ -86,19 +80,19 @@ test_that("bad data", {
   expect_error(
     rec %>%
       step_smote(Sepal.Width) %>%
-      prep(retain = TRUE)
+      prep()
   )
   # Multiple variable check
   expect_error(
     rec %>%
       step_smote(Species, Species2) %>%
-      prep(strings_as_factors = FALSE, retain = TRUE)
+      prep()
   )
   # character check
   expect_error(
     rec %>%
       step_smote(Species3) %>%
-      prep(strings_as_factors = FALSE, retain = TRUE)
+      prep()
   )
 })
 
@@ -124,7 +118,7 @@ test_that("NA in response", {
   expect_error(
     recipe(~., data = iris2) %>%
       step_smote(Species) %>%
-      prep(strings_as_factors = FALSE, retain = TRUE)
+      prep()
   )
 })
 
@@ -132,7 +126,7 @@ test_that("`seed` produces identical sampling", {
   step_with_seed <- function(seed = sample.int(10^5, 1)) {
     recipe(~., data = circle_example) %>%
       step_smote(class, seed = seed) %>%
-      prep(training = circle_example, retain = TRUE) %>%
+      prep() %>%
       bake(new_data = NULL) %>%
       pull(x)
   }
@@ -149,7 +143,7 @@ test_that("test tidy()", {
   rec <- recipe(~., data = circle_example) %>%
     step_smote(class, id = "")
 
-  rec_p <- prep(rec, training = circle_example, retain = TRUE)
+  rec_p <- prep(rec)
 
   untrained <- tibble(
     terms = "class",
@@ -222,7 +216,7 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   for (i in 1:4) {
     rec_p <- recipe(~., data = circle_example_alt_levels[[i]]) %>%
       step_smote(class) %>%
-      prep(training = circle_example_alt_levels[[i]])
+      prep()
 
     expect_equal(
       levels(circle_example_alt_levels[[i]]$class), # Original levels
