@@ -4,12 +4,148 @@ library(dplyr)
 
 context("tomek")
 
-test_basic_usage(step_tomek)
-test_printing(step_tomek)
-test_bad_data(step_tomek)
-test_no_skipping(step_tomek)
-test_character_error(step_tomek)
-test_na_response(step_tomek)
-test_tidy(step_tomek)
-test_2_class_only(step_tomek)
-test_factor_level_memory(step_tomek)
+test_that("basic usage", {
+  rec1 <- recipe(~., data = circle_example) %>%
+    step_tomek(class)
+
+  rec1_p <- prep(rec1)
+
+  te_xtab <- table(bake(rec1_p, new_data = circle_example)$class, useNA = "no")
+  og_xtab <- table(circle_example$class, useNA = "no")
+
+  expect_equal(sort(te_xtab), sort(og_xtab))
+
+  expect_warning(prep(rec1, training = circle_example), NA)
+})
+
+test_that("printing", {
+  rec <- recipe(~., data = circle_example) %>%
+    step_tomek(class)
+  expect_output(print(rec))
+  expect_output(
+    prep(
+      rec,
+      training = circle_example,
+      retain = TRUE,
+      verbose = TRUE
+    ))
+})
+
+test_that("bad data", {
+  iris2 <- iris[-c(1:45), ]
+  iris2$Species2 <- sample(iris2$Species)
+  iris2$Species3 <- as.character(sample(iris2$Species))
+
+  rec <- recipe(~., data = iris2)
+  # numeric check
+  expect_error(
+    rec %>%
+      step_tomek(Sepal.Width) %>%
+      prep(retain = TRUE)
+  )
+  # Multiple variable check
+  expect_error(
+    rec %>%
+      step_tomek(Species, Species2) %>%
+      prep(strings_as_factors = FALSE, retain = TRUE)
+  )
+  # character check
+  expect_error(
+    rec %>%
+      step_tomek(Species3) %>%
+      prep(strings_as_factors = FALSE, retain = TRUE)
+  )
+})
+
+test_that("errors if character are present", {
+  df_char <- data.frame(
+    x = factor(1:2),
+    y = c("A", "A"),
+    stringsAsFactors = FALSE
+  )
+
+  expect_error(
+    recipe(~., data = df_char) %>%
+      step_tomek(x) %>%
+      prep(),
+    "should be numeric"
+  )
+})
+
+test_that("NA in response", {
+  iris2 <- iris[-c(1:45), ]
+  iris2$Species[seq(6, 96, by = 5)] <- NA
+  # NA check
+  expect_error(
+    recipe(~., data = iris2) %>%
+      step_tomek(Species) %>%
+      prep(strings_as_factors = FALSE, retain = TRUE)
+  )
+})
+
+test_that("test tidy()", {
+  rec <- recipe(~., data = circle_example) %>%
+    step_tomek(class, id = "")
+
+  rec_p <- prep(rec, training = circle_example, retain = TRUE)
+
+  untrained <- tibble(
+    terms = "class",
+    id = ""
+  )
+
+  trained <- tibble(
+    terms = "class",
+    id = ""
+  )
+
+  expect_equivalent(untrained, tidy(rec, number = 1))
+  expect_equal(trained, tidy(rec_p, number = 1))
+})
+
+test_that("only except 2 classes", {
+  df_char <- data.frame(
+    x = factor(1:3),
+    stringsAsFactors = FALSE
+  )
+
+  expect_error(
+    recipe(~., data = df_char) %>%
+      step_tomek(x) %>%
+      prep(),
+    "only have 2 levels."
+  )
+})
+
+test_that("factor levels are not affected by alphabet ordering or class sizes", {
+  circle_example_alt_levels <- list()
+  for (i in 1:4) circle_example_alt_levels[[i]] <- circle_example
+
+  # Checking for forgetting levels by majority/minor switching
+  for (i in c(2, 4)) {
+    levels(circle_example_alt_levels[[i]]$class) <-
+      rev(levels(circle_example_alt_levels[[i]]$class))
+  }
+
+  # Checking for forgetting levels by alphabetical switching
+  for (i in c(3, 4)) {
+    circle_example_alt_levels[[i]]$class <-
+      factor(x = circle_example_alt_levels[[i]]$class,
+             levels = rev(levels(circle_example_alt_levels[[i]]$class)))
+  }
+
+  for (i in 1:4) {
+    rec_p <- recipe(~., data = circle_example_alt_levels[[i]]) %>%
+      step_tomek(class) %>%
+      prep(training = circle_example_alt_levels[[i]])
+
+    expect_equal(
+      levels(circle_example_alt_levels[[i]]$class), # Original levels
+      rec_p$levels$class$values # New levels
+    )
+    expect_equal(
+      levels(circle_example_alt_levels[[i]]$class), # Original levels
+      levels(bake(rec_p, new_data = NULL)$class) # New levels
+    )
+  }
+})
