@@ -38,7 +38,7 @@ test_that("basic usage", {
 
   expect_equal(sort(te_xtab), sort(og_xtab))
 
-  expect_warning(prep(rec1, training = circle_example), NA)
+  expect_warning(prep(rec1), NA)
 })
 
 test_that("printing", {
@@ -48,7 +48,6 @@ test_that("printing", {
   expect_output(
     prep(
       rec,
-      training = circle_example,
       retain = TRUE,
       verbose = TRUE
     ))
@@ -84,7 +83,7 @@ test_that("`seed` produces identical sampling", {
   step_with_seed <- function(seed = sample.int(10^5, 1)) {
     recipe(~., data = circle_example) %>%
       step_downsample(class, seed = seed) %>%
-      prep(training = circle_example, retain = TRUE) %>%
+      prep(retain = TRUE) %>%
       bake(new_data = NULL) %>%
       pull(x)
   }
@@ -101,7 +100,7 @@ test_that("test tidy()", {
   rec <- recipe(~., data = circle_example) %>%
     step_downsample(class, id = "")
 
-  rec_p <- prep(rec, training = circle_example, retain = TRUE)
+  rec_p <- prep(rec, retain = TRUE)
 
   untrained <- tibble(
     terms = "class",
@@ -174,7 +173,7 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   for (i in 1:4) {
     rec_p <- recipe(~., data = circle_example_alt_levels[[i]]) %>%
       step_downsample(class) %>%
-      prep(training = circle_example_alt_levels[[i]])
+      prep()
 
     expect_equal(
       levels(circle_example_alt_levels[[i]]$class), # Original levels
