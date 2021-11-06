@@ -86,13 +86,13 @@ test_that("bad data", {
   expect_error(
     rec %>%
       step_smote(Species, Species2) %>%
-      prep(strings_as_factors = FALSE)
+      prep()
   )
   # character check
   expect_error(
     rec %>%
       step_smote(Species3) %>%
-      prep(strings_as_factors = FALSE)
+      prep()
   )
 })
 
@@ -118,7 +118,7 @@ test_that("NA in response", {
   expect_error(
     recipe(~., data = iris2) %>%
       step_smote(Species) %>%
-      prep(strings_as_factors = FALSE)
+      prep()
   )
 })
 

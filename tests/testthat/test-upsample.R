@@ -65,7 +65,7 @@ test_that("bad data", {
   expect_error(
     rec %>%
       step_upsample(Species, Species2) %>%
-      prep(strings_as_factors = FALSE)
+      prep()
   )
   # character check
   expect_error(
