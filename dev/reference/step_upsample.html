@@ -210,7 +210,7 @@ recipe is baked by <code><a href='https://recipes.tidymodels.org/reference/bake.
 when <code><a href='https://recipes.tidymodels.org/reference/prep.html'>prep.recipe()</a></code> is run, some operations may not be able to be
 conducted on new data (e.g. processing the outcome variable(s)).
 Care should be taken when using <code>skip = TRUE</code> as it may affect
-the computations for subsequent operations</p></td>
+the computations for subsequent operations.</p></td>
     </tr>
     <tr>
       <th>seed</th>
@@ -236,7 +236,7 @@ the variable used to sample.</p>
 
     <p>Up-sampling is intended to be performed on the <em>training</em> set
 alone. For this reason, the default is <code>skip = TRUE</code>. It is
-advisable to use <code><a href='https://recipes.tidymodels.org/reference/prep.html'>prep(recipe, retain = TRUE)</a></code> when preparing
+advisable to use <code>prep(recipe, retain = TRUE)</code> when preparing
 the recipe; in this way <code><a href='https://recipes.tidymodels.org/reference/juice.html'>juice()</a></code> can be used to obtain the
 up-sampled version of the data.</p>
 <p>If there are missing values in the factor variable that is used
@@ -250,78 +250,82 @@ frequency as the majority level, all data will be retained.</p>
 and <code><a href='https://recipes.tidymodels.org/reference/bake.html'>bake()</a></code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/tidymodels/recipes'>recipes</a></span><span class='op'>)</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://modeldata.tidymodels.org'>modeldata</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>okc</span><span class='op'>)</span>
-
-<span class='va'>orig</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>okc</span><span class='op'>$</span><span class='va'>diet</span>, useNA <span class='op'>=</span> <span class='st'>"always"</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span><span class='op'>(</span><span class='va'>orig</span>, decreasing <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; 
-#&gt;                &lt;NA&gt;     mostly anything            anything   strictly anything 
-#&gt;               24360               16562                6174                5107 
-#&gt;   mostly vegetarian        mostly other strictly vegetarian          vegetarian 
-#&gt;                3438                1004                 874                 665 
-#&gt;      strictly other        mostly vegan               other      strictly vegan 
-#&gt;                 450                 335                 331                 227 
-#&gt;               vegan       mostly kosher        mostly halal      strictly halal 
-#&gt;                 136                  86                  48                  18 
-#&gt;     strictly kosher               halal              kosher 
-#&gt;                  18                  11                  11 </div><div class='input'>
-<span class='va'>up_rec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>okc</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='co'># Bring the minority levels up to about 200 each</span>
-  <span class='co'># 200/16562 is approx 0.0121</span>
-  <span class='fu'>step_upsample</span><span class='op'>(</span><span class='va'>diet</span>, over_ratio <span class='op'>=</span> <span class='fl'>0.0121</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span><span class='op'>(</span>training <span class='op'>=</span> <span class='va'>okc</span>, retain <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='va'>training</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span><span class='va'>up_rec</span>, new_data <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span><span class='op'>$</span><span class='va'>diet</span>, useNA <span class='op'>=</span> <span class='st'>"always"</span><span class='op'>)</span>
-
-<span class='co'># Since `skip` defaults to TRUE, baking the step has no effect</span>
-<span class='va'>baked_okc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span><span class='va'>up_rec</span>, new_data <span class='op'>=</span> <span class='va'>okc</span><span class='op'>)</span>
-<span class='va'>baked</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>baked_okc</span><span class='op'>$</span><span class='va'>diet</span>, useNA <span class='op'>=</span> <span class='st'>"always"</span><span class='op'>)</span>
-
-<span class='co'># Note that if the original data contained more rows than the</span>
-<span class='co'># target n (= ratio * majority_n), the data are left alone:</span>
-<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
-  level <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>orig</span><span class='op'>)</span>,
-  orig_freq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>as.vector</a></span><span class='op'>(</span><span class='va'>orig</span><span class='op'>)</span>,
-  train_freq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>as.vector</a></span><span class='op'>(</span><span class='va'>training</span><span class='op'>)</span>,
-  baked_freq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>as.vector</a></span><span class='op'>(</span><span class='va'>baked</span><span class='op'>)</span>
-<span class='op'>)</span>
-</div><div class='output co'>#&gt;                  level orig_freq train_freq baked_freq
-#&gt; 1             anything      6174       6174       6174
-#&gt; 2                halal        11        200         11
-#&gt; 3               kosher        11        200         11
-#&gt; 4      mostly anything     16562      16562      16562
-#&gt; 5         mostly halal        48        200         48
-#&gt; 6        mostly kosher        86        200         86
-#&gt; 7         mostly other      1004       1004       1004
-#&gt; 8         mostly vegan       335        335        335
-#&gt; 9    mostly vegetarian      3438       3438       3438
-#&gt; 10               other       331        331        331
-#&gt; 11   strictly anything      5107       5107       5107
-#&gt; 12      strictly halal        18        200         18
-#&gt; 13     strictly kosher        18        200         18
-#&gt; 14      strictly other       450        450        450
-#&gt; 15      strictly vegan       227        227        227
-#&gt; 16 strictly vegetarian       874        874        874
-#&gt; 17               vegan       136        200        136
-#&gt; 18          vegetarian       665        665        665
-#&gt; 19                &lt;NA&gt;     24360      24360      24360</div><div class='input'>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span>
-
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>circle_example</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, color <span class='op'>=</span> <span class='va'>class</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Without upsample"</span><span class='op'>)</span>
-</div><div class='img'><img src='step_upsample-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span><span class='op'>(</span><span class='va'>class</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>circle_example</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'>step_upsample</span><span class='op'>(</span><span class='va'>class</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span>new_data <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, color <span class='op'>=</span> <span class='va'>class</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_jitter.html'>geom_jitter</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>0.1</span>, height <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"With upsample (with jittering)"</span><span class='op'>)</span>
-</div><div class='img'><img src='step_upsample-2.png' alt='' width='700' height='433' /></div></pre>
+    <pre class="examples"><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/tidymodels/recipes'>recipes</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://modeldata.tidymodels.org'>modeldata</a></span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>okc</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>orig</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>okc</span><span class='op'>$</span><span class='va'>diet</span>, useNA <span class='op'>=</span> <span class='st'>"always"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span><span class='op'>(</span><span class='va'>orig</span>, decreasing <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                &lt;NA&gt;     mostly anything            anything   strictly anything </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               24360               16562                6174                5107 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   mostly vegetarian        mostly other strictly vegetarian          vegetarian </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                3438                1004                 874                 665 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      strictly other        mostly vegan               other      strictly vegan </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 450                 335                 331                 227 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>               vegan       mostly kosher        mostly halal      strictly halal </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                 136                  86                  48                  18 </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>     strictly kosher               halal              kosher </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                  18                  11                  11 </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>up_rec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span><span class='op'>(</span><span class='op'>~</span><span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>okc</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='co'># Bring the minority levels up to about 200 each</span></span>
+<span class='r-in'>  <span class='co'># 200/16562 is approx 0.0121</span></span>
+<span class='r-in'>  <span class='fu'>step_upsample</span><span class='op'>(</span><span class='va'>diet</span>, over_ratio <span class='op'>=</span> <span class='fl'>0.0121</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span><span class='op'>(</span>training <span class='op'>=</span> <span class='va'>okc</span>, retain <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>training</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span><span class='va'>up_rec</span>, new_data <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span><span class='op'>$</span><span class='va'>diet</span>, useNA <span class='op'>=</span> <span class='st'>"always"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Since `skip` defaults to TRUE, baking the step has no effect</span></span>
+<span class='r-in'><span class='va'>baked_okc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span><span class='va'>up_rec</span>, new_data <span class='op'>=</span> <span class='va'>okc</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>baked</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>baked_okc</span><span class='op'>$</span><span class='va'>diet</span>, useNA <span class='op'>=</span> <span class='st'>"always"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Note that if the original data contained more rows than the</span></span>
+<span class='r-in'><span class='co'># target n (= ratio * majority_n), the data are left alone:</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span></span>
+<span class='r-in'>  level <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>orig</span><span class='op'>)</span>,</span>
+<span class='r-in'>  orig_freq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>as.vector</a></span><span class='op'>(</span><span class='va'>orig</span><span class='op'>)</span>,</span>
+<span class='r-in'>  train_freq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>as.vector</a></span><span class='op'>(</span><span class='va'>training</span><span class='op'>)</span>,</span>
+<span class='r-in'>  baked_freq <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/vector.html'>as.vector</a></span><span class='op'>(</span><span class='va'>baked</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>                  level orig_freq train_freq baked_freq</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1             anything      6174       6174       6174</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2                halal        11        200         11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 3               kosher        11        200         11</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 4      mostly anything     16562      16562      16562</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 5         mostly halal        48        200         48</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 6        mostly kosher        86        200         86</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 7         mostly other      1004       1004       1004</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 8         mostly vegan       335        335        335</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 9    mostly vegetarian      3438       3438       3438</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 10               other       331        331        331</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 11   strictly anything      5107       5107       5107</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 12      strictly halal        18        200         18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 13     strictly kosher        18        200         18</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 14      strictly other       450        450        450</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 15      strictly vegan       227        227        227</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 16 strictly vegetarian       874        874        874</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 17               vegan       136        200        136</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 18          vegetarian       665        665        665</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 19                &lt;NA&gt;     24360      24360      24360</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>circle_example</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, color <span class='op'>=</span> <span class='va'>class</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Without upsample"</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='step_upsample-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span><span class='op'>(</span><span class='va'>class</span> <span class='op'>~</span> <span class='va'>.</span>, data <span class='op'>=</span> <span class='va'>circle_example</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>step_upsample</span><span class='op'>(</span><span class='va'>class</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span>new_data <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>y</span>, color <span class='op'>=</span> <span class='va'>class</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_jitter.html'>geom_jitter</a></span><span class='op'>(</span>width <span class='op'>=</span> <span class='fl'>0.1</span>, height <span class='op'>=</span> <span class='fl'>0.1</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"With upsample (with jittering)"</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='step_upsample-2.png' alt='' width='700' height='433' /></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
