@@ -1,6 +1,7 @@
 library(testthat)
 library(recipes)
 library(dplyr)
+library(modeldata)
 
 set.seed(1234)
 
@@ -8,7 +9,7 @@ context("nearmiss")
 
 test_that("tunable", {
   rec <-
-    recipe(~., data = iris) %>%
+    recipe(~., data = mtcars) %>%
     step_nearmiss(all_predictors(), under_ratio = 1)
   rec_param <- tunable.step_nearmiss(rec$steps[[1]])
   expect_equal(rec_param$name, c("under_ratio", "neighbors"))
@@ -43,28 +44,21 @@ test_that("printing", {
 })
 
 test_that("bad data", {
-  iris2 <- iris[-c(1:45), ]
-  iris2$Species2 <- sample(iris2$Species)
-  iris2$Species3 <- as.character(sample(iris2$Species))
 
-  rec <- recipe(~., data = iris2)
+  rec <- recipe(~., data = circle_example)
   # numeric check
   expect_error(
     rec %>%
-      step_nearmiss(Sepal.Width) %>%
-      prep()
+      step_nearmiss(x) %>%
+      prep(),
+    regexp = "should be a factor variable."
   )
   # Multiple variable check
   expect_error(
     rec %>%
-      step_nearmiss(Species, Species2) %>%
-      prep()
-  )
-  # character check
-  expect_error(
-    rec %>%
-      step_nearmiss(Species3) %>%
-      prep()
+      step_nearmiss(class, id) %>%
+      prep(),
+    regexp = "Please select a single factor variable."
   )
 })
 
@@ -84,13 +78,13 @@ test_that("errors if character are present", {
 })
 
 test_that("NA in response", {
-  iris2 <- iris[-c(1:45), ]
-  iris2$Species[seq(6, 96, by = 5)] <- NA
-  # NA check
+  data(credit_data)
+
   expect_error(
-    recipe(~., data = iris2) %>%
-      step_nearmiss(Species) %>%
-      prep()
+    recipe(Job ~ Age, data = credit_data) %>%
+      step_nearmiss(Job) %>%
+      prep(),
+    regexp = "NAs found ind: Job."
   )
 })
 
@@ -133,22 +127,25 @@ test_that("ratio value works when undersampling", {
 })
 
 test_that("allows multi-class", {
-  data <- rename(iris[-c(1:25, 51:75), ], class = Species)
+  data("credit_data")
   expect_error(
-    recipe(~., data = data) %>%
-      step_nearmiss(class) %>%
-      prep(),
+    recipe(Home ~ Age + Income + Assets, data = credit_data) %>%
+      step_impute_mean(Income, Assets) %>%
+      step_nearmiss(Home),
     NA
   )
 })
 
 test_that("minority classes are ignored if there is more than 1", {
-  rec1_p2 <- recipe(~., data = iris[-c(1:25, 51:75), ]) %>%
-    step_nearmiss(Species) %>%
+  data("penguins")
+  rec1_p2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
+                    data = penguins[-(1:84), ]) %>%
+    step_impute_mean(all_predictors()) %>%
+    step_nearmiss(species) %>%
     prep() %>%
     bake(new_data = NULL)
 
-  expect_true(all(max(table(rec1_p2$Species)) == 25))
+  expect_true(all(max(table(rec1_p2$species)) == 68))
 })
 
 test_that("factor levels are not affected by alphabet ordering or class sizes", {

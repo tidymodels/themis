@@ -1,6 +1,7 @@
 library(testthat)
 library(recipes)
 library(dplyr)
+library(modeldata)
 set.seed(1234)
 
 context("ROSE")
@@ -26,7 +27,7 @@ test_that("minority_prop value", {
 
 test_that("tunable", {
   rec <-
-    recipe(~., data = iris) %>%
+    recipe(~., data = mtcars) %>%
     step_rose(all_predictors(), under_ratio = 1)
   rec_param <- tunable.step_rose(rec$steps[[1]])
   expect_equal(rec_param$name, c("over_ratio"))
@@ -84,39 +85,34 @@ test_that("printing", {
 })
 
 test_that("bad data", {
-  iris2 <- iris[-c(1:45), ]
-  iris2$Species2 <- sample(iris2$Species)
-  iris2$Species3 <- as.character(sample(iris2$Species))
 
-  rec <- recipe(~., data = iris2)
+  rec <- recipe(~., data = circle_example)
   # numeric check
   expect_error(
     rec %>%
-      step_rose(Sepal.Width) %>%
-      prep()
+      step_rose(x) %>%
+      prep(),
+    regexp = "should be a factor variable."
   )
   # Multiple variable check
   expect_error(
     rec %>%
-      step_rose(Species, Species2) %>%
-      prep()
-  )
-  # character check
-  expect_error(
-    rec %>%
-      step_rose(Species3) %>%
-      prep()
+      step_rose(class, id) %>%
+      prep(),
+    regexp = "Please select a single factor variable."
   )
 })
 
 test_that("NA in response", {
-  iris2 <- iris[-c(1:45), ]
-  iris2$Species[seq(6, 96, by = 5)] <- NA
-  # NA check
+  data(credit_data)
+  credit_data0 <- credit_data
+  credit_data0[1, 1] <- NA
+
   expect_error(
-    recipe(~., data = iris2) %>%
-      step_rose(Species) %>%
-      prep()
+    recipe(Status ~ Age, data = credit_data0) %>%
+      step_rose(Status) %>%
+      prep(),
+    regexp = "NAs found ind: Status."
   )
 })
 

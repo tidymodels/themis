@@ -79,20 +79,30 @@ conducted outside of the training set.
 \examples{
 library(recipes)
 library(modeldata)
-data(okc)
+data(credit_data)
 
-sort(table(okc$Class, useNA = "always"))
+orig <- count(credit_data, Status, name = "orig")
+orig
 
-ds_rec <- recipe(Class ~ age + height, data = okc) \%>\%
-  step_impute_mean(all_predictors()) \%>\%
-  step_tomek(Class) \%>\%
+up_rec <- recipe(Status ~ Age + Income + Assets, data = credit_data) \%>\%
+  step_impute_mean(Income, Assets) \%>\%
+  step_tomek(Status) \%>\%
   prep()
 
-sort(table(bake(ds_rec, new_data = NULL)$Class, useNA = "always"))
+training <- up_rec \%>\%
+  bake(new_data = NULL) \%>\%
+  count(Status, name = "training")
+training
 
-# since `skip` defaults to TRUE, baking the step has no effect
-baked_okc <- bake(ds_rec, new_data = okc)
-table(baked_okc$Class, useNA = "always")
+# Since `skip` defaults to TRUE, baking the step has no effect
+baked <- up_rec \%>\%
+  bake(new_data = credit_data) \%>\%
+  count(Status, name = "baked")
+baked
+
+orig \%>\%
+  left_join(training, by = "Status") \%>\%
+  left_join(baked, by = "Status")
 
 library(ggplot2)
 
@@ -116,6 +126,3 @@ recipe(class ~ x + y, data = circle_example) \%>\%
 Tomek. Two modifications of cnn. IEEE Trans. Syst. Man Cybern.,
 6:769-772, 1976.
 }
-\concept{preprocessing}
-\concept{subsampling}
-\keyword{datagen}

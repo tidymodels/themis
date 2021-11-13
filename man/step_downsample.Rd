@@ -78,10 +78,7 @@ of levels in a specific factor level equal.
 }
 \details{
 Down-sampling is intended to be performed on the \emph{training} set
-alone. For this reason, the default is \code{skip = TRUE}. It is
-advisable to use \code{prep(recipe, retain = TRUE)} when preparing
-the recipe; in this way \code{\link[=juice]{juice()}} can be used to obtain the
-down-sampled version of the data.
+alone. For this reason, the default is \code{skip = TRUE}.
 
 If there are missing values in the factor variable that is used
 to define the sampling, missing data are selected at random in
@@ -103,20 +100,49 @@ it is not clear whether those operations should be conducted
 \examples{
 library(recipes)
 library(modeldata)
-data(okc)
+data(credit_data)
 
-sort(table(okc$diet, useNA = "always"))
+credit_data0 <- credit_data \%>\%
+  filter(Home != "ignore") \%>\%
+  mutate(Home = as.character(Home))
 
-ds_rec <- recipe(~., data = okc) \%>\%
-  step_downsample(diet) \%>\%
-  prep(training = okc, retain = TRUE)
+orig <- count(credit_data0, Home, name = "orig")
+orig
 
-sort(table(bake(ds_rec, new_data = NULL)$diet, useNA = "always"))
+up_rec <- recipe(Home ~ Age + Income + Assets, data = credit_data0) \%>\%
+  # Bring the majority levels down to about 500 each
+  # 500/246 is approx 2.035
+  step_downsample(Home, under_ratio = 2.035) \%>\%
+  prep()
 
-# since `skip` defaults to TRUE, baking the step has no effect
-baked_okc <- bake(ds_rec, new_data = okc)
-table(baked_okc$diet, useNA = "always")
+training <- up_rec \%>\%
+  bake(new_data = NULL) \%>\%
+  count(Home, name = "training")
+training
+
+# Since `skip` defaults to TRUE, baking the step has no effect
+baked <- up_rec \%>\%
+  bake(new_data = credit_data0) \%>\%
+  count(Home, name = "baked")
+baked
+
+# Note that if the original data contained more rows than the
+# target n (= ratio * majority_n), the data are left alone:
+orig \%>\%
+  left_join(training, by = "Home") \%>\%
+  left_join(baked, by = "Home")
+
+library(ggplot2)
+
+ggplot(circle_example, aes(x, y, color = class)) +
+  geom_point() +
+  labs(title = "Without downsample")
+
+recipe(class ~ x + y, data = circle_example) \%>\%
+  step_downsample(class) \%>\%
+  prep() \%>\%
+  bake(new_data = NULL) \%>\%
+  ggplot(aes(x, y, color = class)) +
+  geom_point() +
+  labs(title = "With downsample")
 }
-\concept{preprocessing}
-\concept{subsampling}
-\keyword{datagen}

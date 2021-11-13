@@ -96,25 +96,36 @@ library(recipes)
 library(modeldata)
 data(credit_data)
 
-sort(table(credit_data$Status, useNA = "always"))
+credit_data0 <- credit_data \%>\%
+  filter(Home != "ignore") \%>\%
+  mutate(Home = as.character(Home))
 
-ds_rec <- recipe(Status ~ Age + Income + Assets, data = credit_data) \%>\%
-  step_impute_mean(all_predictors()) \%>\%
-  step_smote(Status) \%>\%
+orig <- count(credit_data0, Home, name = "orig")
+orig
+
+up_rec <- recipe(Home ~ Age + Income + Assets, data = credit_data0) \%>\%
+  step_impute_mean(Income, Assets) \%>\%
+  # Bring the minority levels up to about 1000 each
+  # 1000/2107 is approx 0.47461
+  step_smote(Home, over_ratio = 0.47461) \%>\%
   prep()
 
-sort(table(bake(ds_rec, new_data = NULL)$Status, useNA = "always"))
+training <- up_rec \%>\%
+  bake(new_data = NULL) \%>\%
+  count(Home, name = "training")
+training
 
-# since `skip` defaults to TRUE, baking the step has no effect
-baked_okc <- bake(ds_rec, new_data = credit_data)
-table(baked_okc$Status, useNA = "always")
+# Since `skip` defaults to TRUE, baking the step has no effect
+baked <- up_rec \%>\%
+  bake(new_data = credit_data0) \%>\%
+  count(Home, name = "baked")
+baked
 
-ds_rec2 <- recipe(Status ~ Age + Income + Assets, data = credit_data) \%>\%
-  step_impute_mean(all_predictors()) \%>\%
-  step_smote(Status, over_ratio = 0.2) \%>\%
-  prep()
-
-table(bake(ds_rec2, new_data = NULL)$Status, useNA = "always")
+# Note that if the original data contained more rows than the
+# target n (= ratio * majority_n), the data are left alone:
+orig \%>\%
+  left_join(training, by = "Home") \%>\%
+  left_join(baked, by = "Home")
 
 library(ggplot2)
 
@@ -135,6 +146,3 @@ Chawla, N. V., Bowyer, K. W., Hall, L. O., and Kegelmeyer,
 W. P. (2002). Smote: Synthetic minority over-sampling technique.
 Journal of Artificial Intelligence Research, 16:321-357.
 }
-\concept{preprocessing}
-\concept{subsampling}
-\keyword{datagen}

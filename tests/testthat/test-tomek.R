@@ -26,28 +26,21 @@ test_that("printing", {
 })
 
 test_that("bad data", {
-  iris2 <- iris[-c(1:45), ]
-  iris2$Species2 <- sample(iris2$Species)
-  iris2$Species3 <- as.character(sample(iris2$Species))
 
-  rec <- recipe(~., data = iris2)
+  rec <- recipe(~., data = circle_example)
   # numeric check
   expect_error(
     rec %>%
-      step_tomek(Sepal.Width) %>%
-      prep()
+      step_smote(x) %>%
+      prep(),
+    regexp = "should be a factor variable."
   )
   # Multiple variable check
   expect_error(
     rec %>%
-      step_tomek(Species, Species2) %>%
-      prep()
-  )
-  # character check
-  expect_error(
-    rec %>%
-      step_tomek(Species3) %>%
-      prep()
+      step_smote(class, id) %>%
+      prep(),
+    regexp = "Please select a single factor variable."
   )
 })
 
@@ -67,13 +60,15 @@ test_that("errors if character are present", {
 })
 
 test_that("NA in response", {
-  iris2 <- iris[-c(1:45), ]
-  iris2$Species[seq(6, 96, by = 5)] <- NA
-  # NA check
+  data(credit_data)
+  credit_data0 <- credit_data
+  credit_data0[1, 1] <- NA
+
   expect_error(
-    recipe(~., data = iris2) %>%
-      step_tomek(Species) %>%
-      prep()
+    recipe(Status ~ Age, data = credit_data0) %>%
+      step_tomek(Status) %>%
+      prep(),
+    regexp = "NAs found ind: Status."
   )
 })
 

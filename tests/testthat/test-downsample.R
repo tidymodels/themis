@@ -14,7 +14,7 @@ test_that("ratio deprecation", {
 })
 
 test_that("tunable", {
-  rec <- recipe(~., data = iris) %>%
+  rec <- recipe(~., data = mtcars) %>%
     step_downsample(all_predictors(), under_ratio = 1)
   rec_param <- tunable.step_downsample(rec$steps[[1]])
   expect_equal(rec_param$name, c("under_ratio"))
@@ -49,28 +49,21 @@ test_that("printing", {
 })
 
 test_that("bad data", {
-  iris2 <- iris[-c(1:45), ]
-  iris2$Species2 <- sample(iris2$Species)
-  iris2$Species3 <- as.character(sample(iris2$Species))
 
-  rec <- recipe(~., data = iris2)
+  rec <- recipe(~., data = circle_example)
   # numeric check
   expect_error(
     rec %>%
-      step_downsample(Sepal.Width) %>%
-      prep()
+      step_downsample(x) %>%
+      prep(),
+    regexp = "should be a factor variable."
   )
   # Multiple variable check
   expect_error(
     rec %>%
-      step_downsample(Species, Species2) %>%
-      prep()
-  )
-  # character check
-  expect_error(
-    rec %>%
-      step_downsample(Species3) %>%
-      prep(strings_as_factors = FALSE)
+      step_downsample(class, id) %>%
+      prep(),
+    regexp = "Please select a single factor variable."
   )
 })
 
@@ -130,22 +123,25 @@ test_that("ratio value works when undersampling", {
 })
 
 test_that("allows multi-class", {
-  data <- rename(iris, class = Species)
+  data("credit_data")
   expect_error(
-    recipe(~., data = data) %>%
-      step_downsample(class) %>%
-      prep(),
+    recipe(Home ~ Age + Income + Assets, data = credit_data) %>%
+      step_impute_mean(Income, Assets) %>%
+      step_downsample(Home),
     NA
   )
 })
 
 test_that("minority classes are ignored if there is more than 1", {
-  rec1_p2 <- recipe(~., data = iris[-c(1:25, 51:75), ]) %>%
-    step_downsample(Species) %>%
+  data("penguins")
+  rec1_p2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
+                    data = penguins[-(1:84), ]) %>%
+    step_impute_mean(all_predictors()) %>%
+    step_downsample(species) %>%
     prep() %>%
     bake(new_data = NULL)
 
-  expect_true(all(max(table(rec1_p2$Species)) == 25))
+  expect_true(all(max(table(rec1_p2$species)) == 68))
 })
 
 test_that("factor levels are not affected by alphabet ordering or class sizes", {

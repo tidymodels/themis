@@ -54,32 +54,33 @@
 #'  classification rules with imbalanced data. Data Mining and Knowledge
 #'  Discovery, 28:92–122.
 #'
-#' @keywords datagen
-#' @concept preprocessing
-#' @concept subsampling
 #' @export
 #' @examples
 #' library(recipes)
 #' library(modeldata)
-#' data(okc)
+#' data(credit_data)
 #'
-#' sort(table(okc$Class, useNA = "always"))
+#' orig <- count(credit_data, Status, name = "orig")
+#' orig
 #'
-#' ds_rec <- recipe(Class ~ age + height, data = okc) %>%
-#'   step_rose(Class) %>%
+#' up_rec <- recipe(Status ~ Age + Income + Assets, data = credit_data) %>%
+#'   step_rose(Status) %>%
 #'   prep()
 #'
-#' sort(table(bake(ds_rec, new_data = NULL)$Class, useNA = "always"))
+#' training <- up_rec %>%
+#'   bake(new_data = NULL) %>%
+#'   count(Status, name = "training")
+#' training
 #'
-#' # since `skip` defaults to TRUE, baking the step has no effect
-#' baked_okc <- bake(ds_rec, new_data = okc)
-#' table(baked_okc$Class, useNA = "always")
+#' # Since `skip` defaults to TRUE, baking the step has no effect
+#' baked <- up_rec %>%
+#'   bake(new_data = credit_data) %>%
+#'   count(Status, name = "baked")
+#' baked
 #'
-#' ds_rec2 <- recipe(Class ~ age + height, data = okc) %>%
-#'   step_rose(Class, minority_prop = 0.3) %>%
-#'   prep()
-#'
-#' table(bake(ds_rec2, new_data = NULL)$Class, useNA = "always")
+#' orig %>%
+#'   left_join(training, by = "Status") %>%
+#'   left_join(baked, by = "Status")
 #'
 #' library(ggplot2)
 #'
@@ -152,6 +153,7 @@ prep.step_rose <- function(x, training, info = NULL, ...) {
   check_2_levels_only(training, col_name)
 
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
+  check_na(select(training, col_name), "step_bsmote")
 
   step_rose_new(
     terms = x$terms,

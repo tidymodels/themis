@@ -15,7 +15,7 @@ test_that("ratio deprecation", {
 
 test_that("tunable", {
   rec <-
-    recipe(~., data = iris) %>%
+    recipe(~., data = mtcars) %>%
     step_upsample(all_predictors())
   rec_param <- tunable.step_upsample(rec$steps[[1]])
   expect_equal(rec_param$name, c("over_ratio"))
@@ -50,28 +50,21 @@ test_that("printing", {
 })
 
 test_that("bad data", {
-  iris2 <- iris[-c(1:45), ]
-  iris2$Species2 <- sample(iris2$Species)
-  iris2$Species3 <- as.character(sample(iris2$Species))
 
-  rec <- recipe(~., data = iris2)
+  rec <- recipe(~., data = circle_example)
   # numeric check
   expect_error(
     rec %>%
-      step_upsample(Sepal.Width) %>%
-      prep()
+      step_upsample(x) %>%
+      prep(),
+    regexp = ""
   )
   # Multiple variable check
   expect_error(
     rec %>%
-      step_upsample(Species, Species2) %>%
-      prep()
-  )
-  # character check
-  expect_error(
-    rec %>%
-      step_upsample(Species3) %>%
-      prep(strings_as_factors = FALSE)
+      step_upsample(class, id) %>%
+      prep(),
+    regexp = "Please select a single factor variable."
   )
 })
 
@@ -131,22 +124,25 @@ test_that("ratio value works when oversampling", {
 })
 
 test_that("allows multi-class", {
-  data <- rename(iris, class = Species)
+  data("credit_data")
   expect_error(
-    recipe(~., data = data) %>%
-      step_upsample(class) %>%
-      prep(),
+    recipe(Home ~ Age + Income + Assets, data = credit_data) %>%
+      step_impute_mean(Income, Assets) %>%
+      step_upsample(Home),
     NA
   )
 })
 
 test_that("majority classes are ignored if there is more than 1", {
-  rec1_p2 <- recipe(~., data = iris[-c(51:75), ]) %>%
-    step_upsample(Species) %>%
+  data("penguins")
+  rec1_p2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
+                    data = penguins[-(1:28), ]) %>%
+    step_impute_mean(all_predictors()) %>%
+    step_upsample(species) %>%
     prep() %>%
     bake(new_data = NULL)
 
-  expect_true(all(max(table(rec1_p2$Species)) <= 50))
+  expect_true(all(max(table(rec1_p2$species)) == 124))
 })
 
 test_that("factor levels are not affected by alphabet ordering or class sizes", {
