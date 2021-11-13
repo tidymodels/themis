@@ -34,3 +34,6 @@ reference:
       - bsmote
       - adasyn
   - title: "Dials Objects"
+  - title: Tidy Methods
+    contents:
+    - tidy.recipe
