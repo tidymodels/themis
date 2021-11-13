@@ -44,9 +44,6 @@
 #' All columns in the data are sampled and returned by [juice()]
 #'  and [bake()].
 #'
-#' @keywords datagen
-#' @concept preprocessing
-#' @concept subsampling
 #' @export
 #' @examples
 #' library(recipes)

@@ -41,9 +41,6 @@
 #' distributions: a case study involving information extraction. In Proceedings
 #' of workshop on learning from imbalanced datasets, 2003.
 #'
-#' @keywords datagen
-#' @concept preprocessing
-#' @concept subsampling
 #' @export
 #' @examples
 #' library(recipes)

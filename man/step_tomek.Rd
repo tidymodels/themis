@@ -126,6 +126,3 @@ recipe(class ~ x + y, data = circle_example) \%>\%
 Tomek. Two modifications of cnn. IEEE Trans. Syst. Man Cybern.,
 6:769-772, 1976.
 }
-\concept{preprocessing}
-\concept{subsampling}
-\keyword{datagen}

@@ -151,6 +151,3 @@ Menardi, G. and Torelli, N. (2014). Training and assessing
 classification rules with imbalanced data. Data Mining and Knowledge
 Discovery, 28:92–122.
 }
-\concept{preprocessing}
-\concept{subsampling}
-\keyword{datagen}

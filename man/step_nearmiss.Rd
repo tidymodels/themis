@@ -147,6 +147,3 @@ Inderjeet Mani and I Zhang. knn approach to unbalanced data
 distributions: a case study involving information extraction. In Proceedings
 of workshop on learning from imbalanced datasets, 2003.
 }
-\concept{preprocessing}
-\concept{subsampling}
-\keyword{datagen}

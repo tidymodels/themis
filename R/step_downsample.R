@@ -49,9 +49,6 @@
 #'  it is not clear whether those operations should be conducted
 #'  _before_ or _after_ rows are removed.
 #'
-#' @keywords datagen
-#' @concept preprocessing
-#' @concept subsampling
 #' @export
 #' @examples
 #' library(recipes)

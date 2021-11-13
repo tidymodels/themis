@@ -38,9 +38,6 @@
 #'  IJCNN 2008. (IEEE World Congress on Computational Intelligence). IEEE
 #'  International Joint Conference. pp.1322-1328.
 #'
-#' @keywords datagen
-#' @concept preprocessing
-#' @concept subsampling
 #' @export
 #' @examples
 #' library(recipes)

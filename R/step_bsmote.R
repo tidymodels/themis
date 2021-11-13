@@ -60,9 +60,6 @@
 #' International Conference on Intelligent Computing, pages 878–887. Springer,
 #' 2005.
 #'
-#' @keywords datagen
-#' @concept preprocessing
-#' @concept subsampling
 #' @export
 #' @examples
 #' library(recipes)

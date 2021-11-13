@@ -141,6 +141,3 @@ recipe(class ~ x + y, data = circle_example) \%>\%
   geom_jitter(width = 0.1, height = 0.1) +
   labs(title = "With upsample (with jittering)")
 }
-\concept{preprocessing}
-\concept{subsampling}
-\keyword{datagen}

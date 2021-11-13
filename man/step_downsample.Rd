@@ -146,6 +146,3 @@ recipe(class ~ x + y, data = circle_example) \%>\%
   geom_point() +
   labs(title = "With downsample")
 }
-\concept{preprocessing}
-\concept{subsampling}
-\keyword{datagen}
