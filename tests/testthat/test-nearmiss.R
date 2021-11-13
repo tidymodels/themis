@@ -193,3 +193,14 @@ test_that("id variables are ignored", {
   expect_equal(ncol(bake(rec_id, new_data = NULL)), 4)
 })
 
+test_that("id variables don't turn predictors to factors", {
+  # https://github.com/tidymodels/themis/issues/56
+  rec_id <- recipe(class ~ ., data = circle_example) %>%
+    update_role(id, new_role = "id") %>%
+    step_nearmiss(class, under_ratio = 1) %>%
+    prep() %>%
+    bake(new_data = NULL)
+
+  expect_equal(is.double(rec_id$x), TRUE)
+  expect_equal(is.double(rec_id$y), TRUE)
+})

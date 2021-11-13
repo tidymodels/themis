@@ -180,3 +180,16 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
     )
   }
 })
+
+
+test_that("id variables don't turn predictors to factors", {
+  # https://github.com/tidymodels/themis/issues/56
+  rec_id <- recipe(class ~ ., data = circle_example) %>%
+    update_role(id, new_role = "id") %>%
+    step_downsample(class) %>%
+    prep() %>%
+    bake(new_data = NULL)
+
+  expect_equal(is.double(rec_id$x), TRUE)
+  expect_equal(is.double(rec_id$y), TRUE)
+})

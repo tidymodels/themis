@@ -313,3 +313,30 @@ test_that("non-predictor variables are ignored", {
     as.character(res$id)
   )
 })
+
+
+test_that("id variables don't turn predictors to factors", {
+  # https://github.com/tidymodels/themis/issues/56
+  rec_id <- recipe(class ~ ., data = circle_example) %>%
+    update_role(id, new_role = "id") %>%
+    step_bsmote(class, all_neighbors = FALSE) %>%
+    prep() %>%
+    bake(new_data = NULL)
+
+  expect_equal(is.double(rec_id$x), TRUE)
+  expect_equal(is.double(rec_id$y), TRUE)
+})
+
+
+
+test_that("id variables don't turn predictors to factors", {
+  # https://github.com/tidymodels/themis/issues/56
+  rec_id <- recipe(class ~ ., data = circle_example) %>%
+    update_role(id, new_role = "id") %>%
+    step_bsmote(class, all_neighbors = TRUE) %>%
+    prep() %>%
+    bake(new_data = NULL)
+
+  expect_equal(is.double(rec_id$x), TRUE)
+  expect_equal(is.double(rec_id$y), TRUE)
+})
