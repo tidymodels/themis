@@ -78,10 +78,7 @@ of levels in a specific factor level equal.
 }
 \details{
 Down-sampling is intended to be performed on the \emph{training} set
-alone. For this reason, the default is \code{skip = TRUE}. It is
-advisable to use \code{prep(recipe, retain = TRUE)} when preparing
-the recipe; in this way \code{\link[=juice]{juice()}} can be used to obtain the
-down-sampled version of the data.
+alone. For this reason, the default is \code{skip = TRUE}.
 
 If there are missing values in the factor variable that is used
 to define the sampling, missing data are selected at random in
@@ -105,17 +102,19 @@ library(recipes)
 library(modeldata)
 data(okc)
 
-sort(table(okc$diet, useNA = "always"))
+count(okc, diet)
 
 ds_rec <- recipe(~., data = okc) \%>\%
   step_downsample(diet) \%>\%
-  prep(training = okc, retain = TRUE)
+  prep(training = okc)
 
-sort(table(bake(ds_rec, new_data = NULL)$diet, useNA = "always"))
+ds_rec \%>\%
+  bake(new_data = NULL) \%>\%
+  count(diet)
 
 # since `skip` defaults to TRUE, baking the step has no effect
 baked_okc <- bake(ds_rec, new_data = okc)
-table(baked_okc$diet, useNA = "always")
+count(baked_okc, diet)
 }
 \concept{preprocessing}
 \concept{subsampling}

@@ -54,25 +54,29 @@
 #' library(modeldata)
 #' data(credit_data)
 #'
-#' sort(table(credit_data$Status, useNA = "always"))
+#' count(credit_data, Status)
 #'
 #' ds_rec <- recipe(Status ~ Age + Income + Assets, data = credit_data) %>%
 #'   step_impute_mean(all_predictors()) %>%
 #'   step_smote(Status) %>%
 #'   prep()
 #'
-#' sort(table(bake(ds_rec, new_data = NULL)$Status, useNA = "always"))
+#' ds_rec %>%
+#'   bake(new_data = NULL) %>%
+#'   count(Status)
 #'
 #' # since `skip` defaults to TRUE, baking the step has no effect
 #' baked_okc <- bake(ds_rec, new_data = credit_data)
-#' table(baked_okc$Status, useNA = "always")
+#' count(baked_okc, Status)
 #'
 #' ds_rec2 <- recipe(Status ~ Age + Income + Assets, data = credit_data) %>%
 #'   step_impute_mean(all_predictors()) %>%
 #'   step_smote(Status, over_ratio = 0.2) %>%
 #'   prep()
 #'
-#' table(bake(ds_rec2, new_data = NULL)$Status, useNA = "always")
+#' ds_rec2 %>%
+#'   bake(new_data = NULL) %>%
+#'   count(Status)
 #'
 #' library(ggplot2)
 #'

@@ -107,23 +107,27 @@ library(recipes)
 library(modeldata)
 data(okc)
 
-sort(table(okc$Class, useNA = "always"))
+count(okc, Class)
 
 ds_rec <- recipe(Class ~ age + height, data = okc) \%>\%
   step_rose(Class) \%>\%
   prep()
 
-sort(table(bake(ds_rec, new_data = NULL)$Class, useNA = "always"))
+ds_rec \%>\%
+  bake(new_data = NULL) \%>\%
+  count(Class)
 
 # since `skip` defaults to TRUE, baking the step has no effect
 baked_okc <- bake(ds_rec, new_data = okc)
-table(baked_okc$Class, useNA = "always")
+count(baked_okc, Class)
 
 ds_rec2 <- recipe(Class ~ age + height, data = okc) \%>\%
   step_rose(Class, minority_prop = 0.3) \%>\%
   prep()
 
-table(bake(ds_rec2, new_data = NULL)$Class, useNA = "always")
+ds_rec2 \%>\%
+  bake(new_data = NULL) \%>\%
+  count(Class)
 
 library(ggplot2)
 

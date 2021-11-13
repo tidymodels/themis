@@ -47,18 +47,20 @@
 #' library(modeldata)
 #' data(okc)
 #'
-#' sort(table(okc$Class, useNA = "always"))
+#' count(okc, Class)
 #'
 #' ds_rec <- recipe(Class ~ age + height, data = okc) %>%
 #'   step_impute_mean(all_predictors()) %>%
 #'   step_adasyn(Class) %>%
 #'   prep()
 #'
-#' sort(table(bake(ds_rec, new_data = NULL)$Class, useNA = "always"))
+#' ds_rec %>%
+#'   bake(new_data = NULL) %>%
+#'   count(Class)
 #'
 #' # since `skip` defaults to TRUE, baking the step has no effect
 #' baked_okc <- bake(ds_rec, new_data = okc)
-#' table(baked_okc$Class, useNA = "always")
+#' count(baked_okc, Class)
 #'
 #' library(ggplot2)
 #'
