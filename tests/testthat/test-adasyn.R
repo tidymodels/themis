@@ -34,7 +34,7 @@ test_that("errors if there isn't enough data", {
 })
 
 test_that("basic usage", {
-  rec1 <- recipe(~., data = circle_example) %>%
+  rec1 <- recipe(class ~ x + y, data = circle_example) %>%
     step_adasyn(class)
 
   rec1_p <- prep(rec1)
@@ -48,7 +48,7 @@ test_that("basic usage", {
 })
 
 test_that("printing", {
-  rec <- recipe(~., data = circle_example) %>%
+  rec <- recipe(class ~ x + y, data = circle_example) %>%
     step_adasyn(class)
   expect_output(print(rec))
   expect_output(prep(rec, verbose = TRUE))
@@ -108,7 +108,7 @@ test_that("NA in response", {
 
 test_that("`seed` produces identical sampling", {
   step_with_seed <- function(seed = sample.int(10^5, 1)) {
-    recipe(~., data = circle_example) %>%
+    recipe(class ~ x + y, data = circle_example) %>%
       step_adasyn(class, seed = seed) %>%
       prep() %>%
       bake(new_data = NULL) %>%
@@ -124,7 +124,7 @@ test_that("`seed` produces identical sampling", {
 })
 
 test_that("test tidy()", {
-  rec <- recipe(~., data = circle_example) %>%
+  rec <- recipe(class ~ x + y, data = circle_example) %>%
     step_adasyn(class, id = "")
 
   rec_p <- prep(rec)
@@ -144,12 +144,12 @@ test_that("test tidy()", {
 })
 
 test_that("ratio value works when oversampling", {
-  res1 <- recipe(~., data = circle_example) %>%
+  res1 <- recipe(class ~ x + y, data = circle_example) %>%
     step_adasyn(class) %>%
     prep() %>%
     bake(new_data = NULL)
 
-  res1.5 <- recipe(~., data = circle_example) %>%
+  res1.5 <- recipe(class ~ x + y, data = circle_example) %>%
     step_adasyn(class, over_ratio = 0.5) %>%
     prep() %>%
     bake(new_data = NULL)
@@ -198,7 +198,7 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   }
 
   for (i in 1:4) {
-    rec_p <- recipe(~., data = circle_example_alt_levels[[i]]) %>%
+    rec_p <- recipe(class ~ x + y, data = circle_example_alt_levels[[i]]) %>%
       step_adasyn(class) %>%
       prep()
 
@@ -214,14 +214,14 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
 })
 
 test_that("ordering of newly generated points are right", {
-  res <- recipe(~., data = circle_example) %>%
+  res <- recipe(class ~ x + y, data = circle_example) %>%
     step_adasyn(class) %>%
     prep() %>%
     bake(new_data = NULL)
 
   expect_equal(
     res[seq_len(nrow(circle_example)), ],
-    as_tibble(circle_example)
+    as_tibble(circle_example[, c("x", "y", "class")])
   )
 })
 

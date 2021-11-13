@@ -5,7 +5,7 @@ library(dplyr)
 context("tomek")
 
 test_that("basic usage", {
-  rec1 <- recipe(~., data = circle_example) %>%
+  rec1 <- recipe(class ~ x + y, data = circle_example) %>%
     step_tomek(class)
 
   rec1_p <- prep(rec1)
@@ -19,7 +19,7 @@ test_that("basic usage", {
 })
 
 test_that("printing", {
-  rec <- recipe(~., data = circle_example) %>%
+  rec <- recipe(class ~ x + y, data = circle_example) %>%
     step_tomek(class)
   expect_output(print(rec))
   expect_output(prep(rec, verbose = TRUE))
@@ -78,7 +78,7 @@ test_that("NA in response", {
 })
 
 test_that("test tidy()", {
-  rec <- recipe(~., data = circle_example) %>%
+  rec <- recipe(class ~ x + y, data = circle_example) %>%
     step_tomek(class, id = "")
 
   rec_p <- prep(rec)
@@ -129,7 +129,7 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   }
 
   for (i in 1:4) {
-    rec_p <- recipe(~., data = circle_example_alt_levels[[i]]) %>%
+    rec_p <- recipe(class ~ x + y, data = circle_example_alt_levels[[i]]) %>%
       step_tomek(class) %>%
       prep()
 

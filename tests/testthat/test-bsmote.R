@@ -44,7 +44,7 @@ test_that("tunable", {
 })
 
 test_that("basic usage", {
-  rec1 <- recipe(~., data = circle_example) %>%
+  rec1 <- recipe(class ~ x + y, data = circle_example) %>%
     step_bsmote(class, all_neighbors = FALSE)
 
   rec1_p <- prep(rec1)
@@ -58,7 +58,7 @@ test_that("basic usage", {
 })
 
 test_that("basic usage", {
-  rec1 <- recipe(~., data = circle_example) %>%
+  rec1 <- recipe(class ~ x + y, data = circle_example) %>%
     step_bsmote(class, all_neighbors = TRUE)
 
   rec1_p <- prep(rec1)
@@ -72,7 +72,7 @@ test_that("basic usage", {
 })
 
 test_that("printing", {
-  rec <- recipe(~., data = circle_example) %>%
+  rec <- recipe(class ~ x + y, data = circle_example) %>%
     step_bsmote(class)
   expect_output(print(rec))
   expect_output(prep(rec, verbose = TRUE))
@@ -132,7 +132,7 @@ test_that("NA in response", {
 
 test_that("`seed` produces identical sampling", {
   step_with_seed <- function(seed = sample.int(10^5, 1)) {
-    recipe(~., data = circle_example) %>%
+    recipe(class ~ x + y, data = circle_example) %>%
       step_bsmote(class, seed = seed) %>%
       prep() %>%
       bake(new_data = NULL) %>%
@@ -148,7 +148,7 @@ test_that("`seed` produces identical sampling", {
 })
 
 test_that("test tidy()", {
-  rec <- recipe(~., data = circle_example) %>%
+  rec <- recipe(class ~ x + y, data = circle_example) %>%
     step_bsmote(class, id = "")
 
   rec_p <- prep(rec)
@@ -168,12 +168,12 @@ test_that("test tidy()", {
 })
 
 test_that("ratio value works when oversampling", {
-  res1 <- recipe(~., data = circle_example) %>%
+  res1 <- recipe(class ~ x + y, data = circle_example) %>%
     step_bsmote(class, all_neighbors = FALSE) %>%
     prep() %>%
     bake(new_data = NULL)
 
-  res1.5 <- recipe(~., data = circle_example) %>%
+  res1.5 <- recipe(class ~ x + y, data = circle_example) %>%
     step_bsmote(class, over_ratio = 0.5, all_neighbors = FALSE) %>%
     prep() %>%
     bake(new_data = NULL)
@@ -186,12 +186,12 @@ test_that("ratio value works when oversampling", {
 })
 
 test_that("ratio value works when oversampling", {
-  res1 <- recipe(~., data = circle_example) %>%
+  res1 <- recipe(class ~ x + y, data = circle_example) %>%
     step_bsmote(class, all_neighbors = TRUE) %>%
     prep() %>%
     bake(new_data = NULL)
 
-  res1.5 <- recipe(~., data = circle_example) %>%
+  res1.5 <- recipe(class ~ x + y, data = circle_example) %>%
     step_bsmote(class, over_ratio = 0.5, all_neighbors = TRUE) %>%
     prep() %>%
     bake(new_data = NULL)
@@ -249,7 +249,7 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   }
 
   for (i in 1:4) {
-    rec_p <- recipe(~., data = circle_example_alt_levels[[i]]) %>%
+    rec_p <- recipe(class ~ x + y, data = circle_example_alt_levels[[i]]) %>%
       step_bsmote(class) %>%
       prep()
 
@@ -265,59 +265,51 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
 })
 
 test_that("ordering of newly generated points are right", {
-  res <- recipe(~., data = circle_example) %>%
+  res <- recipe(class ~ x + y, data = circle_example) %>%
     step_bsmote(class, all_neighbors = FALSE) %>%
     prep() %>%
     bake(new_data = NULL)
 
   expect_equal(
     res[seq_len(nrow(circle_example)), ],
-    as_tibble(circle_example)
+    as_tibble(circle_example[, c("x", "y", "class")])
   )
 })
 
 test_that("ordering of newly generated points are right", {
-  res <- recipe(~., data = circle_example) %>%
+  res <- recipe(class ~ x + y, data = circle_example) %>%
     step_bsmote(class, all_neighbors = TRUE) %>%
     prep() %>%
     bake(new_data = NULL)
 
   expect_equal(
     res[seq_len(nrow(circle_example)), ],
-    as_tibble(circle_example)
+    as_tibble(circle_example[, c("x", "y", "class")])
   )
 })
 
-test_that("non-predictor variables are ignored", {
-  circle_example2 <- circle_example %>%
-    mutate(id = as.character(row_number())) %>%
-    as_tibble()
-
-  res <- recipe(class ~ ., data = circle_example2) %>%
+ test_that("non-predictor variables are ignored", {
+  res <- recipe(class ~ ., data = circle_example) %>%
     update_role(id, new_role = "id") %>%
     step_bsmote(class, all_neighbors = FALSE) %>%
     prep() %>%
     bake(new_data = NULL)
 
   expect_equal(
-    c(circle_example2$id, rep(NA, nrow(res) - nrow(circle_example2))),
+    c(circle_example$id, rep(NA, nrow(res) - nrow(circle_example))),
     as.character(res$id)
   )
 })
 
 test_that("non-predictor variables are ignored", {
-  circle_example2 <- circle_example %>%
-    mutate(id = as.character(row_number())) %>%
-    as_tibble()
-
-  res <- recipe(class ~ ., data = circle_example2) %>%
+  res <- recipe(class ~ ., data = circle_example) %>%
     update_role(id, new_role = "id") %>%
     step_bsmote(class, all_neighbors = TRUE) %>%
     prep() %>%
     bake(new_data = NULL)
 
   expect_equal(
-    c(circle_example2$id, rep(NA, nrow(res) - nrow(circle_example2))),
+    c(circle_example$id, rep(NA, nrow(res) - nrow(circle_example))),
     as.character(res$id)
   )
 })

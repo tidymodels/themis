@@ -22,7 +22,7 @@ test_that("tunable", {
 })
 
 test_that("basic usage", {
-  rec1 <- recipe(~., data = circle_example) %>%
+  rec1 <- recipe(class ~ x + y, data = circle_example) %>%
     step_nearmiss(class)
 
   rec1_p <- prep(rec1)
@@ -36,7 +36,7 @@ test_that("basic usage", {
 })
 
 test_that("printing", {
-  rec <- recipe(~., data = circle_example) %>%
+  rec <- recipe(class ~ x + y, data = circle_example) %>%
     step_nearmiss(class)
   expect_output(print(rec))
   expect_output(prep(rec, verbose = TRUE))
@@ -95,7 +95,7 @@ test_that("NA in response", {
 })
 
 test_that("test tidy()", {
-  rec <- recipe(~., data = circle_example) %>%
+  rec <- recipe(class ~ x + y, data = circle_example) %>%
     step_nearmiss(class, id = "")
 
   rec_p <- prep(rec)
@@ -115,12 +115,12 @@ test_that("test tidy()", {
 })
 
 test_that("ratio value works when undersampling", {
-  res1 <- recipe(~., data = circle_example) %>%
+  res1 <- recipe(class ~ x + y, data = circle_example) %>%
     step_nearmiss(class) %>%
     prep() %>%
     bake(new_data = NULL)
 
-  res1.5 <- recipe(~., data = circle_example) %>%
+  res1.5 <- recipe(class ~ x + y, data = circle_example) %>%
     step_nearmiss(class, under_ratio = 1.5) %>%
     prep() %>%
     bake(new_data = NULL)
@@ -169,7 +169,7 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   }
 
   for (i in 1:4) {
-    rec_p <- recipe(~., data = circle_example_alt_levels[[i]]) %>%
+    rec_p <- recipe(class ~ x + y, data = circle_example_alt_levels[[i]]) %>%
       step_nearmiss(class) %>%
       prep()
 
@@ -186,10 +186,10 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
 
 test_that("id variables are ignored", {
   rec_id <- recipe(class ~ ., data = circle_example) %>%
-    update_role(x, new_role = "ID") %>%
+    update_role(id, new_role = "id") %>%
     step_nearmiss(class, under_ratio = 1) %>%
     prep()
 
-  expect_equal(ncol(bake(rec_id, new_data = NULL)), 3)
+  expect_equal(ncol(bake(rec_id, new_data = NULL)), 4)
 })
 

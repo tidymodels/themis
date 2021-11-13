@@ -6,7 +6,7 @@ set.seed(1234)
 context("ROSE")
 
 test_that("minority_prop value", {
-  rec <- recipe(~., data = circle_example)
+  rec <- recipe(class ~ x + y, data = circle_example)
   rec21 <- rec %>%
     step_rose(class, minority_prop = 0.1)
 
@@ -63,7 +63,7 @@ test_that("row matching works correctly #36", {
 })
 
 test_that("basic usage", {
-  rec1 <- recipe(~., data = circle_example) %>%
+  rec1 <- recipe(class ~ x + y, data = circle_example) %>%
     step_rose(class)
 
   rec1_p <- prep(rec1)
@@ -77,7 +77,7 @@ test_that("basic usage", {
 })
 
 test_that("printing", {
-  rec <- recipe(~., data = circle_example) %>%
+  rec <- recipe(class ~ x + y, data = circle_example) %>%
     step_rose(class)
   expect_output(print(rec))
   expect_output(prep(rec, verbose = TRUE))
@@ -122,7 +122,7 @@ test_that("NA in response", {
 
 test_that("`seed` produces identical sampling", {
   step_with_seed <- function(seed = sample.int(10^5, 1)) {
-    recipe(~., data = circle_example) %>%
+    recipe(class ~ x + y, data = circle_example) %>%
       step_rose(class, seed = seed) %>%
       prep() %>%
       bake(new_data = NULL) %>%
@@ -138,7 +138,7 @@ test_that("`seed` produces identical sampling", {
 })
 
 test_that("test tidy()", {
-  rec <- recipe(~., data = circle_example) %>%
+  rec <- recipe(class ~ x + y, data = circle_example) %>%
     step_rose(class, id = "")
 
   rec_p <- prep(rec)
@@ -189,7 +189,7 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   }
 
   for (i in 1:4) {
-    rec_p <- recipe(~., data = circle_example_alt_levels[[i]]) %>%
+    rec_p <- recipe(class ~ x + y, data = circle_example_alt_levels[[i]]) %>%
       step_rose(class) %>%
       prep()
 
