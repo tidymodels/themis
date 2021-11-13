@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • themis</title>
+<title>Tidy the Result of a Recipe — tidy.step_adasyn • themis</title>
 
 
 <!-- jquery -->
@@ -42,7 +42,12 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Tidy the Result of a Recipe — tidy.step_adasyn" />
+<meta property="og:description" content="tidy will return a data frame that contains information
+regarding a recipe or operation within the recipe (when a tidy
+method for the operation exists). See recipes::tidy.recipe for
+more information." />
+<meta name="twitter:card" content="summary" />
 
 
 <meta name="robots" content="noindex">
@@ -69,7 +74,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -120,175 +125,59 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Tidy the Result of a Recipe</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidymodels/themis/blob/master/R/step_adasyn.R'><code>R/step_adasyn.R</code></a>, <a href='https://github.com/tidymodels/themis/blob/master/R/step_bsmote.R'><code>R/step_bsmote.R</code></a>, <a href='https://github.com/tidymodels/themis/blob/master/R/step_downsample.R'><code>R/step_downsample.R</code></a>, and 6 more</small>
+    <div class="hidden name"><code>tidy.recipe.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p><code>tidy</code> will return a data frame that contains information
+regarding a recipe or operation within the recipe (when a <code>tidy</code>
+method for the operation exists). See <a href='https://recipes.tidymodels.org/reference/tidy.recipe.html'>recipes::tidy.recipe</a> for
+more information.</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='co'># S3 method for step_adasyn</span>
+<span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-over-sampling" class="hasAnchor"><a href="#section-over-sampling" class="anchor"></a>Over-sampling</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="step_upsample.html">step_upsample()</a></code> </p>
-        </td>
-        <td><p>Up-Sample a Data Set Based on a Factor Variable</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="step_smote.html">step_smote()</a></code> </p>
-        </td>
-        <td><p>Apply SMOTE algorithm</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="step_bsmote.html">step_bsmote()</a></code> </p>
-        </td>
-        <td><p>Apply borderline-SMOTE algorithm</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="step_adasyn.html">step_adasyn()</a></code> </p>
-        </td>
-        <td><p>Adaptive Synthetic Sampling Approach</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="step_rose.html">step_rose()</a></code> </p>
-        </td>
-        <td><p>Apply ROSE algorithm</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-under-sampling" class="hasAnchor"><a href="#section-under-sampling" class="anchor"></a>Under-sampling</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="step_downsample.html">step_downsample()</a></code> </p>
-        </td>
-        <td><p>Down-Sample a Data Set Based on a Factor Variable</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="step_nearmiss.html">step_nearmiss()</a></code> </p>
-        </td>
-        <td><p>Under-sampling by removing points near other classes.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="step_tomek.html">step_tomek()</a></code> </p>
-        </td>
-        <td><p>Under-sampling by removing Tomek’s links.</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-datasets" class="hasAnchor"><a href="#section-datasets" class="anchor"></a>Datasets</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="circle_example.html">circle_example</a></code> </p>
-        </td>
-        <td><p>Synthetic Dataset with a circle</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-methods" class="hasAnchor"><a href="#section-methods" class="anchor"></a>Methods</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="smote.html">smote()</a></code> </p>
-        </td>
-        <td><p>SMOTE algorithm</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="bsmote.html">bsmote()</a></code> </p>
-        </td>
-        <td><p>borderline-SMOTE algorithm</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="adasyn.html">adasyn()</a></code> </p>
-        </td>
-        <td><p>Adaptive Synthetic Sampling Approach algorithm</p></td>
-      </tr>
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-dials-objects" class="hasAnchor"><a href="#section-dials-objects" class="anchor"></a>Dials Objects</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-tidy-methods" class="hasAnchor"><a href="#section-tidy-methods" class="anchor"></a>Tidy Methods</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="tidy.recipe.html">tidy(<i>&lt;step_adasyn&gt;</i>)</a></code> <code><a href="tidy.recipe.html">tidy(<i>&lt;step_bsmote&gt;</i>)</a></code> <code><a href="tidy.recipe.html">tidy(<i>&lt;step_downsample&gt;</i>)</a></code> <code><a href="tidy.recipe.html">tidy(<i>&lt;step_nearmiss&gt;</i>)</a></code> <code><a href="tidy.recipe.html">tidy(<i>&lt;step_rose&gt;</i>)</a></code> <code><a href="tidy.recipe.html">tidy(<i>&lt;step_smote&gt;</i>)</a></code> <code><a href="tidy.recipe.html">tidy(<i>&lt;step_tomek&gt;</i>)</a></code> <code><a href="tidy.recipe.html">tidy(<i>&lt;step_upsample&gt;</i>)</a></code> </p>
-        </td>
-        <td><p>Tidy the Result of a Recipe</p></td>
-      </tr>
-    </tbody>
+<span class='co'># S3 method for step_bsmote</span>
+<span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for step_downsample</span>
+<span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for step_nearmiss</span>
+<span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for step_rose</span>
+<span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for step_smote</span>
+<span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for step_tomek</span>
+<span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span>
+
+<span class='co'># S3 method for step_upsample</span>
+<span class='fu'><a href='https://generics.r-lib.org/reference/tidy.html'>tidy</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>A <code>step_upsample</code> object.</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Not currently used.</p></td>
+    </tr>
     </table>
-  </div>
 
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
