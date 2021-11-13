@@ -221,7 +221,7 @@ print.step_bsmote <-
     invisible(x)
   }
 
-#' @rdname step_bsmote
+#' @rdname tidy.recipe
 #' @param x A `step_bsmote` object.
 #' @export
 tidy.step_bsmote <- function(x, ...) {

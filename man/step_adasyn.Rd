@@ -2,7 +2,6 @@
 % Please edit documentation in R/step_adasyn.R
 \name{step_adasyn}
 \alias{step_adasyn}
-\alias{tidy.step_adasyn}
 \title{Adaptive Synthetic Sampling Approach}
 \usage{
 step_adasyn(
@@ -17,8 +16,6 @@ step_adasyn(
   seed = sample.int(10^5, 1),
   id = rand_id("adasyn")
 )
-
-\method{tidy}{step_adasyn}(x, ...)
 }
 \arguments{
 \item{recipe}{A recipe object. The step will be added to the
@@ -60,8 +57,6 @@ the computations for subsequent operations.}
 applied.}
 
 \item{id}{A character string that is unique to this step to identify it.}
-
-\item{x}{A \code{step_adasyn} object.}
 }
 \value{
 An updated version of \code{recipe} with the new step

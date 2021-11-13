@@ -222,7 +222,7 @@ print.step_downsample <-
     invisible(x)
   }
 
-#' @rdname step_downsample
+#' @rdname tidy.recipe
 #' @param x A `step_downsample` object.
 #' @export
 tidy.step_downsample <- function(x, ...) {

@@ -218,7 +218,7 @@ print.step_rose <-
     invisible(x)
   }
 
-#' @rdname step_rose
+#' @rdname tidy.recipe
 #' @param x A `step_rose` object.
 #' @export
 tidy.step_rose <- function(x, ...) {

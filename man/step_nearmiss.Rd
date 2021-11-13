@@ -2,7 +2,6 @@
 % Please edit documentation in R/step_nearmiss.R
 \name{step_nearmiss}
 \alias{step_nearmiss}
-\alias{tidy.step_nearmiss}
 \title{Under-sampling by removing points near other classes.}
 \usage{
 step_nearmiss(
@@ -17,8 +16,6 @@ step_nearmiss(
   seed = sample.int(10^5, 1),
   id = rand_id("nearmiss")
 )
-
-\method{tidy}{step_nearmiss}(x, ...)
 }
 \arguments{
 \item{recipe}{A recipe object. The step will be added to the
@@ -60,8 +57,6 @@ the computations for subsequent operations.}
 applied.}
 
 \item{id}{A character string that is unique to this step to identify it.}
-
-\item{x}{A \code{step_nearmiss} object.}
 }
 \value{
 An updated version of \code{recipe} with the new step

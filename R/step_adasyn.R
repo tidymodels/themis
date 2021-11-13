@@ -188,7 +188,7 @@ print.step_adasyn <-
     invisible(x)
   }
 
-#' @rdname step_adasyn
+#' @rdname tidy.recipe
 #' @param x A `step_adasyn` object.
 #' @export
 tidy.step_adasyn <- function(x, ...) {

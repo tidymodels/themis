@@ -2,7 +2,6 @@
 % Please edit documentation in R/step_bsmote.R
 \name{step_bsmote}
 \alias{step_bsmote}
-\alias{tidy.step_bsmote}
 \title{Apply borderline-SMOTE algorithm}
 \usage{
 step_bsmote(
@@ -18,8 +17,6 @@ step_bsmote(
   seed = sample.int(10^5, 1),
   id = rand_id("bsmote")
 )
-
-\method{tidy}{step_bsmote}(x, ...)
 }
 \arguments{
 \item{recipe}{A recipe object. The step will be added to the
@@ -64,8 +61,6 @@ the computations for subsequent operations.}
 smote-ing.}
 
 \item{id}{A character string that is unique to this step to identify it.}
-
-\item{x}{A \code{step_bsmote} object.}
 }
 \value{
 An updated version of \code{recipe} with the new step

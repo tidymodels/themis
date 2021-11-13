@@ -2,7 +2,6 @@
 % Please edit documentation in R/step_rose.R
 \name{step_rose}
 \alias{step_rose}
-\alias{tidy.step_rose}
 \title{Apply ROSE algorithm}
 \usage{
 step_rose(
@@ -19,8 +18,6 @@ step_rose(
   seed = sample.int(10^5, 1),
   id = rand_id("rose")
 )
-
-\method{tidy}{step_rose}(x, ...)
 }
 \arguments{
 \item{recipe}{A recipe object. The step will be added to the
@@ -70,8 +67,6 @@ the computations for subsequent operations.}
 rose-ing.}
 
 \item{id}{A character string that is unique to this step to identify it.}
-
-\item{x}{A \code{step_rose} object.}
 }
 \value{
 An updated version of \code{recipe} with the new step

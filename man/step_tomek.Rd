@@ -2,7 +2,6 @@
 % Please edit documentation in R/step_tomek.R
 \name{step_tomek}
 \alias{step_tomek}
-\alias{tidy.step_tomek}
 \title{Under-sampling by removing Tomek’s links.}
 \usage{
 step_tomek(
@@ -15,8 +14,6 @@ step_tomek(
   seed = sample.int(10^5, 1),
   id = rand_id("tomek")
 )
-
-\method{tidy}{step_tomek}(x, ...)
 }
 \arguments{
 \item{recipe}{A recipe object. The step will be added to the
@@ -48,8 +45,6 @@ the computations for subsequent operations.}
 applied.}
 
 \item{id}{A character string that is unique to this step to identify it.}
-
-\item{x}{A \code{step_tomek} object.}
 }
 \value{
 An updated version of \code{recipe} with the new step

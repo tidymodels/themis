@@ -193,7 +193,7 @@ print.step_tomek <-
     invisible(x)
   }
 
-#' @rdname step_tomek
+#' @rdname tidy.recipe
 #' @param x A `step_tomek` object.
 #' @export
 tidy.step_tomek <- function(x, ...) {

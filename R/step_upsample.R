@@ -217,7 +217,7 @@ print.step_upsample <-
     invisible(x)
   }
 
-#' @rdname step_upsample
+#' @rdname tidy.recipe
 #' @param x A `step_upsample` object.
 #' @export
 tidy.step_upsample <- function(x, ...) {

@@ -198,7 +198,7 @@ print.step_nearmiss <-
     invisible(x)
   }
 
-#' @rdname step_nearmiss
+#' @rdname tidy.recipe
 #' @param x A `step_nearmiss` object.
 #' @export
 tidy.step_nearmiss <- function(x, ...) {
