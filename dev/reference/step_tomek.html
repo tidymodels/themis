@@ -231,29 +231,46 @@ conducted outside of the training set.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/tidymodels/recipes'>recipes</a></span><span class='op'>)</span></span>
 <span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://modeldata.tidymodels.org'>modeldata</a></span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>okc</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>credit_data</span><span class='op'>)</span></span>
 <span class='r-in'></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>okc</span><span class='op'>$</span><span class='va'>Class</span>, useNA <span class='op'>=</span> <span class='st'>"always"</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  &lt;NA&gt;  stem other </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     0  9539 50316 </span>
+<span class='r-in'><span class='va'>orig</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='va'>credit_data</span>, <span class='va'>Status</span>, name <span class='op'>=</span> <span class='st'>"orig"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>orig</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Status orig</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1    bad 1254</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2   good 3200</span>
 <span class='r-in'></span>
-<span class='r-in'><span class='va'>ds_rec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span><span class='op'>(</span><span class='va'>Class</span> <span class='op'>~</span> <span class='va'>age</span> <span class='op'>+</span> <span class='va'>height</span>, data <span class='op'>=</span> <span class='va'>okc</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
-<span class='r-in'>  <span class='fu'><a href='https://recipes.tidymodels.org/reference/step_impute_mean.html'>step_impute_mean</a></span><span class='op'>(</span><span class='fu'><a href='https://recipes.tidymodels.org/reference/has_role.html'>all_predictors</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
-<span class='r-in'>  <span class='fu'>step_tomek</span><span class='op'>(</span><span class='va'>Class</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'><span class='va'>up_rec</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/recipe.html'>recipe</a></span><span class='op'>(</span><span class='va'>Status</span> <span class='op'>~</span> <span class='va'>Age</span> <span class='op'>+</span> <span class='va'>Income</span> <span class='op'>+</span> <span class='va'>Assets</span>, data <span class='op'>=</span> <span class='va'>credit_data</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://recipes.tidymodels.org/reference/step_impute_mean.html'>step_impute_mean</a></span><span class='op'>(</span><span class='va'>Income</span>, <span class='va'>Assets</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'>step_tomek</span><span class='op'>(</span><span class='va'>Status</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
 <span class='r-in'>  <span class='fu'><a href='https://recipes.tidymodels.org/reference/prep.html'>prep</a></span><span class='op'>(</span><span class='op'>)</span></span>
 <span class='r-in'></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/sort.html'>sort</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span><span class='va'>ds_rec</span>, new_data <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span><span class='op'>$</span><span class='va'>Class</span>, useNA <span class='op'>=</span> <span class='st'>"always"</span><span class='op'>)</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  &lt;NA&gt;  stem other </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>     0  9539 49710 </span>
+<span class='r-in'><span class='va'>training</span> <span class='op'>&lt;-</span> <span class='va'>up_rec</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span>new_data <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='va'>Status</span>, name <span class='op'>=</span> <span class='st'>"training"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>training</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 2 × 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Status training</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> bad        <span style='text-decoration: underline;'>1</span>254</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> good       <span style='text-decoration: underline;'>2</span>569</span>
 <span class='r-in'></span>
-<span class='r-in'><span class='co'># since `skip` defaults to TRUE, baking the step has no effect</span></span>
-<span class='r-in'><span class='va'>baked_okc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span><span class='va'>ds_rec</span>, new_data <span class='op'>=</span> <span class='va'>okc</span><span class='op'>)</span></span>
-<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='va'>baked_okc</span><span class='op'>$</span><span class='va'>Class</span>, useNA <span class='op'>=</span> <span class='st'>"always"</span><span class='op'>)</span></span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  stem other  &lt;NA&gt; </span>
-<span class='r-out co'><span class='r-pr'>#&gt;</span>  9539 50316     0 </span>
+<span class='r-in'><span class='co'># Since `skip` defaults to TRUE, baking the step has no effect</span></span>
+<span class='r-in'><span class='va'>baked</span> <span class='op'>&lt;-</span> <span class='va'>up_rec</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://recipes.tidymodels.org/reference/bake.html'>bake</a></span><span class='op'>(</span>new_data <span class='op'>=</span> <span class='va'>credit_data</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='va'>Status</span>, name <span class='op'>=</span> <span class='st'>"baked"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>baked</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># A tibble: 2 × 2</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Status baked</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   <span style='color: #949494; font-style: italic;'>&lt;fct&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;int&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>1</span> bad     <span style='text-decoration: underline;'>1</span>254</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>2</span> good    <span style='text-decoration: underline;'>3</span>200</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>orig</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>training</span>, by <span class='op'>=</span> <span class='st'>"Status"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>baked</span>, by <span class='op'>=</span> <span class='st'>"Status"</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   Status orig training baked</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 1    bad 1254     1254  1254</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> 2   good 3200     2569  3200</span>
 <span class='r-in'></span>
 <span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
 <span class='r-in'></span>

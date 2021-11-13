@@ -114,22 +114,33 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://modeldata.tidymodels.org">modeldata</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/tidymodels/themis">themis</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">okc</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"credit_data"</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">okc</span><span class="op">$</span><span class="va">Class</span>, useNA <span class="op">=</span> <span class="st">"always"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  &lt;NA&gt;  stem other </span>
-<span class="co">#&gt;     0  9539 50316</span>
+<span class="va">credit_data0</span> <span class="op">&lt;-</span> <span class="va">credit_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">Job</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">ds_rec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html">recipe</a></span><span class="op">(</span><span class="va">Class</span> <span class="op">~</span> <span class="va">age</span> <span class="op">+</span> <span class="va">height</span>, data <span class="op">=</span> <span class="va">okc</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+<span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">credit_data0</span>, <span class="va">Job</span><span class="op">)</span>
+<span class="co">#&gt;         Job    n</span>
+<span class="co">#&gt; 1     fixed 2805</span>
+<span class="co">#&gt; 2 freelance 1024</span>
+<span class="co">#&gt; 3    others  171</span>
+<span class="co">#&gt; 4   partime  452</span>
+
+<span class="va">ds_rec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html">recipe</a></span><span class="op">(</span><span class="va">Job</span> <span class="op">~</span> <span class="va">Time</span> <span class="op">+</span> <span class="va">Age</span> <span class="op">+</span> <span class="va">Expenses</span>, data <span class="op">=</span> <span class="va">credit_data0</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_impute_mean.html">step_impute_mean</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
-  <span class="fu"><a href="reference/step_smote.html">step_smote</a></span><span class="op">(</span><span class="va">Class</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="reference/step_smote.html">step_smote</a></span><span class="op">(</span><span class="va">Job</span>, over_ratio <span class="op">=</span> <span class="fl">0.25</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
   <span class="fu"><a href="https://recipes.tidymodels.org/reference/prep.html">prep</a></span><span class="op">(</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/sort.html">sort</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/bake.html">bake</a></span><span class="op">(</span><span class="va">ds_rec</span>, new_data <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span><span class="op">$</span><span class="va">Class</span>, useNA <span class="op">=</span> <span class="st">"always"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt;  &lt;NA&gt;  stem other </span>
-<span class="co">#&gt;     0 50316 50316</span></code></pre></div>
+<span class="va">ds_rec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://recipes.tidymodels.org/reference/bake.html">bake</a></span><span class="op">(</span>new_data <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html">count</a></span><span class="op">(</span><span class="va">Job</span><span class="op">)</span>
+<span class="co">#&gt; # A tibble: 4 × 2</span>
+<span class="co">#&gt;   Job           n</span>
+<span class="co">#&gt;   &lt;fct&gt;     &lt;int&gt;</span>
+<span class="co">#&gt; 1 fixed      2805</span>
+<span class="co">#&gt; 2 freelance  1024</span>
+<span class="co">#&gt; 3 others      701</span>
+<span class="co">#&gt; 4 partime     701</span></code></pre></div>
 </div>
 <div id="methods" class="section level2">
 <h2 class="hasAnchor">
