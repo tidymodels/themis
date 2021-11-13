@@ -1,6 +1,7 @@
 # themis (development version)
 
 * `step_rose()` now correctly allows you to use characters variables. (#26)
+* `step_tomek()` now ignore non-predictor variables when appropriate. (#51)
 
 # themis 0.1.4
 

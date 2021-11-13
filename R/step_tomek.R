@@ -88,6 +88,7 @@ step_tomek <-
         role = role,
         trained = trained,
         column = column,
+        predictors = NULL,
         skip = skip,
         seed = seed,
         id = id
@@ -96,13 +97,14 @@ step_tomek <-
   }
 
 step_tomek_new <-
-  function(terms, role, trained, column, skip, seed, id) {
+  function(terms, role, trained, column, predictors, skip, seed, id) {
     step(
       subclass = "tomek",
       terms = terms,
       role = role,
       trained = trained,
       column = column,
+      predictors = predictors,
       skip = skip,
       id = id,
       seed = seed,
@@ -120,8 +122,10 @@ prep.step_tomek <- function(x, training, info = NULL, ...) {
     rlang::abort(paste0(col_name, " should be a factor variable."))
   }
 
+  predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
+
+  check_type(training[, predictors], TRUE)
   check_2_levels_only(training, col_name)
-  check_type(select(training, -col_name), TRUE)
 
   if (any(map_lgl(training, ~ any(is.na(.x))))) {
     rlang::abort("`NA` values are not allowed when using `step_tomek`")
@@ -132,6 +136,7 @@ prep.step_tomek <- function(x, training, info = NULL, ...) {
     role = x$role,
     trained = TRUE,
     column = col_name,
+    predictors = predictors,
     skip = x$skip,
     seed = x$seed,
     id = x$id
@@ -153,29 +158,26 @@ response_0_1_to_org <- function(old, new, levels) {
 #' @export
 bake.step_tomek <- function(object, new_data, ...) {
 
+  predictor_data <- new_data[, unique(c(object$predictors, object$column))]
+
   # tomek with seed for reproducibility
   with_seed(
     seed = object$seed,
     code = {
-      original_levels <- levels(new_data[[object$column]])
+      original_levels <- levels(predictor_data[[object$column]])
       tomek_data <- ubTomek(
-        X = select(new_data, -!!object$column),
-        Y = response_0_1(new_data[[object$column]]),
+        X = select(predictor_data, -!!object$column),
+        Y = response_0_1(predictor_data[[object$column]]),
         verbose = FALSE
       )
     }
   )
 
-  new_data0 <- mutate(
-    tomek_data$X,
-    !!object$column := response_0_1_to_org(
-      new_data[[object$column]],
-      tomek_data$Y,
-      levels = original_levels
-    )
-  )
+  if (length(tomek_data$id.rm) > 0) {
+    new_data <- new_data[-tomek_data$id.rm, ]
+  }
 
-  as_tibble(new_data0[names(new_data)])
+  new_data
 }
 
 #' @export

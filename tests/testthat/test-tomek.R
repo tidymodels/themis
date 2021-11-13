@@ -143,3 +143,12 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
     )
   }
 })
+
+test_that("id variables are ignored", {
+  rec_id <- recipe(class ~ ., data = circle_example) %>%
+    update_role(id, new_role = "id") %>%
+    step_tomek(class) %>%
+    prep()
+
+  expect_equal(ncol(bake(rec_id, new_data = NULL)), 4)
+})
