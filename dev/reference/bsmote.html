@@ -199,7 +199,9 @@ International Conference on Intelligent Computing, pages 878–887. Springer,
 2005.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='r-in'><span class='fu'>bsmote</span><span class='op'>(</span><span class='va'>circle_example</span>, var <span class='op'>=</span> <span class='st'>"class"</span><span class='op'>)</span></span>
+    <pre class="examples"><span class='r-in'><span class='va'>circle_numeric</span> <span class='op'>&lt;-</span> <span class='va'>circle_example</span><span class='op'>[</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"x"</span>, <span class='st'>"y"</span>, <span class='st'>"class"</span><span class='op'>)</span><span class='op'>]</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>bsmote</span><span class='op'>(</span><span class='va'>circle_numeric</span>, var <span class='op'>=</span> <span class='st'>"class"</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>             x         y  class</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 1    2.591848 10.607392   Rest</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 2    9.712192  6.832802 Circle</span>
@@ -886,7 +888,7 @@ International Conference on Intelligent Computing, pages 878–887. Springer,
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 683  8.871428 10.143167 Circle</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 684  9.337405 10.635973 Circle</span>
 <span class='r-in'></span>
-<span class='r-in'><span class='fu'>bsmote</span><span class='op'>(</span><span class='va'>circle_example</span>, var <span class='op'>=</span> <span class='st'>"class"</span>, k <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>bsmote</span><span class='op'>(</span><span class='va'>circle_numeric</span>, var <span class='op'>=</span> <span class='st'>"class"</span>, k <span class='op'>=</span> <span class='fl'>10</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>             x         y  class</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 1    2.591848 10.607392   Rest</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 2    9.712192  6.832802 Circle</span>
@@ -1573,7 +1575,7 @@ International Conference on Intelligent Computing, pages 878–887. Springer,
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 683  6.176582  8.409027 Circle</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 684  5.695729  9.112004 Circle</span>
 <span class='r-in'></span>
-<span class='r-in'><span class='fu'>bsmote</span><span class='op'>(</span><span class='va'>circle_example</span>, var <span class='op'>=</span> <span class='st'>"class"</span>, over_ratio <span class='op'>=</span> <span class='fl'>0.8</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>bsmote</span><span class='op'>(</span><span class='va'>circle_numeric</span>, var <span class='op'>=</span> <span class='st'>"class"</span>, over_ratio <span class='op'>=</span> <span class='fl'>0.8</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>             x         y  class</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 1    2.591848 10.607392   Rest</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 2    9.712192  6.832802 Circle</span>
@@ -2191,7 +2193,7 @@ International Conference on Intelligent Computing, pages 878–887. Springer,
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 614  9.326510 10.650388 Circle</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 615  8.952341  9.551611 Circle</span>
 <span class='r-in'></span>
-<span class='r-in'><span class='fu'>bsmote</span><span class='op'>(</span><span class='va'>circle_example</span>, var <span class='op'>=</span> <span class='st'>"class"</span>, all_neighbors <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>bsmote</span><span class='op'>(</span><span class='va'>circle_numeric</span>, var <span class='op'>=</span> <span class='st'>"class"</span>, all_neighbors <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span>             x         y  class</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 1    2.591848 10.607392   Rest</span>
 <span class='r-out co'><span class='r-pr'>#&gt;</span> 2    9.712192  6.832802 Circle</span>
