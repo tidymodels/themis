@@ -24,7 +24,7 @@ nearmiss_impl <- function(df, var, ignore_vars, k = 5, under_ratio = 1) {
     )$nn.dists
 
     selected_ind <- order(rowMeans(dists)) <= (nrow(class) - classes[i])
-    deleted_rows <- c(deleted_rows, which(df[[var]] %in% names(classes)[1])[!selected_ind])
+    deleted_rows <- c(deleted_rows, which(df[[var]] %in% names(classes)[i])[!selected_ind])
   }
 
   if (length(deleted_rows) > 0) {

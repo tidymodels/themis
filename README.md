@@ -51,22 +51,33 @@ library(recipes)
 library(modeldata)
 library(themis)
 
-data(okc)
+data("credit_data")
 
-sort(table(okc$Class, useNA = "always"))
-#> 
-#>  <NA>  stem other 
-#>     0  9539 50316
+credit_data0 <- credit_data %>%
+  filter(!is.na(Job))
 
-ds_rec <- recipe(Class ~ age + height, data = okc) %>%
+count(credit_data0, Job)
+#>         Job    n
+#> 1     fixed 2805
+#> 2 freelance 1024
+#> 3    others  171
+#> 4   partime  452
+
+ds_rec <- recipe(Job ~ Time + Age + Expenses, data = credit_data0) %>%
   step_impute_mean(all_predictors()) %>%
-  step_smote(Class) %>%
+  step_smote(Job, over_ratio = 0.25) %>%
   prep()
 
-sort(table(bake(ds_rec, new_data = NULL)$Class, useNA = "always"))
-#> 
-#>  <NA>  stem other 
-#>     0 50316 50316
+ds_rec %>%
+  bake(new_data = NULL) %>%
+  count(Job)
+#> # A tibble: 4 × 2
+#>   Job           n
+#>   <fct>     <int>
+#> 1 fixed      2805
+#> 2 freelance  1024
+#> 3 others      701
+#> 4 partime     701
 ```
 
 ## Methods

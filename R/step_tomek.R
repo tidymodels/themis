@@ -45,23 +45,30 @@
 #' @examples
 #' library(recipes)
 #' library(modeldata)
-#' data(okc)
+#' data(credit_data)
 #'
-#' count(okc, Class)
+#' orig <- count(credit_data, Status, name = "orig")
+#' orig
 #'
-#' ds_rec <- recipe(Class ~ age + height, data = okc) %>%
-#'   step_impute_mean(all_predictors()) %>%
-#'   step_tomek(Class) %>%
+#' up_rec <- recipe(Status ~ Age + Income + Assets, data = credit_data) %>%
+#'   step_impute_mean(Income, Assets) %>%
+#'   step_tomek(Status) %>%
 #'   prep()
 #'
-#' ds_rec %>%
+#' training <- up_rec %>%
 #'   bake(new_data = NULL) %>%
-#'   count(Class)
+#'   count(Status, name = "training")
+#' training
 #'
-#' # since `skip` defaults to TRUE, baking the step has no effect
-#' ds_rec %>%
-#'   bake(new_data = okc) %>%
-#'   count(Class)
+#' # Since `skip` defaults to TRUE, baking the step has no effect
+#' baked <- up_rec %>%
+#'   bake(new_data = credit_data) %>%
+#'   count(Status, name = "baked")
+#' baked
+#'
+#' orig %>%
+#'   left_join(training, by = "Status") %>%
+#'   left_join(baked, by = "Status")
 #'
 #' library(ggplot2)
 #'

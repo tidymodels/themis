@@ -61,29 +61,29 @@
 #' @examples
 #' library(recipes)
 #' library(modeldata)
-#' data(okc)
+#' data(credit_data)
 #'
-#' count(okc, Class)
+#' orig <- count(credit_data, Status, name = "orig")
+#' orig
 #'
-#' ds_rec <- recipe(Class ~ age + height, data = okc) %>%
-#'   step_rose(Class) %>%
+#' up_rec <- recipe(Status ~ Age + Income + Assets, data = credit_data) %>%
+#'   step_rose(Status) %>%
 #'   prep()
 #'
-#' ds_rec %>%
+#' training <- up_rec %>%
 #'   bake(new_data = NULL) %>%
-#'   count(Class)
+#'   count(Status, name = "training")
+#' training
 #'
-#' # since `skip` defaults to TRUE, baking the step has no effect
-#' baked_okc <- bake(ds_rec, new_data = okc)
-#' count(baked_okc, Class)
+#' # Since `skip` defaults to TRUE, baking the step has no effect
+#' baked <- up_rec %>%
+#'   bake(new_data = credit_data) %>%
+#'   count(Status, name = "baked")
+#' baked
 #'
-#' ds_rec2 <- recipe(Class ~ age + height, data = okc) %>%
-#'   step_rose(Class, minority_prop = 0.3) %>%
-#'   prep()
-#'
-#' ds_rec2 %>%
-#'   bake(new_data = NULL) %>%
-#'   count(Class)
+#' orig %>%
+#'   left_join(training, by = "Status") %>%
+#'   left_join(baked, by = "Status")
 #'
 #' library(ggplot2)
 #'

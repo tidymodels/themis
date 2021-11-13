@@ -45,22 +45,38 @@
 #' @examples
 #' library(recipes)
 #' library(modeldata)
-#' data(okc)
+#' data(credit_data)
 #'
-#' count(okc, Class)
+#' credit_data0 <- credit_data %>%
+#'   filter(Home != "ignore") %>%
+#'   mutate(Home = as.character(Home))
 #'
-#' ds_rec <- recipe(Class ~ age + height, data = okc) %>%
-#'   step_impute_mean(all_predictors()) %>%
-#'   step_adasyn(Class) %>%
+#' orig <- count(credit_data0, Home, name = "orig")
+#' orig
+#'
+#' up_rec <- recipe(Home ~ Age + Income + Assets, data = credit_data0) %>%
+#'   step_impute_mean(Income, Assets) %>%
+#'   # Bring the minority levels up to about 1000 each
+#'   # 1000/2107 is approx 0.47461
+#'   step_adasyn(Home, over_ratio = 0.47461) %>%
 #'   prep()
 #'
-#' ds_rec %>%
+#' training <- up_rec %>%
 #'   bake(new_data = NULL) %>%
-#'   count(Class)
+#'   count(Home, name = "training")
+#' training
 #'
-#' # since `skip` defaults to TRUE, baking the step has no effect
-#' baked_okc <- bake(ds_rec, new_data = okc)
-#' count(baked_okc, Class)
+#' # Since `skip` defaults to TRUE, baking the step has no effect
+#' baked <- up_rec %>%
+#'   bake(new_data = credit_data0) %>%
+#'   count(Home, name = "baked")
+#' baked
+#'
+#' # Note that if the original data contained more rows than the
+#' # target n (= ratio * majority_n), the data are left alone:
+#' orig %>%
+#'   left_join(training, by = "Home") %>%
+#'   left_join(baked, by = "Home")
 #'
 #' library(ggplot2)
 #'
