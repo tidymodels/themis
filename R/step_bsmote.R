@@ -173,7 +173,7 @@ prep.step_bsmote <- function(x, training, info = NULL, ...) {
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
 
   check_type(training[, predictors], TRUE)
-  check_na(select(training, -col_name), "step_bsmote")
+  check_na(select(training, c(col_name, predictors)), "step_bsmote")
 
   step_bsmote_new(
     terms = x$terms,

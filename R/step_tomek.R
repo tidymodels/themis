@@ -134,9 +134,7 @@ prep.step_tomek <- function(x, training, info = NULL, ...) {
   check_type(training[, predictors], TRUE)
   check_2_levels_only(training, col_name)
 
-  if (any(map_lgl(training, ~ any(is.na(.x))))) {
-    rlang::abort("`NA` values are not allowed when using `step_tomek`")
-  }
+  check_na(select(training, c(col_name, predictors)), "step_tomek")
 
   step_tomek_new(
     terms = x$terms,

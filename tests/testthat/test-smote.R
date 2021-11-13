@@ -4,24 +4,9 @@ library(dplyr)
 
 context("SMOTE")
 
-iris2 <- iris[-c(1:30), ]
-
-rec <- recipe(~., data = iris2)
-
-test_that("all minority classes are upsampled", {
-  iris3 <- iris[-c(1:25, 51:75), ]
-
-  out <- recipe(~., data = iris3) %>%
-    step_smote(Species) %>%
-    prep() %>%
-    bake(new_data = NULL)
-
-  expect_equal(as.numeric(table(out$Species)), c(50, 50, 50))
-})
-
 test_that("tunable", {
   rec <-
-    recipe(~., data = iris) %>%
+    recipe(~., data = mtcars) %>%
     step_smote(all_predictors(), under_ratio = 1)
   rec_param <- tunable.step_smote(rec$steps[[1]])
   expect_equal(rec_param$name, c("over_ratio", "neighbors"))
@@ -35,15 +20,16 @@ test_that("tunable", {
 })
 
 test_that("errors if there isn't enough data", {
-  iris4 <- iris
+  data("credit_data")
+  credit_data0 <- credit_data
 
-  iris4$Species <- as.character(iris4$Species)
-  iris4$Species[1] <- "dummy"
-  iris4$Species <- as.factor(iris4$Species)
+  credit_data0$Status <- as.character(credit_data0$Status)
+  credit_data0$Status[1] <- "dummy"
+  credit_data0$Status <- as.factor(credit_data0$Status)
 
   expect_error(
-    recipe(~., data = iris4) %>%
-      step_smote(Species) %>%
+    recipe(Status ~ Age, data = credit_data0) %>%
+      step_smote(Status) %>%
       prep(),
     "Not enough observations"
   )
@@ -71,28 +57,21 @@ test_that("printing", {
 })
 
 test_that("bad data", {
-  iris2 <- iris[-c(1:45), ]
-  iris2$Species2 <- sample(iris2$Species)
-  iris2$Species3 <- as.character(sample(iris2$Species))
 
-  rec <- recipe(~., data = iris2)
+  rec <- recipe(~., data = circle_example)
   # numeric check
   expect_error(
     rec %>%
-      step_smote(Sepal.Width) %>%
-      prep()
+      step_smote(x) %>%
+      prep(),
+    regexp = "should be a factor variable."
   )
   # Multiple variable check
   expect_error(
     rec %>%
-      step_smote(Species, Species2) %>%
-      prep()
-  )
-  # character check
-  expect_error(
-    rec %>%
-      step_smote(Species3) %>%
-      prep()
+      step_smote(class, id) %>%
+      prep(),
+    regexp = "Please select a single factor variable."
   )
 })
 
@@ -112,13 +91,13 @@ test_that("errors if character are present", {
 })
 
 test_that("NA in response", {
-  iris2 <- iris[-c(1:45), ]
-  iris2$Species[seq(6, 96, by = 5)] <- NA
-  # NA check
+  data(credit_data)
+
   expect_error(
-    recipe(~., data = iris2) %>%
-      step_smote(Species) %>%
-      prep()
+    recipe(Job ~ Age, data = credit_data) %>%
+      step_smote(Job) %>%
+      prep(),
+    regexp = "NAs found ind: Job."
   )
 })
 
@@ -178,22 +157,25 @@ test_that("ratio value works when oversampling", {
 })
 
 test_that("allows multi-class", {
-  data <- rename(iris, class = Species)
+  data("credit_data")
   expect_error(
-    recipe(~., data = data) %>%
-      step_smote(class) %>%
-      prep(),
+    recipe(Home ~ Age + Income + Assets, data = credit_data) %>%
+      step_impute_mean(Income, Assets) %>%
+      step_smote(Home),
     NA
   )
 })
 
 test_that("majority classes are ignored if there is more than 1", {
-  rec1_p2 <- recipe(~., data = iris[-c(51:75), ]) %>%
-    step_smote(Species) %>%
+  data("penguins")
+  rec1_p2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
+                    data = penguins[-(1:28), ]) %>%
+    step_impute_mean(all_predictors()) %>%
+    step_smote(species) %>%
     prep() %>%
     bake(new_data = NULL)
 
-  expect_true(all(max(table(rec1_p2$Species)) <= 50))
+  expect_true(all(max(table(rec1_p2$species)) == 124))
 })
 
 test_that("factor levels are not affected by alphabet ordering or class sizes", {

@@ -156,9 +156,10 @@ prep.step_upsample <- function(x, training, info = NULL, ...) {
     rlang::abort(paste0(col_name, " should be a factor variable."))
   }
 
-
   obs_freq <- table(training[[col_name]])
   majority <- max(obs_freq)
+
+  check_na(select(training, col_name), "step_bsmote")
 
   step_upsample_new(
     terms = x$terms,

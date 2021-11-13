@@ -148,7 +148,7 @@ prep.step_smote <- function(x, training, info = NULL, ...) {
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
 
   check_type(training[, predictors], TRUE)
-  check_na(select(training, -col_name), "step_smote")
+  check_na(select(training, c(col_name, predictors)), "step_smote")
 
   step_smote_new(
     terms = x$terms,

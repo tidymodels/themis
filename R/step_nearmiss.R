@@ -149,10 +149,7 @@ prep.step_nearmiss <- function(x, training, info = NULL, ...) {
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
 
   check_type(training[, predictors], TRUE)
-
-  if (any(map_lgl(training, ~ any(is.na(.x))))) {
-    rlang::abort("`NA` values are not allowed when using `step_nearmiss`")
-  }
+  check_na(select(training, c(col_name, predictors)), "step_nearmiss")
 
   step_nearmiss_new(
     terms = x$terms,

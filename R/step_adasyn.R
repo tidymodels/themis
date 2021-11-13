@@ -141,10 +141,7 @@ prep.step_adasyn <- function(x, training, info = NULL, ...) {
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
 
   check_type(training[, predictors], TRUE)
-
-  if (any(map_lgl(training, ~ any(is.na(.x))))) {
-    rlang::abort("`NA` values are not allowed when using `step_adasyn`")
-  }
+  check_na(select(training, c(col_name, predictors)), "step_adasyn")
 
   step_adasyn_new(
     terms = x$terms,
