@@ -2,9 +2,12 @@ nearmiss_impl <- function(df, var, ignore_vars, k = 5, under_ratio = 1) {
   classes <- downsample_count(df, var, under_ratio)
 
   out_dfs <- list()
+
+  deleted_rows <- integer()
   for (i in seq_along(classes)) {
-    class <- subset_to_matrix(df, var, names(classes)[i])
-    not_class <- subset_to_matrix(df, var, names(classes)[i], FALSE)
+    df_only <- df[, !names(df) %in% ignore_vars]
+    class <- subset_to_matrix(df_only, var, names(classes)[i])
+    not_class <- subset_to_matrix(df_only, var, names(classes)[i], FALSE)
 
     if (nrow(not_class) <= k) {
       rlang::abort(paste0(
@@ -21,17 +24,13 @@ nearmiss_impl <- function(df, var, ignore_vars, k = 5, under_ratio = 1) {
     )$nn.dists
 
     selected_ind <- order(rowMeans(dists)) <= (nrow(class) - classes[i])
-    selected_rows <- class[selected_ind, ]
-    out_df <- as.data.frame(selected_rows)
-    out_df[var] <- names(classes)[i]
-    out_dfs[[i]] <- out_df[, names(df)]
+    deleted_rows <- c(deleted_rows, which(df[[var]] %in% names(classes)[1])[!selected_ind])
   }
 
-  out_dfs[[i + 1]] <- df[!(df[[var]] %in% names(classes)), ]
-
-  final <- do.call(rbind, out_dfs)
-  rownames(final) <- NULL
-  final
+  if (length(deleted_rows) > 0) {
+    df <- df[-deleted_rows, ]
+  }
+  df
 }
 
 downsample_count <- function(data, var, ratio) {
