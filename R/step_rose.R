@@ -87,7 +87,7 @@
 #'   geom_point() +
 #'   labs(title = "Without ROSE")
 #'
-#' recipe(class ~ ., data = circle_example) %>%
+#' recipe(class ~ x + y, data = circle_example) %>%
 #'   step_rose(class) %>%
 #'   prep() %>%
 #'   bake(new_data = NULL) %>%

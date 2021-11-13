@@ -96,7 +96,7 @@ data(okc)
 sort(table(okc$Class, useNA = "always"))
 
 ds_rec <- recipe(Class ~ age + height, data = okc) \%>\%
-  step_meanimpute(all_predictors()) \%>\%
+  step_impute_mean(all_predictors()) \%>\%
   step_nearmiss(Class) \%>\%
   prep()
 
@@ -114,7 +114,7 @@ ggplot(circle_example, aes(x, y, color = class)) +
   xlim(c(1, 15)) +
   ylim(c(1, 15))
 
-recipe(class ~ ., data = circle_example) \%>\%
+recipe(class ~ x + y, data = circle_example) \%>\%
   step_nearmiss(class) \%>\%
   prep() \%>\%
   bake(new_data = NULL) \%>\%

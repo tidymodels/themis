@@ -28,11 +28,13 @@
 #'  Journal of Artificial Intelligence Research, 16:321-357.
 #'
 #' @examples
-#' smote(circle_example, var = "class")
+#' circle_numeric <- circle_example[, c("x", "y", "class")]
 #'
-#' smote(circle_example, var = "class", k = 10)
+#' smote(circle_numeric, var = "class")
 #'
-#' smote(circle_example, var = "class", over_ratio = 0.8)
+#' smote(circle_numeric, var = "class", k = 10)
+#'
+#' smote(circle_numeric, var = "class", over_ratio = 0.8)
 smote <- function(df, var, k = 5, over_ratio = 1) {
 
   if (length(var) != 1) {

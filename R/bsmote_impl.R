@@ -43,13 +43,15 @@
 #' 2005.
 #'
 #' @examples
-#' bsmote(circle_example, var = "class")
+#' circle_numeric <- circle_example[, c("x", "y", "class")]
 #'
-#' bsmote(circle_example, var = "class", k = 10)
+#' bsmote(circle_numeric, var = "class")
 #'
-#' bsmote(circle_example, var = "class", over_ratio = 0.8)
+#' bsmote(circle_numeric, var = "class", k = 10)
 #'
-#' bsmote(circle_example, var = "class", all_neighbors = TRUE)
+#' bsmote(circle_numeric, var = "class", over_ratio = 0.8)
+#'
+#' bsmote(circle_numeric, var = "class", all_neighbors = TRUE)
 bsmote <- function(df, var, k = 5, over_ratio = 1, all_neighbors = FALSE) {
 
   if (length(var) != 1) {

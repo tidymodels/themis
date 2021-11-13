@@ -32,11 +32,13 @@ Generates synthetic positive instances using ADASYN algorithm.
 All columns used in this function must be numeric with no missing data.
 }
 \examples{
-adasyn(circle_example, var = "class")
+circle_numeric <- circle_example[, c("x", "y", "class")]
 
-adasyn(circle_example, var = "class", k = 10)
+adasyn(circle_numeric, var = "class")
 
-adasyn(circle_example, var = "class", over_ratio = 0.8)
+adasyn(circle_numeric, var = "class", k = 10)
+
+adasyn(circle_numeric, var = "class", over_ratio = 0.8)
 }
 \references{
 Chawla, N. V., Bowyer, K. W., Hall, L. O., and Kegelmeyer,

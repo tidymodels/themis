@@ -54,13 +54,15 @@ The parameter \code{neighbors} controls how many of these neighbor are used.
 All columns used in this step must be numeric with no missing data.
 }
 \examples{
-bsmote(circle_example, var = "class")
+circle_numeric <- circle_example[, c("x", "y", "class")]
 
-bsmote(circle_example, var = "class", k = 10)
+bsmote(circle_numeric, var = "class")
 
-bsmote(circle_example, var = "class", over_ratio = 0.8)
+bsmote(circle_numeric, var = "class", k = 10)
 
-bsmote(circle_example, var = "class", all_neighbors = TRUE)
+bsmote(circle_numeric, var = "class", over_ratio = 0.8)
+
+bsmote(circle_numeric, var = "class", all_neighbors = TRUE)
 }
 \references{
 Hui Han, Wen-Yuan Wang, and Bing-Huan Mao. Borderline-smote:

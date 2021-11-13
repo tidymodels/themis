@@ -15,12 +15,11 @@ knitr::opts_chunk$set(
 # themis
 
 <!-- badges: start -->
-[![R build status](https://github.com/tidymodels/themis/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/themis/actions)
+[![R-CMD-check](https://github.com/tidymodels/themis/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/themis/actions)
 [![Codecov test coverage](https://codecov.io/gh/tidymodels/themis/branch/main/graph/badge.svg)](https://codecov.io/gh/tidymodels/themis?branch=main)
 [![CRAN status](https://www.r-pkg.org/badges/version/themis)](https://CRAN.R-project.org/package=themis)
 [![Downloads](http://cranlogs.r-pkg.org/badges/themis)](https://CRAN.R-project.org/package=themis)
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
-[![R-CMD-check](https://github.com/tidymodels/themis/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/themis/actions)
 <!-- badges: end -->
 
 **themis** contains extra steps for the
@@ -58,7 +57,7 @@ data(okc)
 sort(table(okc$Class, useNA = "always"))
 
 ds_rec <- recipe(Class ~ age + height, data = okc) %>%
-  step_meanimpute(all_predictors()) %>%
+  step_impute_mean(all_predictors()) %>%
   step_smote(Class) %>%
   prep()
 

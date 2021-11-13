@@ -50,7 +50,7 @@
 #' sort(table(okc$Class, useNA = "always"))
 #'
 #' ds_rec <- recipe(Class ~ age + height, data = okc) %>%
-#'   step_meanimpute(all_predictors()) %>%
+#'   step_impute_mean(all_predictors()) %>%
 #'   step_tomek(Class) %>%
 #'   prep()
 #'
@@ -68,7 +68,7 @@
 #'   xlim(c(1, 15)) +
 #'   ylim(c(1, 15))
 #'
-#' recipe(class ~ ., data = circle_example) %>%
+#' recipe(class ~ x + y, data = circle_example) %>%
 #'   step_tomek(class) %>%
 #'   prep() %>%
 #'   bake(new_data = NULL) %>%

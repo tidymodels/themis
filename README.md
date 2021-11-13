@@ -5,8 +5,7 @@
 
 <!-- badges: start -->
 
-[![R build
-status](https://github.com/tidymodels/themis/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/themis/actions)
+[![R-CMD-check](https://github.com/tidymodels/themis/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/themis/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/tidymodels/themis/branch/main/graph/badge.svg)](https://codecov.io/gh/tidymodels/themis?branch=main)
 [![CRAN
@@ -14,7 +13,6 @@ status](https://www.r-pkg.org/badges/version/themis)](https://CRAN.R-project.org
 [![Downloads](http://cranlogs.r-pkg.org/badges/themis)](https://CRAN.R-project.org/package=themis)
 [![Lifecycle:
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
-[![R-CMD-check](https://github.com/tidymodels/themis/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/themis/actions)
 <!-- badges: end -->
 
 **themis** contains extra steps for the
@@ -61,11 +59,9 @@ sort(table(okc$Class, useNA = "always"))
 #>     0  9539 50316
 
 ds_rec <- recipe(Class ~ age + height, data = okc) %>%
-  step_meanimpute(all_predictors()) %>%
+  step_impute_mean(all_predictors()) %>%
   step_smote(Class) %>%
   prep()
-#> Warning: `step_meanimpute()` was deprecated in recipes 0.1.16.
-#> Please use `step_impute_mean()` instead.
 
 sort(table(bake(ds_rec, new_data = NULL)$Class, useNA = "always"))
 #> 
@@ -95,14 +91,14 @@ example_data %>%
 The following methods all share the tuning parameter `over_ratio`, which
 is the ratio of the majority-to-minority frequencies.
 
-| name                                                            | function                  | Multi-class          |
-|-----------------------------------------------------------------|---------------------------|----------------------|
-| Random minority over-sampling with replacement                  | `step_upsample()`         | :heavy\_check\_mark: |
-| Synthetic Minority Over-sampling Technique                      | `step_smote()`            | :heavy\_check\_mark: |
-| Borderline SMOTE-1                                              | `step_bsmote(method = 1)` | :heavy\_check\_mark: |
-| Borderline SMOTE-2                                              | `step_bsmote(method = 2)` | :heavy\_check\_mark: |
-| Adaptive synthetic sampling approach for imbalanced learning    | `step_adasyn()`           | :heavy\_check\_mark: |
-| Generation of synthetic data by Randomly Over Sampling Examples | `step_rose()`             |                      |
+| name                                                            | function                  | Multi-class        |
+|-----------------------------------------------------------------|---------------------------|--------------------|
+| Random minority over-sampling with replacement                  | `step_upsample()`         | :heavy_check_mark: |
+| Synthetic Minority Over-sampling Technique                      | `step_smote()`            | :heavy_check_mark: |
+| Borderline SMOTE-1                                              | `step_bsmote(method = 1)` | :heavy_check_mark: |
+| Borderline SMOTE-2                                              | `step_bsmote(method = 2)` | :heavy_check_mark: |
+| Adaptive synthetic sampling approach for imbalanced learning    | `step_adasyn()`           | :heavy_check_mark: |
+| Generation of synthetic data by Randomly Over Sampling Examples | `step_rose()`             |                    |
 
 By setting `over_ratio = 1` you bring the number of samples of all
 minority classes equal to 100% of the majority class.
@@ -138,11 +134,11 @@ Most of the the following methods all share the tuning parameter
 `under_ratio`, which is the ratio of the minority-to-majority
 frequencies.
 
-| name                                            | function            | Multi-class          | under\_ratio         |
-|-------------------------------------------------|---------------------|----------------------|----------------------|
-| Random majority under-sampling with replacement | `step_downsample()` | :heavy\_check\_mark: | :heavy\_check\_mark: |
-| NearMiss-1                                      | `step_nearmiss()`   | :heavy\_check\_mark: | :heavy\_check\_mark: |
-| Extraction of majority-minority Tomek links     | `step_tomek()`      |                      |                      |
+| name                                            | function            | Multi-class        | under_ratio        |
+|-------------------------------------------------|---------------------|--------------------|--------------------|
+| Random majority under-sampling with replacement | `step_downsample()` | :heavy_check_mark: | :heavy_check_mark: |
+| NearMiss-1                                      | `step_nearmiss()`   | :heavy_check_mark: | :heavy_check_mark: |
+| Extraction of majority-minority Tomek links     | `step_tomek()`      |                    |                    |
 
 By setting `under_ratio = 1` you bring the number of samples of all
 majority classes equal to 100% of the minority class.

@@ -131,7 +131,7 @@ ggplot(circle_example, aes(x, y, color = class)) +
   geom_point() +
   labs(title = "Without upsample")
 
-recipe(class ~ ., data = circle_example) \%>\%
+recipe(class ~ x + y, data = circle_example) \%>\%
   step_upsample(class) \%>\%
   prep() \%>\%
   bake(new_data = NULL) \%>\%

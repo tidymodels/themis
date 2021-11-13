@@ -39,11 +39,13 @@ The parameter \code{neighbors} controls how many of these neighbor are used.
 All columns used in this function must be numeric with no missing data.
 }
 \examples{
-smote(circle_example, var = "class")
+circle_numeric <- circle_example[, c("x", "y", "class")]
 
-smote(circle_example, var = "class", k = 10)
+smote(circle_numeric, var = "class")
 
-smote(circle_example, var = "class", over_ratio = 0.8)
+smote(circle_numeric, var = "class", k = 10)
+
+smote(circle_numeric, var = "class", over_ratio = 0.8)
 }
 \references{
 Chawla, N. V., Bowyer, K. W., Hall, L. O., and Kegelmeyer,

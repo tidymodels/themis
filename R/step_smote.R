@@ -57,7 +57,7 @@
 #' sort(table(credit_data$Status, useNA = "always"))
 #'
 #' ds_rec <- recipe(Status ~ Age + Income + Assets, data = credit_data) %>%
-#'   step_meanimpute(all_predictors()) %>%
+#'   step_impute_mean(all_predictors()) %>%
 #'   step_smote(Status) %>%
 #'   prep()
 #'
@@ -68,7 +68,7 @@
 #' table(baked_okc$Status, useNA = "always")
 #'
 #' ds_rec2 <- recipe(Status ~ Age + Income + Assets, data = credit_data) %>%
-#'   step_meanimpute(all_predictors()) %>%
+#'   step_impute_mean(all_predictors()) %>%
 #'   step_smote(Status, over_ratio = 0.2) %>%
 #'   prep()
 #'
@@ -80,7 +80,7 @@
 #'   geom_point() +
 #'   labs(title = "Without SMOTE")
 #'
-#' recipe(class ~ ., data = circle_example) %>%
+#' recipe(class ~ x + y, data = circle_example) %>%
 #'   step_smote(class) %>%
 #'   prep() %>%
 #'   bake(new_data = NULL) %>%
