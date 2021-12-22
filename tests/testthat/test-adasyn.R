@@ -3,8 +3,6 @@ library(recipes)
 library(dplyr)
 library(modeldata)
 
-context("adasyn")
-
 test_that("tunable", {
   rec <- recipe(~., data = mtcars) %>%
     step_adasyn(all_predictors(), under_ratio = 1)
@@ -134,7 +132,7 @@ test_that("test tidy()", {
     id = ""
   )
 
-  expect_equivalent(untrained, tidy(rec, number = 1))
+  expect_equal(untrained, tidy(rec, number = 1))
   expect_equal(trained, tidy(rec_p, number = 1))
 })
 

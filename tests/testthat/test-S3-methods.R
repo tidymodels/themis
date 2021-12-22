@@ -1,5 +1,3 @@
-context("S3 methods")
-
 data(two_class_dat, package = "modeldata")
 
 # ------------------------------------------------------------------------------

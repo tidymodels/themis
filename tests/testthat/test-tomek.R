@@ -2,8 +2,6 @@ library(testthat)
 library(recipes)
 library(dplyr)
 
-context("tomek")
-
 test_that("basic usage", {
   rec1 <- recipe(class ~ x + y, data = circle_example) %>%
     step_tomek(class)
@@ -88,7 +86,7 @@ test_that("test tidy()", {
     id = ""
   )
 
-  expect_equivalent(untrained, tidy(rec, number = 1))
+  expect_equal(untrained, tidy(rec, number = 1))
   expect_equal(trained, tidy(rec_p, number = 1))
 })
 

@@ -5,8 +5,6 @@ library(modeldata)
 
 set.seed(1234)
 
-context("bsmote")
-
 test_that("all minority classes are upsampled", {
   data("penguins")
   rec1_p2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
@@ -147,7 +145,7 @@ test_that("test tidy()", {
     id = ""
   )
 
-  expect_equivalent(untrained, tidy(rec, number = 1))
+  expect_equal(untrained, tidy(rec, number = 1))
   expect_equal(trained, tidy(rec_p, number = 1))
 })
 

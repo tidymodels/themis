@@ -3,8 +3,6 @@ library(recipes)
 library(dplyr)
 library(modeldata)
 
-context("Upsampling")
-
 test_that("ratio deprecation", {
   expect_message(
     new_rec <- recipe(~., data = circle_example) %>%
@@ -102,7 +100,7 @@ test_that("test tidy()", {
     id = ""
   )
 
-  expect_equivalent(untrained, tidy(rec, number = 1))
+  expect_equal(untrained, tidy(rec, number = 1))
   expect_equal(trained, tidy(rec_p, number = 1))
 })
 
