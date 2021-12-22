@@ -95,7 +95,7 @@ step_adasyn <-
     add_step(
       recipe,
       step_adasyn_new(
-        terms = ellipse_check(...),
+        terms = enquos(...),
         role = role,
         trained = trained,
         column = column,
@@ -131,17 +131,18 @@ step_adasyn_new <-
 #' @export
 prep.step_adasyn <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
-  if (length(col_name) != 1) {
-    rlang::abort("Please select a single factor variable.")
-  }
-  if (!is.factor(training[[col_name]])) {
-    rlang::abort(paste0(col_name, " should be a factor variable."))
-  }
+  if (length(col_name) > 1)
+    rlang::abort("The selector should select at most a single variable")
 
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
 
-  check_type(training[, predictors], TRUE)
-  check_na(select(training, all_of(c(col_name, predictors))), "step_adasyn")
+  if (length(col_name) == 1) {
+    if (!is.factor(training[[col_name]])) {
+      rlang::abort(paste0(col_name, " should be a factor variable."))
+    }
+    check_type(training[, predictors], TRUE)
+    check_na(select(training, all_of(c(col_name, predictors))), "step_adasyn")
+  }
 
   step_adasyn_new(
     terms = x$terms,
@@ -159,6 +160,11 @@ prep.step_adasyn <- function(x, training, info = NULL, ...) {
 
 #' @export
 bake.step_adasyn <- function(object, new_data, ...) {
+  if (length(object$column) == 0L) {
+    # Empty selection
+    return(new_data)
+  }
+
   new_data <- as.data.frame(new_data)
 
   predictor_data <- new_data[, unique(c(object$predictors, object$column))]
