@@ -1,6 +1,7 @@
 library(testthat)
 library(recipes)
 library(dplyr)
+library(modeldata)
 
 context("Upsampling")
 
