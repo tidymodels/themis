@@ -134,7 +134,7 @@ prep.step_tomek <- function(x, training, info = NULL, ...) {
   check_type(training[, predictors], TRUE)
   check_2_levels_only(training, col_name)
 
-  check_na(select(training, c(col_name, predictors)), "step_tomek")
+  check_na(select(training, all_of(c(col_name, predictors))), "step_tomek")
 
   step_tomek_new(
     terms = x$terms,

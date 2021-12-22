@@ -141,7 +141,7 @@ prep.step_adasyn <- function(x, training, info = NULL, ...) {
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
 
   check_type(training[, predictors], TRUE)
-  check_na(select(training, c(col_name, predictors)), "step_adasyn")
+  check_na(select(training, all_of(c(col_name, predictors))), "step_adasyn")
 
   step_adasyn_new(
     terms = x$terms,

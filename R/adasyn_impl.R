@@ -50,7 +50,7 @@ adasyn <- function(df, var, k = 5, over_ratio = 1) {
   predictors <- setdiff(colnames(df), var)
 
   check_numeric(df[, predictors])
-  check_na(select(df, -var), "smote")
+  check_na(select(df, -all_of(var)), "smote")
 
   adasyn_impl(df, var, k, over_ratio)
 }
