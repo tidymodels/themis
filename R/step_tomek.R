@@ -91,7 +91,7 @@ step_tomek <-
     add_step(
       recipe,
       step_tomek_new(
-        terms = ellipse_check(...),
+        terms = enquos(...),
         role = role,
         trained = trained,
         column = column,
@@ -124,14 +124,15 @@ prep.step_tomek <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
   if (length(col_name) > 1)
     rlang::abort("The selector should select at most a single variable")
-  if (!is.factor(training[[col_name]])) {
-    rlang::abort(paste0(col_name, " should be a factor variable."))
-  }
 
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
-
-  check_type(training[, predictors], TRUE)
-  check_2_levels_only(training, col_name)
+  if (length(col_name) == 1) {
+    if (!is.factor(training[[col_name]])) {
+      rlang::abort(paste0(col_name, " should be a factor variable."))
+    }
+    check_type(training[, predictors], TRUE)
+    check_2_levels_only(training, col_name)
+  }
 
   check_na(select(training, all_of(c(col_name, predictors))), "step_tomek")
 
@@ -161,6 +162,10 @@ response_0_1_to_org <- function(old, new, levels) {
 
 #' @export
 bake.step_tomek <- function(object, new_data, ...) {
+  if (length(object$column) == 0L) {
+    # Empty selection
+    return(new_data)
+  }
 
   predictor_data <- new_data[, unique(c(object$predictors, object$column))]
 
