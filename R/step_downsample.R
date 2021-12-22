@@ -159,9 +159,7 @@ prep.step_downsample <- function(x, training, info = NULL, ...) {
   if (length(col_name) == 0) {
     minority <- 1
   } else {
-    if (!is.factor(training[[col_name]])) {
-      rlang::abort(paste0(col_name, " should be a factor variable."))
-    }
+    check_column_factor(training, col_name)
     obs_freq <- table(training[[col_name]])
     minority <- min(obs_freq)
   }
