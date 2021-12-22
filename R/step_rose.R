@@ -103,7 +103,7 @@ step_rose <-
     add_step(
       recipe,
       step_rose_new(
-        terms = ellipse_check(...),
+        terms = enquos(...),
         role = role,
         trained = trained,
         column = column,
@@ -145,11 +145,12 @@ prep.step_rose <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
   if (length(col_name) > 1)
     rlang::abort("The selector should select at most a single variable")
-  if (!is.factor(training[[col_name]])) {
-    rlang::abort(paste0(col_name, " should be a factor variable."))
+  if (length(col_name) == 1) {
+    if (!is.factor(training[[col_name]])) {
+      rlang::abort(paste0(col_name, " should be a factor variable."))
+    }
+    check_2_levels_only(training, col_name)
   }
-
-  check_2_levels_only(training, col_name)
 
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
   check_na(select(training, all_of(col_name)), "step_bsmote")
@@ -173,6 +174,11 @@ prep.step_rose <- function(x, training, info = NULL, ...) {
 
 #' @export
 bake.step_rose <- function(object, new_data, ...) {
+  if (length(object$column) == 0L) {
+    # Empty selection
+    return(new_data)
+  }
+
   if (any(is.na(new_data[[object$column]]))) {
     missing <- new_data[is.na(new_data[[object$column]]), ]
   } else {
