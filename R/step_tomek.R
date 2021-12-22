@@ -121,7 +121,7 @@ step_tomek_new <-
 
 #' @export
 prep.step_tomek <- function(x, training, info = NULL, ...) {
-  col_name <- terms_select(x$terms, info = info)
+  col_name <- recipes_eval_select(x$terms, training, info)
   if (length(col_name) != 1) {
     rlang::abort("Please select a single factor variable.")
   }
