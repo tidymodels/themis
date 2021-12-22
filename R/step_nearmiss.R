@@ -139,9 +139,9 @@ step_nearmiss_new <-
 #' @export
 prep.step_nearmiss <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
-  if (length(col_name) != 1) {
-    rlang::abort("Please select a single factor variable.")
-  }
+
+  if (length(col_name) > 1)
+    rlang::abort("The selector should select at most a single variable")
   if (!is.factor(training[[col_name]])) {
     rlang::abort(paste0(col_name, " should be a factor variable."))
   }
