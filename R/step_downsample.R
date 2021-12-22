@@ -117,7 +117,7 @@ step_downsample <-
     add_step(
       recipe,
       step_downsample_new(
-        terms = ellipse_check(...),
+        terms = enquos(...),
         under_ratio = under_ratio,
         ratio = ratio,
         role = role,
@@ -155,12 +155,16 @@ prep.step_downsample <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
   if (length(col_name) > 1)
     rlang::abort("The selector should select at most a single variable")
-  if (!is.factor(training[[col_name]])) {
-    rlang::abort(paste0(col_name, " should be a factor variable."))
-  }
 
-  obs_freq <- table(training[[col_name]])
-  minority <- min(obs_freq)
+  if (length(col_name) == 0) {
+    minority <- 1
+  } else {
+    if (!is.factor(training[[col_name]])) {
+      rlang::abort(paste0(col_name, " should be a factor variable."))
+    }
+    obs_freq <- table(training[[col_name]])
+    minority <- min(obs_freq)
+  }
 
   check_na(select(training, all_of(col_name)), "step_downsample")
 
@@ -192,6 +196,11 @@ subsamp <- function(x, num) {
 
 #' @export
 bake.step_downsample <- function(object, new_data, ...) {
+  if (length(object$column) == 0L) {
+    # Empty selection
+    return(new_data)
+  }
+
   if (any(is.na(new_data[[object$column]]))) {
     missing <- new_data[is.na(new_data[[object$column]]), ]
   } else {
@@ -226,7 +235,7 @@ print.step_downsample <-
 #' @export
 tidy.step_downsample <- function(x, ...) {
   if (is_trained(x)) {
-    res <- tibble(terms = x$column)
+    res <- tibble(terms = unname(x$column))
   }
   else {
     term_names <- sel2char(x$terms)
