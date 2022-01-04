@@ -188,8 +188,8 @@ Discovery, 28:92–122.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Status training</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> bad        <span style="text-decoration: underline;">3</span>190</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> good       <span style="text-decoration: underline;">3</span>210</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> bad        <span style="text-decoration: underline;">3</span>177</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> good       <span style="text-decoration: underline;">3</span>223</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Since `skip` defaults to TRUE, baking the step has no effect</span></span>
 <span class="r-in"><span class="va">baked</span> <span class="op">&lt;-</span> <span class="va">up_rec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -206,8 +206,8 @@ Discovery, 28:92–122.</p>
 <span class="r-in">  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">training</span>, by <span class="op">=</span> <span class="st">"Status"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span class="r-in">  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">baked</span>, by <span class="op">=</span> <span class="st">"Status"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Status orig training baked</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    bad 1254     3190  1254</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   good 3200     3210  3200</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    bad 1254     3177  1254</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   good 3200     3223  3200</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span class="r-in"></span>
