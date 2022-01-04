@@ -33,7 +33,7 @@ Suggests:
     covr,
     ggplot2,
     modeldata,
-    testthat (>= 2.1.0)
+    testthat (>= 3.0.0)
 Remotes:
     tidymodels/recipes
 Config/Needs/website: 
