@@ -3,6 +3,7 @@
 * `step_rose()` now correctly allows you to use characters variables. (#26)
 * `step_tomek()` now ignore non-predictor variables when appropriate. (#51)
 * Update examples to no longer use `iris` or `okc` data sets.
+* All recipe steps now officially support empty selections to be more aligned with dplyr and other packages that use tidyselect (#55)
 
 # themis 0.1.4
 
