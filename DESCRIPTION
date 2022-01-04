@@ -34,6 +34,8 @@ Suggests:
     ggplot2,
     modeldata,
     testthat (>= 2.1.0)
+Remotes:
+    tidymodels/recipes
 Config/Needs/website: 
     tidyverse/tidytemplate
 Config/testthat/edition: 3
