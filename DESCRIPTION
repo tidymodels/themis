@@ -35,7 +35,7 @@ Suggests:
     modeldata,
     testthat (>= 3.0.0)
 Remotes:
-    tidymodels/recipes
+    tidymodels/recipes#877
 Config/Needs/website: 
     tidyverse/tidytemplate
 Config/testthat/edition: 3
