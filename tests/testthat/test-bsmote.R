@@ -82,7 +82,7 @@ test_that("bad data", {
     rec %>%
       step_bsmote(class, id) %>%
       prep(),
-    regexp = "Please select a single factor variable."
+    regexp = "The selector should select at most a single variable"
   )
 })
 
@@ -330,4 +330,46 @@ test_that("id variables don't turn predictors to factors", {
 
   expect_equal(is.double(rec_id$x), TRUE)
   expect_equal(is.double(rec_id$y), TRUE)
+})
+
+
+test_that("empty selection prep/bake is a no-op", {
+  rec1 <- recipe(mpg ~ ., mtcars)
+  rec2 <- step_bsmote(rec1)
+
+  rec1 <- prep(rec1, mtcars)
+  rec2 <- prep(rec2, mtcars)
+
+  baked1 <- bake(rec1, mtcars)
+  baked2 <- bake(rec2, mtcars)
+
+  expect_identical(baked1, baked1)
+})
+
+test_that("empty selection tidy method works", {
+  rec <- recipe(mpg ~ ., mtcars)
+  rec <- step_bsmote(rec)
+
+  expect_identical(
+    tidy(rec, number = 1),
+    tibble(terms = character(), id = character())
+  )
+
+  rec <- prep(rec, mtcars)
+
+  expect_identical(
+    tidy(rec, number = 1),
+    tibble(terms = character(), id = character())
+  )
+})
+
+test_that("empty printing", {
+  rec <- recipe(mpg ~ ., mtcars)
+  rec <- step_bsmote(rec)
+
+  expect_snapshot(rec)
+
+  rec <- prep(rec, mtcars)
+
+  expect_snapshot(rec)
 })

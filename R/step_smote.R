@@ -102,7 +102,7 @@ step_smote <-
     add_step(
       recipe,
       step_smote_new(
-        terms = ellipse_check(...),
+        terms = enquos(...),
         role = role,
         trained = trained,
         column = column,
@@ -140,12 +140,11 @@ prep.step_smote <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
   if (length(col_name) > 1)
     rlang::abort("The selector should select at most a single variable")
-  if (!is.factor(training[[col_name]])) {
-    rlang::abort(paste0(col_name, " should be a factor variable."))
-  }
+
+  if (length(col_name) == 1)
+    check_column_factor(training, col_name)
 
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
-
   check_type(training[, predictors], TRUE)
   check_na(select(training, all_of(c(col_name, predictors))), "step_smote")
 
@@ -165,6 +164,11 @@ prep.step_smote <- function(x, training, info = NULL, ...) {
 
 #' @export
 bake.step_smote <- function(object, new_data, ...) {
+  if (length(object$column) == 0L) {
+    # Empty selection
+    return(new_data)
+  }
+
   new_data <- as.data.frame(new_data)
 
   predictor_data <- new_data[, unique(c(object$predictors, object$column))]

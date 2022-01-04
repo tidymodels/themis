@@ -34,6 +34,11 @@ check_numeric <- function(dat) {
   invisible(all_good)
 }
 
+check_column_factor <- function(data, column) {
+  if (!is.factor(data[[column]])) {
+    rlang::abort(paste0(column, " should be a factor variable."))
+  }
+}
 
 na_splice <- function(new_data, synthetic_data, object) {
   non_predictor <- setdiff(names(new_data), c(object$column, object$predictors))

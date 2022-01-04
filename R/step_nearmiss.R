@@ -103,7 +103,7 @@ step_nearmiss <-
     add_step(
       recipe,
       step_nearmiss_new(
-        terms = ellipse_check(...),
+        terms = enquos(...),
         role = role,
         trained = trained,
         column = column,
@@ -142,9 +142,9 @@ prep.step_nearmiss <- function(x, training, info = NULL, ...) {
 
   if (length(col_name) > 1)
     rlang::abort("The selector should select at most a single variable")
-  if (!is.factor(training[[col_name]])) {
-    rlang::abort(paste0(col_name, " should be a factor variable."))
-  }
+
+  if (length(col_name) == 1)
+    check_column_factor(training, col_name)
 
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
 
@@ -167,6 +167,10 @@ prep.step_nearmiss <- function(x, training, info = NULL, ...) {
 
 #' @export
 bake.step_nearmiss <- function(object, new_data, ...) {
+  if (length(object$column) == 0L) {
+    # Empty selection
+    return(new_data)
+  }
 
   ignore_vars <- setdiff(names(new_data), c(object$predictors, object$column))
 
