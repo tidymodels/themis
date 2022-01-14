@@ -108,3 +108,18 @@ tunable.step_upsample <- function(x, ...) {
     component_id = x$id
   )
 }
+
+#' @export
+#' @rdname tunable.step_adasyn
+tunable.step_smotenc <- function(x, ...) {
+  tibble::tibble(
+    name = c("over_ratio", "neighbors"),
+    call_info = list(
+      list(pkg = "dials", fun = "over_ratio"),
+      list(pkg = "dials", fun = "neighbors", range = c(1, 10))
+    ),
+    source = "recipe",
+    component = "step_smotenc",
+    component_id = x$id
+  )
+}
