@@ -22,8 +22,6 @@ dealing with unbalanced data. The name **themis** is that of the
 god](https://thishollowearth.wordpress.com/2012/07/02/god-of-the-week-themis/)
 who is typically depicted with a balance.
 
-![](https://thishollowearth.files.wordpress.com/2012/07/themis.jpg)
-
 ## Installation
 
 You can install the released version of themis from
