@@ -2,38 +2,36 @@ url: https://themis.tidymodels.org
 
 template:
   package: tidytemplate
-  params:
-    part_of: <a href="https://tidymodels.org">tidymodels</a>
-    footer: themis is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.
-
+  bootstrap: 5
+  bslib:
+    primary: "#CA225E"
+  includes:
+      in_header: |
+        <script defer data-domain="themis.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script>
 development:
   mode: auto
 
-home:
-  strip_header: true
-
 reference:
-  - title: "Over-sampling"
+  - title: Over-sampling
     contents:
       - step_upsample
       - step_smote
       - step_bsmote
       - step_adasyn
       - step_rose
-  - title: "Under-sampling"
+  - title: Under-sampling
     contents:
       - step_downsample
       - step_nearmiss
       - step_tomek
-  - title: "Datasets"
+  - title: Datasets
     contents:
       - circle_example
-  - title: "Methods"
+  - title: Methods
     contents:
       - smote
       - bsmote
       - adasyn
-  - title: "Dials Objects"
   - title: Tidy Methods
     contents:
     - tidy.recipe
