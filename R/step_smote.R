@@ -1,4 +1,4 @@
-#' Apply SMOTE algorithm
+#' Apply SMOTE Algorithm
 #'
 #' `step_smote` creates a *specification* of a recipe
 #'  step that generate new examples of the  minority class using nearest

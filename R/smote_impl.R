@@ -1,4 +1,4 @@
-#' SMOTE algorithm
+#' SMOTE Algorithm
 #'
 #' SMOTE generates new examples of the minority class using nearest neighbors
 #' of these cases.

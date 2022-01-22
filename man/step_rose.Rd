@@ -2,7 +2,7 @@
 % Please edit documentation in R/step_rose.R
 \name{step_rose}
 \alias{step_rose}
-\title{Apply ROSE algorithm}
+\title{Apply ROSE Algorithm}
 \usage{
 step_rose(
   recipe,

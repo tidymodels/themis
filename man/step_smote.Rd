@@ -2,7 +2,7 @@
 % Please edit documentation in R/step_smote.R
 \name{step_smote}
 \alias{step_smote}
-\title{Apply SMOTE algorithm}
+\title{Apply SMOTE Algorithm}
 \usage{
 step_smote(
   recipe,

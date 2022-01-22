@@ -1,4 +1,4 @@
-#' Adaptive Synthetic Sampling Approach
+#' Apply Adaptive Synthetic Algorithm
 #'
 #' `step_adasyn` creates a *specification* of a recipe
 #'  step that generates synthetic positive instances using ADASYN algorithm.
