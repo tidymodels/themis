@@ -12,26 +12,36 @@ development:
   mode: auto
 
 reference:
-  - title: Over-sampling
-    contents:
-      - step_upsample
-      - step_smote
-      - step_bsmote
-      - step_adasyn
-      - step_rose
-  - title: Under-sampling
-    contents:
-      - step_downsample
-      - step_nearmiss
-      - step_tomek
-  - title: Datasets
-    contents:
-      - circle_example
-  - title: Methods
-    contents:
-      - smote
-      - bsmote
-      - adasyn
-  - title: Tidy Methods
-    contents:
-    - tidy.recipe
+- title: Over-sampling
+  desc: >
+    **Over-sampling** is the act of synthetically generating observations for
+    the minority classes. This is done either by random sampling or using
+    more advanced methods.
+  contents:
+    - step_upsample
+    - step_smote
+    - step_bsmote
+    - step_adasyn
+    - step_rose
+- title: Under-sampling
+  desc: >
+    **Under-sampling** is the act of removing observations from the majority
+    classes.
+  contents:
+    - step_downsample
+    - step_nearmiss
+    - step_tomek
+- title: Methods
+  desc: >
+    Some of the methods implemented in this package as steps are also
+    available as their own functions.
+  contents:
+    - smote
+    - bsmote
+    - adasyn
+- title: Datasets
+  contents:
+    - circle_example
+- title: Tidy Methods
+  contents:
+  - tidy.recipe
