@@ -1,4 +1,4 @@
-#' Apply ROSE algorithm
+#' Apply ROSE Algorithm
 #'
 #' `step_rose` creates a *specification* of a recipe
 #'  step that generates sample of synthetic data by enlarging the features

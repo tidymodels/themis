@@ -2,7 +2,7 @@
 % Please edit documentation in R/adasyn_impl.R
 \name{adasyn}
 \alias{adasyn}
-\title{Adaptive Synthetic Sampling Approach algorithm}
+\title{Adaptive Synthetic Algorithm}
 \usage{
 adasyn(df, var, k = 5, over_ratio = 1)
 }

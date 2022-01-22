@@ -2,38 +2,46 @@ url: https://themis.tidymodels.org
 
 template:
   package: tidytemplate
-  params:
-    part_of: <a href="https://tidymodels.org">tidymodels</a>
-    footer: themis is a part of the <strong>tidymodels</strong> ecosystem, a collection of modeling packages designed with common APIs and a shared philosophy.
-
+  bootstrap: 5
+  bslib:
+    primary: "#CA225E"
+  includes:
+      in_header: |
+        <script defer data-domain="themis.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script>
 development:
   mode: auto
 
-home:
-  strip_header: true
-
 reference:
-  - title: "Over-sampling"
-    contents:
-      - step_upsample
-      - step_smote
-      - step_bsmote
-      - step_adasyn
-      - step_rose
-  - title: "Under-sampling"
-    contents:
-      - step_downsample
-      - step_nearmiss
-      - step_tomek
-  - title: "Datasets"
-    contents:
-      - circle_example
-  - title: "Methods"
-    contents:
-      - smote
-      - bsmote
-      - adasyn
-  - title: "Dials Objects"
-  - title: Tidy Methods
-    contents:
-    - tidy.recipe
+- title: Over-sampling
+  desc: >
+    **Over-sampling** is the act of synthetically generating observations for
+    the minority classes. This is done either by random sampling or using
+    more advanced methods.
+  contents:
+    - step_upsample
+    - step_smote
+    - step_bsmote
+    - step_adasyn
+    - step_rose
+- title: Under-sampling
+  desc: >
+    **Under-sampling** is the act of removing observations from the majority
+    classes.
+  contents:
+    - step_downsample
+    - step_nearmiss
+    - step_tomek
+- title: Methods
+  desc: >
+    Some of the methods implemented in this package as steps are also
+    available as their own functions.
+  contents:
+    - smote
+    - bsmote
+    - adasyn
+- title: Datasets
+  contents:
+    - circle_example
+- title: Tidy Methods
+  contents:
+  - tidy.recipe

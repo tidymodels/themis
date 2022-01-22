@@ -2,7 +2,7 @@
 % Please edit documentation in R/bsmote_impl.R
 \name{bsmote}
 \alias{bsmote}
-\title{borderline-SMOTE algorithm}
+\title{borderline-SMOTE Algorithm}
 \usage{
 bsmote(df, var, k = 5, over_ratio = 1, all_neighbors = FALSE)
 }

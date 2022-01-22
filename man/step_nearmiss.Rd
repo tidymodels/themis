@@ -2,7 +2,7 @@
 % Please edit documentation in R/step_nearmiss.R
 \name{step_nearmiss}
 \alias{step_nearmiss}
-\title{Under-sampling by removing points near other classes.}
+\title{Remove Points Near Other Classes}
 \usage{
 step_nearmiss(
   recipe,

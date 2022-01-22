@@ -1,4 +1,4 @@
-#' Synthetic Dataset with a circle
+#' Synthetic Dataset With a Circle
 #'
 #' A random dataset with two classes one of which is inside a circle. Used for
 #' examples to show how the different methods handles borders.

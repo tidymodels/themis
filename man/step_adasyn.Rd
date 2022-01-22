@@ -2,7 +2,7 @@
 % Please edit documentation in R/step_adasyn.R
 \name{step_adasyn}
 \alias{step_adasyn}
-\title{Adaptive Synthetic Sampling Approach}
+\title{Apply Adaptive Synthetic Algorithm}
 \usage{
 step_adasyn(
   recipe,

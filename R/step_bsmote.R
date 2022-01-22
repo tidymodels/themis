@@ -1,4 +1,4 @@
-#' Apply borderline-SMOTE algorithm
+#' Apply borderline-SMOTE Algorithm
 #'
 #' `step_bsmote` creates a *specification* of a recipe
 #'  step that generate new examples of the minority class using nearest

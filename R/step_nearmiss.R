@@ -1,4 +1,4 @@
-#' Under-sampling by removing points near other classes.
+#' Remove Points Near Other Classes
 #'
 #' `step_nearmiss` creates a *specification* of a recipe
 #'  step that removes majority class instances by undersampling points
