@@ -194,7 +194,7 @@ bake.step_smote <- function(object, new_data, ...) {
 print.step_smote <-
   function(x, width = max(20, options()$width - 26), ...) {
     title <- "SMOTE based on "
-    print_step(x$column, x$terms, x$trained, width = width, title = title)
+    print_step(x$column, x$terms, x$trained, width, title)
     invisible(x)
   }
 

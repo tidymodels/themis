@@ -221,7 +221,7 @@ bake.step_bsmote <- function(object, new_data, ...) {
 print.step_bsmote <-
   function(x, width = max(20, options()$width - 26), ...) {
     title <- "BorderlineSMOTE based on "
-    print_step(x$column, x$terms, x$trained, width = width, title = title)
+    print_step(x$column, x$terms, x$trained, width, title)
     invisible(x)
   }
 
