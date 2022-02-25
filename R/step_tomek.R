@@ -191,7 +191,7 @@ bake.step_tomek <- function(object, new_data, ...) {
 print.step_tomek <-
   function(x, width = max(20, options()$width - 26), ...) {
     title <- "Tomek based on "
-    print_step(x$column, x$terms, x$trained, width, title)
+    print_step(x$column, x$terms, x$trained, title, width)
     invisible(x)
   }
 

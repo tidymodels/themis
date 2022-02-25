@@ -198,7 +198,7 @@ bake.step_nearmiss <- function(object, new_data, ...) {
 print.step_nearmiss <-
   function(x, width = max(20, options()$width - 26), ...) {
     title <- "NEARMISS-1 based on "
-    print_step(x$column, x$terms, x$trained, width, title)
+    print_step(x$column, x$terms, x$trained, title, width)
     invisible(x)
   }
 
