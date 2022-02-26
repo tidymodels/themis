@@ -83,8 +83,6 @@
 #' orig %>%
 #'   left_join(training, by = "Home") %>%
 #'   left_join(baked, by = "Home")
-#'
-
 step_smotenc <-
   function(recipe, ..., role = NA, trained = FALSE,
            column = NULL, over_ratio = 1, neighbors = 5,
@@ -128,11 +126,13 @@ step_smotenc_new <-
 #' @export
 prep.step_smotenc <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
-  if (length(col_name) > 1)
+  if (length(col_name) > 1) {
     rlang::abort("The selector should select at most a single variable")
+  }
 
-  if (length(col_name) == 1)
+  if (length(col_name) == 1) {
     check_column_factor(training, col_name)
+  }
 
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
   check_type(training[, predictors], TRUE)
@@ -194,8 +194,7 @@ print.step_smotenc <-
 tidy.step_smotenc <- function(x, ...) {
   if (is_trained(x)) {
     res <- tibble(terms = unname(x$column))
-  }
-  else {
+  } else {
     term_names <- sel2char(x$terms)
     res <- tibble(terms = unname(term_names))
   }
