@@ -1,8 +1,10 @@
-#' Apply SMOTE_NC algorithm
+#' Apply SMOTENC algorithm
 #'
 #' `step_smotenc` creates a *specification* of a recipe
 #'  step that generate new examples of the  minority class using nearest
-#'  neighbors of these cases, and accounts for mixed data types.
+#'  neighbors of these cases. Gower's distance is used to handle mixed data types.
+#'  For categorical variables, the most common category along neighbors is
+#'  chosen.
 #'
 #' @inheritParams recipes::step_center
 #' @inheritParams step_upsample
@@ -35,7 +37,7 @@
 #' All columns in the data are sampled and returned by [juice()]
 #'  and [bake()].
 #'
-#' All columns used in this step must be numeric with no missing data.
+#' Columns can be numeric and categorical with no missing data.
 #'
 #' When used in modeling, users should strongly consider using the
 #'  option `skip = TRUE` so that the extra sampling is _not_
@@ -58,11 +60,11 @@
 #' orig <- count(credit_data0, Home, name = "orig")
 #' orig
 #'
-#' up_rec <- recipe(Home ~ Age + Income + Assets, data = credit_data0) %>%
+#' up_rec <- recipe(Home ~ Age + Income + Assets + Marital, data = credit_data0) %>%
 #'   step_impute_mean(Income, Assets) %>%
 #'   # Bring the minority levels up to about 1000 each
 #'   # 1000/2107 is approx 0.47461
-#'   step_smote(Home, over_ratio = 0.47461) %>%
+#'   step_smotenc(Home, over_ratio = 0.47461) %>%
 #'   prep()
 #'
 #' training <- up_rec %>%
@@ -82,19 +84,6 @@
 #'   left_join(training, by = "Home") %>%
 #'   left_join(baked, by = "Home")
 #'
-#' library(ggplot2)
-#'
-#' ggplot(circle_example, aes(x, y, color = class)) +
-#'   geom_point() +
-#'   labs(title = "Without SMOTE")
-#'
-#' recipe(class ~ x + y, data = circle_example) %>%
-#'   step_smote(class) %>%
-#'   prep() %>%
-#'   bake(new_data = NULL) %>%
-#'   ggplot(aes(x, y, color = class)) +
-#'   geom_point() +
-#'   labs(title = "With SMOTE")
 smotenc <- function(df, var, k = 5, over_ratio = 1) {
 
   #Tests include:
