@@ -3,7 +3,7 @@
 \docType{data}
 \name{circle_example}
 \alias{circle_example}
-\title{Synthetic Dataset with a circle}
+\title{Synthetic Dataset With a Circle}
 \format{
 A data frame with 200 rows and 4 variables:
 \describe{

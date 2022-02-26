@@ -1,4 +1,4 @@
-#' Apply ROSE algorithm
+#' Apply ROSE Algorithm
 #'
 #' `step_rose` creates a *specification* of a recipe
 #'  step that generates sample of synthetic data by enlarging the features
@@ -216,8 +216,8 @@ bake.step_rose <- function(object, new_data, ...) {
 #' @export
 print.step_rose <-
   function(x, width = max(20, options()$width - 26), ...) {
-    cat("ROSE based on ", sep = "")
-    printer(x$column, x$terms, x$trained, width = width)
+    title <- "ROSE based on "
+    print_step(x$column, x$terms, x$trained, title, width)
     invisible(x)
   }
 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/step_tomek.R
 \name{step_tomek}
 \alias{step_tomek}
-\title{Under-sampling by removing Tomek’s links.}
+\title{Remove Tomek’s Links}
 \usage{
 step_tomek(
   recipe,

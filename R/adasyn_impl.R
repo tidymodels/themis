@@ -1,4 +1,4 @@
-#' Adaptive Synthetic Sampling Approach algorithm
+#' Adaptive Synthetic Algorithm
 #'
 #' Generates synthetic positive instances using ADASYN algorithm.
 #'

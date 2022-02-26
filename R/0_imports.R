@@ -2,7 +2,7 @@
 #' @importFrom generics tidy
 #' @importFrom purrr map_dfr map_lgl
 #' @importFrom recipes add_step bake check_type is_trained prep
-#' @importFrom recipes printer rand_id sel2char step recipes_eval_select
+#' @importFrom recipes print_step rand_id sel2char step recipes_eval_select
 #' @importFrom rlang := enquos
 #' @importFrom ROSE ROSE
 #' @importFrom tibble as_tibble tibble

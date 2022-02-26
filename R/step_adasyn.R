@@ -1,4 +1,4 @@
-#' Adaptive Synthetic Sampling Approach
+#' Apply Adaptive Synthetic Algorithm
 #'
 #' `step_adasyn` creates a *specification* of a recipe
 #'  step that generates synthetic positive instances using ADASYN algorithm.
@@ -186,8 +186,8 @@ bake.step_adasyn <- function(object, new_data, ...) {
 #' @export
 print.step_adasyn <-
   function(x, width = max(20, options()$width - 26), ...) {
-    cat("adasyn based on ", sep = "")
-    printer(x$column, x$terms, x$trained, width = width)
+    title <- "adasyn based on "
+    print_step(x$column, x$terms, x$trained, title, width)
     invisible(x)
   }
 

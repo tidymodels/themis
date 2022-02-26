@@ -2,7 +2,7 @@
 % Please edit documentation in R/step_bsmote.R
 \name{step_bsmote}
 \alias{step_bsmote}
-\title{Apply borderline-SMOTE algorithm}
+\title{Apply borderline-SMOTE Algorithm}
 \usage{
 step_bsmote(
   recipe,

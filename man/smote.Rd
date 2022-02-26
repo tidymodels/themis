@@ -2,7 +2,7 @@
 % Please edit documentation in R/smote_impl.R
 \name{smote}
 \alias{smote}
-\title{SMOTE algorithm}
+\title{SMOTE Algorithm}
 \usage{
 smote(df, var, k = 5, over_ratio = 1)
 }

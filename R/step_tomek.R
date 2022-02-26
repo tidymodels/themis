@@ -1,4 +1,4 @@
-#' Under-sampling by removing Tomek’s links.
+#' Remove Tomek’s Links
 #'
 #' `step_tomek` creates a *specification* of a recipe
 #'  step that removes majority class instances of tomek links. Using
@@ -190,8 +190,8 @@ bake.step_tomek <- function(object, new_data, ...) {
 #' @export
 print.step_tomek <-
   function(x, width = max(20, options()$width - 26), ...) {
-    cat("Tomek based on ", sep = "")
-    printer(x$column, x$terms, x$trained, width = width)
+    title <- "Tomek based on "
+    print_step(x$column, x$terms, x$trained, title, width)
     invisible(x)
   }
 

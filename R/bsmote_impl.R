@@ -1,4 +1,4 @@
-#' borderline-SMOTE algorithm
+#' borderline-SMOTE Algorithm
 #'
 #' BSMOTE generates generate new examples of the minority class using nearest
 #'  neighbors of these cases in the border region between classes.
