@@ -61,19 +61,14 @@ smotenc <- function(df, var, k = 5, over_ratio = 1) {
     rlang::abort("`k` must be non-negative.")
   }
 
-  # if (is.null(cat_vars)) {
-  #   rlang::warn("No categorical variables provided, attempting to determine automatically")
-  #   cat_vars <- sapply(df,function(x) is.factor(x)|is.character(x)|is.logical(x))
-  # }
+  check_na(select(df, -all_of(var)), "smotenc")
 
-  check_na(select(df, -all_of(var)), "smote")
-
-  smote_impl(df, var, cat_vars, k, over_ratio)
+  smotenc_impl(df, var, k, over_ratio)
 }
 
 
 # Splits data and appends new minority instances
-smote_impl <- function(df, var, cat_vars, k, over_ratio) {
+smotenc_impl <- function(df, var, k, over_ratio) {
 
   # split data into list names by classes
   data <- split(df, df[[var]])
@@ -108,7 +103,7 @@ smote_impl <- function(df, var, cat_vars, k, over_ratio) {
     }
 
     # Run the smote algorithm (minority data, # of neighbors, # of sampeles needed)
-    out_df <- smote_data(minority, k = k, n_samples = samples_needed[i])
+    out_df <- smotenc_data(minority, k = k, n_samples = samples_needed[i])
     out_dfs[[i]] <- out_df
   }
 
@@ -121,7 +116,7 @@ smote_impl <- function(df, var, cat_vars, k, over_ratio) {
 }
 
 # Uses nearest-neighbors and interpolation to generate new instances
-smote_data <- function(data, k, n_samples, smote_ids = seq_len(nrow(data))) {
+smotenc_data <- function(data, k, n_samples, smotenc_ids = seq_len(nrow(data))) {
 
   # Runs a nearest neighbor search
   # outputs a matrix, each row is a minority instance and each column is a nearest neighbor
@@ -129,12 +124,12 @@ smote_data <- function(data, k, n_samples, smote_ids = seq_len(nrow(data))) {
   ids <- t(gower::gower_topn(x = data, y = data, n = k + 1)$index)
 
   # shuffles minority indicies and repeats that shuffling until the desired number of samples is reached
-  indexes <- rep(sample(smote_ids), length.out = n_samples)
+  indexes <- rep(sample(smotenc_ids), length.out = n_samples)
   # tabulates how many times each minority instance is used
   index_len <- tabulate(indexes, NROW(data))
 
   # Initialize matrix for newly generated samples
-  out <- data[rep(smote_ids, length.out = n_samples), ]
+  out <- data[rep(smotenc_ids, length.out = n_samples), ]
 
   # For each new sample pick a random nearest neighbor to interpoate with (1 to k)
   sampleids <- sample.int(k, n_samples, TRUE)
@@ -142,7 +137,7 @@ smote_data <- function(data, k, n_samples, smote_ids = seq_len(nrow(data))) {
   runif_ids <- stats::runif(n_samples)
 
   iii <- 0
-  for (row_num in smote_ids) {
+  for (row_num in smotenc_ids) {
     # List indices from 1:n where n is the number of times that sample is used to generate a new sample
     # iii shifts 1:n to fill in the rows of out (e.g. 1:3, 4:6, 7:8, etc.)
     index_selection <- iii + seq_len(index_len[row_num])

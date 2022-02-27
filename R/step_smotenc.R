@@ -61,7 +61,7 @@
 #' orig
 #'
 #' up_rec <- recipe(Home ~ Age + Income + Assets + Marital, data = credit_data0) %>%
-#'   step_impute_mean(Income, Assets) %>%
+#'   step_impute_knn(all_predictors()) %>%
 #'   # Bring the minority levels up to about 1000 each
 #'   # 1000/2107 is approx 0.47461
 #'   step_smotenc(Home, over_ratio = 0.47461) %>%
@@ -135,7 +135,6 @@ prep.step_smotenc <- function(x, training, info = NULL, ...) {
   }
 
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
-  check_type(training[, predictors], TRUE)
   check_na(select(training, all_of(c(col_name, predictors))), "step_smotenc")
 
   step_smotenc_new(
@@ -183,10 +182,11 @@ bake.step_smotenc <- function(object, new_data, ...) {
 #' @export
 print.step_smotenc <-
   function(x, width = max(20, options()$width - 26), ...) {
-    cat("SMOTE based on ", sep = "")
-    printer(x$column, x$terms, x$trained, width = width)
+    title <- "SMOTENC based on "
+    print_step(x$column, x$terms, x$trained, title, width)
     invisible(x)
   }
+
 
 #' @rdname tidy.recipe
 #' @param x A `step_smotenc` object.

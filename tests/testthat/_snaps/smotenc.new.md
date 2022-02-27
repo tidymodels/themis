@@ -13,41 +13,24 @@
       
       Operations:
       
-      $terms
-      <list_of<quosure>>
+      SMOTENC based on <none>
+
+---
+
+    Code
+      rec
+    Output
+      Recipe
       
-      named list()
+      Inputs:
       
-      $role
-      [1] NA
+            role #variables
+         outcome          1
+       predictor         10
       
-      $trained
-      [1] FALSE
+      Training data contained 32 data points and no missing data.
       
-      $column
-      NULL
+      Operations:
       
-      $over_ratio
-      [1] 1
-      
-      $neighbors
-      [1] 5
-      
-      $predictors
-      NULL
-      
-      $skip
-      [1] TRUE
-      
-      $id
-      [1] "smotenc_g3KFf"
-      
-      $seed
-      [1] 45670
-      
-      $id
-      [1] "smotenc_g3KFf"
-      
-      attr(,"class")
-      [1] "step_smotenc" "step"        
+      SMOTENC based on <none> [trained]
 
