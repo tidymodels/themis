@@ -28,7 +28,6 @@
 #'
 #' adasyn(circle_numeric, var = "class", over_ratio = 0.8)
 adasyn <- function(df, var, k = 5, over_ratio = 1) {
-
   if (length(var) != 1) {
     rlang::abort("Please select a single factor variable for `var`.")
   }

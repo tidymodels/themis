@@ -1,7 +1,6 @@
 circle_example_num <- circle_example[, c("x", "y", "class")]
 
 test_that("adasyn() interfaces correctly", {
-
   expect_error(adasyn(circle_example_num, var = "class"), NA)
 
   expect_error(adasyn(circle_example_num, var = "Class"))

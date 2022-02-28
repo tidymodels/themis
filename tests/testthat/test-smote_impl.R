@@ -21,7 +21,6 @@ test_that("order doesn't matter", {
 
 
 test_that("smote() interfaces correctly", {
-
   circle_example_num <- circle_example[, 1:3]
 
   expect_error(smote(circle_example_num, var = "class"), NA)
@@ -42,4 +41,4 @@ test_that("smote() interfaces correctly", {
   expect_error(smote(circle_example_num, var = "class", k = -1))
 
   expect_error(smote(circle_example_num, var = "class", k = c(5, 10)))
-  })
+})
