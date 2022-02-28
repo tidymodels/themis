@@ -99,19 +99,16 @@
 #'   geom_point() +
 #'   labs(title = "With downsample")
 step_downsample <-
-  function(recipe, ..., under_ratio = 1, ratio = NA, role = NA,
+  function(recipe, ..., under_ratio = 1, ratio = deprecated(), role = NA,
            trained = FALSE, column = NULL, target = NA, skip = TRUE,
            seed = sample.int(10^5, 1), id = rand_id("downsample")) {
-    if (!is.na(ratio) & all(under_ratio != ratio)) {
-      message(
-        paste(
-          "The `ratio` argument is now deprecated in favor of `under_ratio`.",
-          "`ratio` will be removed in a subsequent version."
-        )
+
+    if (lifecycle::is_present(ratio)) {
+      lifecycle::deprecate_stop(
+        "0.2.0",
+        "step_downsample(ratio = )",
+        "step_downsample(under_ratio = )"
       )
-      if (!is.na(ratio)) {
-        under_ratio <- ratio
-      }
     }
 
     add_step(
@@ -221,7 +218,7 @@ bake.step_downsample <- function(object, new_data, ...) {
   as_tibble(new_data)
 }
 
-
+#' @export
 print.step_downsample <-
   function(x, width = max(20, options()$width - 26), ...) {
     title <- "Down-sampling based on "

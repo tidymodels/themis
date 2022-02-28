@@ -94,20 +94,17 @@
 #'   geom_jitter(width = 0.1, height = 0.1) +
 #'   labs(title = "With upsample (with jittering)")
 step_upsample <-
-  function(recipe, ..., over_ratio = 1, ratio = NA, role = NA, trained = FALSE,
-           column = NULL, target = NA, skip = TRUE,
+  function(recipe, ..., over_ratio = 1, ratio = deprecated(), role = NA,
+           trained = FALSE, column = NULL, target = NA, skip = TRUE,
            seed = sample.int(10^5, 1),
            id = rand_id("upsample")) {
-    if (!is.na(ratio) & all(over_ratio != ratio)) {
-      message(
-        paste(
-          "The `ratio` argument is now deprecated in favor of `over_ratio`.",
-          "`ratio` will be removed in a subsequent version."
-        )
+
+    if (lifecycle::is_present(ratio)) {
+      lifecycle::deprecate_stop(
+        "0.2.0",
+        "step_downsample(ratio = )",
+        "step_downsample(over_ratio = )"
       )
-      if (!is.na(ratio)) {
-        over_ratio <- ratio
-      }
     }
 
     add_step(
@@ -217,6 +214,7 @@ bake.step_upsample <- function(object, new_data, ...) {
   as_tibble(new_data)
 }
 
+#' @export
 print.step_upsample <-
   function(x, width = max(20, options()$width - 26), ...) {
     title <- "Up-sampling based on "
