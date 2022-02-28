@@ -10,7 +10,7 @@
     Code
       rec %>% step_smote(x) %>% prep()
     Error <rlang_error>
-      x should be a factor variable.
+      `x` should be a factor variable.
 
 ---
 

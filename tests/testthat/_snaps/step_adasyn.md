@@ -1,37 +1,37 @@
+# errors if there isn't enough data
+
+    Code
+      recipe(Status ~ Age, data = credit_data0) %>% step_adasyn(Status) %>% prep()
+    Error <rlang_error>
+      Not enough observations of 'dummy' to perform ADASYN.
+
 # bad data
 
     Code
-      rec %>% step_smote(x) %>% prep()
+      rec %>% step_adasyn(x) %>% prep()
     Error <rlang_error>
-      x should be a factor variable.
+      `x` should be a factor variable.
 
 ---
 
     Code
-      rec %>% step_smote(class, id) %>% prep()
+      rec %>% step_adasyn(class, id) %>% prep()
     Error <rlang_error>
       The selector should select at most a single variable
 
 # errors if character are present
 
     Code
-      recipe(~., data = df_char) %>% step_tomek(x) %>% prep()
+      recipe(~., data = df_char) %>% step_adasyn(x) %>% prep()
     Error <rlang_error>
       All columns selected for the step should be numeric
 
 # NA in response
 
     Code
-      recipe(Status ~ Age, data = credit_data0) %>% step_tomek(Status) %>% prep()
+      recipe(Job ~ Age, data = credit_data) %>% step_adasyn(Job) %>% prep()
     Error <rlang_error>
-      `step_tomek` cannot have any missing values. NAs found ind: Status.
-
-# only except 2 classes
-
-    Code
-      recipe(~., data = df_char) %>% step_tomek(x) %>% prep()
-    Error <rlang_error>
-      `x`` must only have 2 levels.
+      `step_adasyn` cannot have any missing values. NAs found ind: Job.
 
 # empty printing
 
@@ -48,7 +48,7 @@
       
       Operations:
       
-      Tomek based on <none>
+      adasyn based on <none>
 
 ---
 
@@ -67,5 +67,5 @@
       
       Operations:
       
-      Tomek based on <none> [trained]
+      adasyn based on <none> [trained]
 

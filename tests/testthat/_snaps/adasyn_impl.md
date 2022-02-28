@@ -18,7 +18,7 @@
     Code
       adasyn(circle_example_num, var = "x")
     Error <rlang_error>
-      x should be a factor or character variable.
+      `x` should be a factor or character variable.
 
 ---
 

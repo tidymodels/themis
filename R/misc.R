@@ -7,17 +7,16 @@ string2formula <- function(x) {
 check_na <- function(data, step) {
   na_cols <- vapply(data, function(x) any(is.na(x)), FUN.VALUE = logical(1))
   if (any(na_cols)) {
-    rlang::abort(paste0(
-      "`", step,
-      "` cannot have any missing values. NAs found ind: ",
-      paste(names(na_cols)[na_cols], collapse = ", "), "."
+    cols <- paste(names(na_cols)[na_cols], collapse = ", ")
+    rlang::abort(glue(
+      "`{step}` cannot have any missing values. NAs found ind: {cols}."
     ))
   }
 }
 
 check_2_levels_only <- function(data, col_name) {
   if (length(levels(data[[col_name]])) != 2) {
-    rlang::abort(paste0("`", col_name, "`` must only have 2 levels."))
+    rlang::abort(glue("`{col_name}` must only have 2 levels."))
   }
 }
 
@@ -26,18 +25,14 @@ check_numeric <- function(dat) {
   label <- "numeric"
 
   if (!all(all_good)) {
-    rlang::abort(
-      paste0(
-        "All columns for this function should be numeric."
-      )
-    )
+    rlang::abort("All columns for this function should be numeric.")
   }
   invisible(all_good)
 }
 
 check_column_factor <- function(data, column) {
   if (!is.factor(data[[column]])) {
-    rlang::abort(paste0(column, " should be a factor variable."))
+    rlang::abort(glue("`{column}` should be a factor variable."))
   }
 }
 

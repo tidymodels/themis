@@ -6,12 +6,10 @@ library(modeldata)
 set.seed(1234)
 
 test_that("ratio deprecation", {
-  expect_message(
+  expect_snapshot(error = TRUE,
     new_rec <- recipe(~., data = circle_example) %>%
-      step_upsample(class, ratio = 2),
-    "argument is now deprecated"
+      step_upsample(class, ratio = 2)
   )
-  expect_equal(new_rec$steps[[1]]$over_ratio, 2)
 })
 
 test_that("tunable", {
