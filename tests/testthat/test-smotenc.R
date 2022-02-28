@@ -74,7 +74,7 @@ test_that("bad data", {
   )
 })
 
-test_that("errors if character are present", {
+test_that("allows for character variables", {
   df_char <- data.frame(
     x = factor(1:2),
     y = c("A", "A"),
@@ -85,7 +85,7 @@ test_that("errors if character are present", {
     recipe(~., data = df_char) %>%
       step_smotenc(x) %>%
       prep(),
-    "should be numeric"
+    NA
   )
 })
 
