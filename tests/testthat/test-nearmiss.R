@@ -44,18 +44,16 @@ test_that("printing", {
 test_that("bad data", {
   rec <- recipe(~., data = circle_example)
   # numeric check
-  expect_error(
+  expect_snapshot(error = TRUE,
     rec %>%
       step_nearmiss(x) %>%
-      prep(),
-    regexp = "should be a factor variable."
+      prep()
   )
   # Multiple variable check
-  expect_error(
+  expect_snapshot(error = TRUE,
     rec %>%
       step_nearmiss(class, id) %>%
-      prep(),
-    regexp = "The selector should select at most a single variable"
+      prep()
   )
 })
 
@@ -66,22 +64,20 @@ test_that("errors if character are present", {
     stringsAsFactors = FALSE
   )
 
-  expect_error(
+  expect_snapshot(error = TRUE,
     recipe(~., data = df_char) %>%
       step_nearmiss(x) %>%
-      prep(),
-    "should be numeric"
+      prep()
   )
 })
 
 test_that("NA in response", {
   data(credit_data)
 
-  expect_error(
+  expect_snapshot(error = TRUE,
     recipe(Job ~ Age, data = credit_data) %>%
       step_nearmiss(Job) %>%
-      prep(),
-    regexp = "NAs found ind: Job."
+      prep()
   )
 })
 

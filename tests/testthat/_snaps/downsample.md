@@ -1,3 +1,17 @@
+# bad data
+
+    Code
+      rec %>% step_downsample(x) %>% prep()
+    Error <rlang_error>
+      x should be a factor variable.
+
+---
+
+    Code
+      rec %>% step_downsample(class, id) %>% prep()
+    Error <rlang_error>
+      The selector should select at most a single variable
+
 # empty printing
 
     Code

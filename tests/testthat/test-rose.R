@@ -86,18 +86,16 @@ test_that("printing", {
 test_that("bad data", {
   rec <- recipe(~., data = circle_example)
   # numeric check
-  expect_error(
+  expect_snapshot(error = TRUE,
     rec %>%
       step_rose(x) %>%
-      prep(),
-    regexp = "should be a factor variable."
+      prep()
   )
   # Multiple variable check
-  expect_error(
+  expect_snapshot(error = TRUE,
     rec %>%
       step_rose(class, id) %>%
-      prep(),
-    regexp = "The selector should select at most a single variable"
+      prep()
   )
 })
 
@@ -106,11 +104,10 @@ test_that("NA in response", {
   credit_data0 <- credit_data
   credit_data0[1, 1] <- NA
 
-  expect_error(
+  expect_snapshot(error = TRUE,
     recipe(Status ~ Age, data = credit_data0) %>%
       step_rose(Status) %>%
-      prep(),
-    regexp = "NAs found ind: Status."
+      prep()
   )
 })
 
@@ -157,11 +154,10 @@ test_that("only except 2 classes", {
     stringsAsFactors = FALSE
   )
 
-  expect_error(
+  expect_snapshot(error = TRUE,
     recipe(~., data = df_char) %>%
       step_rose(x) %>%
-      prep(),
-    "only have 2 levels."
+      prep()
   )
 })
 

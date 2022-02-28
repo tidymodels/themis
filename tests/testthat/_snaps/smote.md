@@ -1,3 +1,38 @@
+# errors if there isn't enough data
+
+    Code
+      recipe(Status ~ Age, data = credit_data0) %>% step_smote(Status) %>% prep()
+    Error <rlang_error>
+      Not enough observations of 'dummy' to perform SMOTE.
+
+# bad data
+
+    Code
+      rec %>% step_smote(x) %>% prep()
+    Error <rlang_error>
+      x should be a factor variable.
+
+---
+
+    Code
+      rec %>% step_smote(class, id) %>% prep()
+    Error <rlang_error>
+      The selector should select at most a single variable
+
+# errors if character are present
+
+    Code
+      recipe(~., data = df_char) %>% step_smote(x) %>% prep()
+    Error <rlang_error>
+      All columns selected for the step should be numeric
+
+# NA in response
+
+    Code
+      recipe(Job ~ Age, data = credit_data) %>% step_smote(Job) %>% prep()
+    Error <rlang_error>
+      `step_smote` cannot have any missing values. NAs found ind: Job.
+
 # empty printing
 
     Code

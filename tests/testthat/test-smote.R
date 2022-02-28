@@ -26,11 +26,10 @@ test_that("errors if there isn't enough data", {
   credit_data0$Status[1] <- "dummy"
   credit_data0$Status <- as.factor(credit_data0$Status)
 
-  expect_error(
+  expect_snapshot(error = TRUE,
     recipe(Status ~ Age, data = credit_data0) %>%
       step_smote(Status) %>%
-      prep(),
-    "Not enough observations"
+      prep()
   )
 })
 
@@ -58,18 +57,16 @@ test_that("printing", {
 test_that("bad data", {
   rec <- recipe(~., data = circle_example)
   # numeric check
-  expect_error(
+  expect_snapshot(error = TRUE,
     rec %>%
       step_smote(x) %>%
-      prep(),
-    regexp = "should be a factor variable."
+      prep()
   )
   # Multiple variable check
-  expect_error(
+  expect_snapshot(error = TRUE,
     rec %>%
       step_smote(class, id) %>%
-      prep(),
-    regexp = "The selector should select at most a single variable"
+      prep()
   )
 })
 
@@ -80,22 +77,20 @@ test_that("errors if character are present", {
     stringsAsFactors = FALSE
   )
 
-  expect_error(
+  expect_snapshot(error = TRUE,
     recipe(~., data = df_char) %>%
       step_smote(x) %>%
-      prep(),
-    "should be numeric"
+      prep()
   )
 })
 
 test_that("NA in response", {
   data(credit_data)
 
-  expect_error(
+  expect_snapshot(error = TRUE,
     recipe(Job ~ Age, data = credit_data) %>%
       step_smote(Job) %>%
-      prep(),
-    regexp = "NAs found ind: Job."
+      prep()
   )
 })
 
