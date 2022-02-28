@@ -2,11 +2,14 @@
 "_PACKAGE"
 
 ## usethis namespace: start
+#' @import rlang
 #' @importFrom dplyr all_of
 #' @importFrom dplyr bind_cols
 #' @importFrom dplyr bind_rows
 #' @importFrom dplyr mutate
 #' @importFrom dplyr select
+#' @importFrom glue glue
+#' @importFrom lifecycle deprecated
 #' @importFrom purrr map_dfr
 #' @importFrom purrr map_lgl
 #' @importFrom recipes add_step

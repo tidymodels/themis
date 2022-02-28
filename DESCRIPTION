@@ -21,6 +21,7 @@ Depends:
     R (>= 3.4),
     recipes (>= 0.2.0)
 Imports: 
+    lifecycle,
     dplyr,
     generics (>= 0.1.0),
     purrr,
@@ -29,7 +30,9 @@ Imports:
     ROSE,
     tibble,
     unbalanced,
-    withr
+    withr,
+    cli,
+    glue
 Suggests: 
     covr,
     ggplot2,
