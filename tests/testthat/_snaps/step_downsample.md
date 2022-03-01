@@ -6,6 +6,43 @@
       The `ratio` argument of `step_downsample()` was deprecated in themis 0.2.0 and is now defunct.
       Please use the `under_ratio` argument instead.
 
+# printing
+
+    Code
+      print(rec)
+    Output
+      Recipe
+      
+      Inputs:
+      
+            role #variables
+       predictor          4
+      
+      Operations:
+      
+      Down-sampling based on class
+
+---
+
+    Code
+      prep(rec, verbose = TRUE)
+    Output
+      oper 1 step downsample [training] 
+      The retained training set is ~ 0.03 Mb  in memory.
+      
+      Recipe
+      
+      Inputs:
+      
+            role #variables
+       predictor          4
+      
+      Training data contained 400 data points and no missing data.
+      
+      Operations:
+      
+      Down-sampling based on class [trained]
+
 # bad data
 
     Code

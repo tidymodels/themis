@@ -44,8 +44,8 @@ test_that("basic usage", {
 test_that("printing", {
   rec <- recipe(~., data = circle_example) %>%
     step_upsample(class)
-  expect_output(print(rec))
-  expect_output(prep(rec, verbose = TRUE))
+  expect_snapshot(print(rec))
+  expect_snapshot(prep(rec, verbose = TRUE))
 })
 
 test_that("bad data", {

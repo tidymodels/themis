@@ -5,6 +5,45 @@
     Error <rlang_error>
       Not enough observations of 'dummy' to perform SMOTE.
 
+# printing
+
+    Code
+      print(rec)
+    Output
+      Recipe
+      
+      Inputs:
+      
+            role #variables
+         outcome          1
+       predictor          2
+      
+      Operations:
+      
+      SMOTE based on class
+
+---
+
+    Code
+      prep(rec, verbose = TRUE)
+    Output
+      oper 1 step smote [training] 
+      The retained training set is ~ 0.01 Mb  in memory.
+      
+      Recipe
+      
+      Inputs:
+      
+            role #variables
+         outcome          1
+       predictor          2
+      
+      Training data contained 400 data points and no missing data.
+      
+      Operations:
+      
+      SMOTE based on class [trained]
+
 # bad data
 
     Code

@@ -37,8 +37,8 @@ test_that("basic usage", {
 test_that("printing", {
   rec <- recipe(class ~ x + y, data = circle_example) %>%
     step_nearmiss(class)
-  expect_output(print(rec))
-  expect_output(prep(rec, verbose = TRUE))
+  expect_snapshot(print(rec))
+  expect_snapshot(prep(rec, verbose = TRUE))
 })
 
 test_that("bad data", {

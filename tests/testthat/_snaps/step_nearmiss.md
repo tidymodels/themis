@@ -1,3 +1,42 @@
+# printing
+
+    Code
+      print(rec)
+    Output
+      Recipe
+      
+      Inputs:
+      
+            role #variables
+         outcome          1
+       predictor          2
+      
+      Operations:
+      
+      NEARMISS-1 based on class
+
+---
+
+    Code
+      prep(rec, verbose = TRUE)
+    Output
+      oper 1 step nearmiss [training] 
+      The retained training set is ~ 0 Mb  in memory.
+      
+      Recipe
+      
+      Inputs:
+      
+            role #variables
+         outcome          1
+       predictor          2
+      
+      Training data contained 400 data points and no missing data.
+      
+      Operations:
+      
+      NEARMISS-1 based on class [trained]
+
 # bad data
 
     Code
