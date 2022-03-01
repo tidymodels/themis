@@ -61,7 +61,7 @@ levels in a specific factor level equal.</p>
   <span class="va">recipe</span>,
   <span class="va">...</span>,
   over_ratio <span class="op">=</span> <span class="fl">1</span>,
-  ratio <span class="op">=</span> <span class="cn">NA</span>,
+  ratio <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Deprecated.html" class="external-link">deprecated</a></span><span class="op">(</span><span class="op">)</span>,
   role <span class="op">=</span> <span class="cn">NA</span>,
   trained <span class="op">=</span> <span class="cn">FALSE</span>,
   column <span class="op">=</span> <span class="cn">NULL</span>,
@@ -106,8 +106,8 @@ be populated (eventually) by the <code>...</code> selectors.</p></dd>
 should not be set by the user and will be populated by <code>prep</code>.</p></dd>
 <dt>skip</dt>
 <dd><p>A logical. Should the step be skipped when the
-recipe is baked by <code><a href="https://recipes.tidymodels.org/reference/bake.html" class="external-link">bake.recipe()</a></code>? While all operations are baked
-when <code><a href="https://recipes.tidymodels.org/reference/prep.html" class="external-link">prep.recipe()</a></code> is run, some operations may not be able to be
+recipe is baked by <code><a href="https://recipes.tidymodels.org/reference/bake.html" class="external-link">bake()</a></code>? While all operations are baked
+when <code><a href="https://recipes.tidymodels.org/reference/prep.html" class="external-link">prep()</a></code> is run, some operations may not be able to be
 conducted on new data (e.g. processing the outcome variable(s)).
 Care should be taken when using <code>skip = TRUE</code> as it may affect
 the computations for subsequent operations.</p></dd>

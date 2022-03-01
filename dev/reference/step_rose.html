@@ -113,8 +113,8 @@ smoothing parameters to estimate the conditional kernel density of the
 majority class. Defaults to 1.</p></dd>
 <dt>skip</dt>
 <dd><p>A logical. Should the step be skipped when the
-recipe is baked by <code><a href="https://recipes.tidymodels.org/reference/bake.html" class="external-link">bake.recipe()</a></code>? While all operations are baked
-when <code><a href="https://recipes.tidymodels.org/reference/prep.html" class="external-link">prep.recipe()</a></code> is run, some operations may not be able to be
+recipe is baked by <code><a href="https://recipes.tidymodels.org/reference/bake.html" class="external-link">bake()</a></code>? While all operations are baked
+when <code><a href="https://recipes.tidymodels.org/reference/prep.html" class="external-link">prep()</a></code> is run, some operations may not be able to be
 conducted on new data (e.g. processing the outcome variable(s)).
 Care should be taken when using <code>skip = TRUE</code> as it may affect
 the computations for subsequent operations.</p></dd>
@@ -179,8 +179,8 @@ Discovery, 28:92–122.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Status training</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> bad        <span style="text-decoration: underline;">3</span>212</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> good       <span style="text-decoration: underline;">3</span>188</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> bad        <span style="text-decoration: underline;">3</span>186</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> good       <span style="text-decoration: underline;">3</span>214</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Since `skip` defaults to TRUE, baking the step has no effect</span></span>
 <span class="r-in"><span class="va">baked</span> <span class="op">&lt;-</span> <span class="va">up_rec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -197,8 +197,8 @@ Discovery, 28:92–122.</p>
 <span class="r-in">  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">training</span>, by <span class="op">=</span> <span class="st">"Status"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span class="r-in">  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">baked</span>, by <span class="op">=</span> <span class="st">"Status"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   Status orig training baked</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1    bad 1254     3212  1254</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2   good 3200     3188  3200</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    bad 1254     3186  1254</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2   good 3200     3214  3200</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span class="r-in"></span>
