@@ -27,8 +27,8 @@
     Code
       recipe(Status ~ Age, data = credit_data0) %>% step_tomek(Status) %>% prep()
     Condition
-      Error in `check_na()`:
-      ! `step_tomek` cannot have any missing values. NAs found ind: Status.
+      Error in `step_tomek()`:
+      ! Missing values are not supported. NAs found ind: Status.
 
 # only except 2 classes
 

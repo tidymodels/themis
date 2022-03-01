@@ -27,8 +27,8 @@
     Code
       recipe(Job ~ Age, data = credit_data) %>% step_bsmote(Job) %>% prep()
     Condition
-      Error in `check_na()`:
-      ! `step_bsmote` cannot have any missing values. NAs found ind: Job.
+      Error in `step_bsmote()`:
+      ! Missing values are not supported. NAs found ind: Job.
 
 # empty printing
 

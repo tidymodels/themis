@@ -27,8 +27,8 @@
     Code
       recipe(Job ~ Age, data = credit_data) %>% step_nearmiss(Job) %>% prep()
     Condition
-      Error in `check_na()`:
-      ! `step_nearmiss` cannot have any missing values. NAs found ind: Job.
+      Error in `step_nearmiss()`:
+      ! Missing values are not supported. NAs found ind: Job.
 
 # empty printing
 

@@ -161,7 +161,10 @@ prep.step_downsample <- function(x, training, info = NULL, ...) {
     minority <- min(obs_freq)
   }
 
-  check_na(select(training, all_of(col_name)), "step_downsample")
+  check_na(
+    select(training, all_of(col_name)),
+    call = expr(step_downsample())
+  )
 
   step_downsample_new(
     terms = x$terms,

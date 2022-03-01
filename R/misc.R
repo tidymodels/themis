@@ -4,13 +4,16 @@ string2formula <- function(x) {
   out
 }
 
-check_na <- function(data, step) {
+check_na <- function(data, call = caller_env()) {
   na_cols <- vapply(data, function(x) any(is.na(x)), FUN.VALUE = logical(1))
   if (any(na_cols)) {
     cols <- paste(names(na_cols)[na_cols], collapse = ", ")
-    rlang::abort(glue(
-      "`{step}` cannot have any missing values. NAs found ind: {cols}."
-    ))
+    rlang::abort(
+      glue(
+        "Missing values are not supported. NAs found ind: {cols}."
+      ),
+      call = call
+    )
   }
 }
 

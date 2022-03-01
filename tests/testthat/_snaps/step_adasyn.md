@@ -35,8 +35,8 @@
     Code
       recipe(Job ~ Age, data = credit_data) %>% step_adasyn(Job) %>% prep()
     Condition
-      Error in `check_na()`:
-      ! `step_adasyn` cannot have any missing values. NAs found ind: Job.
+      Error in `step_adasyn()`:
+      ! Missing values are not supported. NAs found ind: Job.
 
 # empty printing
 

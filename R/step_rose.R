@@ -152,7 +152,10 @@ prep.step_rose <- function(x, training, info = NULL, ...) {
   }
 
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
-  check_na(select(training, all_of(col_name)), "step_bsmote")
+  check_na(
+    select(training, all_of(col_name)),
+    call = expr(step_rose())
+  )
 
   step_rose_new(
     terms = x$terms,

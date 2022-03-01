@@ -28,8 +28,8 @@
     Code
       bsmote(circle_example0, var = "class")
     Condition
-      Error in `check_na()`:
-      ! `smote` cannot have any missing values. NAs found ind: x.
+      Error in `bsmote()`:
+      ! Missing values are not supported. NAs found ind: x.
 
 ---
 
