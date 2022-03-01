@@ -3,7 +3,7 @@
     Code
       recipe(Status ~ Age, data = credit_data0) %>% step_adasyn(Status) %>% prep()
     Condition
-      Error in `adasyn_impl()`:
+      Error in `step_adasyn()`:
       ! Not enough observations of 'dummy' to perform ADASYN.
 
 # bad data

@@ -185,7 +185,8 @@ bake.step_smote <- function(object, new_data, ...) {
         predictor_data,
         object$column,
         k = object$neighbors,
-        over_ratio = object$over_ratio
+        over_ratio = object$over_ratio,
+        call = expr(step_smote())
       )
     }
   )

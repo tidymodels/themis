@@ -9,9 +9,9 @@
 ---
 
     Code
-      rec %>% step_smote(class, id) %>% prep()
+      rec %>% step_tomek(class, id) %>% prep()
     Condition
-      Error in `step_smote()`:
+      Error in `step_tomek()`:
       ! The selector should select at most a single variable
 
 # errors if character are present

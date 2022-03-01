@@ -3,7 +3,7 @@
     Code
       recipe(Status ~ Age, data = credit_data0) %>% step_smote(Status) %>% prep()
     Condition
-      Error in `smote_impl()`:
+      Error in `step_smote()`:
       ! Not enough observations of 'dummy' to perform SMOTE.
 
 # bad data

@@ -178,7 +178,8 @@ bake.step_adasyn <- function(object, new_data, ...) {
         predictor_data,
         object$column,
         k = object$neighbors,
-        over_ratio = object$over_ratio
+        over_ratio = object$over_ratio,
+        call = expr(step_adasyn())
       )
     }
   )
