@@ -127,7 +127,7 @@ prep.step_tomek <- function(x, training, info = NULL, ...) {
 
   if (length(col_name) == 1) {
     check_column_factor(training, col_name)
-    check_2_levels_only(training, col_name)
+    check_2_levels_only(training, col_name, call = expr(step_tomek()))
   }
 
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)

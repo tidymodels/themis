@@ -35,7 +35,7 @@
     Code
       recipe(~., data = df_char) %>% step_tomek(x) %>% prep()
     Condition
-      Error in `check_2_levels_only()`:
+      Error in `step_tomek()`:
       ! `x` must only have 2 levels.
 
 # empty printing

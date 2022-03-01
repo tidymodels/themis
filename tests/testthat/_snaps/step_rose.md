@@ -27,7 +27,7 @@
     Code
       recipe(~., data = df_char) %>% step_rose(x) %>% prep()
     Condition
-      Error in `check_2_levels_only()`:
+      Error in `step_rose()`:
       ! `x` must only have 2 levels.
 
 # empty printing

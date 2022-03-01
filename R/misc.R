@@ -17,9 +17,12 @@ check_na <- function(data, call = caller_env()) {
   }
 }
 
-check_2_levels_only <- function(data, col_name) {
+check_2_levels_only <- function(data, col_name, call) {
   if (length(levels(data[[col_name]])) != 2) {
-    rlang::abort(glue("`{col_name}` must only have 2 levels."))
+    rlang::abort(
+      glue("`{col_name}` must only have 2 levels."),
+      call = call
+    )
   }
 }
 
