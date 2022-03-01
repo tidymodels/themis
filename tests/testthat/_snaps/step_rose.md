@@ -11,7 +11,7 @@
     Code
       rec %>% step_rose(class, id) %>% prep()
     Condition
-      Error in `prep()`:
+      Error in `step_rose()`:
       ! The selector should select at most a single variable
 
 # NA in response

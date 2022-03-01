@@ -19,7 +19,7 @@
     Code
       rec %>% step_adasyn(class, id) %>% prep()
     Condition
-      Error in `prep()`:
+      Error in `step_adasyn()`:
       ! The selector should select at most a single variable
 
 # errors if character are present

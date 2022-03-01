@@ -36,6 +36,15 @@ check_column_factor <- function(data, column) {
   }
 }
 
+check_at_most_one <- function(col_name, call) {
+  if (length(col_name) > 1) {
+    rlang::abort(
+      "The selector should select at most a single variable",
+      call = call,
+    )
+  }
+}
+
 na_splice <- function(new_data, synthetic_data, object) {
   non_predictor <- setdiff(names(new_data), c(object$column, object$predictors))
 

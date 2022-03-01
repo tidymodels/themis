@@ -20,7 +20,7 @@
     Code
       rec %>% step_downsample(class, id) %>% prep()
     Condition
-      Error in `prep()`:
+      Error in `step_downsample()`:
       ! The selector should select at most a single variable
 
 # empty printing

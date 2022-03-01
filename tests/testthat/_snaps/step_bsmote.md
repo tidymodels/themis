@@ -11,7 +11,7 @@
     Code
       rec %>% step_bsmote(class, id) %>% prep()
     Condition
-      Error in `prep()`:
+      Error in `step_bsmote()`:
       ! The selector should select at most a single variable
 
 # errors if character are present
