@@ -135,7 +135,7 @@ prep.step_adasyn <- function(x, training, info = NULL, ...) {
   check_at_most_one(col_name, expr(step_adasyn()))
 
   if (length(col_name) == 1) {
-    check_column_factor(training, col_name)
+    check_column_factor(training, col_name, call = expr(step_adasyn()))
   }
 
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)

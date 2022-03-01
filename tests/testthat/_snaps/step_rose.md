@@ -3,7 +3,7 @@
     Code
       rec %>% step_rose(x) %>% prep()
     Condition
-      Error in `check_column_factor()`:
+      Error in `step_rose()`:
       ! `x` should be a factor variable.
 
 ---

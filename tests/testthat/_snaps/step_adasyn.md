@@ -11,7 +11,7 @@
     Code
       rec %>% step_adasyn(x) %>% prep()
     Condition
-      Error in `check_column_factor()`:
+      Error in `step_adasyn()`:
       ! `x` should be a factor variable.
 
 ---

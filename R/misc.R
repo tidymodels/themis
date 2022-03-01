@@ -38,9 +38,12 @@ check_numeric <- function(dat, call = caller_env()) {
   }
 }
 
-check_column_factor <- function(data, column) {
+check_column_factor <- function(data, column, call) {
   if (!is.factor(data[[column]])) {
-    rlang::abort(glue("`{column}` should be a factor variable."))
+    rlang::abort(
+      glue("`{column}` should be a factor variable."),
+      call = call
+    )
   }
 }
 

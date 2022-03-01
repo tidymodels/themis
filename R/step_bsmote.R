@@ -167,7 +167,7 @@ prep.step_bsmote <- function(x, training, info = NULL, ...) {
   check_at_most_one(col_name, expr(step_bsmote()))
 
   if (length(col_name) == 1) {
-    check_column_factor(training, col_name)
+    check_column_factor(training, col_name, call = expr(step_bsmote()))
   }
 
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)

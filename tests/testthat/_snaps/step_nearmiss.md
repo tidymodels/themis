@@ -3,7 +3,7 @@
     Code
       rec %>% step_nearmiss(x) %>% prep()
     Condition
-      Error in `check_column_factor()`:
+      Error in `step_nearmiss()`:
       ! `x` should be a factor variable.
 
 ---

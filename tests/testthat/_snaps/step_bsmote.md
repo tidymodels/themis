@@ -3,7 +3,7 @@
     Code
       rec %>% step_bsmote(x) %>% prep()
     Condition
-      Error in `check_column_factor()`:
+      Error in `step_bsmote()`:
       ! `x` should be a factor variable.
 
 ---

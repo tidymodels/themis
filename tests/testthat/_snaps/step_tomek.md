@@ -1,9 +1,9 @@
 # bad data
 
     Code
-      rec %>% step_smote(x) %>% prep()
+      rec %>% step_tomek(x) %>% prep()
     Condition
-      Error in `check_column_factor()`:
+      Error in `step_tomek()`:
       ! `x` should be a factor variable.
 
 ---

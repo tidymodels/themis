@@ -156,7 +156,7 @@ prep.step_downsample <- function(x, training, info = NULL, ...) {
   if (length(col_name) == 0) {
     minority <- 1
   } else {
-    check_column_factor(training, col_name)
+    check_column_factor(training, col_name, call = expr(step_downsample()))
     obs_freq <- table(training[[col_name]])
     minority <- min(obs_freq)
   }

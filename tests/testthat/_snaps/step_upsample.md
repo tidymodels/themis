@@ -12,7 +12,7 @@
     Code
       rec %>% step_upsample(x) %>% prep()
     Condition
-      Error in `check_column_factor()`:
+      Error in `step_upsample()`:
       ! `x` should be a factor variable.
 
 ---

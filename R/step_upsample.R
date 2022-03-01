@@ -152,7 +152,7 @@ prep.step_upsample <- function(x, training, info = NULL, ...) {
   if (length(col_name) == 0) {
     majority <- 0
   } else {
-    check_column_factor(training, col_name)
+    check_column_factor(training, col_name, call = expr(step_upsample()))
     obs_freq <- table(training[[col_name]])
     majority <- max(obs_freq)
   }

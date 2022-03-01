@@ -11,7 +11,7 @@
     Code
       rec %>% step_smote(x) %>% prep()
     Condition
-      Error in `check_column_factor()`:
+      Error in `step_smote()`:
       ! `x` should be a factor variable.
 
 ---

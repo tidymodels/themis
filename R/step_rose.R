@@ -147,7 +147,7 @@ prep.step_rose <- function(x, training, info = NULL, ...) {
   check_at_most_one(col_name, expr(step_rose()))
 
   if (length(col_name) == 1) {
-    check_column_factor(training, col_name)
+    check_column_factor(training, col_name, call = expr(step_rose()))
     check_2_levels_only(training, col_name, call = expr(step_rose()))
   }
 

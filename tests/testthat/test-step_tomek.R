@@ -29,7 +29,7 @@ test_that("bad data", {
   # numeric check
   expect_snapshot(error = TRUE,
     rec %>%
-      step_smote(x) %>%
+      step_tomek(x) %>%
       prep()
   )
   # Multiple variable check
