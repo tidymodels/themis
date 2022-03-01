@@ -55,3 +55,11 @@
       Error in `bsmote()`:
       ! `k` must be length 1.
 
+---
+
+    Code
+      bsmote(circle_example %>% mutate(id = as.factor(id)), var = "class")
+    Condition
+      Error in `bsmote()`:
+      ! All columns for this function should be numeric.
+

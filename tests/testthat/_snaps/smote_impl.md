@@ -55,3 +55,11 @@
       Error in `smote()`:
       ! `k` must be length 1.
 
+---
+
+    Code
+      smote(circle_example %>% mutate(id = as.factor(id)), var = "class")
+    Condition
+      Error in `smote()`:
+      ! All columns for this function should be numeric.
+

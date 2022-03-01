@@ -33,4 +33,8 @@ test_that("bsmote() interfaces correctly", {
   expect_snapshot(error = TRUE,
     bsmote(circle_example_num, var = "class", k = c(5, 10))
   )
+
+  expect_snapshot(error = TRUE,
+    bsmote(circle_example %>% mutate(id = as.factor(id)), var = "class")
+  )
 })

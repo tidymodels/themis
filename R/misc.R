@@ -26,14 +26,16 @@ check_2_levels_only <- function(data, col_name, call) {
   }
 }
 
-check_numeric <- function(dat) {
+check_numeric <- function(dat, call = caller_env()) {
   all_good <- vapply(dat, is.numeric, logical(1))
   label <- "numeric"
 
   if (!all(all_good)) {
-    rlang::abort("All columns for this function should be numeric.")
+    rlang::abort(
+      "All columns for this function should be numeric.",
+      call = call
+    )
   }
-  invisible(all_good)
 }
 
 check_column_factor <- function(data, column) {

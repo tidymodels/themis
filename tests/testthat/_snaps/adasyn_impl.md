@@ -55,3 +55,11 @@
       Error in `adasyn()`:
       ! `k` must be length 1.
 
+---
+
+    Code
+      adasyn(circle_example %>% mutate(id = as.factor(id)), var = "class")
+    Condition
+      Error in `adasyn()`:
+      ! All columns for this function should be numeric.
+

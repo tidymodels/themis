@@ -55,4 +55,8 @@ test_that("smote() interfaces correctly", {
   expect_snapshot(error = TRUE,
     smote(circle_example_num, var = "class", k = c(5, 10))
   )
+
+  expect_snapshot(error = TRUE,
+    smote(circle_example %>% mutate(id = as.factor(id)), var = "class")
+  )
 })
