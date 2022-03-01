@@ -163,11 +163,13 @@ step_bsmote_new <-
 #' @export
 prep.step_bsmote <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
-  if (length(col_name) > 1)
+  if (length(col_name) > 1) {
     rlang::abort("The selector should select at most a single variable")
+  }
 
-  if (length(col_name) == 1)
+  if (length(col_name) == 1) {
     check_column_factor(training, col_name)
+  }
 
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
 
@@ -231,8 +233,7 @@ print.step_bsmote <-
 tidy.step_bsmote <- function(x, ...) {
   if (is_trained(x)) {
     res <- tibble(terms = unname(x$column))
-  }
-  else {
+  } else {
     term_names <- sel2char(x$terms)
     res <- tibble(terms = unname(term_names))
   }

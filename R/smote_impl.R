@@ -36,7 +36,6 @@
 #'
 #' smote(circle_numeric, var = "class", over_ratio = 0.8)
 smote <- function(df, var, k = 5, over_ratio = 1) {
-
   if (length(var) != 1) {
     rlang::abort("Please select a single factor variable for `var`.")
   }
@@ -44,7 +43,7 @@ smote <- function(df, var, k = 5, over_ratio = 1) {
   var <- rlang::arg_match(var, colnames(df))
 
   if (!(is.factor(df[[var]]) | is.character(df[[var]]))) {
-    rlang::abort(paste0(var, " should be a factor or character variable."))
+    rlang::abort(glue("`{var}` should be a factor or character variable."))
   }
 
   if (length(k) != 1) {
@@ -78,10 +77,11 @@ smote_impl <- function(df, var, k, over_ratio) {
     minority <- as.matrix(minority_df[names(minority_df) != var])
 
     if (nrow(minority) <= k) {
-      rlang::abort(paste0(
-        "Not enough observations of '", min_names[i],
-        "' to perform SMOTE."
-      ))
+      rlang::abort(
+        glue(
+          "Not enough observations of '{min_names[i]}' to perform SMOTE."
+        )
+      )
     }
 
     synthetic <- smote_data(minority, k = k, n_samples = samples_needed[i])

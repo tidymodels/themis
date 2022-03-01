@@ -25,11 +25,10 @@ test_that("errors if there isn't enough data", {
   credit_data0$Status[1] <- "dummy"
   credit_data0$Status <- as.factor(credit_data0$Status)
 
-  expect_error(
+  expect_snapshot(error = TRUE,
     recipe(Status ~ Age, data = credit_data0) %>%
       step_adasyn(Status) %>%
-      prep(),
-    "Not enough observations"
+      prep()
   )
 })
 
@@ -55,21 +54,18 @@ test_that("printing", {
 })
 
 test_that("bad data", {
-
   rec <- recipe(~., data = circle_example)
   # numeric check
-  expect_error(
+  expect_snapshot(error = TRUE,
     rec %>%
       step_adasyn(x) %>%
-      prep(),
-    regexp = "should be a factor variable."
+      prep()
   )
   # Multiple variable check
-  expect_error(
+  expect_snapshot(error = TRUE,
     rec %>%
       step_adasyn(class, id) %>%
-      prep(),
-    regexp = "The selector should select at most a single variable"
+      prep()
   )
 })
 
@@ -80,22 +76,20 @@ test_that("errors if character are present", {
     stringsAsFactors = FALSE
   )
 
-  expect_error(
+  expect_snapshot(error = TRUE,
     recipe(~., data = df_char) %>%
       step_adasyn(x) %>%
-      prep(),
-    "should be numeric"
+      prep()
   )
 })
 
 test_that("NA in response", {
   data(credit_data)
 
-  expect_error(
+  expect_snapshot(error = TRUE,
     recipe(Job ~ Age, data = credit_data) %>%
       step_adasyn(Job) %>%
-      prep(),
-    regexp = "NAs found ind: Job."
+      prep()
   )
 })
 
@@ -167,7 +161,8 @@ test_that("allows multi-class", {
 test_that("majority classes are ignored if there is more than 1", {
   data("penguins")
   rec1_p2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
-                    data = penguins[-(1:28), ]) %>%
+    data = penguins[-(1:28), ]
+  ) %>%
     step_impute_mean(all_predictors()) %>%
     step_adasyn(species) %>%
     prep() %>%
@@ -189,8 +184,10 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   # Checking for forgetting levels by alphabetical switching
   for (i in c(3, 4)) {
     circle_example_alt_levels[[i]]$class <-
-      factor(x = circle_example_alt_levels[[i]]$class,
-             levels = rev(levels(circle_example_alt_levels[[i]]$class)))
+      factor(
+        x = circle_example_alt_levels[[i]]$class,
+        levels = rev(levels(circle_example_alt_levels[[i]]$class))
+      )
   }
 
   for (i in 1:4) {

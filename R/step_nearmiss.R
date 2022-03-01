@@ -140,11 +140,13 @@ step_nearmiss_new <-
 prep.step_nearmiss <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
 
-  if (length(col_name) > 1)
+  if (length(col_name) > 1) {
     rlang::abort("The selector should select at most a single variable")
+  }
 
-  if (length(col_name) == 1)
+  if (length(col_name) == 1) {
     check_column_factor(training, col_name)
+  }
 
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
 
@@ -186,8 +188,10 @@ bake.step_nearmiss <- function(object, new_data, ...) {
         k = object$neighbors,
         under_ratio = object$under_ratio
       )
-      new_data[[object$column]] <- factor(new_data[[object$column]],
-                                          levels = original_levels)
+      new_data[[object$column]] <- factor(
+        new_data[[object$column]],
+        levels = original_levels
+      )
     }
   )
 
@@ -208,8 +212,7 @@ print.step_nearmiss <-
 tidy.step_nearmiss <- function(x, ...) {
   if (is_trained(x)) {
     res <- tibble(terms = unname(x$column))
-  }
-  else {
+  } else {
     term_names <- sel2char(x$terms)
     res <- tibble(terms = unname(term_names))
   }

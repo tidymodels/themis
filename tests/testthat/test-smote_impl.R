@@ -21,25 +21,38 @@ test_that("order doesn't matter", {
 
 
 test_that("smote() interfaces correctly", {
-
   circle_example_num <- circle_example[, 1:3]
 
   expect_error(smote(circle_example_num, var = "class"), NA)
 
-  expect_error(smote(circle_example_num, var = "Class"))
+  expect_snapshot(error = TRUE,
+    smote(circle_example_num, var = "Class")
+  )
 
-  expect_error(smote(circle_example_num, var = c("class", "x")))
+  expect_snapshot(error = TRUE,
+    smote(circle_example_num, var = c("class", "x"))
+  )
 
-  expect_error(smote(circle_example_num, var = "x"))
+  expect_snapshot(error = TRUE,
+    smote(circle_example_num, var = "x")
+  )
 
   circle_example0 <- circle_example_num
   circle_example0[1, 1] <- NA
 
-  expect_error(smote(circle_example0, var = "class"), "missing values")
+  expect_snapshot(error = TRUE,
+    smote(circle_example0, var = "class")
+  )
 
-  expect_error(smote(circle_example_num, var = "class", k = 0))
+  expect_snapshot(error = TRUE,
+    smote(circle_example_num, var = "class", k = 0)
+  )
 
-  expect_error(smote(circle_example_num, var = "class", k = -1))
+  expect_snapshot(error = TRUE,
+    smote(circle_example_num, var = "class", k = -1)
+  )
 
-  expect_error(smote(circle_example_num, var = "class", k = c(5, 10)))
-  })
+  expect_snapshot(error = TRUE,
+    smote(circle_example_num, var = "class", k = c(5, 10))
+  )
+})

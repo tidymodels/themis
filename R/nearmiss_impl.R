@@ -10,11 +10,11 @@ nearmiss_impl <- function(df, var, ignore_vars, k = 5, under_ratio = 1) {
     not_class <- subset_to_matrix(df_only, var, names(classes)[i], FALSE)
 
     if (nrow(not_class) <= k) {
-      rlang::abort(paste0(
-        "Not enough danger observations of '",
-        names(classes)[i],
-        "' to perform NEARMISS."
-      ))
+      rlang::abort(
+        glue(
+        "Not enough danger observations of '{names(classes)[i]}' to perform NEARMISS."
+        )
+      )
     }
 
     dists <- RANN::nn2(

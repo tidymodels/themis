@@ -8,7 +8,8 @@ set.seed(1234)
 test_that("all minority classes are upsampled", {
   data("penguins")
   rec1_p2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
-                    data = penguins) %>%
+    data = penguins
+  ) %>%
     step_impute_mean(all_predictors()) %>%
     step_bsmote(species) %>%
     prep() %>%
@@ -68,21 +69,18 @@ test_that("printing", {
 })
 
 test_that("bad data", {
-
   rec <- recipe(~., data = circle_example)
   # numeric check
-  expect_error(
+  expect_snapshot(error = TRUE,
     rec %>%
       step_bsmote(x) %>%
-      prep(),
-    regexp = "should be a factor variable."
+      prep()
   )
   # Multiple variable check
-  expect_error(
+  expect_snapshot(error = TRUE,
     rec %>%
       step_bsmote(class, id) %>%
-      prep(),
-    regexp = "The selector should select at most a single variable"
+      prep()
   )
 })
 
@@ -93,22 +91,20 @@ test_that("errors if character are present", {
     stringsAsFactors = FALSE
   )
 
-  expect_error(
+  expect_snapshot(error = TRUE,
     recipe(~., data = df_char) %>%
       step_bsmote(x) %>%
-      prep(),
-    "should be numeric"
+      prep()
   )
 })
 
 test_that("NA in response", {
   data(credit_data)
 
-  expect_error(
+  expect_snapshot(error = TRUE,
     recipe(Job ~ Age, data = credit_data) %>%
       step_bsmote(Job) %>%
-      prep(),
-    regexp = "NAs found ind: Job."
+      prep()
   )
 })
 
@@ -198,7 +194,8 @@ test_that("allows multi-class", {
 test_that("majority classes are ignored if there is more than 1", {
   data("penguins")
   rec1_p2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
-                    data = penguins[-(1:28), ]) %>%
+    data = penguins[-(1:28), ]
+  ) %>%
     step_impute_mean(all_predictors()) %>%
     step_bsmote(species, all_neighbors = FALSE) %>%
     prep() %>%
@@ -213,7 +210,8 @@ test_that("majority classes are ignored if there is more than 1", {
 test_that("majority classes are ignored if there is more than 1", {
   data("penguins")
   rec1_p2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
-                    data = penguins[-(1:28), ]) %>%
+    data = penguins[-(1:28), ]
+  ) %>%
     step_impute_mean(all_predictors()) %>%
     step_bsmote(species, all_neighbors = TRUE) %>%
     prep() %>%
@@ -235,8 +233,10 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   # Checking for forgetting levels by alphabetical switching
   for (i in c(3, 4)) {
     circle_example_alt_levels[[i]]$class <-
-      factor(x = circle_example_alt_levels[[i]]$class,
-             levels = rev(levels(circle_example_alt_levels[[i]]$class)))
+      factor(
+        x = circle_example_alt_levels[[i]]$class,
+        levels = rev(levels(circle_example_alt_levels[[i]]$class))
+      )
   }
 
   for (i in 1:4) {
@@ -279,7 +279,7 @@ test_that("ordering of newly generated points are right", {
   )
 })
 
- test_that("non-predictor variables are ignored", {
+test_that("non-predictor variables are ignored", {
   res <- recipe(class ~ ., data = circle_example) %>%
     update_role(id, new_role = "id") %>%
     step_bsmote(class, all_neighbors = FALSE) %>%

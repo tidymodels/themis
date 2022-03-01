@@ -6,19 +6,18 @@ library(modeldata)
 set.seed(1234)
 
 test_that("ratio deprecation", {
-  expect_message(
+  expect_snapshot(error = TRUE,
     new_rec <- recipe(~., data = circle_example) %>%
-      step_downsample(class, ratio = 2),
-    "argument is now deprecated"
+      step_upsample(class, ratio = 2)
   )
-  expect_equal(new_rec$steps[[1]]$under_ratio, 2)
 })
 
 test_that("tunable", {
-  rec <- recipe(~., data = mtcars) %>%
-    step_downsample(all_predictors(), under_ratio = 1)
-  rec_param <- tunable.step_downsample(rec$steps[[1]])
-  expect_equal(rec_param$name, c("under_ratio"))
+  rec <-
+    recipe(~., data = mtcars) %>%
+    step_upsample(all_predictors())
+  rec_param <- tunable.step_upsample(rec$steps[[1]])
+  expect_equal(rec_param$name, c("over_ratio"))
   expect_true(all(rec_param$source == "recipe"))
   expect_true(is.list(rec_param$call_info))
   expect_equal(nrow(rec_param), 1)
@@ -30,7 +29,7 @@ test_that("tunable", {
 
 test_that("basic usage", {
   rec1 <- recipe(~., data = circle_example) %>%
-    step_downsample(class)
+    step_upsample(class)
 
   rec1_p <- prep(rec1)
 
@@ -44,34 +43,31 @@ test_that("basic usage", {
 
 test_that("printing", {
   rec <- recipe(~., data = circle_example) %>%
-    step_downsample(class)
+    step_upsample(class)
   expect_output(print(rec))
   expect_output(prep(rec, verbose = TRUE))
 })
 
 test_that("bad data", {
-
   rec <- recipe(~., data = circle_example)
   # numeric check
-  expect_error(
+  expect_snapshot(error = TRUE,
     rec %>%
-      step_downsample(x) %>%
-      prep(),
-    regexp = "should be a factor variable."
+      step_upsample(x) %>%
+      prep()
   )
   # Multiple variable check
-  expect_error(
+  expect_snapshot(error = TRUE,
     rec %>%
-      step_downsample(class, id) %>%
-      prep(),
-    regexp = "The selector should select at most a single variable"
+      step_upsample(class, id) %>%
+      prep()
   )
 })
 
 test_that("`seed` produces identical sampling", {
   step_with_seed <- function(seed = sample.int(10^5, 1)) {
     recipe(~., data = circle_example) %>%
-      step_downsample(class, seed = seed) %>%
+      step_upsample(class, seed = seed) %>%
       prep() %>%
       bake(new_data = NULL) %>%
       pull(x)
@@ -87,7 +83,7 @@ test_that("`seed` produces identical sampling", {
 
 test_that("test tidy()", {
   rec <- recipe(~., data = circle_example) %>%
-    step_downsample(class, id = "")
+    step_upsample(class, id = "")
 
   rec_p <- prep(rec)
 
@@ -105,21 +101,21 @@ test_that("test tidy()", {
   expect_equal(trained, tidy(rec_p, number = 1))
 })
 
-test_that("ratio value works when undersampling", {
+test_that("ratio value works when oversampling", {
   res1 <- recipe(~., data = circle_example) %>%
-    step_downsample(class) %>%
+    step_upsample(class) %>%
     prep() %>%
     bake(new_data = NULL)
 
   res1.5 <- recipe(~., data = circle_example) %>%
-    step_downsample(class, under_ratio = 1.5) %>%
+    step_upsample(class, over_ratio = 0.5) %>%
     prep() %>%
     bake(new_data = NULL)
 
-  expect_true(all(table(res1$class) == min(table(circle_example$class))))
+  expect_true(all(table(res1$class) == max(table(circle_example$class))))
   expect_equal(
     sort(as.numeric(table(res1.5$class))),
-    min(table(circle_example$class)) * c(1, 1.5)
+    max(table(circle_example$class)) * c(0.5, 1)
   )
 })
 
@@ -128,21 +124,22 @@ test_that("allows multi-class", {
   expect_error(
     recipe(Home ~ Age + Income + Assets, data = credit_data) %>%
       step_impute_mean(Income, Assets) %>%
-      step_downsample(Home),
+      step_upsample(Home),
     NA
   )
 })
 
-test_that("minority classes are ignored if there is more than 1", {
+test_that("majority classes are ignored if there is more than 1", {
   data("penguins")
   rec1_p2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
-                    data = penguins[-(1:84), ]) %>%
+    data = penguins[-(1:28), ]
+  ) %>%
     step_impute_mean(all_predictors()) %>%
-    step_downsample(species) %>%
+    step_upsample(species) %>%
     prep() %>%
     bake(new_data = NULL)
 
-  expect_true(all(max(table(rec1_p2$species)) == 68))
+  expect_true(all(max(table(rec1_p2$species)) == 124))
 })
 
 test_that("factor levels are not affected by alphabet ordering or class sizes", {
@@ -158,13 +155,15 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   # Checking for forgetting levels by alphabetical switching
   for (i in c(3, 4)) {
     circle_example_alt_levels[[i]]$class <-
-      factor(x = circle_example_alt_levels[[i]]$class,
-             levels = rev(levels(circle_example_alt_levels[[i]]$class)))
+      factor(
+        x = circle_example_alt_levels[[i]]$class,
+        levels = rev(levels(circle_example_alt_levels[[i]]$class))
+      )
   }
 
   for (i in 1:4) {
     rec_p <- recipe(~., data = circle_example_alt_levels[[i]]) %>%
-      step_downsample(class) %>%
+      step_upsample(class) %>%
       prep()
 
     expect_equal(
@@ -178,12 +177,11 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   }
 })
 
-
 test_that("id variables don't turn predictors to factors", {
   # https://github.com/tidymodels/themis/issues/56
   rec_id <- recipe(class ~ ., data = circle_example) %>%
     update_role(id, new_role = "id") %>%
-    step_downsample(class) %>%
+    step_upsample(class) %>%
     prep() %>%
     bake(new_data = NULL)
 
@@ -194,7 +192,7 @@ test_that("id variables don't turn predictors to factors", {
 
 test_that("empty selection prep/bake is a no-op", {
   rec1 <- recipe(mpg ~ ., mtcars)
-  rec2 <- step_downsample(rec1)
+  rec2 <- step_upsample(rec1)
 
   rec1 <- prep(rec1, mtcars)
   rec2 <- prep(rec2, mtcars)
@@ -207,7 +205,7 @@ test_that("empty selection prep/bake is a no-op", {
 
 test_that("empty selection tidy method works", {
   rec <- recipe(mpg ~ ., mtcars)
-  rec <- step_downsample(rec)
+  rec <- step_upsample(rec)
 
   expect_identical(
     tidy(rec, number = 1),
@@ -224,7 +222,7 @@ test_that("empty selection tidy method works", {
 
 test_that("empty printing", {
   rec <- recipe(mpg ~ ., mtcars)
-  rec <- step_downsample(rec)
+  rec <- step_upsample(rec)
 
   expect_snapshot(rec)
 
