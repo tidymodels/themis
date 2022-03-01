@@ -56,6 +56,26 @@ check_at_most_one <- function(col_name, call) {
   }
 }
 
+check_type <- function(dat, quant = TRUE, call) {
+  if (quant) {
+    all_good <- vapply(dat, is.numeric, logical(1))
+    label <- "numeric"
+  } else {
+    all_good <- vapply(dat, is_qual, logical(1))
+    label <- "factor or character"
+  }
+  if (!all(all_good))
+    rlang::abort(
+      glue("All columns selected for the step should be {label}."),
+      call = call
+    )
+  invisible(all_good)
+}
+
+is_qual <- function(x) {
+  is.factor(x) | is.character(x)
+}
+
 na_splice <- function(new_data, synthetic_data, object) {
   non_predictor <- setdiff(names(new_data), c(object$column, object$predictors))
 

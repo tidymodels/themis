@@ -19,8 +19,8 @@
     Code
       recipe(~., data = df_char) %>% step_bsmote(x) %>% prep()
     Condition
-      Error in `check_type()`:
-      ! All columns selected for the step should be numeric
+      Error in `step_bsmote()`:
+      ! All columns selected for the step should be numeric.
 
 # NA in response
 

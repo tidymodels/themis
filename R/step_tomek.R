@@ -131,7 +131,7 @@ prep.step_tomek <- function(x, training, info = NULL, ...) {
   }
 
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
-  check_type(training[, predictors], TRUE)
+  check_type(training[, predictors], TRUE, call = expr(step_tomek()))
   check_na(
     select(training, all_of(c(col_name, predictors))),
     call = expr(step_tomek())
