@@ -13,7 +13,7 @@
       
       Operations:
       
-      SMOTE based on <none>
+      SMOTENC based on <none>
 
 ---
 
@@ -32,5 +32,5 @@
       
       Operations:
       
-      SMOTE based on <none> [trained]
+      SMOTENC based on <none> [trained]
 
