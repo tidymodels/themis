@@ -35,13 +35,16 @@ test_that("errors if there isn't enough data", {
 })
 
 test_that("basic usage", {
-  rec1 <- recipe(class ~ x + y, data = circle_example) %>%
-    step_smotenc(class)
+  data(ames)
+
+  rec1 <- recipe(Alley ~ MS_SubClass + MS_Zoning + Lot_Frontage + Lot_Area + Street,
+                 data = ames) %>%
+    step_smotenc(Alley)
 
   rec1_p <- prep(rec1)
 
-  te_xtab <- table(bake(rec1_p, new_data = circle_example)$class, useNA = "no")
-  og_xtab <- table(circle_example$class, useNA = "no")
+  te_xtab <- table(bake(rec1_p, new_data = ames)$Alley, useNA = "no")
+  og_xtab <- table(ames$Alley, useNA = "no")
 
   expect_equal(sort(te_xtab), sort(og_xtab))
 
@@ -138,20 +141,22 @@ test_that("test tidy()", {
 })
 
 test_that("ratio value works when oversampling", {
-  res1 <- recipe(class ~ x + y, data = circle_example) %>%
-    step_smotenc(class) %>%
+  res1 <- recipe(Alley ~ MS_SubClass + MS_Zoning + Lot_Frontage + Lot_Area + Street,
+                 data = ames) %>%
+    step_smotenc(Alley) %>%
     prep() %>%
     bake(new_data = NULL)
 
-  res1.5 <- recipe(class ~ x + y, data = circle_example) %>%
-    step_smotenc(class, over_ratio = 0.5) %>%
+  res1.5 <- recipe(Alley ~ MS_SubClass + MS_Zoning + Lot_Frontage + Lot_Area + Street,
+                   data = ames) %>%
+    step_smotenc(Alley, over_ratio = 0.5) %>%
     prep() %>%
     bake(new_data = NULL)
 
-  expect_true(all(table(res1$class) == max(table(circle_example$class))))
+  expect_true(all(table(res1$Alley) == max(table(ames$Alley))))
   expect_equal(
-    sort(as.numeric(table(res1.5$class))),
-    max(table(circle_example$class)) * c(0.5, 1)
+    sort(as.numeric(table(res1.5$Alley))),
+    max(table(ames$Alley)) * c(0.5, 0.5, 1)
   )
 })
 
