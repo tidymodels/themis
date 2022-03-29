@@ -56,3 +56,16 @@ test_that("smote() interfaces correctly", {
     smote(circle_example_num, var = "class", k = c(5, 10))
   )
 })
+
+test_that("ordering of columns shouldn't matter", {
+  data("credit_data", package = "modeldata")
+
+  credit_data0 <- credit_data %>%
+    filter(!is.na(Job)) %>%
+    select(Job, Time, Age, Expenses)
+
+  expect_error(
+    smote(credit_data0, "Job", over_ratio = 1),
+    NA
+  )
+})

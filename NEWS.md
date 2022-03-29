@@ -5,6 +5,7 @@
 * Update examples to no longer use `iris` or `okc` data sets.
 * All recipe steps now officially support empty selections to be more aligned with dplyr and other packages that use tidyselect (#55)
 * `step_smotenc()` have been added to implement SMOTENC which can handle categorical as well as numerical values. Thanks to @RobertGregg (#82)
+* Fix bug where wrong ordering of columns caused error in `smote()`. (#76)
 
 # themis 0.1.4
 
