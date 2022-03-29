@@ -34,11 +34,11 @@ All columns used in this function must be numeric with no missing data.
 \examples{
 circle_numeric <- circle_example[, c("x", "y", "class")]
 
-adasyn(circle_numeric, var = "class")
+res <- adasyn(circle_numeric, var = "class")
 
-adasyn(circle_numeric, var = "class", k = 10)
+res <- adasyn(circle_numeric, var = "class", k = 10)
 
-adasyn(circle_numeric, var = "class", over_ratio = 0.8)
+res <- adasyn(circle_numeric, var = "class", over_ratio = 0.8)
 }
 \references{
 Chawla, N. V., Bowyer, K. W., Hall, L. O., and Kegelmeyer,

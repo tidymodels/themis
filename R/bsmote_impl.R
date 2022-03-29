@@ -45,13 +45,13 @@
 #' @examples
 #' circle_numeric <- circle_example[, c("x", "y", "class")]
 #'
-#' bsmote(circle_numeric, var = "class")
+#' res <- bsmote(circle_numeric, var = "class")
 #'
-#' bsmote(circle_numeric, var = "class", k = 10)
+#' res <- bsmote(circle_numeric, var = "class", k = 10)
 #'
-#' bsmote(circle_numeric, var = "class", over_ratio = 0.8)
+#' res <- bsmote(circle_numeric, var = "class", over_ratio = 0.8)
 #'
-#' bsmote(circle_numeric, var = "class", all_neighbors = TRUE)
+#' res <- bsmote(circle_numeric, var = "class", all_neighbors = TRUE)
 bsmote <- function(df, var, k = 5, over_ratio = 1, all_neighbors = FALSE) {
   if (length(var) != 1) {
     rlang::abort("Please select a single factor variable for `var`.")

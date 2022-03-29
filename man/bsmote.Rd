@@ -56,13 +56,13 @@ All columns used in this step must be numeric with no missing data.
 \examples{
 circle_numeric <- circle_example[, c("x", "y", "class")]
 
-bsmote(circle_numeric, var = "class")
+res <- bsmote(circle_numeric, var = "class")
 
-bsmote(circle_numeric, var = "class", k = 10)
+res <- bsmote(circle_numeric, var = "class", k = 10)
 
-bsmote(circle_numeric, var = "class", over_ratio = 0.8)
+res <- bsmote(circle_numeric, var = "class", over_ratio = 0.8)
 
-bsmote(circle_numeric, var = "class", all_neighbors = TRUE)
+res <- bsmote(circle_numeric, var = "class", all_neighbors = TRUE)
 }
 \references{
 Hui Han, Wen-Yuan Wang, and Bing-Huan Mao. Borderline-smote:

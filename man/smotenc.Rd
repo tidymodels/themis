@@ -41,11 +41,11 @@ All columns used in this function must be numeric with no missing data.
 \examples{
 circle_numeric <- circle_example[, c("x", "y", "class")]
 
-smotenc(circle_numeric, var = "class")
+res <- smotenc(circle_numeric, var = "class")
 
-smotenc(circle_numeric, var = "class", k = 10)
+res <- smotenc(circle_numeric, var = "class", k = 10)
 
-smotenc(circle_numeric, var = "class", over_ratio = 0.8)
+res <- smotenc(circle_numeric, var = "class", over_ratio = 0.8)
 }
 \references{
 Chawla, N. V., Bowyer, K. W., Hall, L. O., and Kegelmeyer,

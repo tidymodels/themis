@@ -41,11 +41,11 @@ All columns used in this function must be numeric with no missing data.
 \examples{
 circle_numeric <- circle_example[, c("x", "y", "class")]
 
-smote(circle_numeric, var = "class")
+res <- smote(circle_numeric, var = "class")
 
-smote(circle_numeric, var = "class", k = 10)
+res <- smote(circle_numeric, var = "class", k = 10)
 
-smote(circle_numeric, var = "class", over_ratio = 0.8)
+res <- smote(circle_numeric, var = "class", over_ratio = 0.8)
 }
 \references{
 Chawla, N. V., Bowyer, K. W., Hall, L. O., and Kegelmeyer,

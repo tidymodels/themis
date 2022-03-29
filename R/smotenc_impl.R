@@ -30,11 +30,11 @@
 #' @examples
 #' circle_numeric <- circle_example[, c("x", "y", "class")]
 #'
-#' smotenc(circle_numeric, var = "class")
+#' res <- smotenc(circle_numeric, var = "class")
 #'
-#' smotenc(circle_numeric, var = "class", k = 10)
+#' res <- smotenc(circle_numeric, var = "class", k = 10)
 #'
-#' smotenc(circle_numeric, var = "class", over_ratio = 0.8)
+#' res <- smotenc(circle_numeric, var = "class", over_ratio = 0.8)
 smotenc <- function(df, var, k = 5, over_ratio = 1) {
 
   # Tests include:
