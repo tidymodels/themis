@@ -43,6 +43,8 @@
 #' @references Tomek. Two modifications of cnn. IEEE Trans. Syst. Man Cybern.,
 #'  6:769-772, 1976.
 #'
+#' @family Steps for under-sampling
+#'
 #' @export
 #' @examples
 #' library(recipes)

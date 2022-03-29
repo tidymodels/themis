@@ -155,3 +155,12 @@ Menardi, G. and Torelli, N. (2014). Training and assessing
 classification rules with imbalanced data. Data Mining and Knowledge
 Discovery, 28:92–122.
 }
+\seealso{
+Other Steps for over-sampling: 
+\code{\link{step_adasyn}()},
+\code{\link{step_bsmote}()},
+\code{\link{step_smotenc}()},
+\code{\link{step_smote}()},
+\code{\link{step_upsample}()}
+}
+\concept{Steps for over-sampling}

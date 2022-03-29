@@ -129,3 +129,12 @@ Chawla, N. V., Bowyer, K. W., Hall, L. O., and Kegelmeyer,
 W. P. (2002). Smote: Synthetic minority over-sampling technique.
 Journal of Artificial Intelligence Research, 16:321-357.
 }
+\seealso{
+Other Steps for over-sampling: 
+\code{\link{step_adasyn}()},
+\code{\link{step_bsmote}()},
+\code{\link{step_rose}()},
+\code{\link{step_smote}()},
+\code{\link{step_upsample}()}
+}
+\concept{Steps for over-sampling}

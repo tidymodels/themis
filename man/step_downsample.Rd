@@ -145,3 +145,9 @@ recipe(class ~ x + y, data = circle_example) \%>\%
   geom_point() +
   labs(title = "With downsample")
 }
+\seealso{
+Other Steps for under-sampling: 
+\code{\link{step_nearmiss}()},
+\code{\link{step_tomek}()}
+}
+\concept{Steps for under-sampling}

@@ -42,6 +42,8 @@
 #' International Conference on Intelligent Computing, pages 878–887. Springer,
 #' 2005.
 #'
+#' @family Direct Implementations
+#'
 #' @examples
 #' circle_numeric <- circle_example[, c("x", "y", "class")]
 #'

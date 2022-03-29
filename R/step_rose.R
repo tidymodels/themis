@@ -59,6 +59,8 @@
 #'  classification rules with imbalanced data. Data Mining and Knowledge
 #'  Discovery, 28:92–122.
 #'
+#' @family Steps for over-sampling
+#'
 #' @export
 #' @examples
 #' library(recipes)

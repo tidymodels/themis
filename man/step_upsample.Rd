@@ -140,3 +140,12 @@ recipe(class ~ x + y, data = circle_example) \%>\%
   geom_jitter(width = 0.1, height = 0.1) +
   labs(title = "With upsample (with jittering)")
 }
+\seealso{
+Other Steps for over-sampling: 
+\code{\link{step_adasyn}()},
+\code{\link{step_bsmote}()},
+\code{\link{step_rose}()},
+\code{\link{step_smotenc}()},
+\code{\link{step_smote}()}
+}
+\concept{Steps for over-sampling}

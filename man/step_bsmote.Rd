@@ -168,3 +168,12 @@ a new over-sampling method in imbalanced data sets learning. In
 International Conference on Intelligent Computing, pages 878–887. Springer,
 2005.
 }
+\seealso{
+Other Steps for over-sampling: 
+\code{\link{step_adasyn}()},
+\code{\link{step_rose}()},
+\code{\link{step_smotenc}()},
+\code{\link{step_smote}()},
+\code{\link{step_upsample}()}
+}
+\concept{Steps for over-sampling}

@@ -65,6 +65,8 @@
 #' International Conference on Intelligent Computing, pages 878–887. Springer,
 #' 2005.
 #'
+#' @family Steps for over-sampling
+#'
 #' @export
 #' @examples
 #' library(recipes)

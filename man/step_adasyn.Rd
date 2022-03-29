@@ -137,3 +137,12 @@ synthetic sampling approach for imbalanced learning. Proceedings of
 IJCNN 2008. (IEEE World Congress on Computational Intelligence). IEEE
 International Joint Conference. pp.1322-1328.
 }
+\seealso{
+Other Steps for over-sampling: 
+\code{\link{step_bsmote}()},
+\code{\link{step_rose}()},
+\code{\link{step_smotenc}()},
+\code{\link{step_smote}()},
+\code{\link{step_upsample}()}
+}
+\concept{Steps for over-sampling}

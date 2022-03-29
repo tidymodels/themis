@@ -145,3 +145,9 @@ Inderjeet Mani and I Zhang. knn approach to unbalanced data
 distributions: a case study involving information extraction. In Proceedings
 of workshop on learning from imbalanced datasets, 2003.
 }
+\seealso{
+Other Steps for under-sampling: 
+\code{\link{step_downsample}()},
+\code{\link{step_tomek}()}
+}
+\concept{Steps for under-sampling}

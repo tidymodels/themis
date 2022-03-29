@@ -129,3 +129,9 @@ recipe(class ~ x + y, data = circle_example) \%>\%
 Tomek. Two modifications of cnn. IEEE Trans. Syst. Man Cybern.,
 6:769-772, 1976.
 }
+\seealso{
+Other Steps for under-sampling: 
+\code{\link{step_downsample}()},
+\code{\link{step_nearmiss}()}
+}
+\concept{Steps for under-sampling}

@@ -49,6 +49,8 @@
 #' When you [`tidy()`][tidy.recipe()] this step, a tibble with columns `terms`
 #' (the selectors or variables selected) will be returned.
 #'
+#' @family Steps for over-sampling
+#'
 #' @export
 #' @examples
 #' library(recipes)
