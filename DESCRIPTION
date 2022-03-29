@@ -21,6 +21,7 @@ Depends:
     R (>= 3.4),
     recipes (>= 0.2.0)
 Imports: 
+    gower,
     lifecycle,
     dplyr,
     generics (>= 0.1.0),

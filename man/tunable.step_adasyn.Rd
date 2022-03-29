@@ -8,6 +8,7 @@
 \alias{tunable.step_rose}
 \alias{tunable.step_smote}
 \alias{tunable.step_upsample}
+\alias{tunable.step_smotenc}
 \title{tunable methods for themis}
 \usage{
 \method{tunable}{step_adasyn}(x, ...)
@@ -23,6 +24,8 @@
 \method{tunable}{step_smote}(x, ...)
 
 \method{tunable}{step_upsample}(x, ...)
+
+\method{tunable}{step_smotenc}(x, ...)
 }
 \arguments{
 \item{x}{A recipe step object}
