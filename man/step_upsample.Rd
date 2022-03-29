@@ -8,7 +8,7 @@ step_upsample(
   recipe,
   ...,
   over_ratio = 1,
-  ratio = NA,
+  ratio = deprecated(),
   role = NA,
   trained = FALSE,
   column = NULL,

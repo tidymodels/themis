@@ -3,40 +3,33 @@ library(recipes)
 library(dplyr)
 library(modeldata)
 
+set.seed(1234)
+
+test_that("ratio deprecation", {
+  expect_snapshot(error = TRUE,
+    new_rec <- recipe(~., data = circle_example) %>%
+      step_upsample(class, ratio = 2)
+  )
+})
+
 test_that("tunable", {
   rec <-
     recipe(~., data = mtcars) %>%
-    step_smote(all_predictors(), under_ratio = 1)
-  rec_param <- tunable.step_smote(rec$steps[[1]])
-  expect_equal(rec_param$name, c("over_ratio", "neighbors"))
+    step_upsample(all_predictors())
+  rec_param <- tunable.step_upsample(rec$steps[[1]])
+  expect_equal(rec_param$name, c("over_ratio"))
   expect_true(all(rec_param$source == "recipe"))
   expect_true(is.list(rec_param$call_info))
-  expect_equal(nrow(rec_param), 2)
+  expect_equal(nrow(rec_param), 1)
   expect_equal(
     names(rec_param),
     c("name", "call_info", "source", "component", "component_id")
   )
 })
 
-test_that("errors if there isn't enough data", {
-  data("credit_data")
-  credit_data0 <- credit_data
-
-  credit_data0$Status <- as.character(credit_data0$Status)
-  credit_data0$Status[1] <- "dummy"
-  credit_data0$Status <- as.factor(credit_data0$Status)
-
-  expect_error(
-    recipe(Status ~ Age, data = credit_data0) %>%
-      step_smote(Status) %>%
-      prep(),
-    "Not enough observations"
-  )
-})
-
 test_that("basic usage", {
-  rec1 <- recipe(class ~ x + y, data = circle_example) %>%
-    step_smote(class)
+  rec1 <- recipe(~., data = circle_example) %>%
+    step_upsample(class)
 
   rec1_p <- prep(rec1)
 
@@ -49,61 +42,32 @@ test_that("basic usage", {
 })
 
 test_that("printing", {
-  rec <- recipe(class ~ x + y, data = circle_example) %>%
-    step_smote(class)
-  expect_output(print(rec))
-  expect_output(prep(rec, verbose = TRUE))
+  rec <- recipe(~., data = circle_example) %>%
+    step_upsample(class)
+  expect_snapshot(print(rec))
+  expect_snapshot(prep(rec, verbose = TRUE))
 })
 
 test_that("bad data", {
-
   rec <- recipe(~., data = circle_example)
   # numeric check
-  expect_error(
+  expect_snapshot(error = TRUE,
     rec %>%
-      step_smote(x) %>%
-      prep(),
-    regexp = "should be a factor variable."
+      step_upsample(x) %>%
+      prep()
   )
   # Multiple variable check
-  expect_error(
+  expect_snapshot(error = TRUE,
     rec %>%
-      step_smote(class, id) %>%
-      prep(),
-    regexp = "The selector should select at most a single variable"
-  )
-})
-
-test_that("errors if character are present", {
-  df_char <- data.frame(
-    x = factor(1:2),
-    y = c("A", "A"),
-    stringsAsFactors = FALSE
-  )
-
-  expect_error(
-    recipe(~., data = df_char) %>%
-      step_smote(x) %>%
-      prep(),
-    "should be numeric"
-  )
-})
-
-test_that("NA in response", {
-  data(credit_data)
-
-  expect_error(
-    recipe(Job ~ Age, data = credit_data) %>%
-      step_smote(Job) %>%
-      prep(),
-    regexp = "NAs found ind: Job."
+      step_upsample(class, id) %>%
+      prep()
   )
 })
 
 test_that("`seed` produces identical sampling", {
   step_with_seed <- function(seed = sample.int(10^5, 1)) {
-    recipe(class ~ x + y, data = circle_example) %>%
-      step_smote(class, seed = seed) %>%
+    recipe(~., data = circle_example) %>%
+      step_upsample(class, seed = seed) %>%
       prep() %>%
       bake(new_data = NULL) %>%
       pull(x)
@@ -118,8 +82,8 @@ test_that("`seed` produces identical sampling", {
 })
 
 test_that("test tidy()", {
-  rec <- recipe(class ~ x + y, data = circle_example) %>%
-    step_smote(class, id = "")
+  rec <- recipe(~., data = circle_example) %>%
+    step_upsample(class, id = "")
 
   rec_p <- prep(rec)
 
@@ -138,13 +102,13 @@ test_that("test tidy()", {
 })
 
 test_that("ratio value works when oversampling", {
-  res1 <- recipe(class ~ x + y, data = circle_example) %>%
-    step_smote(class) %>%
+  res1 <- recipe(~., data = circle_example) %>%
+    step_upsample(class) %>%
     prep() %>%
     bake(new_data = NULL)
 
-  res1.5 <- recipe(class ~ x + y, data = circle_example) %>%
-    step_smote(class, over_ratio = 0.5) %>%
+  res1.5 <- recipe(~., data = circle_example) %>%
+    step_upsample(class, over_ratio = 0.5) %>%
     prep() %>%
     bake(new_data = NULL)
 
@@ -160,7 +124,7 @@ test_that("allows multi-class", {
   expect_error(
     recipe(Home ~ Age + Income + Assets, data = credit_data) %>%
       step_impute_mean(Income, Assets) %>%
-      step_smote(Home),
+      step_upsample(Home),
     NA
   )
 })
@@ -168,9 +132,10 @@ test_that("allows multi-class", {
 test_that("majority classes are ignored if there is more than 1", {
   data("penguins")
   rec1_p2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
-                    data = penguins[-(1:28), ]) %>%
+    data = penguins[-(1:28), ]
+  ) %>%
     step_impute_mean(all_predictors()) %>%
-    step_smote(species) %>%
+    step_upsample(species) %>%
     prep() %>%
     bake(new_data = NULL)
 
@@ -190,13 +155,15 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   # Checking for forgetting levels by alphabetical switching
   for (i in c(3, 4)) {
     circle_example_alt_levels[[i]]$class <-
-      factor(x = circle_example_alt_levels[[i]]$class,
-             levels = rev(levels(circle_example_alt_levels[[i]]$class)))
+      factor(
+        x = circle_example_alt_levels[[i]]$class,
+        levels = rev(levels(circle_example_alt_levels[[i]]$class))
+      )
   }
 
   for (i in 1:4) {
-    rec_p <- recipe(class ~ x + y, data = circle_example_alt_levels[[i]]) %>%
-      step_smote(class) %>%
+    rec_p <- recipe(~., data = circle_example_alt_levels[[i]]) %>%
+      step_upsample(class) %>%
       prep()
 
     expect_equal(
@@ -210,36 +177,11 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   }
 })
 
-test_that("ordering of newly generated points are right", {
-  res <- recipe(class ~ x + y, data = circle_example) %>%
-    step_smote(class) %>%
-    prep() %>%
-    bake(new_data = NULL)
-
-  expect_equal(
-    res[seq_len(nrow(circle_example)), ],
-    as_tibble(circle_example[, c("x", "y", "class")])
-  )
-})
-
-test_that("non-predictor variables are ignored", {
-  res <- recipe(class ~ ., data = circle_example) %>%
-    update_role(id, new_role = "id") %>%
-    step_smote(class) %>%
-    prep() %>%
-    bake(new_data = NULL)
-
-  expect_equal(
-    c(circle_example$id, rep(NA, nrow(res) - nrow(circle_example))),
-    as.character(res$id)
-  )
-})
-
 test_that("id variables don't turn predictors to factors", {
   # https://github.com/tidymodels/themis/issues/56
   rec_id <- recipe(class ~ ., data = circle_example) %>%
     update_role(id, new_role = "id") %>%
-    step_smote(class) %>%
+    step_upsample(class) %>%
     prep() %>%
     bake(new_data = NULL)
 
@@ -250,7 +192,7 @@ test_that("id variables don't turn predictors to factors", {
 
 test_that("empty selection prep/bake is a no-op", {
   rec1 <- recipe(mpg ~ ., mtcars)
-  rec2 <- step_smote(rec1)
+  rec2 <- step_upsample(rec1)
 
   rec1 <- prep(rec1, mtcars)
   rec2 <- prep(rec2, mtcars)
@@ -263,7 +205,7 @@ test_that("empty selection prep/bake is a no-op", {
 
 test_that("empty selection tidy method works", {
   rec <- recipe(mpg ~ ., mtcars)
-  rec <- step_smote(rec)
+  rec <- step_upsample(rec)
 
   expect_identical(
     tidy(rec, number = 1),
@@ -280,7 +222,7 @@ test_that("empty selection tidy method works", {
 
 test_that("empty printing", {
   rec <- recipe(mpg ~ ., mtcars)
-  rec <- step_smote(rec)
+  rec <- step_upsample(rec)
 
   expect_snapshot(rec)
 

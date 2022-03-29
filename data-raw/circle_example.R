@@ -6,9 +6,11 @@ circle_example <- data.frame(
   y = runif(400, 1, 15)
 ) %>%
   mutate(
-    class = factor(x = sqrt((x - 8)^2 + (y - 8)^2) < 3,
-                   levels = c(TRUE, FALSE),
-                   labels = c("Circle", "Rest")),
+    class = factor(
+      x = sqrt((x - 8)^2 + (y - 8)^2) < 3,
+      levels = c(TRUE, FALSE),
+      labels = c("Circle", "Rest")
+    ),
     id = as.character(row_number())
   )
 

@@ -20,26 +20,23 @@ test_that("basic usage", {
 test_that("printing", {
   rec <- recipe(class ~ x + y, data = circle_example) %>%
     step_tomek(class)
-  expect_output(print(rec))
-  expect_output(prep(rec, verbose = TRUE))
+  expect_snapshot(print(rec))
+  expect_snapshot(prep(rec, verbose = TRUE))
 })
 
 test_that("bad data", {
-
   rec <- recipe(~., data = circle_example)
   # numeric check
-  expect_error(
+  expect_snapshot(error = TRUE,
     rec %>%
       step_smote(x) %>%
-      prep(),
-    regexp = "should be a factor variable."
+      prep()
   )
   # Multiple variable check
-  expect_error(
+  expect_snapshot(error = TRUE,
     rec %>%
       step_smote(class, id) %>%
-      prep(),
-    regexp = "The selector should select at most a single variable"
+      prep()
   )
 })
 
@@ -50,11 +47,10 @@ test_that("errors if character are present", {
     stringsAsFactors = FALSE
   )
 
-  expect_error(
+  expect_snapshot(error = TRUE,
     recipe(~., data = df_char) %>%
       step_tomek(x) %>%
-      prep(),
-    "should be numeric"
+      prep()
   )
 })
 
@@ -63,11 +59,10 @@ test_that("NA in response", {
   credit_data0 <- credit_data
   credit_data0[1, 1] <- NA
 
-  expect_error(
+  expect_snapshot(error = TRUE,
     recipe(Status ~ Age, data = credit_data0) %>%
       step_tomek(Status) %>%
-      prep(),
-    regexp = "NAs found ind: Status."
+      prep()
   )
 })
 
@@ -97,11 +92,10 @@ test_that("only except 2 classes", {
     stringsAsFactors = FALSE
   )
 
-  expect_error(
+  expect_snapshot(error = TRUE,
     recipe(~., data = df_char) %>%
       step_tomek(x) %>%
-      prep(),
-    "only have 2 levels."
+      prep()
   )
 })
 
@@ -118,8 +112,10 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   # Checking for forgetting levels by alphabetical switching
   for (i in c(3, 4)) {
     circle_example_alt_levels[[i]]$class <-
-      factor(x = circle_example_alt_levels[[i]]$class,
-             levels = rev(levels(circle_example_alt_levels[[i]]$class)))
+      factor(
+        x = circle_example_alt_levels[[i]]$class,
+        levels = rev(levels(circle_example_alt_levels[[i]]$class))
+      )
   }
 
   for (i in 1:4) {

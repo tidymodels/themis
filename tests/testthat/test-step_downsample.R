@@ -6,12 +6,10 @@ library(modeldata)
 set.seed(1234)
 
 test_that("ratio deprecation", {
-  expect_message(
+  expect_snapshot(error = TRUE,
     new_rec <- recipe(~., data = circle_example) %>%
-      step_downsample(class, ratio = 2),
-    "argument is now deprecated"
+      step_downsample(class, ratio = 2)
   )
-  expect_equal(new_rec$steps[[1]]$under_ratio, 2)
 })
 
 test_that("tunable", {
@@ -45,26 +43,23 @@ test_that("basic usage", {
 test_that("printing", {
   rec <- recipe(~., data = circle_example) %>%
     step_downsample(class)
-  expect_output(print(rec))
-  expect_output(prep(rec, verbose = TRUE))
+  expect_snapshot(print(rec))
+  expect_snapshot(prep(rec, verbose = TRUE))
 })
 
 test_that("bad data", {
-
   rec <- recipe(~., data = circle_example)
   # numeric check
-  expect_error(
+  expect_snapshot(error = TRUE,
     rec %>%
       step_downsample(x) %>%
-      prep(),
-    regexp = "should be a factor variable."
+      prep()
   )
   # Multiple variable check
-  expect_error(
+  expect_snapshot(error = TRUE,
     rec %>%
       step_downsample(class, id) %>%
-      prep(),
-    regexp = "The selector should select at most a single variable"
+      prep()
   )
 })
 
@@ -136,7 +131,8 @@ test_that("allows multi-class", {
 test_that("minority classes are ignored if there is more than 1", {
   data("penguins")
   rec1_p2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
-                    data = penguins[-(1:84), ]) %>%
+    data = penguins[-(1:84), ]
+  ) %>%
     step_impute_mean(all_predictors()) %>%
     step_downsample(species) %>%
     prep() %>%
@@ -158,8 +154,10 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   # Checking for forgetting levels by alphabetical switching
   for (i in c(3, 4)) {
     circle_example_alt_levels[[i]]$class <-
-      factor(x = circle_example_alt_levels[[i]]$class,
-             levels = rev(levels(circle_example_alt_levels[[i]]$class)))
+      factor(
+        x = circle_example_alt_levels[[i]]$class,
+        levels = rev(levels(circle_example_alt_levels[[i]]$class))
+      )
   }
 
   for (i in 1:4) {

@@ -5,66 +5,24 @@ library(modeldata)
 
 set.seed(1234)
 
-test_that("minority_prop value", {
-  rec <- recipe(class ~ x + y, data = circle_example)
-  rec21 <- rec %>%
-    step_rose(class, minority_prop = 0.1)
-
-  rec22 <- rec %>%
-    step_rose(class, minority_prop = 0.2)
-
-  rec21_p <- prep(rec21)
-  rec22_p <- prep(rec22)
-
-  tr_xtab1 <- table(bake(rec21_p, new_data = NULL)$class, useNA = "no")
-  tr_xtab2 <- table(bake(rec22_p, new_data = NULL)$class, useNA = "no")
-
-  expect_equal(sum(tr_xtab1), sum(tr_xtab2))
-
-  expect_lt(tr_xtab1[["Circle"]], tr_xtab2[["Circle"]])
-})
-
 test_that("tunable", {
   rec <-
     recipe(~., data = mtcars) %>%
-    step_rose(all_predictors(), under_ratio = 1)
-  rec_param <- tunable.step_rose(rec$steps[[1]])
-  expect_equal(rec_param$name, c("over_ratio"))
+    step_nearmiss(all_predictors(), under_ratio = 1)
+  rec_param <- tunable.step_nearmiss(rec$steps[[1]])
+  expect_equal(rec_param$name, c("under_ratio", "neighbors"))
   expect_true(all(rec_param$source == "recipe"))
   expect_true(is.list(rec_param$call_info))
-  expect_equal(nrow(rec_param), 1)
+  expect_equal(nrow(rec_param), 2)
   expect_equal(
     names(rec_param),
     c("name", "call_info", "source", "component", "component_id")
   )
 })
 
-test_that("row matching works correctly #36", {
-  expect_error(
-  recipe(class ~ ., data = circle_example) %>%
-    step_rose(class, over_ratio = 1.2) %>%
-    prep(),
-  NA
-  )
-
-  expect_error(
-    recipe(class ~ ., data = circle_example) %>%
-      step_rose(class, over_ratio = 0.8) %>%
-      prep(),
-    NA
-  )
-
-  expect_error(
-    recipe(class ~ ., data = circle_example) %>%
-      step_rose(class, over_ratio = 1.7) %>%
-      prep(),
-    NA
-  )
-})
-
 test_that("basic usage", {
   rec1 <- recipe(class ~ x + y, data = circle_example) %>%
-    step_rose(class)
+    step_nearmiss(class)
 
   rec1_p <- prep(rec1)
 
@@ -78,63 +36,54 @@ test_that("basic usage", {
 
 test_that("printing", {
   rec <- recipe(class ~ x + y, data = circle_example) %>%
-    step_rose(class)
-  expect_output(print(rec))
-  expect_output(prep(rec, verbose = TRUE))
+    step_nearmiss(class)
+  expect_snapshot(print(rec))
+  expect_snapshot(prep(rec, verbose = TRUE))
 })
 
 test_that("bad data", {
-
   rec <- recipe(~., data = circle_example)
   # numeric check
-  expect_error(
+  expect_snapshot(error = TRUE,
     rec %>%
-      step_rose(x) %>%
-      prep(),
-    regexp = "should be a factor variable."
+      step_nearmiss(x) %>%
+      prep()
   )
   # Multiple variable check
-  expect_error(
+  expect_snapshot(error = TRUE,
     rec %>%
-      step_rose(class, id) %>%
-      prep(),
-    regexp = "The selector should select at most a single variable"
+      step_nearmiss(class, id) %>%
+      prep()
+  )
+})
+
+test_that("errors if character are present", {
+  df_char <- data.frame(
+    x = factor(1:2),
+    y = c("A", "A"),
+    stringsAsFactors = FALSE
+  )
+
+  expect_snapshot(error = TRUE,
+    recipe(~., data = df_char) %>%
+      step_nearmiss(x) %>%
+      prep()
   )
 })
 
 test_that("NA in response", {
   data(credit_data)
-  credit_data0 <- credit_data
-  credit_data0[1, 1] <- NA
 
-  expect_error(
-    recipe(Status ~ Age, data = credit_data0) %>%
-      step_rose(Status) %>%
-      prep(),
-    regexp = "NAs found ind: Status."
+  expect_snapshot(error = TRUE,
+    recipe(Job ~ Age, data = credit_data) %>%
+      step_nearmiss(Job) %>%
+      prep()
   )
-})
-
-test_that("`seed` produces identical sampling", {
-  step_with_seed <- function(seed = sample.int(10^5, 1)) {
-    recipe(class ~ x + y, data = circle_example) %>%
-      step_rose(class, seed = seed) %>%
-      prep() %>%
-      bake(new_data = NULL) %>%
-      pull(x)
-  }
-
-  run_1 <- step_with_seed(seed = 1234)
-  run_2 <- step_with_seed(seed = 1234)
-  run_3 <- step_with_seed(seed = 12345)
-
-  expect_equal(run_1, run_2)
-  expect_false(identical(run_1, run_3))
 })
 
 test_that("test tidy()", {
   rec <- recipe(class ~ x + y, data = circle_example) %>%
-    step_rose(class, id = "")
+    step_nearmiss(class, id = "")
 
   rec_p <- prep(rec)
 
@@ -152,18 +101,45 @@ test_that("test tidy()", {
   expect_equal(trained, tidy(rec_p, number = 1))
 })
 
-test_that("only except 2 classes", {
-  df_char <- data.frame(
-    x = factor(1:3),
-    stringsAsFactors = FALSE
-  )
+test_that("ratio value works when undersampling", {
+  res1 <- recipe(class ~ x + y, data = circle_example) %>%
+    step_nearmiss(class) %>%
+    prep() %>%
+    bake(new_data = NULL)
 
-  expect_error(
-    recipe(~., data = df_char) %>%
-      step_rose(x) %>%
-      prep(),
-    "only have 2 levels."
+  res1.5 <- recipe(class ~ x + y, data = circle_example) %>%
+    step_nearmiss(class, under_ratio = 1.5) %>%
+    prep() %>%
+    bake(new_data = NULL)
+
+  expect_true(all(table(res1$class) == min(table(circle_example$class))))
+  expect_equal(
+    sort(as.numeric(table(res1.5$class))),
+    min(table(circle_example$class)) * c(1, 1.5)
   )
+})
+
+test_that("allows multi-class", {
+  data("credit_data")
+  expect_error(
+    recipe(Home ~ Age + Income + Assets, data = credit_data) %>%
+      step_impute_mean(Income, Assets) %>%
+      step_nearmiss(Home),
+    NA
+  )
+})
+
+test_that("minority classes are ignored if there is more than 1", {
+  data("penguins")
+  rec1_p2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
+    data = penguins[-(1:84), ]
+  ) %>%
+    step_impute_mean(all_predictors()) %>%
+    step_nearmiss(species) %>%
+    prep() %>%
+    bake(new_data = NULL)
+
+  expect_true(all(max(table(rec1_p2$species)) == 68))
 })
 
 test_that("factor levels are not affected by alphabet ordering or class sizes", {
@@ -179,13 +155,15 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   # Checking for forgetting levels by alphabetical switching
   for (i in c(3, 4)) {
     circle_example_alt_levels[[i]]$class <-
-      factor(x = circle_example_alt_levels[[i]]$class,
-             levels = rev(levels(circle_example_alt_levels[[i]]$class)))
+      factor(
+        x = circle_example_alt_levels[[i]]$class,
+        levels = rev(levels(circle_example_alt_levels[[i]]$class))
+      )
   }
 
   for (i in 1:4) {
     rec_p <- recipe(class ~ x + y, data = circle_example_alt_levels[[i]]) %>%
-      step_rose(class) %>%
+      step_nearmiss(class) %>%
       prep()
 
     expect_equal(
@@ -199,29 +177,20 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   }
 })
 
-test_that("non-predictor variables are ignored", {
-  circle_example2 <- circle_example %>%
-    mutate(id = as.character(row_number())) %>%
-    as_tibble()
-
-  res <- recipe(class ~ ., data = circle_example2) %>%
+test_that("id variables are ignored", {
+  rec_id <- recipe(class ~ ., data = circle_example) %>%
     update_role(id, new_role = "id") %>%
-    step_rose(class) %>%
-    prep() %>%
-    bake(new_data = NULL)
+    step_nearmiss(class, under_ratio = 1) %>%
+    prep()
 
-  expect_equal(
-    c(circle_example2$id, rep(NA, nrow(res) - nrow(circle_example2))),
-    as.character(res$id)
-  )
+  expect_equal(ncol(bake(rec_id, new_data = NULL)), 4)
 })
-
 
 test_that("id variables don't turn predictors to factors", {
   # https://github.com/tidymodels/themis/issues/56
   rec_id <- recipe(class ~ ., data = circle_example) %>%
     update_role(id, new_role = "id") %>%
-    step_rose(class) %>%
+    step_nearmiss(class, under_ratio = 1) %>%
     prep() %>%
     bake(new_data = NULL)
 
@@ -229,10 +198,9 @@ test_that("id variables don't turn predictors to factors", {
   expect_equal(is.double(rec_id$y), TRUE)
 })
 
-
 test_that("empty selection prep/bake is a no-op", {
   rec1 <- recipe(mpg ~ ., mtcars)
-  rec2 <- step_rose(rec1)
+  rec2 <- step_nearmiss(rec1)
 
   rec1 <- prep(rec1, mtcars)
   rec2 <- prep(rec2, mtcars)
@@ -245,7 +213,7 @@ test_that("empty selection prep/bake is a no-op", {
 
 test_that("empty selection tidy method works", {
   rec <- recipe(mpg ~ ., mtcars)
-  rec <- step_rose(rec)
+  rec <- step_nearmiss(rec)
 
   expect_identical(
     tidy(rec, number = 1),
@@ -262,7 +230,7 @@ test_that("empty selection tidy method works", {
 
 test_that("empty printing", {
   rec <- recipe(mpg ~ ., mtcars)
-  rec <- step_rose(rec)
+  rec <- step_nearmiss(rec)
 
   expect_snapshot(rec)
 

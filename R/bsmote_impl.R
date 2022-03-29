@@ -53,7 +53,6 @@
 #'
 #' bsmote(circle_numeric, var = "class", all_neighbors = TRUE)
 bsmote <- function(df, var, k = 5, over_ratio = 1, all_neighbors = FALSE) {
-
   if (length(var) != 1) {
     rlang::abort("Please select a single factor variable for `var`.")
   }
@@ -61,7 +60,7 @@ bsmote <- function(df, var, k = 5, over_ratio = 1, all_neighbors = FALSE) {
   var <- rlang::arg_match(var, colnames(df))
 
   if (!(is.factor(df[[var]]) | is.character(df[[var]]))) {
-    rlang::abort(paste0(var, " should be a factor or character variable."))
+    rlang::abort(glue("{var} should be a factor or character variable."))
   }
 
   if (length(k) != 1) {
@@ -98,9 +97,8 @@ bsmote_impl <- function(df, var, k = 5, over_ratio = 1, all_neighbors = FALSE) {
     )
 
     if (sum(danger_ids) <= k) {
-      rlang::abort(paste0(
-        "Not enough danger observations of '", min_names[i],
-        "' to perform BSMOTE."
+      rlang::abort(glue(
+        "Not enough danger observations of '{min_names[i]}' to perform BSMOTE."
       ))
     }
 

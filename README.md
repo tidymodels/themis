@@ -5,9 +5,9 @@
 
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/tidymodels/themis/workflows/R-CMD-check/badge.svg)](https://github.com/tidymodels/themis/actions)
+[![R-CMD-check](https://github.com/tidymodels/themis/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/tidymodels/themis/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
-coverage](https://codecov.io/gh/tidymodels/themis/branch/main/graph/badge.svg)](https://codecov.io/gh/tidymodels/themis?branch=main)
+coverage](https://codecov.io/gh/tidymodels/themis/branch/main/graph/badge.svg)](https://app.codecov.io/gh/tidymodels/themis?branch=main)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/themis)](https://CRAN.R-project.org/package=themis)
 [![Downloads](http://cranlogs.r-pkg.org/badges/themis)](https://CRAN.R-project.org/package=themis)
