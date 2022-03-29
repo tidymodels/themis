@@ -48,6 +48,11 @@
 #'  option `skip = TRUE` so that the extra sampling is _not_
 #'  conducted outside of the training set.
 #'
+#' # Tidying
+#'
+#' When you [`tidy()`][tidy.recipe()] this step, a tibble with columns `terms`
+#' (the selectors or variables selected) will be returned.
+#'
 #' @references Lunardon, N., Menardi, G., and Torelli, N. (2014). ROSE: a
 #'  Package for Binary Imbalanced Learning. R Jorunal, 6:82–92.
 #' @references Menardi, G. and Torelli, N. (2014). Training and assessing

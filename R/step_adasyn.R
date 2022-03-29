@@ -33,6 +33,11 @@
 #'  option `skip = TRUE` so that the extra sampling is _not_
 #'  conducted outside of the training set.
 #'
+#' # Tidying
+#'
+#' When you [`tidy()`][tidy.recipe()] this step, a tibble with columns `terms`
+#' (the selectors or variables selected) will be returned.
+#'
 #' @references He, H., Bai, Y., Garcia, E. and Li, S. 2008. ADASYN: Adaptive
 #'  synthetic sampling approach for imbalanced learning. Proceedings of
 #'  IJCNN 2008. (IEEE World Congress on Computational Intelligence). IEEE

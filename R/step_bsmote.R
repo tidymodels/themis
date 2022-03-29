@@ -55,6 +55,11 @@
 #'  option `skip = TRUE` so that the extra sampling is _not_
 #'  conducted outside of the training set.
 #'
+#' # Tidying
+#'
+#' When you [`tidy()`][tidy.recipe()] this step, a tibble with columns `terms`
+#' (the selectors or variables selected) will be returned.
+#'
 #' @references Hui Han, Wen-Yuan Wang, and Bing-Huan Mao. Borderline-smote:
 #' a new over-sampling method in imbalanced data sets learning. In
 #' International Conference on Intelligent Computing, pages 878–887. Springer,

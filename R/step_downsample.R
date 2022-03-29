@@ -49,6 +49,11 @@
 #'  it is not clear whether those operations should be conducted
 #'  _before_ or _after_ rows are removed.
 #'
+#' # Tidying
+#'
+#' When you [`tidy()`][tidy.recipe()] this step, a tibble with columns `terms`
+#' (the selectors or variables selected) will be returned.
+#'
 #' @export
 #' @examples
 #' library(recipes)

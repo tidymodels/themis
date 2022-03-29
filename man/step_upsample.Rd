@@ -87,6 +87,11 @@ frequency as the majority level, all data will be retained.
 All columns in the data are sampled and returned by \code{\link[=juice]{juice()}}
 and \code{\link[=bake]{bake()}}.
 }
+\section{Tidying}{
+When you \code{\link[=tidy.recipe]{tidy()}} this step, a tibble with columns \code{terms}
+(the selectors or variables selected) will be returned.
+}
+
 \examples{
 library(recipes)
 library(modeldata)

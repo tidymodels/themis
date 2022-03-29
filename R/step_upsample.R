@@ -44,6 +44,11 @@
 #' All columns in the data are sampled and returned by [juice()]
 #'  and [bake()].
 #'
+#' # Tidying
+#'
+#' When you [`tidy()`][tidy.recipe()] this step, a tibble with columns `terms`
+#' (the selectors or variables selected) will be returned.
+#'
 #' @export
 #' @examples
 #' library(recipes)

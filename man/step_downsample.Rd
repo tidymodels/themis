@@ -92,6 +92,11 @@ may have effects. For example, if centering and scaling,
 it is not clear whether those operations should be conducted
 \emph{before} or \emph{after} rows are removed.
 }
+\section{Tidying}{
+When you \code{\link[=tidy.recipe]{tidy()}} this step, a tibble with columns \code{terms}
+(the selectors or variables selected) will be returned.
+}
+
 \examples{
 library(recipes)
 library(modeldata)

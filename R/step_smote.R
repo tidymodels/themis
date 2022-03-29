@@ -41,6 +41,11 @@
 #'  option `skip = TRUE` so that the extra sampling is _not_
 #'  conducted outside of the training set.
 #'
+#' # Tidying
+#'
+#' When you [`tidy()`][tidy.recipe()] this step, a tibble with columns `terms`
+#' (the selectors or variables selected) will be returned.
+#'
 #' @references Chawla, N. V., Bowyer, K. W., Hall, L. O., and Kegelmeyer,
 #'  W. P. (2002). Smote: Synthetic minority over-sampling technique.
 #'  Journal of Artificial Intelligence Research, 16:321-357.

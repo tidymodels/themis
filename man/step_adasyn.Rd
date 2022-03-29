@@ -78,6 +78,11 @@ When used in modeling, users should strongly consider using the
 option \code{skip = TRUE} so that the extra sampling is \emph{not}
 conducted outside of the training set.
 }
+\section{Tidying}{
+When you \code{\link[=tidy.recipe]{tidy()}} this step, a tibble with columns \code{terms}
+(the selectors or variables selected) will be returned.
+}
+
 \examples{
 library(recipes)
 library(modeldata)
