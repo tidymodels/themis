@@ -1,7 +1,7 @@
 #' SMOTENC Algorithm
 #'
 #' SMOTENC generates new examples of the minority class using nearest neighbors
-#' of these cases, but can handle categorical variables
+#' of these cases, and can handle categorical variables
 #'
 #' @inheritParams step_smotenc
 #' @param df data.frame or tibble. Must have 1 factor variable and remaining
@@ -21,7 +21,7 @@
 #' `neighbors` nearest neighbor of each example of the minority class.
 #' The parameter `neighbors` controls how many of these neighbor are used.
 #
-#' All columns used in this function must be numeric with no missing data.
+#' Columns can be numeric and categorical with no missing data.
 #'
 #' @references Chawla, N. V., Bowyer, K. W., Hall, L. O., and Kegelmeyer,
 #'  W. P. (2002). Smote: Synthetic minority over-sampling technique.

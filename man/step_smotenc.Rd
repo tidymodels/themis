@@ -65,11 +65,10 @@ added to the sequence of existing steps (if any). For the
 the variable used to sample.
 }
 \description{
-\code{step_smotenc} creates a \emph{specification} of a recipe
-step that generate new examples of the  minority class using nearest
-neighbors of these cases. Gower's distance is used to handle mixed data types.
-For categorical variables, the most common category along neighbors is
-chosen.
+\code{step_smotenc} creates a \emph{specification} of a recipe step that generate new
+examples of the  minority class using nearest neighbors of these cases.
+Gower's distance is used to handle mixed data types. For categorical
+variables, the most common category along neighbors is chosen.
 }
 \details{
 The parameter \code{neighbors} controls the way the new examples are created.
