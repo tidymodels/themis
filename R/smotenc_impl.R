@@ -118,6 +118,14 @@ smotenc_impl <- function(df, var, k, over_ratio) {
 # Uses nearest-neighbors and interpolation to generate new instances
 smotenc_data <- function(data, k, n_samples, smotenc_ids = seq_len(nrow(data))) {
 
+  # Turning integer values into doubles
+  integer_cols <- vapply(data, is.integer, FUN.VALUE = logical(1))
+  if (any(integer_cols)) {
+    for (col in names(integer_cols)[integer_cols]) {
+      data[[col]] <- as.double(data[[col]])
+    }
+  }
+
   # Runs a nearest neighbor search
   # outputs a matrix, each row is a minority instance and each column is a nearest neighbor
   # k is +1 because the sample is always a nearest neighbor to itself
