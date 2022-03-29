@@ -126,6 +126,8 @@ smotenc_data <- function(data, k, n_samples, smotenc_ids = seq_len(nrow(data))) 
     }
   }
 
+  numeric_cols <- vapply(data, is.numeric, FUN.VALUE = logical(1))
+
   # Runs a nearest neighbor search
   # outputs a matrix, each row is a minority instance and each column is a nearest neighbor
   # k is +1 because the sample is always a nearest neighbor to itself
@@ -144,6 +146,12 @@ smotenc_data <- function(data, k, n_samples, smotenc_ids = seq_len(nrow(data))) 
   # pick distance along parameterized line between current sample and chosen nearest neighbor
   runif_ids <- stats::runif(n_samples)
 
+  out_numeric <- as.matrix(out[numeric_cols])
+  out_factors <- as.matrix(out[!numeric_cols])
+
+  data_numeric <- as.matrix(data[numeric_cols])
+  data_factors <- as.matrix(data[!numeric_cols])
+
   iii <- 0
   for (row_num in smotenc_ids) {
     # List indices from 1:n where n is the number of times that sample is used to generate a new sample
@@ -154,24 +162,29 @@ smotenc_data <- function(data, k, n_samples, smotenc_ids = seq_len(nrow(data))) 
 
     # need a total of index_len[row_num] new samples
     # calculates Xnew = X1 + t*(X1-Xnn)
-    dif <- data[id_knn[sampleids[index_selection]], sapply(data, is.numeric)] - data[rep(row_num, index_len[row_num]), sapply(data, is.numeric)]
+    dif <- data_numeric[id_knn[sampleids[index_selection]], ] -
+           data_numeric[rep(row_num, index_len[row_num]), ]
     gap <- dif * runif_ids[index_selection]
-    out[index_selection, sapply(data, is.numeric)] <- data[rep(row_num, index_len[row_num]), sapply(data, is.numeric)] + gap
+    out_numeric[index_selection, ] <- data_numeric[rep(row_num, index_len[row_num]), ] + gap
 
     # Replace categories with most frequent among nearest neighbors
-    cat_to_upgrade <- data[id_knn[sampleids[index_selection]], sapply(data, is.not.numeric)]
+    cat_to_upgrade <- data_factors[id_knn[sampleids[index_selection]], ]
 
     if (is.data.frame(cat_to_upgrade)) {
       cat_modes <- as.data.frame(lapply(cat_to_upgrade, function(x) (rep(Mode(x), index_len[row_num]))))
     } else {
-      cat_modes <- Mode(cat_to_upgrade)
+      cat_modes <- apply(cat_to_upgrade, 2, Mode)
     }
 
-    out[index_selection, sapply(data, is.not.numeric)] <- cat_modes
+    cat_replacement <- matrix(
+      rep(cat_modes, length(index_selection)),
+      nrow = length(index_selection),
+      byrow = TRUE
+    )
 
+    out_factors[index_selection, ] <- cat_replacement
 
     iii <- iii + index_len[row_num]
   }
-
-  out
+  bind_cols(out_numeric, out_factors)[names(data)]
 }
