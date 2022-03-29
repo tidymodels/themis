@@ -20,6 +20,7 @@ reference:
   contents:
     - step_upsample
     - step_smote
+    - step_smotenc
     - step_bsmote
     - step_adasyn
     - step_rose
@@ -37,6 +38,7 @@ reference:
     available as their own functions.
   contents:
     - smote
+    - smotenc
     - bsmote
     - adasyn
 - title: Datasets
