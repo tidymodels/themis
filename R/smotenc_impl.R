@@ -170,11 +170,7 @@ smotenc_data <- function(data, k, n_samples, smotenc_ids = seq_len(nrow(data))) 
     # Replace categories with most frequent among nearest neighbors
     cat_to_upgrade <- data_factors[id_knn[sampleids[index_selection]], ]
 
-    if (is.data.frame(cat_to_upgrade)) {
-      cat_modes <- as.data.frame(lapply(cat_to_upgrade, function(x) (rep(Mode(x), index_len[row_num]))))
-    } else {
-      cat_modes <- apply(cat_to_upgrade, 2, Mode)
-    }
+    cat_modes <- apply(cat_to_upgrade, 2, Mode)
 
     cat_replacement <- matrix(
       rep(cat_modes, length(index_selection)),
