@@ -91,38 +91,36 @@ When you \code{\link[=tidy.recipe]{tidy()}} this step, a tibble with columns \co
 \examples{
 library(recipes)
 library(modeldata)
-data(credit_data)
+data(hpc_data)
 
-credit_data0 <- credit_data \%>\%
-  filter(Home != "ignore") \%>\%
-  mutate(Home = as.character(Home))
+hpc_data0 <- hpc_data \%>\%
+  select(-protocol, -day)
 
-orig <- count(credit_data0, Home, name = "orig")
+orig <- count(hpc_data0, class, name = "orig")
 orig
 
-up_rec <- recipe(Home ~ Age + Income + Assets, data = credit_data0) \%>\%
-  step_impute_mean(Income, Assets) \%>\%
-  # Bring the majority levels down to about 500 each
-  # 500/246 is approx 2.035
-  step_nearmiss(Home, under_ratio = 2.035) \%>\%
+up_rec <- recipe(class ~ ., data = hpc_data0) \%>\%
+  # Bring the majority levels down to about 1000 each
+  # 1000/259 is approx 3.862
+  step_nearmiss(class, under_ratio = 3.862) \%>\%
   prep()
 
 training <- up_rec \%>\%
   bake(new_data = NULL) \%>\%
-  count(Home, name = "training")
+  count(class, name = "training")
 training
 
 # Since `skip` defaults to TRUE, baking the step has no effect
 baked <- up_rec \%>\%
-  bake(new_data = credit_data0) \%>\%
-  count(Home, name = "baked")
+  bake(new_data = hpc_data0) \%>\%
+  count(class, name = "baked")
 baked
 
 # Note that if the original data contained more rows than the
 # target n (= ratio * majority_n), the data are left alone:
 orig \%>\%
-  left_join(training, by = "Home") \%>\%
-  left_join(baked, by = "Home")
+  left_join(training, by = "class") \%>\%
+  left_join(baked, by = "class")
 
 library(ggplot2)
 

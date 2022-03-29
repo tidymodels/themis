@@ -63,29 +63,33 @@
 #' @examples
 #' library(recipes)
 #' library(modeldata)
-#' data(credit_data)
+#' data(hpc_data)
 #'
-#' orig <- count(credit_data, Status, name = "orig")
+#' hpc_data0 <- hpc_data %>%
+#'   mutate(class = factor(class == "VF", labels = c("not VF", "VF"))) %>%
+#'   select(-protocol, -day)
+#'
+#' orig <- count(hpc_data0, class, name = "orig")
 #' orig
 #'
-#' up_rec <- recipe(Status ~ Age + Income + Assets, data = credit_data) %>%
-#'   step_rose(Status) %>%
+#' up_rec <- recipe(class ~ ., data = hpc_data0) %>%
+#'   step_rose(class) %>%
 #'   prep()
 #'
 #' training <- up_rec %>%
 #'   bake(new_data = NULL) %>%
-#'   count(Status, name = "training")
+#'   count(class, name = "training")
 #' training
 #'
 #' # Since `skip` defaults to TRUE, baking the step has no effect
 #' baked <- up_rec %>%
-#'   bake(new_data = credit_data) %>%
-#'   count(Status, name = "baked")
+#'   bake(new_data = hpc_data0) %>%
+#'   count(class, name = "baked")
 #' baked
 #'
 #' orig %>%
-#'   left_join(training, by = "Status") %>%
-#'   left_join(baked, by = "Status")
+#'   left_join(training, by = "class") %>%
+#'   left_join(baked, by = "class")
 #'
 #' library(ggplot2)
 #'

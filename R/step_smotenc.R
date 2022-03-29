@@ -56,38 +56,34 @@
 #' @examples
 #' library(recipes)
 #' library(modeldata)
-#' data(credit_data)
+#' data(hpc_data)
 #'
-#' credit_data0 <- credit_data %>%
-#'   filter(Home != "ignore") %>%
-#'   mutate(Home = as.character(Home))
-#'
-#' orig <- count(credit_data0, Home, name = "orig")
+#' orig <- count(hpc_data, class, name = "orig")
 #' orig
 #'
-#' up_rec <- recipe(Home ~ Age + Income + Assets + Marital, data = credit_data0) %>%
+#' up_rec <- recipe(class ~ ., data = hpc_data) %>%
 #'   step_impute_knn(all_predictors()) %>%
 #'   # Bring the minority levels up to about 1000 each
-#'   # 1000/2107 is approx 0.47461
-#'   step_smotenc(Home, over_ratio = 0.47461) %>%
+#'   # 1000/2211 is approx 0.4523
+#'   step_smotenc(class, over_ratio = 0.4523) %>%
 #'   prep()
 #'
 #' training <- up_rec %>%
 #'   bake(new_data = NULL) %>%
-#'   count(Home, name = "training")
+#'   count(class, name = "training")
 #' training
 #'
 #' # Since `skip` defaults to TRUE, baking the step has no effect
 #' baked <- up_rec %>%
-#'   bake(new_data = credit_data0) %>%
-#'   count(Home, name = "baked")
+#'   bake(new_data = hpc_data) %>%
+#'   count(class, name = "baked")
 #' baked
 #'
 #' # Note that if the original data contained more rows than the
 #' # target n (= ratio * majority_n), the data are left alone:
 #' orig %>%
-#'   left_join(training, by = "Home") %>%
-#'   left_join(baked, by = "Home")
+#'   left_join(training, by = "class") %>%
+#'   left_join(baked, by = "class")
 step_smotenc <-
   function(recipe, ..., role = NA, trained = FALSE,
            column = NULL, over_ratio = 1, neighbors = 5,
