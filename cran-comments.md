@@ -1,6 +1,8 @@
 ## Release Summary
 
-This is the 5th CRAN release of themis. Exporting a couple of new methods that was previously internal. 
+This is the 6th CRAN release of themis.
+
+New methods. Bug fixes.
 
 ## R CMD check results
 

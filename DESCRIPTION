@@ -32,7 +32,6 @@ Imports:
     tibble,
     unbalanced,
     withr,
-    cli,
     glue
 Suggests: 
     covr,
