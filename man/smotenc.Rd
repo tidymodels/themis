@@ -56,6 +56,7 @@ Journal of Artificial Intelligence Research, 16:321-357.
 Other Direct Implementations: 
 \code{\link{adasyn}()},
 \code{\link{bsmote}()},
+\code{\link{nearmiss}()},
 \code{\link{smote}()}
 }
 \concept{Direct Implementations}

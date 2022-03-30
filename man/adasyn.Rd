@@ -48,6 +48,7 @@ Journal of Artificial Intelligence Research, 16:321-357.
 \seealso{
 Other Direct Implementations: 
 \code{\link{bsmote}()},
+\code{\link{nearmiss}()},
 \code{\link{smotenc}()},
 \code{\link{smote}()}
 }
