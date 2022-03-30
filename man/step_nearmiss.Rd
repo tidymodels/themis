@@ -146,6 +146,8 @@ distributions: a case study involving information extraction. In Proceedings
 of workshop on learning from imbalanced datasets, 2003.
 }
 \seealso{
+\code{\link[=nearmiss]{nearmiss()}} for direct implementation
+
 Other Steps for under-sampling: 
 \code{\link{step_downsample}()},
 \code{\link{step_tomek}()}

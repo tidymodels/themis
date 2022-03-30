@@ -27,6 +27,7 @@
 #'  W. P. (2002). Smote: Synthetic minority over-sampling technique.
 #'  Journal of Artificial Intelligence Research, 16:321-357.
 #'
+#' @seealso [step_smotenc()] for step function of this method
 #' @family Direct Implementations
 #'
 #' @examples

@@ -43,6 +43,7 @@
 #'  IJCNN 2008. (IEEE World Congress on Computational Intelligence). IEEE
 #'  International Joint Conference. pp.1322-1328.
 #'
+#' @seealso [adasyn()] for direct implementation
 #' @family Steps for over-sampling
 #'
 #' @export

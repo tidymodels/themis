@@ -71,6 +71,8 @@ International Conference on Intelligent Computing, pages 878–887. Springer,
 2005.
 }
 \seealso{
+\code{\link[=step_bsmote]{step_bsmote()}} for step function of this method
+
 Other Direct Implementations: 
 \code{\link{adasyn}()},
 \code{\link{nearmiss}()},

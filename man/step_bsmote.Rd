@@ -169,6 +169,8 @@ International Conference on Intelligent Computing, pages 878–887. Springer,
 2005.
 }
 \seealso{
+\code{\link[=bsmote]{bsmote()}} for direct implementation
+
 Other Steps for over-sampling: 
 \code{\link{step_adasyn}()},
 \code{\link{step_rose}()},

@@ -65,6 +65,7 @@
 #' International Conference on Intelligent Computing, pages 878–887. Springer,
 #' 2005.
 #'
+#' @seealso [bsmote()] for direct implementation
 #' @family Steps for over-sampling
 #'
 #' @export

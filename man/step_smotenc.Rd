@@ -130,6 +130,8 @@ W. P. (2002). Smote: Synthetic minority over-sampling technique.
 Journal of Artificial Intelligence Research, 16:321-357.
 }
 \seealso{
+\code{\link[=smotenc]{smotenc()}} for direct implementation
+
 Other Steps for over-sampling: 
 \code{\link{step_adasyn}()},
 \code{\link{step_bsmote}()},

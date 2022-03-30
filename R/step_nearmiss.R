@@ -46,6 +46,7 @@
 #' distributions: a case study involving information extraction. In Proceedings
 #' of workshop on learning from imbalanced datasets, 2003.
 #'
+#' @seealso [nearmiss()] for direct implementation
 #' @family Steps for under-sampling
 #'
 #' @export

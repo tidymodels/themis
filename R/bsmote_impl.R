@@ -42,6 +42,7 @@
 #' International Conference on Intelligent Computing, pages 878–887. Springer,
 #' 2005.
 #'
+#' @seealso [step_bsmote()] for step function of this method
 #' @family Direct Implementations
 #'
 #' @examples

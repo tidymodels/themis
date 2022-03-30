@@ -19,6 +19,7 @@
 #' distributions: a case study involving information extraction. In Proceedings
 #' of workshop on learning from imbalanced datasets, 2003.
 #'
+#' @seealso [step_nearmiss()] for step function of this method
 #' @family Direct Implementations
 #'
 #' @examples

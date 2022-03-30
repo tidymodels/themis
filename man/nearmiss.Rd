@@ -46,6 +46,8 @@ distributions: a case study involving information extraction. In Proceedings
 of workshop on learning from imbalanced datasets, 2003.
 }
 \seealso{
+\code{\link[=step_nearmiss]{step_nearmiss()}} for step function of this method
+
 Other Direct Implementations: 
 \code{\link{adasyn}()},
 \code{\link{bsmote}()},

@@ -138,6 +138,8 @@ IJCNN 2008. (IEEE World Congress on Computational Intelligence). IEEE
 International Joint Conference. pp.1322-1328.
 }
 \seealso{
+\code{\link[=adasyn]{adasyn()}} for direct implementation
+
 Other Steps for over-sampling: 
 \code{\link{step_bsmote}()},
 \code{\link{step_rose}()},
