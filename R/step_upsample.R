@@ -164,7 +164,7 @@ prep.step_upsample <- function(x, training, info = NULL, ...) {
     majority <- max(obs_freq)
   }
 
-  check_na(select(training, all_of(col_name)), "step_bsmote")
+  check_na(select(training, all_of(col_name)), "step_upsample")
 
   step_upsample_new(
     terms = x$terms,

@@ -56,7 +56,7 @@
     Code
       recipe(Status ~ Age, data = credit_data0) %>% step_rose(Status) %>% prep()
     Error <rlang_error>
-      `step_bsmote` cannot have any missing values. NAs found ind: Status.
+      `step_rose` cannot have any missing values. NAs found ind: Status.
 
 # only except 2 classes
 

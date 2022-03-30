@@ -25,7 +25,7 @@
     Code
       adasyn(circle_example0, var = "class")
     Error <rlang_error>
-      `smote` cannot have any missing values. NAs found ind: x.
+      `adasyn` cannot have any missing values. NAs found ind: x.
 
 ---
 
