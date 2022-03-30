@@ -1,12 +1,20 @@
 # themis (development version)
 
-* `step_rose()` now correctly allows you to use characters variables. (#26)
-* `step_tomek()` now ignore non-predictor variables when appropriate. (#51)
+## New steps
+
+* `step_smotenc()` have been added to implement SMOTENC which can handle categorical as well as numerical values. Thanks to @RobertGregg (#82)
+
+## Improvements and Other Changes
+
+* export `nearmiss()` functions to users.
 * Update examples to no longer use `iris` or `okc` data sets.
 * All recipe steps now officially support empty selections to be more aligned with dplyr and other packages that use tidyselect (#55)
-* `step_smotenc()` have been added to implement SMOTENC which can handle categorical as well as numerical values. Thanks to @RobertGregg (#82)
+
+## Bug fixes
+
+* `step_rose()` now correctly allows you to use characters variables. (#26)
+* `step_tomek()` now ignore non-predictor variables when appropriate. (#51)
 * Fix bug where wrong ordering of columns caused error in `smote()`. (#76)
-* export `nearmiss()` functions to users.
 
 # themis 0.1.4
 
