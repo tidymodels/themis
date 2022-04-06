@@ -32,7 +32,8 @@ Imports:
     tibble,
     unbalanced,
     withr,
-    glue
+    glue,
+    hardhat
 Suggests: 
     covr,
     ggplot2,

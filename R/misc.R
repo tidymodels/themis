@@ -66,3 +66,15 @@ Mode <- function(x) {
   ux <- unique(x)
   ux[which.max(tabulate(match(x, ux)))]
 }
+
+weighted_table <- function(x, wts = NULL) {
+  if (is.null(wts)) {
+    wts <- rep(1, length(x))
+  }
+
+  if (!is.factor(x)) {
+    x <- factor(x)
+  }
+
+  hardhat::weighted_table(x, weights = wts)
+}
