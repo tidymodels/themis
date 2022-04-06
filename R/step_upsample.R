@@ -125,14 +125,15 @@ step_upsample <-
         target = target,
         skip = skip,
         seed = seed,
-        id = id
+        id = id,
+        case_weights = NULL
       )
     )
   }
 
 step_upsample_new <-
   function(terms, over_ratio, ratio, role, trained, column, target, skip, seed,
-           id) {
+           id, case_weights) {
     step(
       subclass = "upsample",
       terms = terms,
@@ -144,7 +145,8 @@ step_upsample_new <-
       target = target,
       skip = skip,
       id = id,
-      seed = seed
+      seed = seed,
+      case_weights = case_weights
     )
   }
 
@@ -152,6 +154,13 @@ step_upsample_new <-
 #' @export
 prep.step_upsample <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
+
+  wts <- recipes::get_case_weights(info, training)
+  were_weights_used <- recipes::are_weights_used(wts, unsupervised = TRUE)
+  if (isFALSE(were_weights_used) || is.null(wts)) {
+    wts <- rep(1, nrow(training))
+  }
+
   if (length(col_name) > 1) {
     rlang::abort("The selector should select at most a single variable")
   }
@@ -160,7 +169,7 @@ prep.step_upsample <- function(x, training, info = NULL, ...) {
     majority <- 0
   } else {
     check_column_factor(training, col_name)
-    obs_freq <- table(training[[col_name]])
+    obs_freq <- weighted_table(training[[col_name]], as.integer(wts))
     majority <- max(obs_freq)
   }
 
@@ -176,18 +185,19 @@ prep.step_upsample <- function(x, training, info = NULL, ...) {
     target = floor(majority * x$over_ratio),
     skip = x$skip,
     id = x$id,
-    seed = x$seed
+    seed = x$seed,
+    case_weights = were_weights_used
   )
 }
 
 
-supsamp <- function(x, num) {
+supsamp <- function(x, wts, num) {
   n <- nrow(x)
   if (nrow(x) == num) {
     out <- x
   } else {
     # upsampling is done with replacement
-    out <- x[sample(1:n, max(num, n), replace = TRUE), ]
+    out <- x[sample(seq_len(n), max(num, n), replace = TRUE, prob = wts), ]
   }
   out
 }
@@ -199,18 +209,32 @@ bake.step_upsample <- function(object, new_data, ...) {
     return(new_data)
   }
 
+  if (isTRUE(object$case_weights)) {
+    wts_col <- purrr::map_lgl(new_data, hardhat::is_case_weights)
+    wts <- getElement(new_data, names(which(wts_col)))
+    wts <- as.integer(wts)
+  } else {
+    wts <- rep(1, nrow(new_data))
+  }
+
   if (any(is.na(new_data[[object$column]]))) {
     missing <- new_data[is.na(new_data[[object$column]]), ]
   } else {
     missing <- NULL
   }
-  split_up <- split(new_data, new_data[[object$column]])
+  split_data <- split(new_data, new_data[[object$column]])
+  split_wts <- split(wts, new_data[[object$column]])
 
   # Upsample with seed for reproducibility
   with_seed(
     seed = object$seed,
     code = {
-      new_data <- map_dfr(split_up, supsamp, num = object$target)
+      new_data <- purrr::map2_dfr(
+        split_data,
+        split_wts,
+        supsamp,
+        num = object$target
+      )
       if (!is.null(missing)) {
         new_data <- bind_rows(new_data, supsamp(missing, object$target))
       }
@@ -224,7 +248,8 @@ bake.step_upsample <- function(object, new_data, ...) {
 print.step_upsample <-
   function(x, width = max(20, options()$width - 26), ...) {
     title <- "Up-sampling based on "
-    print_step(x$column, x$terms, x$trained, title, width)
+    print_step(x$column, x$terms, x$trained, title, width,
+               case_weights = x$case_weights)
     invisible(x)
   }
 
