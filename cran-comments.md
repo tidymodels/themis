@@ -1,8 +1,8 @@
 ## Release Summary
 
-This is the 6th CRAN release of themis.
+This is the 7th CRAN release of themis.
 
-New methods. Bug fixes.
+Bug fixes.
 
 ## R CMD check results
 
@@ -10,4 +10,4 @@ New methods. Bug fixes.
 
 ## Downstream dependencies
 
-There are no downstream dependencies to be checked.
+1 downstream dependencies was checked, with no error.
