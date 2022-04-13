@@ -41,6 +41,7 @@ reference:
     - smotenc
     - bsmote
     - adasyn
+    - nearmiss
 - title: Datasets
   contents:
     - circle_example
