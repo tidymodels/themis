@@ -10,16 +10,10 @@
     <loc>https://themis.tidymodels.org/CONTRIBUTING.html</loc>
   </url>
   <url>
-    <loc>https://themis.tidymodels.org/ISSUE_TEMPLATE.html</loc>
-  </url>
-  <url>
     <loc>https://themis.tidymodels.org/LICENSE-text.html</loc>
   </url>
   <url>
     <loc>https://themis.tidymodels.org/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/SUPPORT.html</loc>
   </url>
   <url>
     <loc>https://themis.tidymodels.org/authors.html</loc>
@@ -43,6 +37,9 @@
     <loc>https://themis.tidymodels.org/reference/index.html</loc>
   </url>
   <url>
+    <loc>https://themis.tidymodels.org/reference/nearmiss.html</loc>
+  </url>
+  <url>
     <loc>https://themis.tidymodels.org/reference/reexports.html</loc>
   </url>
   <url>
@@ -50,6 +47,9 @@
   </url>
   <url>
     <loc>https://themis.tidymodels.org/reference/smote.html</loc>
+  </url>
+  <url>
+    <loc>https://themis.tidymodels.org/reference/smotenc.html</loc>
   </url>
   <url>
     <loc>https://themis.tidymodels.org/reference/step_adasyn.html</loc>
@@ -70,6 +70,9 @@
     <loc>https://themis.tidymodels.org/reference/step_smote.html</loc>
   </url>
   <url>
+    <loc>https://themis.tidymodels.org/reference/step_smotenc.html</loc>
+  </url>
+  <url>
     <loc>https://themis.tidymodels.org/reference/step_tomek.html</loc>
   </url>
   <url>
@@ -77,6 +80,9 @@
   </url>
   <url>
     <loc>https://themis.tidymodels.org/reference/themis-package.html</loc>
+  </url>
+  <url>
+    <loc>https://themis.tidymodels.org/reference/tidy.recipe.html</loc>
   </url>
   <url>
     <loc>https://themis.tidymodels.org/reference/tunable.step_adasyn.html</loc>
