@@ -118,7 +118,7 @@ step_upsample <-
       step_upsample_new(
         terms = enquos(...),
         over_ratio = over_ratio,
-        ratio = ratio,
+        ratio = NULL,
         role = role,
         trained = trained,
         column = column,
