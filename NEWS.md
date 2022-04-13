@@ -1,5 +1,7 @@
 # themis (development version)
 
+* A bug was fixed in `step_downsample()` and `step_upsample()` that made the steps unable to be tuned. (#90)
+
 # themis 0.2.0
 
 ## New steps
