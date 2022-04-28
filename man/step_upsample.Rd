@@ -92,6 +92,14 @@ When you \code{\link[=tidy.recipe]{tidy()}} this step, a tibble with columns \co
 (the selectors or variables selected) will be returned.
 }
 
+\section{Case weights}{
+
+
+This step performs an unsupervised operation that can utilize case weights.
+To use them, see the documentation in \link[recipes:case_weights]{recipes::case_weights} and the examples on
+\code{tidymodels.org}.
+}
+
 \examples{
 library(recipes)
 library(modeldata)

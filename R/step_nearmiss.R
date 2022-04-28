@@ -42,6 +42,8 @@
 #' When you [`tidy()`][tidy.recipe()] this step, a tibble with columns `terms`
 #' (the selectors or variables selected) will be returned.
 #'
+#' @template case-weights-not-supported
+#'
 #' @references Inderjeet Mani and I Zhang. knn approach to unbalanced data
 #' distributions: a case study involving information extraction. In Proceedings
 #' of workshop on learning from imbalanced datasets, 2003.

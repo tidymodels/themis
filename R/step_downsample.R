@@ -54,6 +54,8 @@
 #' When you [`tidy()`][tidy.recipe()] this step, a tibble with columns `terms`
 #' (the selectors or variables selected) will be returned.
 #'
+#' @template case-weights-unsupervised
+#'
 #' @family Steps for under-sampling
 #'
 #' @export

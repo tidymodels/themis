@@ -53,6 +53,8 @@
 #' When you [`tidy()`][tidy.recipe()] this step, a tibble with columns `terms`
 #' (the selectors or variables selected) will be returned.
 #'
+#' @template case-weights-not-supported
+#'
 #' @references Lunardon, N., Menardi, G., and Torelli, N. (2014). ROSE: a
 #'  Package for Binary Imbalanced Learning. R Jorunal, 6:82–92.
 #' @references Menardi, G. and Torelli, N. (2014). Training and assessing
