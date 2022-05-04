@@ -55,7 +55,7 @@ test_that("printing", {
   rec <- recipe(class ~ x + y, data = circle_example) %>%
     step_smotenc(class)
   expect_output(print(rec))
-  expect_output(prep(rec, verbose = TRUE))
+  expect_output(prep(rec))
 })
 
 test_that("bad data", {

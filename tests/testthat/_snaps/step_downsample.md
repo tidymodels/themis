@@ -25,11 +25,8 @@
 ---
 
     Code
-      prep(rec, verbose = TRUE)
+      prep(rec)
     Output
-      oper 1 step downsample [training] 
-      The retained training set is ~ 0.03 Mb  in memory.
-      
       Recipe
       
       Inputs:
