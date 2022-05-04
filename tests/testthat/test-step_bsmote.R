@@ -65,7 +65,7 @@ test_that("printing", {
   rec <- recipe(class ~ x + y, data = circle_example) %>%
     step_bsmote(class)
   expect_snapshot(print(rec))
-  expect_snapshot(prep(rec, verbose = TRUE))
+  expect_snapshot(prep(rec))
 })
 
 test_that("bad data", {

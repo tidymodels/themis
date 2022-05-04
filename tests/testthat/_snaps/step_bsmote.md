@@ -18,11 +18,8 @@
 ---
 
     Code
-      prep(rec, verbose = TRUE)
+      prep(rec)
     Output
-      oper 1 step bsmote [training] 
-      The retained training set is ~ 0.01 Mb  in memory.
-      
       Recipe
       
       Inputs:
