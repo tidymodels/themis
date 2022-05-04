@@ -124,7 +124,7 @@ step_downsample <-
       step_downsample_new(
         terms = enquos(...),
         under_ratio = under_ratio,
-        ratio = ratio,
+        ratio = NULL,
         role = role,
         trained = trained,
         column = column,
