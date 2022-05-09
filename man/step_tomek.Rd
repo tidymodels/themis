@@ -54,8 +54,7 @@ the variable used to sample.
 }
 \description{
 \code{step_tomek} creates a \emph{specification} of a recipe
-step that removes majority class instances of tomek links. Using
-\code{\link[unbalanced:ubTomek]{unbalanced::ubTomek()}}.
+step that removes majority class instances of tomek links.
 }
 \details{
 The factor variable used to balance around must only have 2 levels. All

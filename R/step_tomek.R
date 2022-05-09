@@ -1,8 +1,7 @@
 #' Remove Tomek’s Links
 #'
 #' `step_tomek` creates a *specification* of a recipe
-#'  step that removes majority class instances of tomek links. Using
-#'  [unbalanced::ubTomek()].
+#'  step that removes majority class instances of tomek links.
 #'
 #' @inheritParams recipes::step_center
 #' @param ... One or more selector functions to choose which
@@ -183,7 +182,7 @@ bake.step_tomek <- function(object, new_data, ...) {
     seed = object$seed,
     code = {
       original_levels <- levels(predictor_data[[object$column]])
-      tomek_data <- ubTomek(
+      tomek_data <- tomek_impl(
         X = select(predictor_data, -!!object$column),
         Y = response_0_1(predictor_data[[object$column]]),
         verbose = FALSE
@@ -223,5 +222,5 @@ tidy.step_tomek <- function(x, ...) {
 #' @rdname required_pkgs.step
 #' @export
 required_pkgs.step_tomek <- function(x, ...) {
-  c("themis", "unbalanced")
+  c("themis")
 }
