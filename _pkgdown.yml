@@ -42,6 +42,7 @@ reference:
     - bsmote
     - adasyn
     - nearmiss
+    - tomek
 - title: Datasets
   contents:
     - circle_example
