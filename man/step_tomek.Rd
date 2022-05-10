@@ -81,7 +81,6 @@ library(modeldata)
 data(hpc_data)
 
 hpc_data0 <- hpc_data \%>\%
-  mutate(class = factor(class == "VF", labels = c("not VF", "VF"))) \%>\%
   select(-protocol, -day)
 
 orig <- count(hpc_data0, class, name = "orig")

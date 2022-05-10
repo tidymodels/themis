@@ -51,7 +51,6 @@
 #' data(hpc_data)
 #'
 #' hpc_data0 <- hpc_data %>%
-#'   mutate(class = factor(class == "VF", labels = c("not VF", "VF"))) %>%
 #'   select(-protocol, -day)
 #'
 #' orig <- count(hpc_data0, class, name = "orig")
@@ -137,7 +136,6 @@ prep.step_tomek <- function(x, training, info = NULL, ...) {
 
   if (length(col_name) == 1) {
     check_column_factor(training, col_name)
-    check_2_levels_only(training, col_name)
   }
 
   predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
@@ -156,18 +154,6 @@ prep.step_tomek <- function(x, training, info = NULL, ...) {
   )
 }
 
-# Turns a binary factor a variable where the majority class is coded as 0 and
-# the minority as 1.
-response_0_1 <- function(x) {
-  ifelse(x == names(sort(table(x)))[1], 1, 0)
-}
-# Turns 0-1 coded variable back into factor variable
-response_0_1_to_org <- function(old, new, levels) {
-  ref <- names(sort(table(old)))
-  names(ref) <- c("1", "0")
-  factor(unname(ref[as.character(new)]), levels = levels)
-}
-
 #' @export
 bake.step_tomek <- function(object, new_data, ...) {
   if (length(object$column) == 0L) {
@@ -181,17 +167,15 @@ bake.step_tomek <- function(object, new_data, ...) {
   with_seed(
     seed = object$seed,
     code = {
-      original_levels <- levels(predictor_data[[object$column]])
-      tomek_data <- tomek_impl(
-        X = select(predictor_data, -!!object$column),
-        Y = response_0_1(predictor_data[[object$column]]),
-        verbose = FALSE
+      tomek_data <- tomke_impl(
+        df = predictor_data,
+        var = object$column
       )
     }
   )
 
-  if (length(tomek_data$id.rm) > 0) {
-    new_data <- new_data[-tomek_data$id.rm, ]
+  if (length(tomek_data) > 0) {
+    new_data <- new_data[-tomek_data, ]
   }
 
   new_data
