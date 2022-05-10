@@ -168,7 +168,7 @@ bake.step_tomek <- function(object, new_data, ...) {
   with_seed(
     seed = object$seed,
     code = {
-      tomek_data <- tomke_impl(
+      tomek_data <- tomek_impl(
         df = predictor_data,
         var = object$column
       )

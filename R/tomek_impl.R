@@ -38,10 +38,10 @@ tomek <- function(df, var) {
   check_numeric(df[, predictors])
   check_na(select(df, -all_of(var)), "tomek")
 
-  df[-tomke_impl(df, var), ]
+  df[-tomek_impl(df, var), ]
 }
 
-tomke_impl <- function(df, var) {
+tomek_impl <- function(df, var) {
   res <- RANN::nn2(df[names(df) != var], k = 2)$nn.idx[, 2]
   remove <- logical(nrow(df))
   outcome <- df[[var]]
