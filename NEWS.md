@@ -1,5 +1,7 @@
 # themis (development version)
 
+* `tomek()` has been added, rewritten to apply to multiple classes, removing the need for the unbalanced package, which has been removed as a dependency. 
+
 # themis 0.2.1
 
 * A bug was fixed in `step_downsample()` and `step_upsample()` that made the steps unable to be tuned. (#90)
