@@ -42,7 +42,10 @@ tomek <- function(df, var) {
 }
 
 tomek_impl <- function(df, var) {
-  res <- RANN::nn2(df[names(df) != var], k = 2)$nn.idx[, 2]
+  res <- RANN::nn2(df[names(df) != var], k = 2)$nn.idx
+  # Make sure itself isn't counted as nearest neighbor for overlaps
+  res <- dplyr::if_else(seq_len(nrow(res)) == res[, 2], res[, 1], res[, 2])
+
   remove <- logical(nrow(df))
   outcome <- df[[var]]
 
