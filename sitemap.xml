@@ -85,6 +85,9 @@
     <loc>https://themis.tidymodels.org/reference/tidy.recipe.html</loc>
   </url>
   <url>
+    <loc>https://themis.tidymodels.org/reference/tomek.html</loc>
+  </url>
+  <url>
     <loc>https://themis.tidymodels.org/reference/tunable.step_adasyn.html</loc>
   </url>
 </urlset>
