@@ -1,8 +1,8 @@
 ## Release Summary
 
-This is the 7th CRAN release of themis.
+This is the 8th CRAN release of themis.
 
-Bug fixes.
+Removed unbalanced as a dependency. Rewrote tomek method from scratch. 
 
 ## R CMD check results
 
