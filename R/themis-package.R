@@ -27,7 +27,6 @@
 #' @importFrom ROSE ROSE
 #' @importFrom tibble as_tibble
 #' @importFrom tibble tibble
-#' @importFrom unbalanced ubTomek
 #' @importFrom withr with_seed
 ## usethis namespace: end
 NULL

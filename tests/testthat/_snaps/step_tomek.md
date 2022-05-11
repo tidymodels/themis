@@ -62,13 +62,6 @@
     Error <rlang_error>
       `step_tomek` cannot have any missing values. NAs found ind: Status.
 
-# only except 2 classes
-
-    Code
-      recipe(~., data = df_char) %>% step_tomek(x) %>% prep()
-    Error <rlang_error>
-      `x` must only have 2 levels.
-
 # empty printing
 
     Code

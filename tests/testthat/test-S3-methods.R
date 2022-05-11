@@ -21,7 +21,7 @@ test_that("required packages", {
   expect_equal(required_pkgs(r5), c("recipes", "themis"))
   expect_equal(required_pkgs(r6), c("recipes", "themis", "ROSE"))
   expect_equal(required_pkgs(r7), c("recipes", "themis"))
-  expect_equal(required_pkgs(r8), c("recipes", "themis", "unbalanced"))
+  expect_equal(required_pkgs(r8), c("recipes", "themis"))
   expect_equal(required_pkgs(r9), c("recipes", "themis"))
 })
 

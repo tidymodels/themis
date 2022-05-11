@@ -54,8 +54,7 @@ the variable used to sample.
 }
 \description{
 \code{step_tomek} creates a \emph{specification} of a recipe
-step that removes majority class instances of tomek links. Using
-\code{\link[unbalanced:ubTomek]{unbalanced::ubTomek()}}.
+step that removes majority class instances of tomek links.
 }
 \details{
 The factor variable used to balance around must only have 2 levels. All
@@ -82,7 +81,6 @@ library(modeldata)
 data(hpc_data)
 
 hpc_data0 <- hpc_data \%>\%
-  mutate(class = factor(class == "VF", labels = c("not VF", "VF"))) \%>\%
   select(-protocol, -day)
 
 orig <- count(hpc_data0, class, name = "orig")
@@ -130,6 +128,8 @@ Tomek. Two modifications of cnn. IEEE Trans. Syst. Man Cybern.,
 6:769-772, 1976.
 }
 \seealso{
+\code{\link[=tomek]{tomek()}} for direct implementation
+
 Other Steps for under-sampling: 
 \code{\link{step_downsample}()},
 \code{\link{step_nearmiss}()}

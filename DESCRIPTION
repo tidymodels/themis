@@ -30,7 +30,6 @@ Imports:
     rlang,
     ROSE,
     tibble,
-    unbalanced,
     withr,
     glue
 Suggests: 
