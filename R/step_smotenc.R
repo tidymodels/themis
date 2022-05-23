@@ -179,7 +179,7 @@ bake.step_smotenc <- function(object, new_data, ...) {
   )
   new_data <- na_splice(new_data, synthetic_data, object)
 
-  as_tibble(new_data)
+  new_data
 }
 
 #' @export

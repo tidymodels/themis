@@ -201,7 +201,7 @@ bake.step_nearmiss <- function(object, new_data, ...) {
     }
   )
 
-  as_tibble(new_data)
+  new_data
 }
 
 #' @export
