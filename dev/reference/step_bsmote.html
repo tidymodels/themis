@@ -201,13 +201,11 @@ International Conference on Intelligent Computing, pages 878–887. Springer,
 <span class="r-in">  <span class="fu"><a href="https://recipes.tidymodels.org/reference/bake.html" class="external-link">bake</a></span><span class="op">(</span>new_data <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
 <span class="r-in">  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">class</span>, name <span class="op">=</span> <span class="st">"training"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">training</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   class training</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> VF        <span style="text-decoration: underline;">2</span>211</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> F         <span style="text-decoration: underline;">1</span>347</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> M         <span style="text-decoration: underline;">1</span>000</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> L         <span style="text-decoration: underline;">1</span>000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1    VF     2211</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2     F     1347</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3     M     1000</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4     L     1000</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># Since `skip` defaults to TRUE, baking the step has no effect</span></span>
 <span class="r-in"><span class="va">baked</span> <span class="op">&lt;-</span> <span class="va">up_rec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
