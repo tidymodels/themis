@@ -58,7 +58,9 @@ na_splice <- function(new_data, synthetic_data, object) {
     bind_rows(new_data[, non_predictor, drop = FALSE], na_data)
   )
 
-  res[, names(new_data)]
+  res <- res[, names(new_data)]
+
+  as_tibble(res)
 }
 
 #https://stackoverflow.com/questions/2547402/how-to-find-the-statistical-mode
