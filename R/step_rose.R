@@ -218,6 +218,7 @@ bake.step_rose <- function(object, new_data, ...) {
         synthetic_data[[object$column]],
         levels = original_levels
       )
+      synthetic_data <- as_tibble(synthetic_data)
     }
   )
   new_data <- na_splice(new_data, synthetic_data, object)

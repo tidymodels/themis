@@ -175,6 +175,7 @@ bake.step_smotenc <- function(object, new_data, ...) {
         k = object$neighbors,
         over_ratio = object$over_ratio
       )
+      synthetic_data <- as_tibble(synthetic_data)
     }
   )
   new_data <- na_splice(new_data, synthetic_data, object)
