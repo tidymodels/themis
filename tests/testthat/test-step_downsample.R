@@ -230,3 +230,47 @@ test_that("empty printing", {
 
   expect_snapshot(rec)
 })
+
+test_that("case_weights", {
+  circle_example_cw <- circle_example %>%
+    mutate(weights = frequency_weights(rep(0:1, c(200, 200))))
+
+  rec1_p <- recipe(~., data = circle_example_cw) %>%
+    step_downsample(class) %>%
+    prep()
+
+  exp_count <- circle_example_cw %>%
+    filter(as.integer(weights) == 1) %>%
+    count(class) %>%
+    pull(n) %>%
+    min()
+
+  rec_count <- bake(rec1_p, new_data = NULL) %>%
+    count(class) %>%
+    pull(n)
+
+  expect_true(all(exp_count == rec_count))
+
+  expect_snapshot(rec1_p)
+
+  # ignore importance weights
+  circle_example_cw <- circle_example %>%
+    mutate(weights = importance_weights(rep(0:1, c(200, 200))))
+
+  rec1_p <- recipe(~., data = circle_example_cw) %>%
+    step_downsample(class) %>%
+    prep()
+
+  exp_count <- circle_example_cw %>%
+    count(class) %>%
+    pull(n) %>%
+    min()
+
+  rec_count <- bake(rec1_p, new_data = NULL) %>%
+    count(class) %>%
+    pull(n)
+
+  expect_true(all(exp_count == rec_count))
+
+  expect_snapshot(rec1_p)
+})

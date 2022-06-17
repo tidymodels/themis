@@ -54,6 +54,8 @@
 #' When you [`tidy()`][tidy.recipe()] this step, a tibble with columns `terms`
 #' (the selectors or variables selected) will be returned.
 #'
+#' @template case-weights-unsupervised
+#'
 #' @family Steps for under-sampling
 #'
 #' @export
@@ -129,14 +131,15 @@ step_downsample <-
         target = target,
         skip = skip,
         seed = seed,
-        id = id
+        id = id,
+        case_weights = NULL
       )
     )
   }
 
 step_downsample_new <-
   function(terms, under_ratio, ratio, role, trained, column, target, skip, seed,
-           id) {
+           id, case_weights) {
     step(
       subclass = "downsample",
       terms = terms,
@@ -149,13 +152,21 @@ step_downsample_new <-
       skip = skip,
       id = id,
       seed = seed,
-      id = id
+      id = id,
+      case_weights = case_weights
     )
   }
 
 #' @export
 prep.step_downsample <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
+
+  wts <- recipes::get_case_weights(info, training)
+  were_weights_used <- recipes::are_weights_used(wts, unsupervised = TRUE)
+  if (isFALSE(were_weights_used) || is.null(wts)) {
+    wts <- rep(1, nrow(training))
+  }
+
   if (length(col_name) > 1) {
     rlang::abort("The selector should select at most a single variable")
   }
@@ -164,7 +175,7 @@ prep.step_downsample <- function(x, training, info = NULL, ...) {
     minority <- 1
   } else {
     check_column_factor(training, col_name)
-    obs_freq <- table(training[[col_name]])
+    obs_freq <- weighted_table(training[[col_name]], as.integer(wts))
     minority <- min(obs_freq)
   }
 
@@ -180,27 +191,37 @@ prep.step_downsample <- function(x, training, info = NULL, ...) {
     target = floor(minority * x$under_ratio),
     skip = x$skip,
     seed = x$seed,
-    id = x$id
+    id = x$id,
+    case_weights = were_weights_used
   )
 }
 
 
-subsamp <- function(x, num) {
+subsamp <- function(x, wts, num) {
   n <- nrow(x)
   if (nrow(x) == num) {
     out <- x
   } else {
     # downsampling is done without replacement
-    out <- x[sample(1:n, min(num, n)), ]
+    out <- x[sample(seq_len(n), min(num, n), prob = wts), ]
   }
   out
 }
 
 #' @export
 bake.step_downsample <- function(object, new_data, ...) {
+
   if (length(object$column) == 0L) {
     # Empty selection
     return(new_data)
+  }
+
+  if (isTRUE(object$case_weights)) {
+    wts_col <- purrr::map_lgl(new_data, hardhat::is_case_weights)
+    wts <- getElement(new_data, names(which(wts_col)))
+    wts <- as.integer(wts)
+  } else {
+    wts <- rep(1, nrow(new_data))
   }
 
   if (any(is.na(new_data[[object$column]]))) {
@@ -208,13 +229,20 @@ bake.step_downsample <- function(object, new_data, ...) {
   } else {
     missing <- NULL
   }
-  split_up <- split(new_data, new_data[[object$column]])
+  split_data <- split(new_data, new_data[[object$column]])
+  split_wts <- split(wts, new_data[[object$column]])
+
 
   # Downsample with seed for reproducibility
   with_seed(
     seed = object$seed,
     code = {
-      new_data <- map_dfr(split_up, subsamp, num = object$target)
+      new_data <- purrr::map2_dfr(
+        split_data,
+        split_wts,
+        subsamp,
+        num = object$target
+      )
       if (!is.null(missing)) {
         new_data <- bind_rows(new_data, subsamp(missing, object$target))
       }
@@ -228,7 +256,8 @@ bake.step_downsample <- function(object, new_data, ...) {
 print.step_downsample <-
   function(x, width = max(20, options()$width - 26), ...) {
     title <- "Down-sampling based on "
-    print_step(x$column, x$terms, x$trained, title, width)
+    print_step(x$column, x$terms, x$trained, title, width,
+               case_weights = x$case_weights)
     invisible(x)
   }
 

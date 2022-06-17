@@ -39,6 +39,8 @@
 #' When you [`tidy()`][tidy.recipe()] this step, a tibble with columns `terms`
 #' (the selectors or variables selected) will be returned.
 #'
+#' @template case-weights-not-supported
+#'
 #' @references Tomek. Two modifications of cnn. IEEE Trans. Syst. Man Cybern.,
 #'  6:769-772, 1976.
 #'

@@ -90,3 +90,41 @@
       
       Down-sampling based on <none> [trained]
 
+# case_weights
+
+    Code
+      rec1_p
+    Output
+      Recipe
+      
+      Inputs:
+      
+               role #variables
+       case_weights          1
+          predictor          4
+      
+      Training data contained 400 data points and no missing data.
+      
+      Operations:
+      
+      Down-sampling based on class [weighted, trained]
+
+---
+
+    Code
+      rec1_p
+    Output
+      Recipe
+      
+      Inputs:
+      
+               role #variables
+       case_weights          1
+          predictor          4
+      
+      Training data contained 400 data points and no missing data.
+      
+      Operations:
+      
+      Down-sampling based on class [ignored weights, trained]
+
