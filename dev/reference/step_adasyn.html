@@ -73,21 +73,31 @@ step that generates synthetic positive instances using ADASYN algorithm.</p>
     <dl><dt>recipe</dt>
 <dd><p>A recipe object. The step will be added to the
 sequence of operations for this recipe.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>One or more selector functions to choose which
 variable is used to sample the data. See <code><a href="https://recipes.tidymodels.org/reference/selections.html" class="external-link">selections()</a></code>
 for more details. The selection should result in <em>single
 factor variable</em>. For the <code>tidy</code> method, these are not
 currently used.</p></dd>
+
+
 <dt>role</dt>
 <dd><p>Not used by this step since no new variables are
 created.</p></dd>
+
+
 <dt>trained</dt>
 <dd><p>A logical to indicate if the quantities for
 preprocessing have been estimated.</p></dd>
+
+
 <dt>column</dt>
 <dd><p>A character string of the variable name that will
 be populated (eventually) by the <code>...</code> selectors.</p></dd>
+
+
 <dt>over_ratio</dt>
 <dd><p>A numeric value for the ratio of the
 majority-to-minority frequencies. The default value (1) means
@@ -95,9 +105,13 @@ that all other levels are sampled up to have the same
 frequency as the most occurring level. A value of 0.5 would mean
 that the minority levels will have (at most) (approximately)
 half as many rows than the majority level.</p></dd>
+
+
 <dt>neighbors</dt>
 <dd><p>An integer. Number of nearest neighbor that are used
 to generate the new examples of the minority class.</p></dd>
+
+
 <dt>skip</dt>
 <dd><p>A logical. Should the step be skipped when the
 recipe is baked by <code><a href="https://recipes.tidymodels.org/reference/bake.html" class="external-link">bake()</a></code>? While all operations are baked
@@ -105,15 +119,22 @@ when <code><a href="https://recipes.tidymodels.org/reference/prep.html" class="e
 conducted on new data (e.g. processing the outcome variable(s)).
 Care should be taken when using <code>skip = TRUE</code> as it may affect
 the computations for subsequent operations.</p></dd>
+
+
 <dt>seed</dt>
 <dd><p>An integer that will be used as the seed when
 applied.</p></dd>
+
+
 <dt>id</dt>
 <dd><p>A character string that is unique to this step to identify it.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>An updated version of <code>recipe</code> with the new step
+    
+
+<p>An updated version of <code>recipe</code> with the new step
 added to the sequence of existing steps (if any). For the
 <code>tidy</code> method, a tibble with columns <code>terms</code> which is
 the variable used to sample.</p>
@@ -131,6 +152,13 @@ conducted outside of the training set.</p>
     <h2 id="tidying">Tidying<a class="anchor" aria-label="anchor" href="#tidying"></a></h2>
     <p>When you <code><a href="tidy.recipe.html">tidy()</a></code> this step, a tibble with columns <code>terms</code>
 (the selectors or variables selected) will be returned.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="case-weights">Case weights<a class="anchor" aria-label="anchor" href="#case-weights"></a></h2>
+    
+
+
+<p>The underlying operation does not allow for case weights.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -241,7 +269,7 @@ International Joint Conference. pp.1322-1328.</p>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
   </div></footer></body></html>
