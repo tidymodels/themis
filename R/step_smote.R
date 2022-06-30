@@ -174,6 +174,9 @@ prep.step_smote <- function(x, training, info = NULL, ...) {
 
 #' @export
 bake.step_smote <- function(object, new_data, ...) {
+  col_names <- unique(c(object$predictors, object$column))
+  check_new_data(col_names, object, new_data)
+
   if (length(object$column) == 0L) {
     # Empty selection
     return(new_data)
@@ -181,7 +184,7 @@ bake.step_smote <- function(object, new_data, ...) {
 
   new_data <- as.data.frame(new_data)
 
-  predictor_data <- new_data[, unique(c(object$predictors, object$column))]
+  predictor_data <- new_data[, col_names]
 
   # smote with seed for reproducibility
   with_seed(

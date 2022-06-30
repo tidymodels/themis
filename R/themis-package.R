@@ -14,6 +14,7 @@
 #' @importFrom purrr map_lgl
 #' @importFrom recipes add_step
 #' @importFrom recipes bake
+#' @importFrom recipes check_new_data
 #' @importFrom recipes check_type
 #' @importFrom recipes is_trained
 #' @importFrom recipes prep
