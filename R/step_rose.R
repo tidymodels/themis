@@ -164,7 +164,7 @@ prep.step_rose <- function(x, training, info = NULL, ...) {
     check_2_levels_only(training, col_name)
   }
 
-  predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
+  predictors <- setdiff(get_from_info(info, "predictor"), col_name)
   check_na(select(training, all_of(col_name)), "step_rose")
 
   step_rose_new(

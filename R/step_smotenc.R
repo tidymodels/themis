@@ -139,7 +139,7 @@ prep.step_smotenc <- function(x, training, info = NULL, ...) {
     check_column_factor(training, col_name)
   }
 
-  predictors <- setdiff(info$variable[info$role == "predictor"], col_name)
+  predictors <- setdiff(get_from_info(info, "predictor"), col_name)
   check_na(select(training, all_of(c(col_name, predictors))), "step_smotenc")
 
   step_smotenc_new(

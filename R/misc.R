@@ -80,3 +80,12 @@ weighted_table <- function(x, wts = NULL) {
 
   hardhat::weighted_table(x, weights = wts)
 }
+
+get_from_info <- function(info, role, na_rm = TRUE) {
+  res <- info$variable[info$role == role]
+
+  if (na_rm) {
+    res <- stats::na.omit(res)
+  }
+  res
+}
