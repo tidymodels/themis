@@ -206,6 +206,8 @@ supsamp <- function(x, wts, num) {
 
 #' @export
 bake.step_upsample <- function(object, new_data, ...) {
+  check_new_data(names(object$column), object, new_data)
+
   if (length(object$column) == 0L) {
     # Empty selection
     return(new_data)

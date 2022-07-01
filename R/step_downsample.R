@@ -210,6 +210,7 @@ subsamp <- function(x, wts, num) {
 
 #' @export
 bake.step_downsample <- function(object, new_data, ...) {
+  check_new_data(names(object$column), object, new_data)
 
   if (length(object$column) == 0L) {
     # Empty selection

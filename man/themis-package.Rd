@@ -6,7 +6,7 @@
 \alias{themis-package}
 \title{themis: Extra Recipes Steps for Dealing with Unbalanced Data}
 \description{
-A dataset with an uneven number of cases in each class is said to be unbalanced. Many models produce a subpar performance on unbalanced datasets. A dataset can be balanced by increasing the number of minority cases using SMOTE 2011 <arXiv:1106.1813>, BorderlineSMOTE 2005 <doi:10.1007/11538059_91> and ADASYN 2008 <https://ieeexplore.ieee.org/document/4633969>. Or by decreasing the number of majority cases using NearMiss 2003 <https://www.site.uottawa.ca/~nat/Workshop2003/jzhang.pdf> or Tomek link removal 1976 <https://ieeexplore.ieee.org/document/4309452>.
+A dataset with an uneven number of cases in each class is said to be unbalanced. Many models produce a subpar performance on unbalanced datasets. A dataset can be balanced by increasing the number of minority cases using SMOTE 2011 \href{https://arxiv.org/abs/1106.1813}{arXiv:1106.1813}, BorderlineSMOTE 2005 \doi{10.1007/11538059_91} and ADASYN 2008 \url{https://ieeexplore.ieee.org/document/4633969}. Or by decreasing the number of majority cases using NearMiss 2003 \url{https://www.site.uottawa.ca/~nat/Workshop2003/jzhang.pdf} or Tomek link removal 1976 \url{https://ieeexplore.ieee.org/document/4309452}.
 }
 \seealso{
 Useful links:
