@@ -12,7 +12,7 @@ neighbors of these cases in the border region between classes."><!-- mathjax -->
     
     <a class="navbar-brand me-2" href="../index.html">themis</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.2.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">1.0.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,7 +54,7 @@ neighbors of these cases in the border region between classes.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">bsmote</span><span class="op">(</span><span class="va">df</span>, <span class="va">var</span>, k <span class="op">=</span> <span class="fl">5</span>, over_ratio <span class="op">=</span> <span class="fl">1</span>, all_neighbors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">bsmote</span><span class="op">(</span><span class="va">df</span>, <span class="va">var</span>, k <span class="op">=</span> <span class="fl">5</span>, over_ratio <span class="op">=</span> <span class="fl">1</span>, all_neighbors <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -62,11 +62,17 @@ neighbors of these cases in the border region between classes.</p>
     <dl><dt>df</dt>
 <dd><p>data.frame or tibble. Must have 1 factor variable and remaining
 numeric variables.</p></dd>
+
+
 <dt>var</dt>
 <dd><p>Character, name of variable containing factor variable.</p></dd>
+
+
 <dt>k</dt>
 <dd><p>An integer. Number of nearest neighbor that are used
 to generate the new examples of the minority class.</p></dd>
+
+
 <dt>over_ratio</dt>
 <dd><p>A numeric value for the ratio of the
 majority-to-minority frequencies. The default value (1) means
@@ -74,13 +80,18 @@ that all other levels are sampled up to have the same
 frequency as the most occurring level. A value of 0.5 would mean
 that the minority levels will have (at most) (approximately)
 half as many rows than the majority level.</p></dd>
+
+
 <dt>all_neighbors</dt>
 <dd><p>Type of two borderline-SMOTE method. Defaults to FALSE.
 See details.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A data.frame or tibble, depending on type of <code>df</code>.</p>
+    
+
+<p>A data.frame or tibble, depending on type of <code>df</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
@@ -121,15 +132,15 @@ International Conference on Intelligent Computing, pages 878–887. Springer,
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">circle_numeric</span> <span class="op">&lt;-</span> <span class="va">circle_example</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"class"</span><span class="op">)</span><span class="op">]</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">bsmote</span><span class="op">(</span><span class="va">circle_numeric</span>, var <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">bsmote</span><span class="op">(</span><span class="va">circle_numeric</span>, var <span class="op">=</span> <span class="st">"class"</span>, k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">bsmote</span><span class="op">(</span><span class="va">circle_numeric</span>, var <span class="op">=</span> <span class="st">"class"</span>, over_ratio <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">bsmote</span><span class="op">(</span><span class="va">circle_numeric</span>, var <span class="op">=</span> <span class="st">"class"</span>, all_neighbors <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">circle_numeric</span> <span class="op">&lt;-</span> <span class="va">circle_example</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"x"</span>, <span class="st">"y"</span>, <span class="st">"class"</span><span class="op">)</span><span class="op">]</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">bsmote</span><span class="op">(</span><span class="va">circle_numeric</span>, var <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">bsmote</span><span class="op">(</span><span class="va">circle_numeric</span>, var <span class="op">=</span> <span class="st">"class"</span>, k <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">bsmote</span><span class="op">(</span><span class="va">circle_numeric</span>, var <span class="op">=</span> <span class="st">"class"</span>, over_ratio <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">bsmote</span><span class="op">(</span><span class="va">circle_numeric</span>, var <span class="op">=</span> <span class="st">"class"</span>, all_neighbors <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
@@ -143,7 +154,7 @@ International Conference on Intelligent Computing, pages 878–887. Springer,
 </div>
 
 <div class="pkgdown-footer-right">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
   </div></footer></body></html>
