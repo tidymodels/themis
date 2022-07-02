@@ -1,3 +1,5 @@
+# themis (development version)
+
 # themis 1.0.0
 
 * Added case weights support for `step_upsample()` and `step_downsample()`
