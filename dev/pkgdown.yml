@@ -2,7 +2,7 @@ pandoc: 2.14.2
 pkgdown: 2.0.5
 pkgdown_sha: ~
 articles: {}
-last_built: 2022-07-01T20:35Z
+last_built: 2022-07-02T17:47Z
 urls:
   reference: https://themis.tidymodels.org/reference
   article: https://themis.tidymodels.org/articles
