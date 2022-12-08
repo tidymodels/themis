@@ -22,7 +22,7 @@ Depends:
     recipes (>= 1.0.0)
 Imports: 
     gower,
-    lifecycle,
+    lifecycle (>= 1.0.3),
     dplyr,
     generics (>= 0.1.0),
     purrr,
