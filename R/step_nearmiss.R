@@ -25,8 +25,8 @@
 #'  the variable used to sample.
 #'
 #' @details
-#' This methods retained the points form the majority classes which has the
-#' smallest mean distance to the k nearest points in the other classes.
+#' This method retains the points from the majority class which have the
+#' smallest mean distance to the k nearest points in the minority class.
 #'
 #' All columns in the data are sampled and returned by [juice()]
 #'  and [bake()].
