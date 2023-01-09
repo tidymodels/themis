@@ -15,7 +15,6 @@ Useful links:
 \itemize{
   \item \url{https://github.com/tidymodels/themis}
   \item \url{https://themis.tidymodels.org}
-  \item \url{https://themis.tidymodels.org/}
   \item Report bugs at \url{https://github.com/tidymodels/themis/issues}
 }
 
