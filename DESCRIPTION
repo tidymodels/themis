@@ -14,8 +14,7 @@ Description: A dataset with an uneven number of cases in each class is
     <https://www.site.uottawa.ca/~nat/Workshop2003/jzhang.pdf> or Tomek
     link removal 1976 <https://ieeexplore.ieee.org/document/4309452>.
 License: MIT + file LICENSE
-URL: https://github.com/tidymodels/themis, https://themis.tidymodels.org,
-    https://themis.tidymodels.org/
+URL: https://github.com/tidymodels/themis, https://themis.tidymodels.org
 BugReports: https://github.com/tidymodels/themis/issues
 Depends: 
     R (>= 3.4),
