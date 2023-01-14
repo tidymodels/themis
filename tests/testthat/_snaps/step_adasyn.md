@@ -68,7 +68,7 @@
     Error <recipes_error_step>
       
       Caused by error in `prep()`:
-      ! All columns selected for the step should be numeric.
+      ! All columns selected for the step should be double, or integer.
 
 # NA in response
 
