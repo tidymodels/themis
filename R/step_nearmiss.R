@@ -159,7 +159,7 @@ prep.step_nearmiss <- function(x, training, info = NULL, ...) {
   predictors <- setdiff(get_from_info(info, "predictor"), col_name)
 
   check_type(training[, predictors], TRUE)
-  check_na(select(training, all_of(c(col_name, predictors))), "step_nearmiss")
+  check_na(select(training, all_of(c(col_name, predictors))))
 
   step_nearmiss_new(
     terms = x$terms,

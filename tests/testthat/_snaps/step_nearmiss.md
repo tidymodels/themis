@@ -38,29 +38,37 @@
 
     Code
       rec %>% step_nearmiss(x) %>% prep()
-    Error <rlang_error>
-      `x` should be a factor variable.
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! `x` should be a factor variable.
 
 ---
 
     Code
       rec %>% step_nearmiss(class, id) %>% prep()
-    Error <rlang_error>
-      The selector should select at most a single variable
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! The selector should select at most a single variable
 
 # errors if character are present
 
     Code
       recipe(~., data = df_char) %>% step_nearmiss(x) %>% prep()
-    Error <rlang_error>
-      All columns selected for the step should be numeric
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! All columns selected for the step should be numeric.
 
 # NA in response
 
     Code
       recipe(Job ~ Age, data = credit_data) %>% step_nearmiss(Job) %>% prep()
-    Error <rlang_error>
-      `step_nearmiss` cannot have any missing values. NAs found ind: Job.
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! Cannot have any missing values. NAs found ind: Job.
 
 # empty printing
 

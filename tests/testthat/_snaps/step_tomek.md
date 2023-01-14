@@ -38,29 +38,37 @@
 
     Code
       rec %>% step_smote(x) %>% prep()
-    Error <rlang_error>
-      `x` should be a factor variable.
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! `x` should be a factor variable.
 
 ---
 
     Code
       rec %>% step_smote(class, id) %>% prep()
-    Error <rlang_error>
-      The selector should select at most a single variable
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! The selector should select at most a single variable
 
 # errors if character are present
 
     Code
       recipe(~., data = df_char) %>% step_tomek(x) %>% prep()
-    Error <rlang_error>
-      All columns selected for the step should be numeric
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! All columns selected for the step should be numeric.
 
 # NA in response
 
     Code
       recipe(Status ~ Age, data = credit_data0) %>% step_tomek(Status) %>% prep()
-    Error <rlang_error>
-      `step_tomek` cannot have any missing values. NAs found ind: Status.
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! Cannot have any missing values. NAs found ind: Status.
 
 # empty printing
 

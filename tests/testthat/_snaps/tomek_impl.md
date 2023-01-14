@@ -25,5 +25,5 @@
     Code
       tomek(circle_example0, var = "class")
     Error <rlang_error>
-      `tomek` cannot have any missing values. NAs found ind: x.
+      Cannot have any missing values. NAs found ind: x.
 

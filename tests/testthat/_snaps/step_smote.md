@@ -2,8 +2,10 @@
 
     Code
       recipe(Status ~ Age, data = credit_data0) %>% step_smote(Status) %>% prep()
-    Error <rlang_error>
-      Not enough observations of 'dummy' to perform SMOTE.
+    Error <recipes_error_step>
+      
+      Caused by error in `bake()`:
+      ! Not enough observations of 'dummy' to perform SMOTE.
 
 # printing
 
@@ -45,29 +47,37 @@
 
     Code
       rec %>% step_smote(x) %>% prep()
-    Error <rlang_error>
-      `x` should be a factor variable.
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! `x` should be a factor variable.
 
 ---
 
     Code
       rec %>% step_smote(class, id) %>% prep()
-    Error <rlang_error>
-      The selector should select at most a single variable
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! The selector should select at most a single variable
 
 # errors if character are present
 
     Code
       recipe(~., data = df_char) %>% step_smote(x) %>% prep()
-    Error <rlang_error>
-      All columns selected for the step should be numeric
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! All columns selected for the step should be numeric.
 
 # NA in response
 
     Code
       recipe(Job ~ Age, data = credit_data) %>% step_smote(Job) %>% prep()
-    Error <rlang_error>
-      `step_smote` cannot have any missing values. NAs found ind: Job.
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! Cannot have any missing values. NAs found ind: Job.
 
 # empty printing
 

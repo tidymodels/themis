@@ -52,12 +52,12 @@ adasyn <- function(df, var, k = 5, over_ratio = 1) {
   predictors <- setdiff(colnames(df), var)
 
   check_numeric(df[, predictors])
-  check_na(select(df, -all_of(var)), "adasyn")
+  check_na(select(df, -all_of(var)))
 
   adasyn_impl(df, var, k, over_ratio)
 }
 
-adasyn_impl <- function(df, var, k = 5, over_ratio = 1) {
+adasyn_impl <- function(df, var, k = 5, over_ratio = 1, call = caller_env()) {
   majority_count <- max(table(df[[var]]))
   ratio_target <- majority_count * over_ratio
   which_upsample <- which(table(df[[var]]) < ratio_target)
@@ -86,7 +86,8 @@ adasyn_impl <- function(df, var, k = 5, over_ratio = 1) {
       rlang::abort(
         glue(
         "Not enough observations of '{min_names[i]}' to perform ADASYN."
-        )
+        ),
+        call = call
       )
     }
 
