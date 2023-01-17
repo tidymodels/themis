@@ -36,7 +36,7 @@ tomek <- function(df, var) {
   predictors <- setdiff(colnames(df), var)
 
   check_numeric(df[, predictors])
-  check_na(select(df, -all_of(var)), "tomek")
+  check_na(select(df, -all_of(var)))
 
   df[-tomek_impl(df, var), ]
 }

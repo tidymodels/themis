@@ -52,7 +52,7 @@ nearmiss <- function(df, var, k = 5, under_ratio = 1) {
   predictors <- setdiff(colnames(df), var)
 
   check_numeric(df[, predictors])
-  check_na(select(df, -all_of(var)), "nearmiss")
+  check_na(select(df, -all_of(var)))
 
   nearmiss_impl(df, var, ignore_vars = character(), k, under_ratio)
 }

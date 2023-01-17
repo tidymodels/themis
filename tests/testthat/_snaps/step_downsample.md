@@ -44,15 +44,19 @@
 
     Code
       rec %>% step_downsample(x) %>% prep()
-    Error <rlang_error>
-      `x` should be a factor variable.
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! `x` should be a factor variable.
 
 ---
 
     Code
       rec %>% step_downsample(class, id) %>% prep()
-    Error <rlang_error>
-      The selector should select at most a single variable
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! The selector should select at most a single variable
 
 # empty printing
 

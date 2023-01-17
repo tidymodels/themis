@@ -38,29 +38,37 @@
 
     Code
       rec %>% step_rose(x) %>% prep()
-    Error <rlang_error>
-      `x` should be a factor variable.
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! `x` should be a factor variable.
 
 ---
 
     Code
       rec %>% step_rose(class, id) %>% prep()
-    Error <rlang_error>
-      The selector should select at most a single variable
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! The selector should select at most a single variable
 
 # NA in response
 
     Code
       recipe(Status ~ Age, data = credit_data0) %>% step_rose(Status) %>% prep()
-    Error <rlang_error>
-      `step_rose` cannot have any missing values. NAs found ind: Status.
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! Cannot have any missing values. NAs found ind: Status.
 
 # only except 2 classes
 
     Code
       recipe(~., data = df_char) %>% step_rose(x) %>% prep()
-    Error <rlang_error>
-      `x` must only have 2 levels.
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! `x` must only have 2 levels.
 
 # empty printing
 

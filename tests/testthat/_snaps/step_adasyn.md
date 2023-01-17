@@ -2,8 +2,10 @@
 
     Code
       recipe(Status ~ Age, data = credit_data0) %>% step_adasyn(Status) %>% prep()
-    Error <rlang_error>
-      Not enough observations of 'dummy' to perform ADASYN.
+    Error <recipes_error_step>
+      
+      Caused by error in `bake()`:
+      ! Not enough observations of 'dummy' to perform ADASYN.
 
 # printing
 
@@ -45,29 +47,37 @@
 
     Code
       rec %>% step_adasyn(x) %>% prep()
-    Error <rlang_error>
-      `x` should be a factor variable.
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! `x` should be a factor variable.
 
 ---
 
     Code
       rec %>% step_adasyn(class, id) %>% prep()
-    Error <rlang_error>
-      The selector should select at most a single variable
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! The selector should select at most a single variable
 
 # errors if character are present
 
     Code
       recipe(~., data = df_char) %>% step_adasyn(x) %>% prep()
-    Error <rlang_error>
-      All columns selected for the step should be numeric
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! All columns selected for the step should be double, or integer.
 
 # NA in response
 
     Code
       recipe(Job ~ Age, data = credit_data) %>% step_adasyn(Job) %>% prep()
-    Error <rlang_error>
-      `step_adasyn` cannot have any missing values. NAs found ind: Job.
+    Error <recipes_error_step>
+      
+      Caused by error in `prep()`:
+      ! Cannot have any missing values. NAs found ind: Job.
 
 # empty printing
 

@@ -24,6 +24,7 @@
 #' @importFrom recipes sel2char
 #' @importFrom recipes step
 #' @importFrom rlang :=
+#' @importFrom rlang caller_env
 #' @importFrom rlang enquos
 #' @importFrom ROSE ROSE
 #' @importFrom tibble as_tibble

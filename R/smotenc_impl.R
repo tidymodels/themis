@@ -64,7 +64,7 @@ smotenc <- function(df, var, k = 5, over_ratio = 1) {
     rlang::abort("`k` must be non-negative.")
   }
 
-  check_na(select(df, -all_of(var)), "smotenc")
+  check_na(select(df, -all_of(var)))
 
   smotenc_impl(df, var, k, over_ratio)
 }

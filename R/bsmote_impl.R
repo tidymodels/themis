@@ -77,7 +77,7 @@ bsmote <- function(df, var, k = 5, over_ratio = 1, all_neighbors = FALSE) {
   predictors <- setdiff(colnames(df), var)
 
   check_numeric(df[, predictors])
-  check_na(select(df, -all_of(var)), "bsmote")
+  check_na(select(df, -all_of(var)))
 
   bsmote_impl(df, var, k, over_ratio)
 }
