@@ -91,7 +91,8 @@ smote_impl <- function(df, var, k, over_ratio, call = caller_env()) {
     synthetic <- smote_data(minority, k = k, n_samples = samples_needed[i])
     out_df <- as.data.frame(synthetic)
     names(out_df) <- setdiff(names(df), var)
-    out_df[var] <- data[[names(samples_needed)[i]]][[var]][1]
+    out_df_nrow <- min(nrow(out_df), 1)
+    out_df[var] <- data[[names(samples_needed)[i]]][[var]][out_df_nrow]
     out_df <- out_df[names(df)]
     out_dfs[[i]] <- out_df
   }
