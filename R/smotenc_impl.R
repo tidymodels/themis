@@ -134,7 +134,9 @@ smotenc_data <- function(data, k, n_samples, smotenc_ids = seq_len(nrow(data))) 
   # Runs a nearest neighbor search
   # outputs a matrix, each row is a minority instance and each column is a nearest neighbor
   # k is +1 because the sample is always a nearest neighbor to itself
-  ids <- t(gower::gower_topn(x = data, y = data, n = k + 1)$index)
+  suppressWarnings(
+    ids <- t(gower::gower_topn(x = data, y = data, n = k + 1, )$index)
+  )
 
   # shuffles minority indicies and repeats that shuffling until the desired number of samples is reached
   indexes <- rep(sample(smotenc_ids), length.out = n_samples)
