@@ -69,3 +69,13 @@ test_that("ordering of columns shouldn't matter", {
     NA
   )
 })
+
+test_that("Doesn't error if no upsampling is done (#119)", {
+  dat <- data.frame(
+    outcome = c(rep("X", 101), rep("Z", 50)),
+    X1 = 1)
+
+  expect_no_error(
+    smote_impl(dat, "outcome", 5, over_ratio = 0.5)
+  )
+})
