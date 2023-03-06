@@ -2,71 +2,69 @@
 
     Code
       print(rec)
-    Output
-      Recipe
+    Message <cliMessage>
       
-      Inputs:
+      -- Recipe ----------------------------------------------------------------------
       
-            role #variables
-         outcome          1
-       predictor          2
+      -- Inputs 
+      Number of variables by role
+      outcome:   1
+      predictor: 2
       
-      Operations:
-      
-      SMOTENC based on class
+      -- Operations 
+      * SMOTENC based on: class
 
 ---
 
     Code
       prep(rec)
-    Output
-      Recipe
+    Message <cliMessage>
       
-      Inputs:
+      -- Recipe ----------------------------------------------------------------------
       
-            role #variables
-         outcome          1
-       predictor          2
+      -- Inputs 
+      Number of variables by role
+      outcome:   1
+      predictor: 2
       
-      Training data contained 400 data points and no missing data.
+      -- Training information 
+      Training data contained 400 data points and no incomplete rows.
       
-      Operations:
-      
-      SMOTENC based on class [trained]
+      -- Operations 
+      * SMOTENC based on: class | Trained
 
 # empty printing
 
     Code
       rec
-    Output
-      Recipe
+    Message <cliMessage>
       
-      Inputs:
+      -- Recipe ----------------------------------------------------------------------
       
-            role #variables
-         outcome          1
-       predictor         10
+      -- Inputs 
+      Number of variables by role
+      outcome:    1
+      predictor: 10
       
-      Operations:
-      
-      SMOTENC based on <none>
+      -- Operations 
+      * SMOTENC based on: <none>
 
 ---
 
     Code
       rec
-    Output
-      Recipe
+    Message <cliMessage>
       
-      Inputs:
+      -- Recipe ----------------------------------------------------------------------
       
-            role #variables
-         outcome          1
-       predictor         10
+      -- Inputs 
+      Number of variables by role
+      outcome:    1
+      predictor: 10
       
-      Training data contained 32 data points and no missing data.
+      -- Training information 
+      Training data contained 32 data points and no incomplete rows.
       
-      Operations:
-      
-      SMOTENC based on <none> [trained]
+      -- Operations 
+      * SMOTENC based on: <none> | Trained
 

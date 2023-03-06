@@ -10,42 +10,41 @@
 
     Code
       print(rec)
-    Output
-      Recipe
+    Message <cliMessage>
       
-      Inputs:
+      -- Recipe ----------------------------------------------------------------------
       
-            role #variables
-       predictor          4
+      -- Inputs 
+      Number of variables by role
+      predictor: 4
       
-      Operations:
-      
-      Up-sampling based on class
+      -- Operations 
+      * Up-sampling based on: class
 
 ---
 
     Code
       prep(rec)
-    Output
-      Recipe
+    Message <cliMessage>
       
-      Inputs:
+      -- Recipe ----------------------------------------------------------------------
       
-            role #variables
-       predictor          4
+      -- Inputs 
+      Number of variables by role
+      predictor: 4
       
-      Training data contained 400 data points and no missing data.
+      -- Training information 
+      Training data contained 400 data points and no incomplete rows.
       
-      Operations:
-      
-      Up-sampling based on class [trained]
+      -- Operations 
+      * Up-sampling based on: class | Trained
 
 # bad data
 
     Code
       rec %>% step_upsample(x) %>% prep()
     Error <recipes_error_step>
-      
+      Error in `step_upsample()`:
       Caused by error in `prep()`:
       ! `x` should be a factor variable.
 
@@ -54,7 +53,7 @@
     Code
       rec %>% step_upsample(class, id) %>% prep()
     Error <recipes_error_step>
-      
+      Error in `step_upsample()`:
       Caused by error in `prep()`:
       ! The selector should select at most a single variable
 
@@ -62,73 +61,72 @@
 
     Code
       rec
-    Output
-      Recipe
+    Message <cliMessage>
       
-      Inputs:
+      -- Recipe ----------------------------------------------------------------------
       
-            role #variables
-         outcome          1
-       predictor         10
+      -- Inputs 
+      Number of variables by role
+      outcome:    1
+      predictor: 10
       
-      Operations:
-      
-      Up-sampling based on <none>
+      -- Operations 
+      * Up-sampling based on: <none>
 
 ---
 
     Code
       rec
-    Output
-      Recipe
+    Message <cliMessage>
       
-      Inputs:
+      -- Recipe ----------------------------------------------------------------------
       
-            role #variables
-         outcome          1
-       predictor         10
+      -- Inputs 
+      Number of variables by role
+      outcome:    1
+      predictor: 10
       
-      Training data contained 32 data points and no missing data.
+      -- Training information 
+      Training data contained 32 data points and no incomplete rows.
       
-      Operations:
-      
-      Up-sampling based on <none> [trained]
+      -- Operations 
+      * Up-sampling based on: <none> | Trained
 
 # case_weights
 
     Code
       rec1_p
-    Output
-      Recipe
+    Message <cliMessage>
       
-      Inputs:
+      -- Recipe ----------------------------------------------------------------------
       
-               role #variables
-       case_weights          1
-          predictor          4
+      -- Inputs 
+      Number of variables by role
+      predictor:    4
+      case_weights: 1
       
-      Training data contained 400 data points and no missing data.
+      -- Training information 
+      Training data contained 400 data points and no incomplete rows.
       
-      Operations:
-      
-      Up-sampling based on class [weighted, trained]
+      -- Operations 
+      * Up-sampling based on: class | Trained, weighted
 
 ---
 
     Code
       rec1_p
-    Output
-      Recipe
+    Message <cliMessage>
       
-      Inputs:
+      -- Recipe ----------------------------------------------------------------------
       
-               role #variables
-       case_weights          1
-          predictor          4
+      -- Inputs 
+      Number of variables by role
+      predictor:    4
+      case_weights: 1
       
-      Training data contained 400 data points and no missing data.
+      -- Training information 
+      Training data contained 400 data points and no incomplete rows.
       
-      Operations:
-      
-      Up-sampling based on class [ignored weights, trained]
+      -- Operations 
+      * Up-sampling based on: class | Trained, ignored weights
 
