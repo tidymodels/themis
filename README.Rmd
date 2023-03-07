@@ -38,8 +38,8 @@ install.packages("themis")
 Install the development version from GitHub with:
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("tidymodels/themis")
+# install.packages("pak")
+pak::pak("tidymodels/themis")
 ```
 
 ## Example
