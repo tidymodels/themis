@@ -4,7 +4,7 @@ Version: 1.0.0.9000
 Authors@R: c(
     person("Emil", "Hvitfeldt", , "emil.hvitfeldt@posit.co", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0679-1945")),
-    person(given = "Posit, PBC", role = c("cph", "fnd"))
+    person(given = "Posit Software, PBC", role = c("cph", "fnd"))
   )
 Description: A dataset with an uneven number of cases in each class is
     said to be unbalanced. Many models produce a subpar performance on
