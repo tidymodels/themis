@@ -34,8 +34,8 @@ install.packages("themis")
 Install the development version from GitHub with:
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("tidymodels/themis")
+# install.packages("pak")
+pak::pak("tidymodels/themis")
 ```
 
 ## Example
@@ -93,7 +93,7 @@ example_data %>%
   geom_bar()
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-1.png" alt="Bar chart with 5 columns. class on the x-axis and count on the y-axis. Class a has height 10, b has 20, c has 30, d has 40, and e has 50." width="100%" />
 
 ### Upsample / Over-sampling
 
@@ -121,7 +121,7 @@ recipe(~., example_data) %>%
   geom_bar()
 ```
 
-<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-3-1.png" alt="Bar chart with 5 columns. class on the x-axis and count on the y-axis. class a, b, c, d, and e all have a height of 50." width="100%" />
 
 and by setting `over_ratio = 0.5` we upsample any minority class with
 less samples then 50% of the majority up to have 50% of the majority.
@@ -135,7 +135,7 @@ recipe(~., example_data) %>%
   geom_bar()
 ```
 
-<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-4-1.png" alt="Bar chart with 5 columns. class on the x-axis and count on the y-axis. Class a has height 25, b has 25, c has 30, d has 40, and e has 50." width="100%" />
 
 ### Downsample / Under-sampling
 
@@ -161,7 +161,7 @@ recipe(~., example_data) %>%
   geom_bar()
 ```
 
-<img src="man/figures/README-unnamed-chunk-5-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-5-1.png" alt="Bar chart with 5 columns. class on the x-axis and count on the y-axis. Class a, b, c, d, and e all have a height of 10." width="100%" />
 
 and by setting `under_ratio = 2` we downsample any majority class with
 more then 200% samples of the minority class down to have to 200%
@@ -176,7 +176,7 @@ recipe(~., example_data) %>%
   geom_bar()
 ```
 
-<img src="man/figures/README-unnamed-chunk-6-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-6-1.png" alt="Bar chart with 5 columns. class on the x-axis and count on the y-axis. Class a has height 10, b, c, d, and e have ha height of 20." width="100%" />
 
 ## Contributing
 
@@ -184,18 +184,18 @@ This project is released with a [Contributor Code of
 Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
 
--   For questions and discussions about tidymodels packages, modeling,
-    and machine learning, [join us on RStudio
-    Community](https://community.rstudio.com/new-topic?category_id=15&tags=tidymodels,question).
+- For questions and discussions about tidymodels packages, modeling, and
+  machine learning, [join us on RStudio
+  Community](https://community.rstudio.com/new-topic?category_id=15&tags=tidymodels,question).
 
--   If you think you have encountered a bug, please [submit an
-    issue](https://github.com/tidymodels/themis/issues).
+- If you think you have encountered a bug, please [submit an
+  issue](https://github.com/tidymodels/themis/issues).
 
--   Either way, learn how to create and share a
-    [reprex](https://reprex.tidyverse.org/articles/articles/learn-reprex.html)
-    (a minimal, reproducible example), to clearly communicate about your
-    code.
+- Either way, learn how to create and share a
+  [reprex](https://reprex.tidyverse.org/articles/articles/learn-reprex.html)
+  (a minimal, reproducible example), to clearly communicate about your
+  code.
 
--   Check out further details on [contributing guidelines for tidymodels
-    packages](https://www.tidymodels.org/contribute/) and [how to get
-    help](https://www.tidymodels.org/help/).
+- Check out further details on [contributing guidelines for tidymodels
+  packages](https://www.tidymodels.org/contribute/) and [how to get
+  help](https://www.tidymodels.org/help/).

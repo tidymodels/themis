@@ -38,8 +38,8 @@ install.packages("themis")
 Install the development version from GitHub with:
 
 ``` r
-# install.packages("remotes")
-remotes::install_github("tidymodels/themis")
+# install.packages("pak")
+pak::pak("tidymodels/themis")
 ```
 
 ## Example
@@ -73,6 +73,7 @@ ds_rec %>%
 Below is some unbalanced data. Used for examples latter.
 
 ```{r}
+#| fig-alt: "Bar chart with 5 columns. class on the x-axis and count on the y-axis. Class a has height 10, b has 20, c has 30, d has 40, and e has 50."
 example_data <- data.frame(class = letters[rep(1:5, 1:5 * 10)],
                            x = rnorm(150))
 
@@ -99,6 +100,7 @@ The following methods all share the tuning parameter `over_ratio`, which is the 
 By setting `over_ratio = 1` you bring the number of samples of all minority classes equal to 100% of the majority class.
 
 ```{r}
+#| fig-alt: "Bar chart with 5 columns. class on the x-axis and count on the y-axis. class a, b, c, d, and e all have a height of 50."
 recipe(~., example_data) %>%
   step_upsample(class, over_ratio = 1) %>%
   prep() %>%
@@ -110,6 +112,7 @@ recipe(~., example_data) %>%
 and by setting `over_ratio = 0.5` we upsample any minority class with less samples then 50% of the majority up to have 50% of the majority.
 
 ```{r}
+#| fig-alt: "Bar chart with 5 columns. class on the x-axis and count on the y-axis. Class a has height 25, b has 25, c has 30, d has 40, and e has 50."
 recipe(~., example_data) %>%
   step_upsample(class, over_ratio = 0.5) %>%
   prep() %>%
@@ -131,6 +134,7 @@ Most of the the following methods all share the tuning parameter `under_ratio`, 
 By setting `under_ratio = 1` you bring the number of samples of all majority classes equal to 100% of the minority class.
 
 ```{r}
+#| fig-alt: "Bar chart with 5 columns. class on the x-axis and count on the y-axis. Class a, b, c, d, and e all have a height of 10."
 recipe(~., example_data) %>%
   step_downsample(class, under_ratio = 1) %>%
   prep() %>%
@@ -142,6 +146,7 @@ recipe(~., example_data) %>%
 and by setting `under_ratio = 2` we downsample any majority class with more then 200% samples of the minority class down to have to 200% samples of the minority.
 
 ```{r}
+#| fig-alt: "Bar chart with 5 columns. class on the x-axis and count on the y-axis. Class a has height 10, b, c, d, and e have ha height of 20."
 recipe(~., example_data) %>%
   step_downsample(class, under_ratio = 2) %>%
   prep() %>%
