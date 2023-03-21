@@ -12,21 +12,6 @@ test_that("ratio deprecation", {
   )
 })
 
-test_that("tunable", {
-  rec <-
-    recipe(~., data = mtcars) %>%
-    step_upsample(all_predictors())
-  rec_param <- tunable.step_upsample(rec$steps[[1]])
-  expect_equal(rec_param$name, c("over_ratio"))
-  expect_true(all(rec_param$source == "recipe"))
-  expect_true(is.list(rec_param$call_info))
-  expect_equal(nrow(rec_param), 1)
-  expect_equal(
-    names(rec_param),
-    c("name", "call_info", "source", "component", "component_id")
-  )
-})
-
 test_that("basic usage", {
   rec1 <- recipe(~., data = circle_example) %>%
     step_upsample(class)
@@ -285,4 +270,31 @@ test_that("case_weights", {
   expect_true(all(exp_count == rec_count))
 
   expect_snapshot(rec1_p)
+})
+
+test_that("tunable", {
+  rec <- recipe(~., data = mtcars) %>%
+    step_upsample(all_predictors())
+  rec_param <- tunable.step_upsample(rec$steps[[1]])
+  expect_equal(rec_param$name, c("over_ratio"))
+  expect_true(all(rec_param$source == "recipe"))
+  expect_true(is.list(rec_param$call_info))
+  expect_equal(nrow(rec_param), 1)
+  expect_equal(
+    names(rec_param),
+    c("name", "call_info", "source", "component", "component_id")
+  )
+})
+
+test_that("tunable is setup to works with extract_parameter_set_dials works", {
+  rec <- recipe(~., data = mtcars) %>%
+    step_upsample(
+      all_predictors(),
+      over_ratio = hardhat::tune()
+    )
+
+  params <- extract_parameter_set_dials(rec)
+
+  expect_s3_class(params, "parameters")
+  expect_identical(nrow(params), 1L)
 })
