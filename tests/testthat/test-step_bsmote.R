@@ -18,21 +18,6 @@ test_that("all minority classes are upsampled", {
   expect_true(all(max(table(rec1_p2$species)) == 152))
 })
 
-test_that("tunable", {
-  rec <-
-    recipe(~., data = mtcars) %>%
-    step_bsmote(all_predictors(), under_ratio = 1)
-  rec_param <- tunable.step_bsmote(rec$steps[[1]])
-  expect_equal(rec_param$name, c("over_ratio", "neighbors", "all_neighbors"))
-  expect_true(all(rec_param$source == "recipe"))
-  expect_true(is.list(rec_param$call_info))
-  expect_equal(nrow(rec_param), 3)
-  expect_equal(
-    names(rec_param),
-    c("name", "call_info", "source", "component", "component_id")
-  )
-})
-
 test_that("basic usage", {
   rec1 <- recipe(class ~ x + y, data = circle_example) %>%
     step_bsmote(class, all_neighbors = FALSE)
@@ -384,4 +369,33 @@ test_that("empty printing", {
   rec <- prep(rec, mtcars)
 
   expect_snapshot(rec)
+})
+
+test_that("tunable", {
+  rec <- recipe(~., data = mtcars) %>%
+    step_bsmote(all_predictors())
+  rec_param <- tunable.step_bsmote(rec$steps[[1]])
+  expect_equal(rec_param$name, c("over_ratio", "neighbors", "all_neighbors"))
+  expect_true(all(rec_param$source == "recipe"))
+  expect_true(is.list(rec_param$call_info))
+  expect_equal(nrow(rec_param), 3)
+  expect_equal(
+    names(rec_param),
+    c("name", "call_info", "source", "component", "component_id")
+  )
+})
+
+test_that("tunable is setup to works with extract_parameter_set_dials works", {
+  rec <- recipe(~., data = mtcars) %>%
+    step_bsmote(
+      all_predictors(),
+      over_ratio = hardhat::tune(),
+      neighbors = hardhat::tune(),
+      all_neighbors = hardhat::tune()
+    )
+
+  params <- extract_parameter_set_dials(rec)
+
+  expect_s3_class(params, "parameters")
+  expect_identical(nrow(params), 3L)
 })

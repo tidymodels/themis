@@ -36,6 +36,7 @@ Imports:
     hardhat
 Suggests: 
     covr,
+    dials,
     ggplot2,
     modeldata,
     testthat (>= 3.0.0)
