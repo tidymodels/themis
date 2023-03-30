@@ -92,6 +92,13 @@ When you \code{\link[=tidy.recipe]{tidy()}} this step, a tibble with columns \co
 (the selectors or variables selected) will be returned.
 }
 
+\section{Tuning Parameters}{
+This step has 1 tuning parameters:
+\itemize{
+\item \code{over_ratio}: Over-Sampling Ratio (type: double, default: 1)
+}
+}
+
 \section{Case weights}{
 
 

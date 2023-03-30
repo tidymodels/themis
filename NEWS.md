@@ -2,6 +2,8 @@
 
 * Fixed bug where some upsampling functions would error if no upsampling was needed. (#119)
 
+* Steps with tunable arguments now have those arguments listed in the documentation.
+
 # themis 1.0.0
 
 * Added case weights support for `step_upsample()` and `step_downsample()`
