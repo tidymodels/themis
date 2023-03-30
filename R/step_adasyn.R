@@ -220,6 +220,20 @@ tidy.step_adasyn <- function(x, ...) {
   res
 }
 
+#' @export
+#' @rdname tunable_themis
+tunable.step_adasyn <- function(x, ...) {
+  tibble::tibble(
+    name = c("over_ratio", "neighbors"),
+    call_info = list(
+      list(pkg = "dials", fun = "over_ratio"),
+      list(pkg = "dials", fun = "neighbors", range = c(1, 10))
+    ),
+    source = "recipe",
+    component = "step_adasyn",
+    component_id = x$id
+  )
+}
 
 #' S3 methods for tracking which additional packages are needed for steps.
 #'
