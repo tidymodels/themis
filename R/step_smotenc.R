@@ -201,7 +201,6 @@ print.step_smotenc <-
     invisible(x)
   }
 
-
 #' @rdname tidy.recipe
 #' @param x A `step_smotenc` object.
 #' @export
@@ -216,6 +215,20 @@ tidy.step_smotenc <- function(x, ...) {
   res
 }
 
+#' @export
+#' @rdname tunable_themis
+tunable.step_smotenc <- function(x, ...) {
+  tibble::tibble(
+    name = c("over_ratio", "neighbors"),
+    call_info = list(
+      list(pkg = "dials", fun = "over_ratio"),
+      list(pkg = "dials", fun = "neighbors", range = c(1, 10))
+    ),
+    source = "recipe",
+    component = "step_smotenc",
+    component_id = x$id
+  )
+}
 
 #' @rdname required_pkgs.step
 #' @export

@@ -259,6 +259,22 @@ tidy.step_bsmote <- function(x, ...) {
   res
 }
 
+#' @export
+#' @rdname tunable_themis
+tunable.step_bsmote <- function(x, ...) {
+  tibble::tibble(
+    name = c("over_ratio", "neighbors", "all_neighbors"),
+    call_info = list(
+      list(pkg = "dials", fun = "over_ratio"),
+      list(pkg = "dials", fun = "neighbors"),
+      list(pkg = "dials", fun = "all_neighbors")
+    ),
+    source = "recipe",
+    component = "step_bsmote",
+    component_id = x$id
+  )
+}
+
 #' @rdname required_pkgs.step
 #' @export
 required_pkgs.step_bsmote <- function(x, ...) {

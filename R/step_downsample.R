@@ -282,6 +282,19 @@ tidy.step_downsample <- function(x, ...) {
   res
 }
 
+#' @export
+#' @rdname tunable_themis
+tunable.step_downsample <- function(x, ...) {
+  tibble::tibble(
+    name = "under_ratio",
+    call_info = list(
+      list(pkg = "dials", fun = "under_ratio")
+    ),
+    source = "recipe",
+    component = "step_downsample",
+    component_id = x$id
+  )
+}
 
 #' @rdname required_pkgs.step
 #' @export
