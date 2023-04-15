@@ -1,5 +1,9 @@
 # themis (development version)
 
+# themis 1.0.1
+
+## Improvements
+
 * Fixed bug where some upsampling functions would error if no upsampling was needed. (#119)
 
 * Steps with tunable arguments now have those arguments listed in the documentation.
