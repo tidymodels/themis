@@ -225,7 +225,7 @@ bake.step_downsample <- function(object, new_data, ...) {
 
   if (isTRUE(object$case_weights)) {
     wts_col <- purrr::map_lgl(new_data, hardhat::is_case_weights)
-    wts <- getElement(new_data, names(which(wts_col)))
+    wts <- new_data[[names(which(wts_col))]]
     wts <- as.integer(wts)
   } else {
     wts <- rep(1, nrow(new_data))
