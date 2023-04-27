@@ -186,6 +186,8 @@ test_that("empty selection tidy method works", {
   )
 })
 
+# Infrastructure ---------------------------------------------------------------
+
 test_that("empty printing", {
   rec <- recipe(mpg ~ ., mtcars)
   rec <- step_tomek(rec)
@@ -196,5 +198,3 @@ test_that("empty printing", {
 
   expect_snapshot(rec)
 })
-
-# Infrastructure ---------------------------------------------------------------

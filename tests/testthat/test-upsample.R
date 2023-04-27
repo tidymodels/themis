@@ -217,17 +217,6 @@ test_that("empty selection tidy method works", {
   )
 })
 
-test_that("empty printing", {
-  rec <- recipe(mpg ~ ., mtcars)
-  rec <- step_upsample(rec)
-
-  expect_snapshot(rec)
-
-  rec <- prep(rec, mtcars)
-
-  expect_snapshot(rec)
-})
-
 test_that("case_weights", {
   circle_example_cw <- circle_example %>%
     mutate(weights = frequency_weights(rep(0:1, c(200, 200))))
@@ -300,3 +289,14 @@ test_that("tunable is setup to works with extract_parameter_set_dials works", {
 })
 
 # Infrastructure ---------------------------------------------------------------
+
+test_that("empty printing", {
+  rec <- recipe(mpg ~ ., mtcars)
+  rec <- step_upsample(rec)
+
+  expect_snapshot(rec)
+
+  rec <- prep(rec, mtcars)
+
+  expect_snapshot(rec)
+})

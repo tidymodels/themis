@@ -280,17 +280,6 @@ test_that("empty selection tidy method works", {
   )
 })
 
-test_that("empty printing", {
-  rec <- recipe(mpg ~ ., mtcars)
-  rec <- step_smotenc(rec)
-
-  expect_snapshot(rec)
-
-  rec <- prep(rec, mtcars)
-
-  expect_snapshot(rec)
-})
-
 test_that("Doesn't error if no upsampling is done (#119)", {
   dat <- data.frame(
     outcome = c(rep("X", 101), rep("Z", 50)),
@@ -331,3 +320,14 @@ test_that("tunable is setup to works with extract_parameter_set_dials works", {
 })
 
 # Infrastructure ---------------------------------------------------------------
+
+test_that("empty printing", {
+  rec <- recipe(mpg ~ ., mtcars)
+  rec <- step_smotenc(rec)
+
+  expect_snapshot(rec)
+
+  rec <- prep(rec, mtcars)
+
+  expect_snapshot(rec)
+})

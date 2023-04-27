@@ -57,41 +57,6 @@
       Caused by error in `prep()`:
       ! The selector should select at most a single variable
 
-# empty printing
-
-    Code
-      rec
-    Message <cliMessage>
-      
-      -- Recipe ----------------------------------------------------------------------
-      
-      -- Inputs 
-      Number of variables by role
-      outcome:    1
-      predictor: 10
-      
-      -- Operations 
-      * Down-sampling based on: <none>
-
----
-
-    Code
-      rec
-    Message <cliMessage>
-      
-      -- Recipe ----------------------------------------------------------------------
-      
-      -- Inputs 
-      Number of variables by role
-      outcome:    1
-      predictor: 10
-      
-      -- Training information 
-      Training data contained 32 data points and no incomplete rows.
-      
-      -- Operations 
-      * Down-sampling based on: <none> | Trained
-
 # case_weights
 
     Code
@@ -129,4 +94,39 @@
       
       -- Operations 
       * Down-sampling based on: class | Trained, ignored weights
+
+# empty printing
+
+    Code
+      rec
+    Message <cliMessage>
+      
+      -- Recipe ----------------------------------------------------------------------
+      
+      -- Inputs 
+      Number of variables by role
+      outcome:    1
+      predictor: 10
+      
+      -- Operations 
+      * Down-sampling based on: <none>
+
+---
+
+    Code
+      rec
+    Message <cliMessage>
+      
+      -- Recipe ----------------------------------------------------------------------
+      
+      -- Inputs 
+      Number of variables by role
+      outcome:    1
+      predictor: 10
+      
+      -- Training information 
+      Training data contained 32 data points and no incomplete rows.
+      
+      -- Operations 
+      * Down-sampling based on: <none> | Trained
 
