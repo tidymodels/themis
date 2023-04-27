@@ -179,20 +179,6 @@ test_that("id variables don't turn predictors to factors", {
   expect_equal(is.double(rec_id$y), TRUE)
 })
 
-
-test_that("empty selection prep/bake is a no-op", {
-  rec1 <- recipe(mpg ~ ., mtcars)
-  rec2 <- step_upsample(rec1)
-
-  rec1 <- prep(rec1, mtcars)
-  rec2 <- prep(rec2, mtcars)
-
-  baked1 <- bake(rec1, mtcars)
-  baked2 <- bake(rec2, mtcars)
-
-  expect_identical(baked1, baked1)
-})
-
 test_that("case_weights", {
   circle_example_cw <- circle_example %>%
     mutate(weights = frequency_weights(rep(0:1, c(200, 200))))
@@ -275,6 +261,19 @@ test_that("empty printing", {
   rec <- prep(rec, mtcars)
 
   expect_snapshot(rec)
+})
+
+test_that("empty selection prep/bake is a no-op", {
+  rec1 <- recipe(mpg ~ ., mtcars)
+  rec2 <- step_upsample(rec1)
+
+  rec1 <- prep(rec1, mtcars)
+  rec2 <- prep(rec2, mtcars)
+
+  baked1 <- bake(rec1, mtcars)
+  baked2 <- bake(rec2, mtcars)
+
+  expect_identical(baked1, baked1)
 })
 
 test_that("empty selection tidy method works", {

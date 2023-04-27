@@ -148,6 +148,18 @@ test_that("id variables don't turn predictors to factors", {
   expect_equal(is.double(rec_id$y), TRUE)
 })
 
+# Infrastructure ---------------------------------------------------------------
+
+test_that("empty printing", {
+  rec <- recipe(mpg ~ ., mtcars)
+  rec <- step_tomek(rec)
+
+  expect_snapshot(rec)
+
+  rec <- prep(rec, mtcars)
+
+  expect_snapshot(rec)
+})
 
 test_that("empty selection prep/bake is a no-op", {
   rec1 <- recipe(mpg ~ ., mtcars)
@@ -160,19 +172,6 @@ test_that("empty selection prep/bake is a no-op", {
   baked2 <- bake(rec2, mtcars)
 
   expect_identical(baked1, baked1)
-})
-
-# Infrastructure ---------------------------------------------------------------
-
-test_that("empty printing", {
-  rec <- recipe(mpg ~ ., mtcars)
-  rec <- step_tomek(rec)
-
-  expect_snapshot(rec)
-
-  rec <- prep(rec, mtcars)
-
-  expect_snapshot(rec)
 })
 
 test_that("empty selection tidy method works", {
