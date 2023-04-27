@@ -46,18 +46,6 @@ test_that("basic usage", {
   expect_warning(prep(rec1), NA)
 })
 
-test_that("bake method errors when needed non-standard role columns are missing", {
-  rec <- recipe(class ~ x + y, data = circle_example) %>%
-    step_bsmote(class, skip = FALSE) %>%
-    add_role(class, new_role = "potato") %>%
-    update_role_requirements(role = "potato", bake = FALSE)
-
-  trained <- prep(rec, training = circle_example, verbose = FALSE)
-
-  expect_error(bake(trained, new_data = circle_example[, -3]),
-               class = "new_data_missing_column")
-})
-
 test_that("bad data", {
   rec <- recipe(~., data = circle_example)
   # numeric check
@@ -352,6 +340,18 @@ test_that("tunable is setup to works with extract_parameter_set_dials works", {
 })
 
 # Infrastructure ---------------------------------------------------------------
+
+test_that("bake method errors when needed non-standard role columns are missing", {
+  rec <- recipe(class ~ x + y, data = circle_example) %>%
+    step_bsmote(class, skip = FALSE) %>%
+    add_role(class, new_role = "potato") %>%
+    update_role_requirements(role = "potato", bake = FALSE)
+
+  trained <- prep(rec, training = circle_example, verbose = FALSE)
+
+  expect_error(bake(trained, new_data = circle_example[, -3]),
+               class = "new_data_missing_column")
+})
 
 test_that("empty printing", {
   rec <- recipe(mpg ~ ., mtcars)
