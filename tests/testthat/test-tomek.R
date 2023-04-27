@@ -17,25 +17,6 @@ test_that("basic usage", {
   expect_warning(prep(rec1), NA)
 })
 
-test_that("bake method errors when needed non-standard role columns are missing", {
-  rec <- recipe(class ~ x + y, data = circle_example) %>%
-    step_tomek(class, skip = FALSE) %>%
-    add_role(class, new_role = "potato") %>%
-    update_role_requirements(role = "potato", bake = FALSE)
-
-  trained <- prep(rec, training = circle_example, verbose = FALSE)
-
-  expect_error(bake(trained, new_data = circle_example[, -3]),
-               class = "new_data_missing_column")
-})
-
-test_that("printing", {
-  rec <- recipe(class ~ x + y, data = circle_example) %>%
-    step_tomek(class)
-  expect_snapshot(print(rec))
-  expect_snapshot(prep(rec))
-})
-
 test_that("bad data", {
   rec <- recipe(~., data = circle_example)
   # numeric check
@@ -155,6 +136,30 @@ test_that("id variables don't turn predictors to factors", {
   expect_equal(is.double(rec_id$y), TRUE)
 })
 
+# Infrastructure ---------------------------------------------------------------
+
+test_that("bake method errors when needed non-standard role columns are missing", {
+  rec <- recipe(class ~ x + y, data = circle_example) %>%
+    step_tomek(class, skip = FALSE) %>%
+    add_role(class, new_role = "potato") %>%
+    update_role_requirements(role = "potato", bake = FALSE)
+
+  trained <- prep(rec, training = circle_example, verbose = FALSE)
+
+  expect_error(bake(trained, new_data = circle_example[, -3]),
+               class = "new_data_missing_column")
+})
+
+test_that("empty printing", {
+  rec <- recipe(mpg ~ ., mtcars)
+  rec <- step_tomek(rec)
+
+  expect_snapshot(rec)
+
+  rec <- prep(rec, mtcars)
+
+  expect_snapshot(rec)
+})
 
 test_that("empty selection prep/bake is a no-op", {
   rec1 <- recipe(mpg ~ ., mtcars)
@@ -173,26 +178,19 @@ test_that("empty selection tidy method works", {
   rec <- recipe(mpg ~ ., mtcars)
   rec <- step_tomek(rec)
 
-  expect_identical(
-    tidy(rec, number = 1),
-    tibble(terms = character(), id = character())
-  )
+  expect <- tibble(terms = character(), id = character())
+
+  expect_identical(tidy(rec, number = 1), expect)
 
   rec <- prep(rec, mtcars)
 
-  expect_identical(
-    tidy(rec, number = 1),
-    tibble(terms = character(), id = character())
-  )
+  expect_identical(tidy(rec, number = 1), expect)
 })
 
-test_that("empty printing", {
-  rec <- recipe(mpg ~ ., mtcars)
-  rec <- step_tomek(rec)
+test_that("printing", {
+  rec <- recipe(class ~ x + y, data = circle_example) %>%
+    step_tomek(class)
 
-  expect_snapshot(rec)
-
-  rec <- prep(rec, mtcars)
-
-  expect_snapshot(rec)
+  expect_snapshot(print(rec))
+  expect_snapshot(prep(rec))
 })

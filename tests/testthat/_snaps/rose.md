@@ -1,38 +1,3 @@
-# printing
-
-    Code
-      print(rec)
-    Message <cliMessage>
-      
-      -- Recipe ----------------------------------------------------------------------
-      
-      -- Inputs 
-      Number of variables by role
-      outcome:   1
-      predictor: 2
-      
-      -- Operations 
-      * ROSE based on: class
-
----
-
-    Code
-      prep(rec)
-    Message <cliMessage>
-      
-      -- Recipe ----------------------------------------------------------------------
-      
-      -- Inputs 
-      Number of variables by role
-      outcome:   1
-      predictor: 2
-      
-      -- Training information 
-      Training data contained 400 data points and no incomplete rows.
-      
-      -- Operations 
-      * ROSE based on: class | Trained
-
 # bad data
 
     Code
@@ -103,4 +68,39 @@
       
       -- Operations 
       * ROSE based on: <none> | Trained
+
+# printing
+
+    Code
+      print(rec)
+    Message <cliMessage>
+      
+      -- Recipe ----------------------------------------------------------------------
+      
+      -- Inputs 
+      Number of variables by role
+      outcome:   1
+      predictor: 2
+      
+      -- Operations 
+      * ROSE based on: class
+
+---
+
+    Code
+      prep(rec)
+    Message <cliMessage>
+      
+      -- Recipe ----------------------------------------------------------------------
+      
+      -- Inputs 
+      Number of variables by role
+      outcome:   1
+      predictor: 2
+      
+      -- Training information 
+      Training data contained 400 data points and no incomplete rows.
+      
+      -- Operations 
+      * ROSE based on: class | Trained
 
