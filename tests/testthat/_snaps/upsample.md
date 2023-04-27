@@ -6,39 +6,6 @@
       The `ratio` argument of `step_downsample()` was deprecated in themis 0.2.0 and is now defunct.
       i Please use the `over_ratio` argument instead.
 
-# printing
-
-    Code
-      print(rec)
-    Message <cliMessage>
-      
-      -- Recipe ----------------------------------------------------------------------
-      
-      -- Inputs 
-      Number of variables by role
-      predictor: 4
-      
-      -- Operations 
-      * Up-sampling based on: class
-
----
-
-    Code
-      prep(rec)
-    Message <cliMessage>
-      
-      -- Recipe ----------------------------------------------------------------------
-      
-      -- Inputs 
-      Number of variables by role
-      predictor: 4
-      
-      -- Training information 
-      Training data contained 400 data points and no incomplete rows.
-      
-      -- Operations 
-      * Up-sampling based on: class | Trained
-
 # bad data
 
     Code
@@ -129,4 +96,37 @@
       
       -- Operations 
       * Up-sampling based on: <none> | Trained
+
+# printing
+
+    Code
+      print(rec)
+    Message <cliMessage>
+      
+      -- Recipe ----------------------------------------------------------------------
+      
+      -- Inputs 
+      Number of variables by role
+      predictor: 4
+      
+      -- Operations 
+      * Up-sampling based on: class
+
+---
+
+    Code
+      prep(rec)
+    Message <cliMessage>
+      
+      -- Recipe ----------------------------------------------------------------------
+      
+      -- Inputs 
+      Number of variables by role
+      predictor: 4
+      
+      -- Training information 
+      Training data contained 400 data points and no incomplete rows.
+      
+      -- Operations 
+      * Up-sampling based on: class | Trained
 
