@@ -256,23 +256,6 @@ test_that("empty selection prep/bake is a no-op", {
   expect_identical(baked1, baked1)
 })
 
-test_that("empty selection tidy method works", {
-  rec <- recipe(mpg ~ ., mtcars)
-  rec <- step_smotenc(rec)
-
-  expect_identical(
-    tidy(rec, number = 1),
-    tibble(terms = character(), id = character())
-  )
-
-  rec <- prep(rec, mtcars)
-
-  expect_identical(
-    tidy(rec, number = 1),
-    tibble(terms = character(), id = character())
-  )
-})
-
 test_that("Doesn't error if no upsampling is done (#119)", {
   dat <- data.frame(
     outcome = c(rep("X", 101), rep("Z", 50)),
@@ -323,6 +306,19 @@ test_that("empty printing", {
   rec <- prep(rec, mtcars)
 
   expect_snapshot(rec)
+})
+
+test_that("empty selection tidy method works", {
+  rec <- recipe(mpg ~ ., mtcars)
+  rec <- step_smotenc(rec)
+
+  expect <- tibble(terms = character(), id = character())
+
+  expect_identical(tidy(rec, number = 1), expect)
+
+  rec <- prep(rec, mtcars)
+
+  expect_identical(tidy(rec, number = 1), expect)
 })
 
 test_that("printing", {
