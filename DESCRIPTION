@@ -33,7 +33,8 @@ Imports:
     tibble,
     withr,
     glue,
-    hardhat
+    hardhat,
+    vctrs
 Suggests: 
     covr,
     dials (>= 1.2.0),

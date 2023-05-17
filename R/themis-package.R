@@ -4,7 +4,6 @@
 ## usethis namespace: start
 #' @import rlang
 #' @importFrom dplyr all_of
-#' @importFrom dplyr bind_cols
 #' @importFrom dplyr bind_rows
 #' @importFrom dplyr mutate
 #' @importFrom dplyr select
@@ -29,6 +28,7 @@
 #' @importFrom ROSE ROSE
 #' @importFrom tibble as_tibble
 #' @importFrom tibble tibble
+#' @importFrom vctrs vec_cbind
 #' @importFrom withr with_seed
 ## usethis namespace: end
 NULL
