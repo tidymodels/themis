@@ -56,7 +56,7 @@ na_splice <- function(new_data, synthetic_data, object) {
   colnames(na_data) <- non_predictor
   na_data <- as.data.frame(na_data)
 
-  res <- bind_cols(
+  res <- vec_cbind(
     synthetic_data,
     bind_rows(new_data[, non_predictor, drop = FALSE], na_data)
   )

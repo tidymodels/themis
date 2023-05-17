@@ -187,5 +187,5 @@ smotenc_data <- function(data, k, n_samples, smotenc_ids = seq_len(nrow(data))) 
 
     iii <- iii + index_len[row_num]
   }
-  bind_cols(out_numeric, out_factors)[names(data)]
+  vec_cbind(out_numeric, out_factors)[names(data)]
 }
