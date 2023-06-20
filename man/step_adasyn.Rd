@@ -65,8 +65,8 @@ added to the sequence of existing steps (if any). For the
 the variable used to sample.
 }
 \description{
-\code{step_adasyn} creates a \emph{specification} of a recipe
-step that generates synthetic positive instances using ADASYN algorithm.
+\code{step_adasyn()} creates a \emph{specification} of a recipe step that generates
+synthetic positive instances using ADASYN algorithm.
 }
 \details{
 All columns in the data are sampled and returned by \code{\link[=juice]{juice()}}

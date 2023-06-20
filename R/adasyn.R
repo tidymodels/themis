@@ -1,7 +1,7 @@
 #' Apply Adaptive Synthetic Algorithm
 #'
-#' `step_adasyn` creates a *specification* of a recipe
-#'  step that generates synthetic positive instances using ADASYN algorithm.
+#' `step_adasyn()` creates a *specification* of a recipe step that generates
+#' synthetic positive instances using ADASYN algorithm.
 #'
 #' @inheritParams recipes::step_center
 #' @inheritParams step_upsample

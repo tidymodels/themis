@@ -1,8 +1,8 @@
 #' Apply ROSE Algorithm
 #'
-#' `step_rose` creates a *specification* of a recipe
-#'  step that generates sample of synthetic data by enlarging the features
-#'  space of minority and majority class example. Using [ROSE::ROSE()].
+#' `step_rose()` creates a *specification* of a recipe step that generates
+#' sample of synthetic data by enlarging the features space of minority and
+#' majority class example. Using [ROSE::ROSE()].
 #'
 #' @inheritParams recipes::step_center
 #' @inheritParams step_upsample

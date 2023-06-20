@@ -65,10 +65,9 @@ added to the sequence of existing steps (if any). For the
 the variable used to sample.
 }
 \description{
-\code{step_nearmiss} creates a \emph{specification} of a recipe
-step that removes majority class instances by undersampling points
-in the majority class based on their distance to other points in the
-same class.
+\code{step_nearmiss()} creates a \emph{specification} of a recipe step that removes
+majority class instances by undersampling points in the majority class based
+on their distance to other points in the same class.
 }
 \details{
 This method retains the points from the majority class which have the

@@ -1,8 +1,7 @@
 #' Apply SMOTE Algorithm
 #'
-#' `step_smote` creates a *specification* of a recipe
-#'  step that generate new examples of the  minority class using nearest
-#'  neighbors of these cases.
+#' `step_smote()` creates a *specification* of a recipe step that generate new
+#' examples of the  minority class using nearest neighbors of these cases.
 #'
 #' @inheritParams recipes::step_center
 #' @inheritParams step_upsample

@@ -1,9 +1,8 @@
 #' Remove Points Near Other Classes
 #'
-#' `step_nearmiss` creates a *specification* of a recipe
-#'  step that removes majority class instances by undersampling points
-#'  in the majority class based on their distance to other points in the
-#'  same class.
+#' `step_nearmiss()` creates a *specification* of a recipe step that removes
+#' majority class instances by undersampling points in the majority class based
+#' on their distance to other points in the same class.
 #'
 #' @inheritParams recipes::step_center
 #' @inheritParams step_downsample
