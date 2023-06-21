@@ -1,8 +1,8 @@
 #' Apply borderline-SMOTE Algorithm
 #'
-#' `step_bsmote` creates a *specification* of a recipe
-#'  step that generate new examples of the minority class using nearest
-#'  neighbors of these cases in the border region between classes.
+#' `step_bsmote()` creates a *specification* of a recipe step that generate new
+#' examples of the minority class using nearest neighbors of these cases in the
+#' border region between classes.
 #'
 #' @inheritParams recipes::step_center
 #' @inheritParams step_upsample

@@ -75,9 +75,9 @@ added to the sequence of existing steps (if any). For the
 the variable used to sample.
 }
 \description{
-\code{step_rose} creates a \emph{specification} of a recipe
-step that generates sample of synthetic data by enlarging the features
-space of minority and majority class example. Using \code{\link[ROSE:ROSE]{ROSE::ROSE()}}.
+\code{step_rose()} creates a \emph{specification} of a recipe step that generates
+sample of synthetic data by enlarging the features space of minority and
+majority class example. Using \code{\link[ROSE:ROSE]{ROSE::ROSE()}}.
 }
 \details{
 The factor variable used to balance around must only have 2 levels.

@@ -1,7 +1,7 @@
 #' Remove Tomek’s Links
 #'
-#' `step_tomek` creates a *specification* of a recipe
-#'  step that removes majority class instances of tomek links.
+#' `step_tomek()` creates a *specification* of a recipe step that removes
+#' majority class instances of tomek links.
 #'
 #' @inheritParams recipes::step_center
 #' @param ... One or more selector functions to choose which

@@ -1,8 +1,8 @@
 #' Up-Sample a Data Set Based on a Factor Variable
 #'
-#' `step_upsample` creates a *specification* of a recipe step that
-#'  will replicate rows of a data set to make the occurrence of
-#'  levels in a specific factor level equal.
+#' `step_upsample()` creates a *specification* of a recipe step that will
+#' replicate rows of a data set to make the occurrence of levels in a specific
+#' factor level equal.
 #'
 #' @inheritParams recipes::step_center
 #' @param ... One or more selector functions to choose which

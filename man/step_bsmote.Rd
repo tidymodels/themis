@@ -69,9 +69,9 @@ added to the sequence of existing steps (if any). For the
 the variable used to sample.
 }
 \description{
-\code{step_bsmote} creates a \emph{specification} of a recipe
-step that generate new examples of the minority class using nearest
-neighbors of these cases in the border region between classes.
+\code{step_bsmote()} creates a \emph{specification} of a recipe step that generate new
+examples of the minority class using nearest neighbors of these cases in the
+border region between classes.
 }
 \details{
 This methods works the same way as \code{\link[=step_smote]{step_smote()}}, expect that instead of
