@@ -216,9 +216,10 @@ subsamp <- function(x, wts, num) {
 
 #' @export
 bake.step_downsample <- function(object, new_data, ...) {
-  check_new_data(names(object$column), object, new_data)
+  col_names <- names(object$column)
+  check_new_data(col_names, object, new_data)
 
-  if (length(object$column) == 0L) {
+  if (length(col_names) == 0L) {
     # Empty selection
     return(new_data)
   }
@@ -231,13 +232,13 @@ bake.step_downsample <- function(object, new_data, ...) {
     wts <- rep(1, nrow(new_data))
   }
 
-  if (any(is.na(new_data[[object$column]]))) {
-    missing <- new_data[is.na(new_data[[object$column]]), ]
+  if (any(is.na(new_data[[col_names]]))) {
+    missing <- new_data[is.na(new_data[[col_names]]), ]
   } else {
     missing <- NULL
   }
-  split_data <- split(new_data, new_data[[object$column]])
-  split_wts <- split(wts, new_data[[object$column]])
+  split_data <- split(new_data, new_data[[col_names]])
+  split_wts <- split(wts, new_data[[col_names]])
 
 
   # Downsample with seed for reproducibility
