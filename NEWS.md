@@ -1,4 +1,4 @@
-# themis (development version)
+# themis 1.0.2
 
 ## Improvements
 
