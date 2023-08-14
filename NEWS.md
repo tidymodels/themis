@@ -1,5 +1,9 @@
 # themis (development version)
 
+## Improvements
+
+* Many internal changes to improve consistency and slight speed increases.
+
 # themis 1.0.1
 
 ## Improvements
