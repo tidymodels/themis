@@ -1,6 +1,6 @@
 Package: themis
 Title: Extra Recipes Steps for Dealing with Unbalanced Data
-Version: 1.0.1.9000
+Version: 1.0.2.9000
 Authors@R: c(
     person("Emil", "Hvitfeldt", , "emil.hvitfeldt@posit.co", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0002-0679-1945")),
@@ -19,7 +19,7 @@ License: MIT + file LICENSE
 URL: https://github.com/tidymodels/themis, https://themis.tidymodels.org
 BugReports: https://github.com/tidymodels/themis/issues
 Depends: 
-    R (>= 3.4),
+    R (>= 3.6),
     recipes (>= 1.0.4)
 Imports: 
     gower,
