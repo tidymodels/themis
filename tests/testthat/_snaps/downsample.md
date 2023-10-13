@@ -2,15 +2,16 @@
 
     Code
       new_rec <- recipe(~., data = circle_example) %>% step_downsample(class, ratio = 2)
-    Error <lifecycle_error_deprecated>
-      The `ratio` argument of `step_downsample()` was deprecated in themis 0.2.0 and is now defunct.
+    Condition
+      Error:
+      ! The `ratio` argument of `step_downsample()` was deprecated in themis 0.2.0 and is now defunct.
       i Please use the `under_ratio` argument instead.
 
 # bad data
 
     Code
       rec %>% step_downsample(x) %>% prep()
-    Error <recipes_error_step>
+    Condition
       Error in `step_downsample()`:
       Caused by error in `prep()`:
       ! `x` should be a factor variable.
@@ -19,7 +20,7 @@
 
     Code
       rec %>% step_downsample(class, id) %>% prep()
-    Error <recipes_error_step>
+    Condition
       Error in `step_downsample()`:
       Caused by error in `prep()`:
       ! The selector should select at most a single variable
@@ -28,7 +29,7 @@
 
     Code
       rec1_p
-    Message <cliMessage>
+    Message
       
       -- Recipe ----------------------------------------------------------------------
       
@@ -47,7 +48,7 @@
 
     Code
       rec1_p
-    Message <cliMessage>
+    Message
       
       -- Recipe ----------------------------------------------------------------------
       
@@ -66,7 +67,7 @@
 
     Code
       rec
-    Message <cliMessage>
+    Message
       
       -- Recipe ----------------------------------------------------------------------
       
@@ -82,7 +83,7 @@
 
     Code
       rec
-    Message <cliMessage>
+    Message
       
       -- Recipe ----------------------------------------------------------------------
       
@@ -101,7 +102,7 @@
 
     Code
       print(rec)
-    Message <cliMessage>
+    Message
       
       -- Recipe ----------------------------------------------------------------------
       
@@ -116,7 +117,7 @@
 
     Code
       prep(rec)
-    Message <cliMessage>
+    Message
       
       -- Recipe ----------------------------------------------------------------------
       

@@ -2,7 +2,7 @@
 
     Code
       recipe(Status ~ Age, data = credit_data0) %>% step_smote(Status) %>% prep()
-    Error <recipes_error_step>
+    Condition
       Error in `step_smote()`:
       Caused by error in `bake()`:
       ! Not enough observations of 'dummy' to perform SMOTE.
@@ -11,7 +11,7 @@
 
     Code
       rec %>% step_smote(x) %>% prep()
-    Error <recipes_error_step>
+    Condition
       Error in `step_smote()`:
       Caused by error in `prep()`:
       ! `x` should be a factor variable.
@@ -20,7 +20,7 @@
 
     Code
       rec %>% step_smote(class, id) %>% prep()
-    Error <recipes_error_step>
+    Condition
       Error in `step_smote()`:
       Caused by error in `prep()`:
       ! The selector should select at most a single variable
@@ -29,7 +29,7 @@
 
     Code
       recipe(~., data = df_char) %>% step_smote(x) %>% prep()
-    Error <recipes_error_step>
+    Condition
       Error in `step_smote()`:
       Caused by error in `prep()`:
       ! All columns selected for the step should be double, or integer.
@@ -38,7 +38,7 @@
 
     Code
       recipe(Job ~ Age, data = credit_data) %>% step_smote(Job) %>% prep()
-    Error <recipes_error_step>
+    Condition
       Error in `step_smote()`:
       Caused by error in `prep()`:
       ! Cannot have any missing values. NAs found ind: Job.
@@ -47,7 +47,7 @@
 
     Code
       rec
-    Message <cliMessage>
+    Message
       
       -- Recipe ----------------------------------------------------------------------
       
@@ -63,7 +63,7 @@
 
     Code
       rec
-    Message <cliMessage>
+    Message
       
       -- Recipe ----------------------------------------------------------------------
       
@@ -82,7 +82,7 @@
 
     Code
       print(rec)
-    Message <cliMessage>
+    Message
       
       -- Recipe ----------------------------------------------------------------------
       
@@ -98,7 +98,7 @@
 
     Code
       prep(rec)
-    Message <cliMessage>
+    Message
       
       -- Recipe ----------------------------------------------------------------------
       

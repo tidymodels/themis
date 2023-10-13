@@ -2,7 +2,7 @@
 
     Code
       rec %>% step_nearmiss(x) %>% prep()
-    Error <recipes_error_step>
+    Condition
       Error in `step_nearmiss()`:
       Caused by error in `prep()`:
       ! `x` should be a factor variable.
@@ -11,7 +11,7 @@
 
     Code
       rec %>% step_nearmiss(class, id) %>% prep()
-    Error <recipes_error_step>
+    Condition
       Error in `step_nearmiss()`:
       Caused by error in `prep()`:
       ! The selector should select at most a single variable
@@ -20,7 +20,7 @@
 
     Code
       recipe(~., data = df_char) %>% step_nearmiss(x) %>% prep()
-    Error <recipes_error_step>
+    Condition
       Error in `step_nearmiss()`:
       Caused by error in `prep()`:
       ! All columns selected for the step should be double, or integer.
@@ -29,7 +29,7 @@
 
     Code
       recipe(Job ~ Age, data = credit_data) %>% step_nearmiss(Job) %>% prep()
-    Error <recipes_error_step>
+    Condition
       Error in `step_nearmiss()`:
       Caused by error in `prep()`:
       ! Cannot have any missing values. NAs found ind: Job.
@@ -38,7 +38,7 @@
 
     Code
       rec
-    Message <cliMessage>
+    Message
       
       -- Recipe ----------------------------------------------------------------------
       
@@ -54,7 +54,7 @@
 
     Code
       rec
-    Message <cliMessage>
+    Message
       
       -- Recipe ----------------------------------------------------------------------
       
@@ -73,7 +73,7 @@
 
     Code
       print(rec)
-    Message <cliMessage>
+    Message
       
       -- Recipe ----------------------------------------------------------------------
       
@@ -89,7 +89,7 @@
 
     Code
       prep(rec)
-    Message <cliMessage>
+    Message
       
       -- Recipe ----------------------------------------------------------------------
       
