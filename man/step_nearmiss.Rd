@@ -2,6 +2,7 @@
 % Please edit documentation in R/nearmiss.R
 \name{step_nearmiss}
 \alias{step_nearmiss}
+\alias{tidy.step_nearmiss}
 \title{Remove Points Near Other Classes}
 \usage{
 step_nearmiss(

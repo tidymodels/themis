@@ -269,8 +269,8 @@ print.step_downsample <-
     invisible(x)
   }
 
-#' @rdname tidy.recipe
-#' @param x A `step_downsample` object.
+#' @rdname step_downsample
+#' @usage NULL
 #' @export
 tidy.step_downsample <- function(x, ...) {
   if (is_trained(x)) {

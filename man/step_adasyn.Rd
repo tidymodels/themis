@@ -2,6 +2,7 @@
 % Please edit documentation in R/adasyn.R
 \name{step_adasyn}
 \alias{step_adasyn}
+\alias{tidy.step_adasyn}
 \title{Apply Adaptive Synthetic Algorithm}
 \usage{
 step_adasyn(

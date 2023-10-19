@@ -2,6 +2,7 @@
 % Please edit documentation in R/smotenc.R
 \name{step_smotenc}
 \alias{step_smotenc}
+\alias{tidy.step_smotenc}
 \title{Apply SMOTENC algorithm}
 \usage{
 step_smotenc(

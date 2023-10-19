@@ -2,6 +2,7 @@
 % Please edit documentation in R/downsample.R
 \name{step_downsample}
 \alias{step_downsample}
+\alias{tidy.step_downsample}
 \title{Down-Sample a Data Set Based on a Factor Variable}
 \usage{
 step_downsample(
