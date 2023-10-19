@@ -1,5 +1,7 @@
 # themis (development version)
 
+* Calling `?tidy.step_*()` now sends you to the documentation for `step_*()` where the outcome is documented. (#142)
+
 # themis 1.0.2
 
 ## Improvements
