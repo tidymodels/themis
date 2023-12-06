@@ -98,7 +98,7 @@ example_data %>%
 ### Upsample / Over-sampling
 
 The following methods all share the tuning parameter `over_ratio`, which
-is the ratio of the majority-to-minority frequencies.
+is the ratio of the minority-to-majority frequencies.
 
 | name                                                            | function                  | Multi-class        |
 |-----------------------------------------------------------------|---------------------------|--------------------|
@@ -140,7 +140,7 @@ recipe(~., example_data) %>%
 ### Downsample / Under-sampling
 
 Most of the the following methods all share the tuning parameter
-`under_ratio`, which is the ratio of the minority-to-majority
+`under_ratio`, which is the ratio of the majority-to-minority
 frequencies.
 
 | name                                            | function            | Multi-class        | under_ratio        |
