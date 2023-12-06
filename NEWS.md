@@ -1,5 +1,7 @@
 # themis (development version)
 
+* Documentation now correctly specifies majority-to-minority and minority-to-majority. (#143, #110)
+
 # themis 1.0.2
 
 ## Improvements
