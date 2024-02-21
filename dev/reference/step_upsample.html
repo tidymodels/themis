@@ -162,9 +162,16 @@ and <code><a href="https://recipes.tidymodels.org/reference/bake.html" class="ex
     </div>
     <div class="section level2">
     <h2 id="tidying">Tidying<a class="anchor" aria-label="anchor" href="#tidying"></a></h2>
-    <p>When you <code><a href="https://recipes.tidymodels.org/reference/tidy.recipe.html" class="external-link">tidy()</a></code> this step, a tibble with columns <code>terms</code>
-(the selectors or variables selected) will be returned.</p>
-    </div>
+    <p>When you <code><a href="https://recipes.tidymodels.org/reference/tidy.recipe.html" class="external-link">tidy()</a></code> this step, a tibble is retruned with
+columns <code>terms</code> and <code>id</code>:</p>
+<dl><dt>terms</dt>
+<dd><p>character, the selectors or variables selected</p></dd>
+
+<dt>id</dt>
+<dd><p>character, id of this step</p></dd>
+
+
+</dl></div>
     <div class="section level2">
     <h2 id="tuning-parameters">Tuning Parameters<a class="anchor" aria-label="anchor" href="#tuning-parameters"></a></h2>
     <p>This step has 1 tuning parameters:</p><ul><li><p><code>over_ratio</code>: Over-Sampling Ratio (type: double, default: 1)</p></li>
@@ -184,8 +191,8 @@ To use them, see the documentation in <a href="https://recipes.tidymodels.org/re
 <code><a href="step_adasyn.html">step_adasyn</a>()</code>,
 <code><a href="step_bsmote.html">step_bsmote</a>()</code>,
 <code><a href="step_rose.html">step_rose</a>()</code>,
-<code><a href="step_smotenc.html">step_smotenc</a>()</code>,
-<code><a href="step_smote.html">step_smote</a>()</code></p></div>
+<code><a href="step_smote.html">step_smote</a>()</code>,
+<code><a href="step_smotenc.html">step_smotenc</a>()</code></p></div>
     </div>
 
     <div class="section level2">
