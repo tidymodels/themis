@@ -51,8 +51,8 @@ Journal of Artificial Intelligence Research, 16:321-357.
 Other Direct Implementations: 
 \code{\link{bsmote}()},
 \code{\link{nearmiss}()},
-\code{\link{smotenc}()},
 \code{\link{smote}()},
+\code{\link{smotenc}()},
 \code{\link{tomek}()}
 }
 \concept{Direct Implementations}

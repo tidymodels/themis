@@ -4,6 +4,8 @@
 
 * Documentation now correctly specifies majority-to-minority and minority-to-majority. (#143, #110)
 
+* Documentation for tidy methods for all steps has been improved to describe the return value more accurately. (#148)
+
 # themis 1.0.2
 
 ## Improvements
