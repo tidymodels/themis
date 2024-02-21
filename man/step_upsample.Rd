@@ -89,8 +89,13 @@ All columns in the data are sampled and returned by \code{\link[=juice]{juice()}
 and \code{\link[=bake]{bake()}}.
 }
 \section{Tidying}{
-When you \code{\link[=tidy.recipe]{tidy()}} this step, a tibble with columns \code{terms}
-(the selectors or variables selected) will be returned.
+When you \code{\link[=tidy.recipe]{tidy()}} this step, a tibble is retruned with
+columns \code{terms} and \code{id}:
+
+\describe{
+\item{terms}{character, the selectors or variables selected}
+\item{id}{character, id of this step}
+}
 }
 
 \section{Tuning Parameters}{
@@ -161,7 +166,7 @@ Other Steps for over-sampling:
 \code{\link{step_adasyn}()},
 \code{\link{step_bsmote}()},
 \code{\link{step_rose}()},
-\code{\link{step_smotenc}()},
-\code{\link{step_smote}()}
+\code{\link{step_smote}()},
+\code{\link{step_smotenc}()}
 }
 \concept{Steps for over-sampling}

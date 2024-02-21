@@ -76,8 +76,8 @@ International Conference on Intelligent Computing, pages 878–887. Springer,
 Other Direct Implementations: 
 \code{\link{adasyn}()},
 \code{\link{nearmiss}()},
-\code{\link{smotenc}()},
 \code{\link{smote}()},
+\code{\link{smotenc}()},
 \code{\link{tomek}()}
 }
 \concept{Direct Implementations}

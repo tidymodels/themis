@@ -37,7 +37,7 @@ Other Direct Implementations:
 \code{\link{adasyn}()},
 \code{\link{bsmote}()},
 \code{\link{nearmiss}()},
-\code{\link{smotenc}()},
-\code{\link{smote}()}
+\code{\link{smote}()},
+\code{\link{smotenc}()}
 }
 \concept{Direct Implementations}

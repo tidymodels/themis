@@ -80,8 +80,13 @@ option \code{skip = TRUE} so that the extra sampling is \emph{not}
 conducted outside of the training set.
 }
 \section{Tidying}{
-When you \code{\link[=tidy.recipe]{tidy()}} this step, a tibble with columns \code{terms}
-(the selectors or variables selected) will be returned.
+When you \code{\link[=tidy.recipe]{tidy()}} this step, a tibble is retruned with
+columns \code{terms} and \code{id}:
+
+\describe{
+\item{terms}{character, the selectors or variables selected}
+\item{id}{character, id of this step}
+}
 }
 
 \section{Tuning Parameters}{
@@ -158,8 +163,8 @@ International Joint Conference. pp.1322-1328.
 Other Steps for over-sampling: 
 \code{\link{step_bsmote}()},
 \code{\link{step_rose}()},
-\code{\link{step_smotenc}()},
 \code{\link{step_smote}()},
+\code{\link{step_smotenc}()},
 \code{\link{step_upsample}()}
 }
 \concept{Steps for over-sampling}
