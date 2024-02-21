@@ -40,7 +40,7 @@ preprocessing have been estimated.}
 be populated (eventually) by the \code{...} selectors.}
 
 \item{over_ratio}{A numeric value for the ratio of the
-majority-to-minority frequencies. The default value (1) means
+minority-to-majority frequencies. The default value (1) means
 that all other levels are sampled up to have the same
 frequency as the most occurring level. A value of 0.5 would mean
 that the minority levels will have (at most) (approximately)

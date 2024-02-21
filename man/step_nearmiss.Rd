@@ -38,7 +38,7 @@ preprocessing have been estimated.}
 be populated (eventually) by the \code{...} selectors.}
 
 \item{under_ratio}{A numeric value for the ratio of the
-minority-to-majority frequencies. The default value (1) means
+majority-to-minority frequencies. The default value (1) means
 that all other levels are sampled down to have the same
 frequency as the least occurring level. A value of 2 would mean
 that the majority levels will have (at most) (approximately)
