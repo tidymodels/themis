@@ -46,6 +46,3 @@ reference:
 - title: Datasets
   contents:
     - circle_example
-- title: Tidy Methods
-  contents:
-  - tidy.recipe

@@ -2,6 +2,7 @@
 % Please edit documentation in R/upsample.R
 \name{step_upsample}
 \alias{step_upsample}
+\alias{tidy.step_upsample}
 \title{Up-Sample a Data Set Based on a Factor Variable}
 \usage{
 step_upsample(

@@ -245,8 +245,8 @@ print.step_bsmote <-
     invisible(x)
   }
 
-#' @rdname tidy.recipe
-#' @param x A `step_bsmote` object.
+#' @rdname step_bsmote
+#' @usage NULL
 #' @export
 tidy.step_bsmote <- function(x, ...) {
   if (is_trained(x)) {

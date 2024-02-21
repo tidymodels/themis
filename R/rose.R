@@ -245,8 +245,8 @@ print.step_rose <-
     invisible(x)
   }
 
-#' @rdname tidy.recipe
-#' @param x A `step_rose` object.
+#' @rdname step_rose
+#' @usage NULL
 #' @export
 tidy.step_rose <- function(x, ...) {
   if (is_trained(x)) {

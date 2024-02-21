@@ -212,8 +212,8 @@ print.step_adasyn <-
     invisible(x)
   }
 
-#' @rdname tidy.recipe
-#' @param x A `step_adasyn` object.
+#' @rdname step_adasyn
+#' @usage NULL
 #' @export
 tidy.step_adasyn <- function(x, ...) {
   if (is_trained(x)) {

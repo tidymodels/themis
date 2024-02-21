@@ -2,6 +2,7 @@
 % Please edit documentation in R/rose.R
 \name{step_rose}
 \alias{step_rose}
+\alias{tidy.step_rose}
 \title{Apply ROSE Algorithm}
 \usage{
 step_rose(

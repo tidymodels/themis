@@ -1,5 +1,7 @@
 # themis (development version)
 
+* Calling `?tidy.step_*()` now sends you to the documentation for `step_*()` where the outcome is documented. (#142)
+
 * Documentation now correctly specifies majority-to-minority and minority-to-majority. (#143, #110)
 
 # themis 1.0.2

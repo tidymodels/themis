@@ -201,8 +201,8 @@ print.step_smotenc <-
     invisible(x)
   }
 
-#' @rdname tidy.recipe
-#' @param x A `step_smotenc` object.
+#' @rdname step_smotenc
+#' @usage NULL
 #' @export
 tidy.step_smotenc <- function(x, ...) {
   if (is_trained(x)) {

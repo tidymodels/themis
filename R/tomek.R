@@ -196,8 +196,8 @@ print.step_tomek <-
     invisible(x)
   }
 
-#' @rdname tidy.recipe
-#' @param x A `step_tomek` object.
+#' @rdname step_tomek
+#' @usage NULL
 #' @export
 tidy.step_tomek <- function(x, ...) {
   if (is_trained(x)) {

@@ -2,6 +2,7 @@
 % Please edit documentation in R/smote.R
 \name{step_smote}
 \alias{step_smote}
+\alias{tidy.step_smote}
 \title{Apply SMOTE Algorithm}
 \usage{
 step_smote(

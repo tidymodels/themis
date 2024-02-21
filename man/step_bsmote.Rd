@@ -2,6 +2,7 @@
 % Please edit documentation in R/bsmote.R
 \name{step_bsmote}
 \alias{step_bsmote}
+\alias{tidy.step_bsmote}
 \title{Apply borderline-SMOTE Algorithm}
 \usage{
 step_bsmote(

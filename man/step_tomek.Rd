@@ -2,6 +2,7 @@
 % Please edit documentation in R/tomek.R
 \name{step_tomek}
 \alias{step_tomek}
+\alias{tidy.step_tomek}
 \title{Remove Tomek’s Links}
 \usage{
 step_tomek(
