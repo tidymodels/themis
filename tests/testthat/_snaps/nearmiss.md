@@ -35,6 +35,14 @@
       Caused by error in `prep()`:
       ! Cannot have any missing values. NAs found ind: Job.
 
+# bake method errors when needed non-standard role columns are missing
+
+    Code
+      bake(trained, new_data = circle_example[, -3])
+    Condition
+      Error in `step_nearmiss()`:
+      ! The following required column is missing from `new_data`: class.
+
 # empty printing
 
     Code
