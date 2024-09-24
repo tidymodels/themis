@@ -1,7 +1,7 @@
 circle_example_num <- circle_example[, c("x", "y", "class")]
 
 test_that("bsmote() interfaces correctly", {
-  expect_error(bsmote(circle_example_num, var = "class"), NA)
+  expect_no_error(bsmote(circle_example_num, var = "class"))
 
   expect_snapshot(error = TRUE,
     bsmote(circle_example_num, var = "Class")

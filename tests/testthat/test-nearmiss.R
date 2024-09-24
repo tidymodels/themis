@@ -16,7 +16,7 @@ test_that("basic usage", {
 
   expect_equal(sort(te_xtab), sort(og_xtab))
 
-  expect_warning(prep(rec1), NA)
+  expect_no_warning(prep(rec1))
 })
 
 test_that("bad data", {
@@ -99,11 +99,10 @@ test_that("ratio value works when undersampling", {
 
 test_that("allows multi-class", {
   data("credit_data")
-  expect_error(
+  expect_no_error(
     recipe(Home ~ Age + Income + Assets, data = credit_data) %>%
       step_impute_mean(Income, Assets) %>%
-      step_nearmiss(Home),
-    NA
+      step_nearmiss(Home)
   )
 })
 
@@ -200,8 +199,10 @@ test_that("bake method errors when needed non-standard role columns are missing"
 
   trained <- prep(rec, training = circle_example, verbose = FALSE)
 
-  expect_error(bake(trained, new_data = circle_example[, -3]),
-               class = "new_data_missing_column")
+  expect_snapshot(
+    error = TRUE,
+    bake(trained, new_data = circle_example[, -3])
+  )
 })
 
 test_that("empty printing", {
