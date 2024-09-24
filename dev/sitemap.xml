@@ -1,87 +1,31 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://themis.tidymodels.org/dev/CODE_OF_CONDUCT.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/CONTRIBUTING.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/LICENSE.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/authors.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/index.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/news/index.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/reference/adasyn.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/reference/bsmote.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/reference/circle_example.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/reference/nearmiss.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/reference/reexports.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/reference/required_pkgs.step.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/reference/smote.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/reference/smotenc.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/reference/step_adasyn.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/reference/step_bsmote.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/reference/step_downsample.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/reference/step_nearmiss.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/reference/step_rose.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/reference/step_smote.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/reference/step_smotenc.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/reference/step_tomek.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/reference/step_upsample.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/reference/themis-package.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/reference/tomek.html</loc>
-  </url>
-  <url>
-    <loc>https://themis.tidymodels.org/dev/reference/tunable_themis.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://themis.tidymodels.org/dev/CODE_OF_CONDUCT.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/CONTRIBUTING.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/LICENSE-text.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/LICENSE.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/authors.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/index.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/news/index.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/adasyn.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/bsmote.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/circle_example.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/index.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/nearmiss.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/reexports.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/required_pkgs.step.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/smote.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/smotenc.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/step_adasyn.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/step_bsmote.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/step_downsample.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/step_nearmiss.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/step_rose.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/step_smote.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/step_smotenc.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/step_tomek.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/step_upsample.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/themis-package.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/tomek.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/tunable_themis.html</loc></url>
 </urlset>
+
