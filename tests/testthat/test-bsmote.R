@@ -161,11 +161,10 @@ test_that("ratio value works when oversampling", {
 
 test_that("allows multi-class", {
   data("credit_data")
-  expect_error(
+  expect_no_error(
     recipe(Home ~ Age + Income + Assets, data = credit_data) %>%
       step_impute_mean(Income, Assets) %>%
-      step_bsmote(Home),
-    NA
+      step_bsmote(Home)
   )
 })
 

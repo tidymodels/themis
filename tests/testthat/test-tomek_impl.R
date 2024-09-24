@@ -17,7 +17,7 @@ test_that("order doesn't matter", {
 test_that("tomek() interfaces correctly", {
   circle_example_num <- circle_example[, 1:3]
 
-  expect_error(tomek(circle_example_num, var = "class"), NA)
+  expect_no_error(tomek(circle_example_num, var = "class"))
 
   expect_snapshot(error = TRUE,
                   tomek(circle_example_num, var = "Class")
@@ -46,8 +46,7 @@ test_that("ordering of columns shouldn't matter", {
     filter(!is.na(Job)) %>%
     select(Job, Time, Age, Expenses)
 
-  expect_error(
-    tomek(credit_data0, "Job"),
-    NA
+  expect_no_error(
+    tomek(credit_data0, "Job")
   )
 })

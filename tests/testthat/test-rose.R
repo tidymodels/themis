@@ -25,25 +25,22 @@ test_that("minority_prop value", {
 })
 
 test_that("row matching works correctly #36", {
-  expect_error(
+  expect_no_error(
     recipe(class ~ ., data = circle_example) %>%
       step_rose(class, over_ratio = 1.2) %>%
-      prep(),
-    NA
+      prep()
   )
 
-  expect_error(
+  expect_no_error(
     recipe(class ~ ., data = circle_example) %>%
       step_rose(class, over_ratio = 0.8) %>%
-      prep(),
-    NA
+      prep()
   )
 
-  expect_error(
+  expect_no_error(
     recipe(class ~ ., data = circle_example) %>%
       step_rose(class, over_ratio = 1.7) %>%
-      prep(),
-    NA
+      prep()
   )
 })
 

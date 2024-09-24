@@ -1,3 +1,39 @@
+# errors if there isn't enough data
+
+    Code
+      recipe(Status ~ Age, data = credit_data0) %>% step_smotenc(Status) %>% prep()
+    Condition
+      Error in `step_smotenc()`:
+      Caused by error in `smotenc_impl()`:
+      ! Not enough observations of 'dummy' to perform SMOTE.
+
+# bad data
+
+    Code
+      rec %>% step_smotenc(x) %>% prep()
+    Condition
+      Error in `step_smotenc()`:
+      Caused by error in `prep()`:
+      ! `x` should be a factor variable.
+
+---
+
+    Code
+      rec %>% step_smotenc(class, id) %>% prep()
+    Condition
+      Error in `step_smotenc()`:
+      Caused by error in `prep()`:
+      ! The selector should select at most a single variable
+
+# NA in response
+
+    Code
+      recipe(Job ~ Age, data = credit_data) %>% step_smotenc(Job) %>% prep()
+    Condition
+      Error in `step_smotenc()`:
+      Caused by error in `prep()`:
+      ! Cannot have any missing values. NAs found ind: Job.
+
 # bake method errors when needed non-standard role columns are missing
 
     Code
