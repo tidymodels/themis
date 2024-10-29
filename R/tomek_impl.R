@@ -24,13 +24,16 @@
 #' res <- tomek(circle_numeric, var = "class")
 tomek <- function(df, var) {
   if (length(var) != 1) {
-    rlang::abort("Please select a single factor variable for `var`.")
+    cli::cli_abort("Please select a single factor variable for {.arg var}.")
   }
 
   var <- rlang::arg_match(var, colnames(df))
 
   if (!(is.factor(df[[var]]) | is.character(df[[var]]))) {
-    rlang::abort(glue("`{var}` should be a factor or character variable."))
+    cli::cli_abort(
+      "{.var {var}} should be {.obj_type_friendly factor} or
+      {.obj_type_friendly character}."
+    )
   }
 
   predictors <- setdiff(colnames(df), var)

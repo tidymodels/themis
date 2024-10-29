@@ -53,7 +53,7 @@
 #'
 #' When you [`tidy()`][tidy.recipe()] this step, a tibble is retruned with
 #'  columns `terms` and `id`:
-#' 
+#'
 #' \describe{
 #'   \item{terms}{character, the selectors or variables selected}
 #'   \item{id}{character, id of this step}
@@ -179,7 +179,7 @@ prep.step_downsample <- function(x, training, info = NULL, ...) {
   }
 
   if (length(col_name) > 1) {
-    rlang::abort("The selector should select at most a single variable")
+    cli::cli_abort("The selector should select at most a single variable.")
   }
 
   if (length(col_name) == 0) {

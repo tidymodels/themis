@@ -8,10 +8,8 @@ check_na <- function(data, step, call = caller_env()) {
   na_cols <- vapply(data, function(x) any(is.na(x)), FUN.VALUE = logical(1))
   if (any(na_cols)) {
     cols <- paste(names(na_cols)[na_cols], collapse = ", ")
-    rlang::abort(
-      glue(
-        "Cannot have any missing values. NAs found ind: {cols}."
-      ),
+    cli::cli_abort(
+      "Cannot have any missing values. NAs found in {cols}.",
       call = call
     )
   }
@@ -19,7 +17,7 @@ check_na <- function(data, step, call = caller_env()) {
 
 check_2_levels_only <- function(data, col_name, call = caller_env()) {
   if (length(levels(data[[col_name]])) != 2) {
-    rlang::abort(glue("`{col_name}` must only have 2 levels."), call = call)
+    cli::cli_abort("The {.code {col_name}} must only have 2 levels.", call = call)
   }
 }
 
@@ -28,14 +26,14 @@ check_numeric <- function(dat) {
   label <- "numeric"
 
   if (!all(all_good)) {
-    rlang::abort("All columns for this function should be numeric.")
+    cli::cli_abort("All columns for this function should be numeric.")
   }
   invisible(all_good)
 }
 
 check_column_factor <- function(data, column, call = caller_env()) {
   if (!is.factor(data[[column]])) {
-    rlang::abort(glue("`{column}` should be a factor variable."), call = call)
+    cli::cli_abort("{.code {column}} should be a factor variable.", call = call)
   }
 }
 

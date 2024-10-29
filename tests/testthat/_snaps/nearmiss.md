@@ -14,7 +14,7 @@
     Condition
       Error in `step_nearmiss()`:
       Caused by error in `prep()`:
-      ! The selector should select at most a single variable
+      ! The selector should select at most a single variable.
 
 # errors if character are present
 
@@ -33,7 +33,7 @@
     Condition
       Error in `step_nearmiss()`:
       Caused by error in `prep()`:
-      ! Cannot have any missing values. NAs found ind: Job.
+      ! Cannot have any missing values. NAs found in Job.
 
 # bake method errors when needed non-standard role columns are missing
 

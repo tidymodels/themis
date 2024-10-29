@@ -29,7 +29,7 @@
       smote(circle_example0, var = "class")
     Condition
       Error in `smote()`:
-      ! Cannot have any missing values. NAs found ind: x.
+      ! Cannot have any missing values. NAs found in x.
 
 ---
 
@@ -53,5 +53,5 @@
       smote(circle_example_num, var = "class", k = c(5, 10))
     Condition
       Error in `smote()`:
-      ! `k` must be length 1.
+      ! The `k` must be length 1.
 
