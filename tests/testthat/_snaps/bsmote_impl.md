@@ -21,7 +21,7 @@
       bsmote(circle_example_num, var = "x")
     Condition
       Error in `bsmote()`:
-      ! x should be a factor or character variable.
+      ! `x` should be a factor or character variable.
 
 ---
 
@@ -29,7 +29,7 @@
       bsmote(circle_example0, var = "class")
     Condition
       Error in `bsmote()`:
-      ! Cannot have any missing values. NAs found ind: x.
+      ! Cannot have any missing values. NAs found in x.
 
 ---
 
@@ -37,7 +37,7 @@
       bsmote(circle_example_num, var = "class", k = 0)
     Condition
       Error in `bsmote()`:
-      ! `k` must be non-negative.
+      ! The `k` argument must be non-negative.
 
 ---
 
@@ -45,7 +45,7 @@
       bsmote(circle_example_num, var = "class", k = -1)
     Condition
       Error in `bsmote()`:
-      ! `k` must be non-negative.
+      ! The `k` argument must be non-negative.
 
 ---
 

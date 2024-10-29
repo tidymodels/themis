@@ -23,7 +23,7 @@
     Condition
       Error in `step_downsample()`:
       Caused by error in `prep()`:
-      ! The selector should select at most a single variable
+      ! The selector should select at most a single variable.
 
 # case_weights
 

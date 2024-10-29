@@ -29,7 +29,7 @@
       adasyn(circle_example0, var = "class")
     Condition
       Error in `adasyn()`:
-      ! Cannot have any missing values. NAs found ind: x.
+      ! Cannot have any missing values. NAs found in x.
 
 ---
 
@@ -37,7 +37,7 @@
       adasyn(circle_example_num, var = "class", k = 0)
     Condition
       Error in `adasyn()`:
-      ! `k` must be non-negative.
+      ! The `k` argument must be non-negative.
 
 ---
 
@@ -45,7 +45,7 @@
       adasyn(circle_example_num, var = "class", k = -1)
     Condition
       Error in `adasyn()`:
-      ! `k` must be non-negative.
+      ! The `k` argument must be non-negative.
 
 ---
 
@@ -53,5 +53,5 @@
       adasyn(circle_example_num, var = "class", k = c(5, 10))
     Condition
       Error in `adasyn()`:
-      ! `k` must be length 1.
+      ! The `k` argument must be length 1.
 

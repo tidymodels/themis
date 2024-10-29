@@ -14,7 +14,7 @@
     Condition
       Error in `step_rose()`:
       Caused by error in `prep()`:
-      ! The selector should select at most a single variable
+      ! The selector should select at most a single variable.
 
 # NA in response
 
@@ -23,7 +23,7 @@
     Condition
       Error in `step_rose()`:
       Caused by error in `prep()`:
-      ! Cannot have any missing values. NAs found ind: Status.
+      ! Cannot have any missing values. NAs found in Status.
 
 # only except 2 classes
 
@@ -32,7 +32,7 @@
     Condition
       Error in `step_rose()`:
       Caused by error in `prep()`:
-      ! `x` must only have 2 levels.
+      ! The `x` must only have 2 levels.
 
 # bake method errors when needed non-standard role columns are missing
 

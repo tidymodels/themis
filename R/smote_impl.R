@@ -40,21 +40,21 @@
 #' res <- smote(circle_numeric, var = "class", over_ratio = 0.8)
 smote <- function(df, var, k = 5, over_ratio = 1) {
   if (length(var) != 1) {
-    rlang::abort("Please select a single factor variable for `var`.")
+    cli::cli_abort("Please select a single factor variable for {.arg var}.")
   }
 
   var <- rlang::arg_match(var, colnames(df))
 
   if (!(is.factor(df[[var]]) | is.character(df[[var]]))) {
-    rlang::abort(glue("`{var}` should be a factor or character variable."))
+    cli::cli_abort("{.var {var}} should be a factor or character variable.")
   }
 
   if (length(k) != 1) {
-    rlang::abort("`k` must be length 1.")
+    cli::cli_abort("The {.arg k} must be length 1.")
   }
 
   if (k < 1) {
-    rlang::abort("`k` must be non-negative.")
+    cli::cli_abort("{.arg k} must be non-negative.")
   }
 
   predictors <- setdiff(colnames(df), var)
@@ -80,12 +80,7 @@ smote_impl <- function(df, var, k, over_ratio, call = caller_env()) {
     minority <- as.matrix(minority_df[names(minority_df) != var])
 
     if (nrow(minority) <= k) {
-      rlang::abort(
-        glue(
-          "Not enough observations of '{min_names[i]}' to perform SMOTE."
-        ),
-        call = call
-      )
+      cli::cli_abort("Not enough observations of {.val {min_names[i]}} to perform SMOTE.", call = call)
     }
 
     synthetic <- smote_data(minority, k = k, n_samples = samples_needed[i])

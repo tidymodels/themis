@@ -21,7 +21,7 @@
       tomek(circle_example_num, var = "x")
     Condition
       Error in `tomek()`:
-      ! `x` should be a factor or character variable.
+      ! `x` should be a string or a string.
 
 ---
 
@@ -29,5 +29,5 @@
       tomek(circle_example0, var = "class")
     Condition
       Error in `tomek()`:
-      ! Cannot have any missing values. NAs found ind: x.
+      ! Cannot have any missing values. NAs found in x.
 
