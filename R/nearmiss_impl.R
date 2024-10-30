@@ -31,15 +31,10 @@
 #'
 #' res <- nearmiss(circle_numeric, var = "class", under_ratio = 1.5)
 nearmiss <- function(df, var, k = 5, under_ratio = 1) {
+  check_data_frame(df)
   check_var(var, df)
-
-  if (length(k) != 1) {
-    cli::cli_abort("The {.arg k} argument must have length 1.")
-  }
-
-  if (k < 1) {
-    cli::cli_abort("The {.arg k} argument must be non-negative.")
-  }
+  check_number_whole(k, min = 1)
+  check_number_decimal(under_ratio)
 
   predictors <- setdiff(colnames(df), var)
 

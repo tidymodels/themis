@@ -31,3 +31,11 @@
       Error in `tomek()`:
       ! Cannot have any missing values. NAs found in x.
 
+# bad args
+
+    Code
+      bsmote(matrix())
+    Condition
+      Error in `bsmote()`:
+      ! `df` must be a data frame, not a logical matrix.
+

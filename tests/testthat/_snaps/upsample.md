@@ -63,6 +63,23 @@
       -- Operations 
       * Up-sampling based on: class | Trained, ignored weights
 
+# bad args
+
+    Code
+      recipe(~., data = mtcars) %>% step_upsample(over_ratio = "yes") %>% prep()
+    Condition
+      Error in `step_upsample()`:
+      Caused by error in `prep()`:
+      ! `over_ratio` must be a number, not the string "yes".
+
+---
+
+    Code
+      recipe(~., data = mtcars) %>% step_upsample(seed = TRUE)
+    Condition
+      Error in `step_upsample()`:
+      ! `seed` must be a whole number, not `TRUE`.
+
 # bake method errors when needed non-standard role columns are missing
 
     Code

@@ -126,6 +126,8 @@ step_upsample <-
       )
     }
 
+    check_number_whole(seed)
+
     add_step(
       recipe,
       step_upsample_new(
@@ -167,6 +169,8 @@ step_upsample_new <-
 #' @export
 prep.step_upsample <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
+
+  check_number_decimal(x$over_ratio, arg = "over_ratio", min = 0)
 
   wts <- recipes::get_case_weights(info, training)
   were_weights_used <- recipes::are_weights_used(wts, unsupervised = TRUE)

@@ -35,6 +35,32 @@
       Caused by error in `prep()`:
       ! Cannot have any missing values. NAs found in Job.
 
+# bad args
+
+    Code
+      recipe(~., data = mtcars) %>% step_nearmiss(over_ratio = "yes") %>% prep()
+    Condition
+      Error in `step_nearmiss()`:
+      Caused by error in `prep()`:
+      ! The following argument was specified but do not exist: `over_ratio`.
+
+---
+
+    Code
+      recipe(~., data = mtcars) %>% step_nearmiss(neighbors = TRUE) %>% prep()
+    Condition
+      Error in `step_nearmiss()`:
+      Caused by error in `prep()`:
+      ! `neighbors` must be a whole number, not `TRUE`.
+
+---
+
+    Code
+      recipe(~., data = mtcars) %>% step_nearmiss(seed = TRUE)
+    Condition
+      Error in `step_nearmiss()`:
+      ! `seed` must be a whole number, not `TRUE`.
+
 # bake method errors when needed non-standard role columns are missing
 
     Code

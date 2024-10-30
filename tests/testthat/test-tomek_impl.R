@@ -50,3 +50,10 @@ test_that("ordering of columns shouldn't matter", {
     tomek(credit_data0, "Job")
   )
 })
+
+test_that("bad args", {
+  expect_snapshot(
+    error = TRUE,
+    bsmote(matrix())
+  )
+})

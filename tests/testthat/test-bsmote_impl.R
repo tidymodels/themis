@@ -34,3 +34,26 @@ test_that("bsmote() interfaces correctly", {
     bsmote(circle_example_num, var = "class", k = c(5, 10))
   )
 })
+
+test_that("bad args", {
+  expect_snapshot(
+    error = TRUE,
+    bsmote(matrix())
+  )
+  expect_snapshot(
+    error = TRUE,
+    bsmote(circle_example_num, var = "class", k = 0)
+  )
+  expect_snapshot(
+    error = TRUE,
+    bsmote(circle_example_num, var = "class", k = 5.5)
+  )
+  expect_snapshot(
+    error = TRUE,
+    bsmote(circle_example_num, var = "class", over_ratio = TRUE)
+  )
+  expect_snapshot(
+    error = TRUE,
+    bsmote(circle_example_num, var = "class", all_neighbors = 1)
+  )
+})

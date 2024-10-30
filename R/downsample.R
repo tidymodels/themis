@@ -129,6 +129,7 @@ step_downsample <-
         "step_downsample(under_ratio = )"
       )
     }
+    check_number_whole(seed)
 
     add_step(
       recipe,
@@ -171,6 +172,8 @@ step_downsample_new <-
 #' @export
 prep.step_downsample <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
+
+  check_number_decimal(x$under_ratio, arg = "under_ratio", min = 0)
 
   wts <- recipes::get_case_weights(info, training)
   were_weights_used <- recipes::are_weights_used(wts, unsupervised = TRUE)

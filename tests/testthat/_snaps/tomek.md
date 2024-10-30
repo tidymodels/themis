@@ -35,6 +35,14 @@
       Caused by error in `prep()`:
       ! Cannot have any missing values. NAs found in Status.
 
+# bad args
+
+    Code
+      recipe(~., data = mtcars) %>% step_tomek(seed = TRUE)
+    Condition
+      Error in `step_tomek()`:
+      ! `seed` must be a whole number, not `TRUE`.
+
 # bake method errors when needed non-standard role columns are missing
 
     Code

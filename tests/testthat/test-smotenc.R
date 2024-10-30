@@ -253,6 +253,26 @@ test_that("tunable", {
   )
 })
 
+test_that("bad args", {
+  expect_snapshot(
+    error = TRUE,
+    recipe(~., data = mtcars) %>%
+      step_smotenc(over_ratio = "yes") %>%
+      prep()
+  )
+  expect_snapshot(
+    error = TRUE,
+    recipe(~., data = mtcars) %>%
+      step_smotenc(neighbors = TRUE) %>%
+      prep()
+  )
+  expect_snapshot(
+    error = TRUE,
+    recipe(~., data = mtcars) %>%
+      step_smotenc(seed = TRUE)
+  )
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {

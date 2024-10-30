@@ -56,15 +56,11 @@
 #'
 #' res <- bsmote(circle_numeric, var = "class", all_neighbors = TRUE)
 bsmote <- function(df, var, k = 5, over_ratio = 1, all_neighbors = FALSE) {
+  check_data_frame(df)
   check_var(var, df)
-
-  if (length(k) != 1) {
-    cli::cli_abort("{.arg k} must be length 1.")
-  }
-
-  if (k < 1) {
-    cli::cli_abort("The {.arg k} argument must be non-negative.")
-  }
+  check_number_whole(k, min = 1)
+  check_number_decimal(over_ratio)
+  check_bool(all_neighbors)
 
   predictors <- setdiff(colnames(df), var)
 
