@@ -179,11 +179,11 @@ prep.step_downsample <- function(x, training, info = NULL, ...) {
   }
 
   check_1_selected(col_name)
+  check_column_factor(training, col_name)
 
   if (length(col_name) == 0) {
     minority <- 1
   } else {
-    check_column_factor(training, col_name)
     obs_freq <- weighted_table(training[[col_name]], as.integer(wts))
     minority <- min(obs_freq)
   }

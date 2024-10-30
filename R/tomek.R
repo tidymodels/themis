@@ -140,10 +140,7 @@ prep.step_tomek <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
   
   check_1_selected(col_name)
-
-  if (length(col_name) == 1) {
-    check_column_factor(training, col_name)
-  }
+  check_column_factor(training, col_name)
 
   predictors <- setdiff(get_from_info(info, "predictor"), col_name)
 
