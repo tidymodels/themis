@@ -31,15 +31,7 @@
 #'
 #' res <- nearmiss(circle_numeric, var = "class", under_ratio = 1.5)
 nearmiss <- function(df, var, k = 5, under_ratio = 1) {
-  if (length(var) != 1) {
-    cli::cli_abort("Please select a single factor variable for {.arg var}.")
-  }
-
-  var <- rlang::arg_match(var, colnames(df))
-
-  if (!(is.factor(df[[var]]) | is.character(df[[var]]))) {
-    cli::cli_abort("{.var {var}} should be a factor or character variable.")
-  }
+  check_var(var, df)
 
   if (length(k) != 1) {
     cli::cli_abort("The {.arg k} argument must have length 1.")

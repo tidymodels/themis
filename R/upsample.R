@@ -174,14 +174,12 @@ prep.step_upsample <- function(x, training, info = NULL, ...) {
     wts <- rep(1, nrow(training))
   }
 
-  if (length(col_name) > 1) {
-    cli::cli_abort("The selector should select at most a single variable.")
-  }
+  check_1_selected(col_name)
+  check_column_factor(training, col_name)
 
   if (length(col_name) == 0) {
     majority <- 0
   } else {
-    check_column_factor(training, col_name)
     obs_freq <- weighted_table(training[[col_name]], as.integer(wts))
     majority <- max(obs_freq)
   }

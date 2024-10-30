@@ -16,8 +16,17 @@ check_na <- function(data, step, call = caller_env()) {
 }
 
 check_2_levels_only <- function(data, col_name, call = caller_env()) {
-  if (length(levels(data[[col_name]])) != 2) {
+  if (length(col_name) == 1 && length(levels(data[[col_name]])) != 2) {
     cli::cli_abort("The {.code {col_name}} must only have 2 levels.", call = call)
+  }
+}
+
+check_1_selected <- function(x, call = caller_env()) {
+  if (length(x) > 1) {
+    cli::cli_abort(
+      "The selector should select at most a single variable.",
+      call = call
+    )
   }
 }
 
@@ -32,9 +41,30 @@ check_numeric <- function(dat) {
 }
 
 check_column_factor <- function(data, column, call = caller_env()) {
-  if (!is.factor(data[[column]])) {
+  if (length(column) == 1 && !is.factor(data[[column]])) {
     cli::cli_abort("{.code {column}} should be a factor variable.", call = call)
   }
+}
+
+check_var <- function(var, df, call = caller_env()) {
+  if (length(var) != 1) {
+    cli::cli_abort(
+      "Please select a single factor variable for {.arg var}.",
+      call = call
+    )
+  }
+
+  var <- rlang::arg_match(var, names(df), error_call = call)
+  column <- df[[var]]
+
+  if (!(is.factor(column) || is.character(column))) {
+    cli::cli_abort(
+      "{.var {var}} should refer to a factor or character column, 
+      not {.obj_type_friendly {column}}.",
+      call = call
+    )
+  }
+
 }
 
 na_splice <- function(new_data, synthetic_data, object) {
