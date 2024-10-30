@@ -142,9 +142,8 @@ step_smotenc_new <-
 #' @export
 prep.step_smotenc <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
-  if (length(col_name) > 1) {
-    cli::cli_abort("The selector should select at most a single variable.")
-  }
+  
+  check_1_selected(col_name)
 
   if (length(col_name) == 1) {
     check_column_factor(training, col_name)

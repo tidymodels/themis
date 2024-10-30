@@ -178,9 +178,7 @@ prep.step_downsample <- function(x, training, info = NULL, ...) {
     wts <- rep(1, nrow(training))
   }
 
-  if (length(col_name) > 1) {
-    cli::cli_abort("The selector should select at most a single variable.")
-  }
+  check_1_selected(col_name)
 
   if (length(col_name) == 0) {
     minority <- 1

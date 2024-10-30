@@ -21,6 +21,15 @@ check_2_levels_only <- function(data, col_name, call = caller_env()) {
   }
 }
 
+check_1_selected <- function(x, call = caller_env()) {
+  if (length(x) > 1) {
+    cli::cli_abort(
+      "The selector should select at most a single variable.",
+      call = call
+    )
+  }
+}
+
 check_numeric <- function(dat) {
   all_good <- vapply(dat, is.numeric, logical(1))
   label <- "numeric"
