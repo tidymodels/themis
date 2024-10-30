@@ -1,9 +1,3 @@
-library(testthat)
-library(recipes)
-library(dplyr)
-
-set.seed(1234)
-
 test_that("basic usage", {
   rec1 <- recipe(class ~ x + y, data = circle_example) %>%
     step_nearmiss(class)

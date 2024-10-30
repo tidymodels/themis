@@ -1,9 +1,3 @@
-library(testthat)
-library(recipes)
-library(dplyr)
-
-set.seed(1234)
-
 test_that("ratio deprecation", {
   expect_snapshot(error = TRUE,
     new_rec <- recipe(~., data = circle_example) %>%

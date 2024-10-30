@@ -1,9 +1,3 @@
-library(testthat)
-library(recipes)
-library(dplyr)
-
-set.seed(1234)
-
 test_that("all minority classes are upsampled", {
   skip_if_not_installed("modeldata")
 

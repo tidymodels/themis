@@ -1,7 +1,3 @@
-library(testthat)
-library(recipes)
-library(dplyr)
-
 test_that("basic usage", {
   rec1 <- recipe(class ~ x + y, data = circle_example) %>%
     step_tomek(class)

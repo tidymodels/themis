@@ -1,9 +1,3 @@
-library(testthat)
-library(recipes)
-library(dplyr)
-
-set.seed(1234)
-
 test_that("minority_prop value", {
   rec <- recipe(class ~ x + y, data = circle_example)
   rec21 <- rec %>%

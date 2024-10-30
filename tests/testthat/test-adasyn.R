@@ -1,7 +1,3 @@
-library(testthat)
-library(recipes)
-library(dplyr)
-
 test_that("errors if there isn't enough data", {
   skip_if_not_installed("modeldata")
 
