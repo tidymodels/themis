@@ -39,15 +39,7 @@
 #'
 #' res <- smote(circle_numeric, var = "class", over_ratio = 0.8)
 smote <- function(df, var, k = 5, over_ratio = 1) {
-  if (length(var) != 1) {
-    cli::cli_abort("Please select a single factor variable for {.arg var}.")
-  }
-
-  var <- rlang::arg_match(var, colnames(df))
-
-  if (!(is.factor(df[[var]]) | is.character(df[[var]]))) {
-    cli::cli_abort("{.var {var}} should be a factor or character variable.")
-  }
+  check_var(var, df)
 
   if (length(k) != 1) {
     cli::cli_abort("The {.arg k} must be length 1.")

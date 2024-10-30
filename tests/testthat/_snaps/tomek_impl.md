@@ -21,7 +21,7 @@
       tomek(circle_example_num, var = "x")
     Condition
       Error in `tomek()`:
-      ! `x` should be a string or a string.
+      ! `x` should refer to a factor or character column, not a double vector.
 
 ---
 

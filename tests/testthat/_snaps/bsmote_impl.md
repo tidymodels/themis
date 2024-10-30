@@ -21,7 +21,7 @@
       bsmote(circle_example_num, var = "x")
     Condition
       Error in `bsmote()`:
-      ! `x` should be a factor or character variable.
+      ! `x` should refer to a factor or character column, not a double vector.
 
 ---
 

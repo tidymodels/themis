@@ -39,24 +39,7 @@
 #'
 #' res <- smotenc(circle_numeric, var = "class", over_ratio = 0.8)
 smotenc <- function(df, var, k = 5, over_ratio = 1) {
-
-  # Tests include:
-  # only providing one majority/minority splitting variable
-  # that variable needs to be a factor or a name of a factor
-  # only need one nearest neighbor value greater than 1
-  # the input variables need to be numeric and contain no NA values
-
-  if (length(var) != 1) {
-    cli::cli_abort("Please select a single factor variable for {.arg var}.")
-  }
-
-  var <- rlang::arg_match(var, colnames(df))
-
-  if (!(is.factor(df[[var]]) | is.character(df[[var]]))) {
-    cli::cli_abort(
-      "{var} should be {.cls factor} or {.cls character} variable."
-    )
-  }
+  check_var(var, df)
 
   if (length(k) != 1) {
     cli::cli_abort("The {.arg k} must have length 1.")

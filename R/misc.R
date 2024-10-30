@@ -46,6 +46,27 @@ check_column_factor <- function(data, column, call = caller_env()) {
   }
 }
 
+check_var <- function(var, df, call = caller_env()) {
+  if (length(var) != 1) {
+    cli::cli_abort(
+      "Please select a single factor variable for {.arg var}.",
+      call = call
+    )
+  }
+
+  var <- rlang::arg_match(var, names(df), error_call = call)
+  column <- df[[var]]
+
+  if (!(is.factor(column) || is.character(column))) {
+    cli::cli_abort(
+      "{.var {var}} should refer to a factor or character column, 
+      not {.obj_type_friendly {column}}.",
+      call = call
+    )
+  }
+
+}
+
 na_splice <- function(new_data, synthetic_data, object) {
   non_predictor <- setdiff(names(new_data), c(object$column, object$predictors))
 
