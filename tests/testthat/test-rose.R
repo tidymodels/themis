@@ -1,7 +1,6 @@
 library(testthat)
 library(recipes)
 library(dplyr)
-library(modeldata)
 
 set.seed(1234)
 
@@ -75,7 +74,9 @@ test_that("bad data", {
 })
 
 test_that("NA in response", {
-  data(credit_data)
+  skip_if_not_installed("modeldata")
+  
+  data("credit_data", package = "modeldata")
   credit_data0 <- credit_data
   credit_data0[1, 1] <- NA
 

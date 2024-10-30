@@ -114,6 +114,7 @@ To use them, see the documentation in \link[recipes:case_weights]{recipes::case_
 }
 
 \examples{
+\dontshow{if (rlang::is_installed("modeldata")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(recipes)
 library(modeldata)
 data(hpc_data)
@@ -160,6 +161,7 @@ recipe(class ~ x + y, data = circle_example) \%>\%
   ggplot(aes(x, y, color = class)) +
   geom_jitter(width = 0.1, height = 0.1) +
   labs(title = "With upsample (with jittering)")
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 Other Steps for over-sampling: 

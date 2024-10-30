@@ -1,7 +1,6 @@
 library(testthat)
 library(recipes)
 library(dplyr)
-library(modeldata)
 
 set.seed(1234)
 
@@ -98,7 +97,9 @@ test_that("ratio value works when undersampling", {
 })
 
 test_that("allows multi-class", {
-  data("credit_data")
+  skip_if_not_installed("modeldata")
+
+  data("credit_data", package = "modeldata")
   expect_no_error(
     recipe(Home ~ Age + Income + Assets, data = credit_data) %>%
       step_impute_mean(Income, Assets) %>%
@@ -107,7 +108,9 @@ test_that("allows multi-class", {
 })
 
 test_that("minority classes are ignored if there is more than 1", {
-  data("penguins")
+  skip_if_not_installed("modeldata")
+  
+  data("penguins", package = "modeldata")
   rec1_p2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
     data = penguins[-(1:84), ]
   ) %>%

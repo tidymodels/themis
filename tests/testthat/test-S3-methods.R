@@ -1,16 +1,12 @@
-data(two_class_dat, package = "modeldata")
-
-# ------------------------------------------------------------------------------
-
-r1 <- recipe(Class ~ ., data = two_class_dat)
-r2 <- r1 %>% step_adasyn(Class)
-r3 <- r1 %>% step_bsmote(Class)
-r4 <- r1 %>% step_downsample(Class)
-r5 <- r1 %>% step_nearmiss(Class)
-r6 <- r1 %>% step_rose(Class)
-r7 <- r1 %>% step_smote(Class)
-r8 <- r1 %>% step_tomek(Class)
-r9 <- r1 %>% step_upsample(Class)
+r1 <- recipe(class ~ ., data = circle_example)
+r2 <- r1 %>% step_adasyn(class)
+r3 <- r1 %>% step_bsmote(class)
+r4 <- r1 %>% step_downsample(class)
+r5 <- r1 %>% step_nearmiss(class)
+r6 <- r1 %>% step_rose(class)
+r7 <- r1 %>% step_smote(class)
+r8 <- r1 %>% step_tomek(class)
+r9 <- r1 %>% step_upsample(class)
 
 # ------------------------------------------------------------------------------
 

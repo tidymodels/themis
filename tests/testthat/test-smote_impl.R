@@ -58,6 +58,8 @@ test_that("smote() interfaces correctly", {
 })
 
 test_that("ordering of columns shouldn't matter", {
+  skip_if_not_installed("modeldata")
+  
   data("credit_data", package = "modeldata")
 
   credit_data0 <- credit_data %>%

@@ -53,7 +53,7 @@
 #' @family Steps for under-sampling
 #'
 #' @export
-#' @examples
+#' @examplesIf rlang::is_installed("modeldata")
 #' library(recipes)
 #' library(modeldata)
 #' data(hpc_data)

@@ -108,6 +108,7 @@ The underlying operation does not allow for case weights.
 }
 
 \examples{
+\dontshow{if (rlang::is_installed("modeldata")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(recipes)
 library(modeldata)
 data(hpc_data)
@@ -158,6 +159,7 @@ recipe(class ~ x + y, data = circle_example) \%>\%
   labs(title = "With NEARMISS") +
   xlim(c(1, 15)) +
   ylim(c(1, 15))
+\dontshow{\}) # examplesIf}
 }
 \references{
 Inderjeet Mani and I Zhang. knn approach to unbalanced data

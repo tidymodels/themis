@@ -113,6 +113,7 @@ The underlying operation does not allow for case weights.
 }
 
 \examples{
+\dontshow{if (rlang::is_installed("modeldata")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(recipes)
 library(modeldata)
 data(hpc_data)
@@ -143,6 +144,7 @@ baked
 orig \%>\%
   left_join(training, by = "class") \%>\%
   left_join(baked, by = "class")
+\dontshow{\}) # examplesIf}
 }
 \references{
 Chawla, N. V., Bowyer, K. W., Hall, L. O., and Kegelmeyer,
