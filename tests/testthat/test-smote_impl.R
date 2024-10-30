@@ -78,3 +78,22 @@ test_that("Doesn't error if no upsampling is done (#119)", {
     smote_impl(dat, "outcome", 5, over_ratio = 0.5)
   )
 })
+
+test_that("bad args", {
+  expect_snapshot(
+    error = TRUE,
+    smote(matrix())
+  )
+  expect_snapshot(
+    error = TRUE,
+    smote(circle_example, var = "class", k = 0)
+  )
+  expect_snapshot(
+    error = TRUE,
+    smote(circle_example, var = "class", k = 5.5)
+  )
+  expect_snapshot(
+    error = TRUE,
+    smote(circle_example, var = "class", over_ratio = TRUE)
+  )
+})

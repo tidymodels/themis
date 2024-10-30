@@ -39,15 +39,10 @@
 #'
 #' res <- smote(circle_numeric, var = "class", over_ratio = 0.8)
 smote <- function(df, var, k = 5, over_ratio = 1) {
+  check_data_frame(df)
   check_var(var, df)
-
-  if (length(k) != 1) {
-    cli::cli_abort("The {.arg k} must be length 1.")
-  }
-
-  if (k < 1) {
-    cli::cli_abort("{.arg k} must be non-negative.")
-  }
+  check_number_whole(k, min = 1)
+  check_number_decimal(over_ratio)
 
   predictors <- setdiff(colnames(df), var)
 

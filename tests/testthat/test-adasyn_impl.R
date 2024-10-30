@@ -34,3 +34,22 @@ test_that("adasyn() interfaces correctly", {
     adasyn(circle_example_num, var = "class", k = c(5, 10))
   )
 })
+
+test_that("bad args", {
+  expect_snapshot(
+    error = TRUE,
+    adasyn(matrix())
+  )
+  expect_snapshot(
+    error = TRUE,
+    adasyn(circle_example_num, var = "class", k = 0)
+  )
+  expect_snapshot(
+    error = TRUE,
+    adasyn(circle_example_num, var = "class", k = 5.5)
+  )
+  expect_snapshot(
+    error = TRUE,
+    adasyn(circle_example_num, var = "class", over_ratio = TRUE)
+  )
+})

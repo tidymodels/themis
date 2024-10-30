@@ -23,6 +23,7 @@
 #'
 #' res <- tomek(circle_numeric, var = "class")
 tomek <- function(df, var) {
+  check_data_frame(df)
   check_var(var, df)
 
   predictors <- setdiff(colnames(df), var)
