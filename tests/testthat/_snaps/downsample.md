@@ -63,6 +63,23 @@
       -- Operations 
       * Down-sampling based on: class | Trained, ignored weights
 
+# bad args
+
+    Code
+      recipe(~., data = mtcars) %>% step_downsample(under_ratio = "yes") %>% prep()
+    Condition
+      Error in `step_downsample()`:
+      Caused by error in `prep()`:
+      ! `under_ratio` must be a number, not the string "yes".
+
+---
+
+    Code
+      recipe(~., data = mtcars) %>% step_downsample(seed = TRUE)
+    Condition
+      Error in `step_downsample()`:
+      ! `seed` must be a whole number, not `TRUE`.
+
 # bake method errors when needed non-standard role columns are missing
 
     Code

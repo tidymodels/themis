@@ -34,6 +34,32 @@
       Caused by error in `prep()`:
       ! Cannot have any missing values. NAs found in Job.
 
+# bad args
+
+    Code
+      recipe(~., data = mtcars) %>% step_smotenc(over_ratio = "yes") %>% prep()
+    Condition
+      Error in `step_smotenc()`:
+      Caused by error in `prep()`:
+      ! `over_ratio` must be a number, not the string "yes".
+
+---
+
+    Code
+      recipe(~., data = mtcars) %>% step_smotenc(neighbors = TRUE) %>% prep()
+    Condition
+      Error in `step_smotenc()`:
+      Caused by error in `prep()`:
+      ! `neighbors` must be a whole number, not `TRUE`.
+
+---
+
+    Code
+      recipe(~., data = mtcars) %>% step_smotenc(seed = TRUE)
+    Condition
+      Error in `step_smotenc()`:
+      ! `seed` must be a whole number, not `TRUE`.
+
 # bake method errors when needed non-standard role columns are missing
 
     Code

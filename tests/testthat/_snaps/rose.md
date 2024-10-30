@@ -34,6 +34,47 @@
       Caused by error in `prep()`:
       ! The `x` must only have 2 levels.
 
+# bad args
+
+    Code
+      recipe(~., data = mtcars) %>% step_rose(over_ratio = "yes") %>% prep()
+    Condition
+      Error in `step_rose()`:
+      Caused by error in `prep()`:
+      ! `over_ratio` must be a number, not the string "yes".
+
+---
+
+    Code
+      recipe(~., data = mtcars) %>% step_rose(minority_prop = TRUE)
+    Condition
+      Error in `step_rose()`:
+      ! `minority_prop` must be a number, not `TRUE`.
+
+---
+
+    Code
+      recipe(~., data = mtcars) %>% step_rose(minority_smoothness = TRUE)
+    Condition
+      Error in `step_rose()`:
+      ! `minority_smoothness` must be a number, not `TRUE`.
+
+---
+
+    Code
+      recipe(~., data = mtcars) %>% step_rose(majority_smoothness = TRUE)
+    Condition
+      Error in `step_rose()`:
+      ! `majority_smoothness` must be a number, not `TRUE`.
+
+---
+
+    Code
+      recipe(~., data = mtcars) %>% step_rose(seed = TRUE)
+    Condition
+      Error in `step_rose()`:
+      ! `seed` must be a whole number, not `TRUE`.
+
 # bake method errors when needed non-standard role columns are missing
 
     Code

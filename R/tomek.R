@@ -104,6 +104,8 @@ step_tomek <-
   function(recipe, ..., role = NA, trained = FALSE,
            column = NULL, skip = TRUE, seed = sample.int(10^5, 1),
            id = rand_id("tomek")) {
+    check_number_whole(seed)
+    
     add_step(
       recipe,
       step_tomek_new(

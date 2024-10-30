@@ -141,6 +141,8 @@ step_bsmote <-
   function(recipe, ..., role = NA, trained = FALSE,
            column = NULL, over_ratio = 1, neighbors = 5, all_neighbors = FALSE,
            skip = TRUE, seed = sample.int(10^5, 1), id = rand_id("bsmote")) {
+    check_number_whole(seed)
+
     add_step(
       recipe,
       step_bsmote_new(
@@ -183,6 +185,10 @@ step_bsmote_new <-
 prep.step_bsmote <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
   
+  check_number_decimal(x$over_ratio, arg = "over_ratio", min = 0)
+  check_number_whole(x$neighbors, arg = "neighbors", min = 1)
+  check_bool(x$all_neighbors, arg = "all_neighbors")
+
   check_1_selected(col_name)
   check_column_factor(training, col_name)
 
