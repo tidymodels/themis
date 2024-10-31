@@ -1,4 +1,3 @@
-set.seed(1234)
 test_that("samples stay inside convex hull of data.", {
   rdata <- matrix(c(0, 1, 1, 0, 0, 0, 1, 1), ncol = 2)
 
@@ -58,6 +57,8 @@ test_that("smote() interfaces correctly", {
 })
 
 test_that("ordering of columns shouldn't matter", {
+  skip_if_not_installed("modeldata")
+  
   data("credit_data", package = "modeldata")
 
   credit_data0 <- credit_data %>%

@@ -122,6 +122,7 @@ The underlying operation does not allow for case weights.
 }
 
 \examples{
+\dontshow{if (rlang::is_installed("modeldata")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(recipes)
 library(modeldata)
 data(hpc_data)
@@ -165,6 +166,7 @@ recipe(class ~ x + y, data = circle_example) \%>\%
   ggplot(aes(x, y, color = class)) +
   geom_point() +
   labs(title = "With ROSE")
+\dontshow{\}) # examplesIf}
 }
 \references{
 Lunardon, N., Menardi, G., and Torelli, N. (2014). ROSE: a

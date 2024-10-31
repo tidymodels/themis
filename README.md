@@ -49,7 +49,7 @@ library(recipes)
 library(modeldata)
 library(themis)
 
-data("credit_data")
+data("credit_data", package = "modeldata")
 
 credit_data0 <- credit_data %>%
   filter(!is.na(Job))

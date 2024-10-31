@@ -88,6 +88,7 @@ The underlying operation does not allow for case weights.
 }
 
 \examples{
+\dontshow{if (rlang::is_installed("modeldata")) (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 library(recipes)
 library(modeldata)
 data(hpc_data)
@@ -134,6 +135,7 @@ recipe(class ~ x + y, data = circle_example) \%>\%
   labs(title = "With Tomek") +
   xlim(c(1, 15)) +
   ylim(c(1, 15))
+\dontshow{\}) # examplesIf}
 }
 \references{
 Tomek. Two modifications of cnn. IEEE Trans. Syst. Man Cybern.,
