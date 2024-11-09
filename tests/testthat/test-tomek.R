@@ -15,13 +15,15 @@ test_that("basic usage", {
 test_that("bad data", {
   rec <- recipe(~., data = circle_example)
   # numeric check
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     rec %>%
       step_smote(x) %>%
       prep()
   )
   # Multiple variable check
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     rec %>%
       step_smote(class, id) %>%
       prep()
@@ -35,7 +37,8 @@ test_that("errors if character are present", {
     stringsAsFactors = FALSE
   )
 
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     recipe(~., data = df_char) %>%
       step_tomek(x) %>%
       prep()
@@ -49,7 +52,8 @@ test_that("NA in response", {
   credit_data0 <- credit_data
   credit_data0[1, 1] <- NA
 
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     recipe(Status ~ Age, data = credit_data0) %>%
       step_tomek(Status) %>%
       prep()

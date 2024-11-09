@@ -15,13 +15,15 @@ test_that("basic usage", {
 test_that("bad data", {
   rec <- recipe(~., data = circle_example)
   # numeric check
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     rec %>%
       step_nearmiss(x) %>%
       prep()
   )
   # Multiple variable check
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     rec %>%
       step_nearmiss(class, id) %>%
       prep()
@@ -35,7 +37,8 @@ test_that("errors if character are present", {
     stringsAsFactors = FALSE
   )
 
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     recipe(~., data = df_char) %>%
       step_nearmiss(x) %>%
       prep()
@@ -47,7 +50,8 @@ test_that("NA in response", {
 
   data("credit_data", package = "modeldata")
 
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     recipe(Job ~ Age, data = credit_data) %>%
       step_nearmiss(Job) %>%
       prep()

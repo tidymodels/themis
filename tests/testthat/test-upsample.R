@@ -1,5 +1,6 @@
 test_that("ratio deprecation", {
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     new_rec <- recipe(~., data = circle_example) %>%
       step_upsample(class, ratio = 2)
   )
@@ -22,13 +23,15 @@ test_that("basic usage", {
 test_that("bad data", {
   rec <- recipe(~., data = circle_example)
   # numeric check
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     rec %>%
       step_upsample(x) %>%
       prep()
   )
   # Multiple variable check
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     rec %>%
       step_upsample(class, id) %>%
       prep()
