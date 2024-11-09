@@ -54,13 +54,15 @@ test_that("basic usage", {
 test_that("bad data", {
   rec <- recipe(~., data = circle_example)
   # numeric check
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     rec %>%
       step_rose(x) %>%
       prep()
   )
   # Multiple variable check
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     rec %>%
       step_rose(class, id) %>%
       prep()
@@ -74,7 +76,8 @@ test_that("NA in response", {
   credit_data0 <- credit_data
   credit_data0[1, 1] <- NA
 
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     recipe(Status ~ Age, data = credit_data0) %>%
       step_rose(Status) %>%
       prep()
@@ -124,7 +127,8 @@ test_that("only except 2 classes", {
     stringsAsFactors = FALSE
   )
 
-  expect_snapshot(error = TRUE,
+  expect_snapshot(
+    error = TRUE,
     recipe(~., data = df_char) %>%
       step_rose(x) %>%
       prep()
