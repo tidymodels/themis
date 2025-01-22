@@ -1,5 +1,7 @@
 ## Release Summary
 
+Fixed arXiv issue in description, and should have resolved all other notes.
+
 This is the 11th CRAN release of themis.
 
 ## R CMD check results
