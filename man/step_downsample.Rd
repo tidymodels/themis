@@ -94,7 +94,7 @@ it is not clear whether those operations should be conducted
 \emph{before} or \emph{after} rows are removed.
 }
 \section{Tidying}{
-When you \code{\link[=tidy.recipe]{tidy()}} this step, a tibble is retruned with
+When you \code{\link[recipes:tidy.recipe]{tidy()}} this step, a tibble is retruned with
 columns \code{terms} and \code{id}:
 
 \describe{

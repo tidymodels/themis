@@ -72,7 +72,7 @@ option \code{skip = TRUE} so that the extra sampling is \emph{not}
 conducted outside of the training set.
 }
 \section{Tidying}{
-When you \code{\link[=tidy.recipe]{tidy()}} this step, a tibble is retruned with
+When you \code{\link[recipes:tidy.recipe]{tidy()}} this step, a tibble is retruned with
 columns \code{terms} and \code{id}:
 
 \describe{

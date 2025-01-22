@@ -89,7 +89,7 @@ All columns in the data are sampled and returned by \code{\link[recipes:juice]{r
 and \code{\link[recipes:bake]{recipes::bake()}}.
 }
 \section{Tidying}{
-When you \code{\link[=tidy.recipe]{tidy()}} this step, a tibble is retruned with
+When you \code{\link[recipes:tidy.recipe]{tidy()}} this step, a tibble is retruned with
 columns \code{terms} and \code{id}:
 
 \describe{
