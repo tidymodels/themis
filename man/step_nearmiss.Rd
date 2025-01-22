@@ -74,8 +74,8 @@ on their distance to other points in the same class.
 This method retains the points from the majority class which have the
 smallest mean distance to the k nearest points in the minority class.
 
-All columns in the data are sampled and returned by \code{\link[=juice]{juice()}}
-and \code{\link[=bake]{bake()}}.
+All columns in the data are sampled and returned by \code{\link[recipes:juice]{recipes::juice()}}
+and \code{\link[recipes:bake]{recipes::bake()}}.
 
 All columns used in this step must be numeric with no missing data.
 

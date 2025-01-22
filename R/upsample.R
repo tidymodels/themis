@@ -41,8 +41,8 @@
 #' For any data with factor levels occurring with the same
 #'  frequency as the majority level, all data will be retained.
 #'
-#' All columns in the data are sampled and returned by [juice()]
-#'  and [bake()].
+#' All columns in the data are sampled and returned by [recipes::juice()]
+#'  and [recipes::bake()].
 #'
 #' # Tidying
 #'

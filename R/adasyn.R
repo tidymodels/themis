@@ -24,8 +24,8 @@
 #'  the variable used to sample.
 #'
 #' @details
-#' All columns in the data are sampled and returned by [juice()]
-#'  and [bake()].
+#' All columns in the data are sampled and returned by [recipes::juice()]
+#'  and [recipes::bake()].
 #'
 #' All columns used in this step must be numeric with no missing data.
 #'

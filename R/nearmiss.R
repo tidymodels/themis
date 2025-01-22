@@ -27,8 +27,8 @@
 #' This method retains the points from the majority class which have the
 #' smallest mean distance to the k nearest points in the minority class.
 #'
-#' All columns in the data are sampled and returned by [juice()]
-#'  and [bake()].
+#' All columns in the data are sampled and returned by [recipes::juice()]
+#'  and [recipes::bake()].
 #'
 #' All columns used in this step must be numeric with no missing data.
 #'

@@ -33,8 +33,8 @@
 #' `neighbors` nearest neighbor of each example of the minority class.
 #' The parameter `neighbors` controls how many of these neighbor are used.
 #'
-#' All columns in the data are sampled and returned by [juice()]
-#'  and [bake()].
+#' All columns in the data are sampled and returned by [recipes::juice()]
+#'  and [recipes::bake()].
 #'
 #' Columns can be numeric and categorical with no missing data.
 #'
