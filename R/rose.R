@@ -7,7 +7,7 @@
 #' @inheritParams recipes::step_center
 #' @inheritParams step_upsample
 #' @param ... One or more selector functions to choose which
-#'  variable is used to sample the data. See [selections()]
+#'  variable is used to sample the data. See [recipes::selections]
 #'  for more details. The selection should result in _single
 #'  factor variable_. For the `tidy` method, these are not
 #'  currently used.
@@ -41,8 +41,8 @@
 #' could lead to blur the boundaries between the regions of the feature space
 #' associated with each class.
 #'
-#' All columns in the data are sampled and returned by [juice()]
-#'  and [bake()].
+#' All columns in the data are sampled and returned by [recipes::juice()]
+#'  and [recipes::bake()].
 #'
 #' When used in modeling, users should strongly consider using the
 #'  option `skip = TRUE` so that the extra sampling is _not_
@@ -50,7 +50,7 @@
 #'
 #' # Tidying
 #'
-#' When you [`tidy()`][tidy.recipe()] this step, a tibble is retruned with
+#' When you [`tidy()`][recipes::tidy.recipe()] this step, a tibble is retruned with
 #'  columns `terms` and `id`:
 #'
 #' \describe{

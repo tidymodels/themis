@@ -7,7 +7,7 @@
 #' @inheritParams recipes::step_center
 #' @inheritParams step_upsample
 #' @param ... One or more selector functions to choose which
-#'  variable is used to sample the data. See [selections()]
+#'  variable is used to sample the data. See [recipes::selections]
 #'  for more details. The selection should result in _single
 #'  factor variable_. For the `tidy` method, these are not
 #'  currently used.
@@ -46,8 +46,8 @@
 #' `neighbors` nearest neighbor of each example of the minority class.
 #' The parameter `neighbors` controls how many of these neighbor are used.
 #'
-#' All columns in the data are sampled and returned by [juice()]
-#'  and [bake()].
+#' All columns in the data are sampled and returned by [recipes::juice()]
+#'  and [recipes::bake()].
 #'
 #' All columns used in this step must be numeric with no missing data.
 #'
@@ -57,7 +57,7 @@
 #'
 #' # Tidying
 #'
-#' When you [`tidy()`][tidy.recipe()] this step, a tibble is retruned with
+#' When you [`tidy()`][recipes::tidy.recipe()] this step, a tibble is retruned with
 #'  columns `terms` and `id`:
 #'
 #' \describe{

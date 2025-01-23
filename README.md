@@ -100,14 +100,14 @@ example_data %>%
 The following methods all share the tuning parameter `over_ratio`, which
 is the ratio of the minority-to-majority frequencies.
 
-| name                                                            | function                  | Multi-class        |
-|-----------------------------------------------------------------|---------------------------|--------------------|
-| Random minority over-sampling with replacement                  | `step_upsample()`         | :heavy_check_mark: |
-| Synthetic Minority Over-sampling Technique                      | `step_smote()`            | :heavy_check_mark: |
-| Borderline SMOTE-1                                              | `step_bsmote(method = 1)` | :heavy_check_mark: |
-| Borderline SMOTE-2                                              | `step_bsmote(method = 2)` | :heavy_check_mark: |
-| Adaptive synthetic sampling approach for imbalanced learning    | `step_adasyn()`           | :heavy_check_mark: |
-| Generation of synthetic data by Randomly Over Sampling Examples | `step_rose()`             |                    |
+| name | function | Multi-class |
+|----|----|----|
+| Random minority over-sampling with replacement | `step_upsample()` | :heavy_check_mark: |
+| Synthetic Minority Over-sampling Technique | `step_smote()` | :heavy_check_mark: |
+| Borderline SMOTE-1 | `step_bsmote(method = 1)` | :heavy_check_mark: |
+| Borderline SMOTE-2 | `step_bsmote(method = 2)` | :heavy_check_mark: |
+| Adaptive synthetic sampling approach for imbalanced learning | `step_adasyn()` | :heavy_check_mark: |
+| Generation of synthetic data by Randomly Over Sampling Examples | `step_rose()` |  |
 
 By setting `over_ratio = 1` you bring the number of samples of all
 minority classes equal to 100% of the majority class.
@@ -143,11 +143,11 @@ Most of the the following methods all share the tuning parameter
 `under_ratio`, which is the ratio of the majority-to-minority
 frequencies.
 
-| name                                            | function            | Multi-class        | under_ratio        |
-|-------------------------------------------------|---------------------|--------------------|--------------------|
+| name | function | Multi-class | under_ratio |
+|----|----|----|----|
 | Random majority under-sampling with replacement | `step_downsample()` | :heavy_check_mark: | :heavy_check_mark: |
-| NearMiss-1                                      | `step_nearmiss()`   | :heavy_check_mark: | :heavy_check_mark: |
-| Extraction of majority-minority Tomek links     | `step_tomek()`      |                    |                    |
+| NearMiss-1 | `step_nearmiss()` | :heavy_check_mark: | :heavy_check_mark: |
+| Extraction of majority-minority Tomek links | `step_tomek()` |  |  |
 
 By setting `under_ratio = 1` you bring the number of samples of all
 majority classes equal to 100% of the minority class.
@@ -186,7 +186,7 @@ By contributing to this project, you agree to abide by its terms.
 
 - For questions and discussions about tidymodels packages, modeling, and
   machine learning, [join us on RStudio
-  Community](https://community.rstudio.com/new-topic?category_id=15&tags=tidymodels,question).
+  Community](https://forum.posit.co/new-topic?category_id=15&tags=tidymodels,question).
 
 - If you think you have encountered a bug, please [submit an
   issue](https://github.com/tidymodels/themis/issues).

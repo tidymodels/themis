@@ -24,7 +24,7 @@ step_upsample(
 sequence of operations for this recipe.}
 
 \item{...}{One or more selector functions to choose which
-variable is used to sample the data. See \code{\link[=selections]{selections()}}
+variable is used to sample the data. See \link[recipes:selections]{recipes::selections}
 for more details. The selection should result in \emph{single
 factor variable}. For the \code{tidy} method, these are not
 currently used.}
@@ -85,11 +85,11 @@ majority level (see example below).
 For any data with factor levels occurring with the same
 frequency as the majority level, all data will be retained.
 
-All columns in the data are sampled and returned by \code{\link[=juice]{juice()}}
-and \code{\link[=bake]{bake()}}.
+All columns in the data are sampled and returned by \code{\link[recipes:juice]{recipes::juice()}}
+and \code{\link[recipes:bake]{recipes::bake()}}.
 }
 \section{Tidying}{
-When you \code{\link[=tidy.recipe]{tidy()}} this step, a tibble is retruned with
+When you \code{\link[recipes:tidy.recipe]{tidy()}} this step, a tibble is retruned with
 columns \code{terms} and \code{id}:
 
 \describe{

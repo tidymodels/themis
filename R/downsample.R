@@ -6,7 +6,7 @@
 #'
 #' @inheritParams recipes::step_center
 #' @param ... One or more selector functions to choose which
-#'  variable is used to sample the data. See [selections()]
+#'  variable is used to sample the data. See [recipes::selections]
 #'  for more details. The selection should result in _single
 #'  factor variable_. For the `tidy` method, these are not
 #'  currently used.
@@ -41,8 +41,8 @@
 #' For any data with factor levels occurring with the same
 #'  frequency as the minority level, all data will be retained.
 #'
-#' All columns in the data are sampled and returned by [juice()]
-#'  and [bake()].
+#' All columns in the data are sampled and returned by [recipes::juice()]
+#'  and [recipes::bake()].
 #'
 #' Keep in mind that the location of down-sampling in the step
 #'  may have effects. For example, if centering and scaling,
@@ -51,7 +51,7 @@
 #'
 #' # Tidying
 #'
-#' When you [`tidy()`][tidy.recipe()] this step, a tibble is retruned with
+#' When you [`tidy()`][recipes::tidy.recipe()] this step, a tibble is retruned with
 #'  columns `terms` and `id`:
 #'
 #' \describe{
