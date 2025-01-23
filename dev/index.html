@@ -16,11 +16,11 @@
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/Source_Sans_Pro-0.4.9/font.css" rel="stylesheet">
 <link href="deps/Source_Code_Pro-0.4.9/font.css" rel="stylesheet">
-<link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Extra Recipes Steps for Dealing with Unbalanced Data">
-<meta name="description" content="A dataset with an uneven number of cases in each class is said to be unbalanced. Many models produce a subpar performance on unbalanced datasets. A dataset can be balanced by increasing the number of minority cases using SMOTE 2011 &lt;arXiv:1106.1813&gt;, BorderlineSMOTE 2005 &lt;doi:10.1007/11538059_91&gt; and ADASYN 2008 &lt;https://ieeexplore.ieee.org/document/4633969&gt;. Or by decreasing the number of majority cases using NearMiss 2003 &lt;https://www.site.uottawa.ca/~nat/Workshop2003/jzhang.pdf&gt; or Tomek link removal 1976 &lt;https://ieeexplore.ieee.org/document/4309452&gt;.">
-<meta property="og:description" content="A dataset with an uneven number of cases in each class is said to be unbalanced. Many models produce a subpar performance on unbalanced datasets. A dataset can be balanced by increasing the number of minority cases using SMOTE 2011 &lt;arXiv:1106.1813&gt;, BorderlineSMOTE 2005 &lt;doi:10.1007/11538059_91&gt; and ADASYN 2008 &lt;https://ieeexplore.ieee.org/document/4633969&gt;. Or by decreasing the number of majority cases using NearMiss 2003 &lt;https://www.site.uottawa.ca/~nat/Workshop2003/jzhang.pdf&gt; or Tomek link removal 1976 &lt;https://ieeexplore.ieee.org/document/4309452&gt;.">
+<meta name="description" content="A dataset with an uneven number of cases in each class is said to be unbalanced. Many models produce a subpar performance on unbalanced datasets. A dataset can be balanced by increasing the number of minority cases using SMOTE 2011 &lt;doi:10.48550/arXiv.1106.1813&gt;, BorderlineSMOTE 2005 &lt;doi:10.1007/11538059_91&gt; and ADASYN 2008 &lt;https://ieeexplore.ieee.org/document/4633969&gt;. Or by decreasing the number of majority cases using NearMiss 2003 &lt;https://www.site.uottawa.ca/~nat/Workshop2003/jzhang.pdf&gt; or Tomek link removal 1976 &lt;https://ieeexplore.ieee.org/document/4309452&gt;.">
+<meta property="og:description" content="A dataset with an uneven number of cases in each class is said to be unbalanced. Many models produce a subpar performance on unbalanced datasets. A dataset can be balanced by increasing the number of minority cases using SMOTE 2011 &lt;doi:10.48550/arXiv.1106.1813&gt;, BorderlineSMOTE 2005 &lt;doi:10.1007/11538059_91&gt; and ADASYN 2008 &lt;https://ieeexplore.ieee.org/document/4633969&gt;. Or by decreasing the number of majority cases using NearMiss 2003 &lt;https://www.site.uottawa.ca/~nat/Workshop2003/jzhang.pdf&gt; or Tomek link removal 1976 &lt;https://ieeexplore.ieee.org/document/4309452&gt;.">
 <meta property="og:image" content="https://themis.tidymodels.org/logo.png">
 <meta name="robots" content="noindex">
 <script defer data-domain="themis.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script>
@@ -33,7 +33,7 @@
 
     <a class="navbar-brand me-2" href="index.html">themis</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.2.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.3.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -134,9 +134,9 @@
 <p>The following methods all share the tuning parameter <code>over_ratio</code>, which is the ratio of the minority-to-majority frequencies.</p>
 <table class="table">
 <colgroup>
-<col width="58%">
-<col width="24%">
-<col width="17%">
+<col width="33%">
+<col width="33%">
+<col width="33%">
 </colgroup>
 <thead><tr class="header">
 <th>name</th>
@@ -201,10 +201,10 @@
 <p>Most of the the following methods all share the tuning parameter <code>under_ratio</code>, which is the ratio of the majority-to-minority frequencies.</p>
 <table class="table">
 <colgroup>
-<col width="44%">
-<col width="19%">
-<col width="18%">
-<col width="18%">
+<col width="25%">
+<col width="25%">
+<col width="25%">
+<col width="25%">
 </colgroup>
 <thead><tr class="header">
 <th>name</th>
@@ -258,7 +258,7 @@
 </h2>
 <p>This project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html" class="external-link">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 <ul>
-<li><p>For questions and discussions about tidymodels packages, modeling, and machine learning, <a href="https://community.rstudio.com/new-topic?category_id=15&amp;tags=tidymodels,question" class="external-link">join us on RStudio Community</a>.</p></li>
+<li><p>For questions and discussions about tidymodels packages, modeling, and machine learning, <a href="https://forum.posit.co/new-topic?category_id=15&amp;tags=tidymodels,question" class="external-link">join us on RStudio Community</a>.</p></li>
 <li><p>If you think you have encountered a bug, please <a href="https://github.com/tidymodels/themis/issues" class="external-link">submit an issue</a>.</p></li>
 <li><p>Either way, learn how to create and share a <a href="https://reprex.tidyverse.org/articles/articles/learn-reprex.html" class="external-link">reprex</a> (a minimal, reproducible example), to clearly communicate about your code.</p></li>
 <li><p>Check out further details on <a href="https://www.tidymodels.org/contribute/" class="external-link">contributing guidelines for tidymodels packages</a> and <a href="https://www.tidymodels.org/help/" class="external-link">how to get help</a>.</p></li>
