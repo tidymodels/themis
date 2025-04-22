@@ -42,7 +42,7 @@
     Condition
       Error in `step_nearmiss()`:
       Caused by error in `prep()`:
-      ! The following argument was specified but do not exist: `over_ratio`.
+      ! The following argument was specified but does not exist: `over_ratio`.
 
 ---
 

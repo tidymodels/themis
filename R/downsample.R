@@ -118,10 +118,19 @@
 #'   geom_point() +
 #'   labs(title = "With downsample")
 step_downsample <-
-  function(recipe, ..., under_ratio = 1, ratio = deprecated(), role = NA,
-           trained = FALSE, column = NULL, target = NA, skip = TRUE,
-           seed = sample.int(10^5, 1), id = rand_id("downsample")) {
-
+  function(
+    recipe,
+    ...,
+    under_ratio = 1,
+    ratio = deprecated(),
+    role = NA,
+    trained = FALSE,
+    column = NULL,
+    target = NA,
+    skip = TRUE,
+    seed = sample.int(10^5, 1),
+    id = rand_id("downsample")
+  ) {
     if (lifecycle::is_present(ratio)) {
       lifecycle::deprecate_stop(
         "0.2.0",
@@ -150,8 +159,19 @@ step_downsample <-
   }
 
 step_downsample_new <-
-  function(terms, under_ratio, ratio, role, trained, column, target, skip, seed,
-           id, case_weights) {
+  function(
+    terms,
+    under_ratio,
+    ratio,
+    role,
+    trained,
+    column,
+    target,
+    skip,
+    seed,
+    id,
+    case_weights
+  ) {
     step(
       subclass = "downsample",
       terms = terms,
@@ -246,7 +266,6 @@ bake.step_downsample <- function(object, new_data, ...) {
   split_data <- split(new_data, new_data[[col_names]])
   split_wts <- split(wts, new_data[[col_names]])
 
-
   # Downsample with seed for reproducibility
   with_seed(
     seed = object$seed,
@@ -270,8 +289,14 @@ bake.step_downsample <- function(object, new_data, ...) {
 print.step_downsample <-
   function(x, width = max(20, options()$width - 26), ...) {
     title <- "Down-sampling based on "
-    print_step(x$column, x$terms, x$trained, title, width,
-               case_weights = x$case_weights)
+    print_step(
+      x$column,
+      x$terms,
+      x$trained,
+      title,
+      width,
+      case_weights = x$case_weights
+    )
     invisible(x)
   }
 

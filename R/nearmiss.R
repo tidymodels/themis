@@ -114,12 +114,20 @@
 #'   xlim(c(1, 15)) +
 #'   ylim(c(1, 15))
 step_nearmiss <-
-  function(recipe, ..., role = NA, trained = FALSE,
-           column = NULL, under_ratio = 1, neighbors = 5, skip = TRUE,
-           seed = sample.int(10^5, 1),
-           id = rand_id("nearmiss")) {
+  function(
+    recipe,
+    ...,
+    role = NA,
+    trained = FALSE,
+    column = NULL,
+    under_ratio = 1,
+    neighbors = 5,
+    skip = TRUE,
+    seed = sample.int(10^5, 1),
+    id = rand_id("nearmiss")
+  ) {
     check_number_whole(seed)
-    
+
     add_step(
       recipe,
       step_nearmiss_new(
@@ -138,8 +146,18 @@ step_nearmiss <-
   }
 
 step_nearmiss_new <-
-  function(terms, role, trained, column, under_ratio, neighbors, predictors,
-           skip, seed, id) {
+  function(
+    terms,
+    role,
+    trained,
+    column,
+    under_ratio,
+    neighbors,
+    predictors,
+    skip,
+    seed,
+    id
+  ) {
     step(
       subclass = "nearmiss",
       terms = terms,

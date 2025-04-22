@@ -56,7 +56,9 @@ nearmiss_impl <- function(df, var, ignore_vars, k = 5, under_ratio = 1) {
     not_class <- subset_to_matrix(df_only, var, names(classes)[i], FALSE)
 
     if (nrow(not_class) <= k) {
-      cli::cli_abort("Not enough danger observations of {.val {names(classes)[i]}} to perform NEARMISS.")
+      cli::cli_abort(
+        "Not enough danger observations of {.val {names(classes)[i]}} to perform NEARMISS."
+      )
     }
 
     dists <- RANN::nn2(
@@ -66,7 +68,10 @@ nearmiss_impl <- function(df, var, ignore_vars, k = 5, under_ratio = 1) {
     )$nn.dists
 
     selected_ind <- order(rowMeans(dists)) <= (nrow(class) - classes[i])
-    deleted_rows <- c(deleted_rows, which(df[[var]] %in% names(classes)[i])[!selected_ind])
+    deleted_rows <- c(
+      deleted_rows,
+      which(df[[var]] %in% names(classes)[i])[!selected_ind]
+    )
   }
 
   if (length(deleted_rows) > 0) {

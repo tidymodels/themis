@@ -21,8 +21,10 @@ test_that("basic usage", {
 
   data("ames", package = "modeldata")
 
-  rec1 <- recipe(Alley ~ MS_SubClass + MS_Zoning + Lot_Frontage + Lot_Area + Street,
-                 data = ames) %>%
+  rec1 <- recipe(
+    Alley ~ MS_SubClass + MS_Zoning + Lot_Frontage + Lot_Area + Street,
+    data = ames
+  ) %>%
     step_smotenc(Alley)
 
   rec1_p <- prep(rec1)
@@ -122,14 +124,18 @@ test_that("ratio value works when oversampling", {
 
   data("ames", package = "modeldata")
 
-  res1 <- recipe(Alley ~ MS_SubClass + MS_Zoning + Lot_Frontage + Lot_Area + Street,
-                 data = ames) %>%
+  res1 <- recipe(
+    Alley ~ MS_SubClass + MS_Zoning + Lot_Frontage + Lot_Area + Street,
+    data = ames
+  ) %>%
     step_smotenc(Alley) %>%
     prep() %>%
     bake(new_data = NULL)
 
-  res1.5 <- recipe(Alley ~ MS_SubClass + MS_Zoning + Lot_Frontage + Lot_Area + Street,
-                   data = ames) %>%
+  res1.5 <- recipe(
+    Alley ~ MS_SubClass + MS_Zoning + Lot_Frontage + Lot_Area + Street,
+    data = ames
+  ) %>%
     step_smotenc(Alley, over_ratio = 0.5) %>%
     prep() %>%
     bake(new_data = NULL)
@@ -154,10 +160,12 @@ test_that("allows multi-class", {
 
 test_that("majority classes are ignored if there is more than 1", {
   skip_if_not_installed("modeldata")
-  
+
   data("penguins", package = "modeldata")
-  rec1_p2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
-                    data = penguins[-(1:28), ]) %>%
+  rec1_p2 <- recipe(
+    species ~ bill_length_mm + bill_depth_mm,
+    data = penguins[-(1:28), ]
+  ) %>%
     step_impute_mean(all_predictors()) %>%
     step_smotenc(species) %>%
     prep() %>%
@@ -179,8 +187,10 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   # Checking for forgetting levels by alphabetical switching
   for (i in c(3, 4)) {
     circle_example_alt_levels[[i]]$class <-
-      factor(x = circle_example_alt_levels[[i]]$class,
-             levels = rev(levels(circle_example_alt_levels[[i]]$class)))
+      factor(
+        x = circle_example_alt_levels[[i]]$class,
+        levels = rev(levels(circle_example_alt_levels[[i]]$class))
+      )
   }
 
   for (i in 1:4) {

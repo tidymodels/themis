@@ -106,9 +106,10 @@ test_that("allows multi-class", {
 
 test_that("minority classes are ignored if there is more than 1", {
   skip_if_not_installed("modeldata")
-  
+
   data("penguins", package = "modeldata")
-  rec1_p2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
+  rec1_p2 <- recipe(
+    species ~ bill_length_mm + bill_depth_mm,
     data = penguins[-(1:84), ]
   ) %>%
     step_impute_mean(all_predictors()) %>%

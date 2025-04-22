@@ -17,7 +17,10 @@ check_na <- function(data, step, call = caller_env()) {
 
 check_2_levels_only <- function(data, col_name, call = caller_env()) {
   if (length(col_name) == 1 && length(levels(data[[col_name]])) != 2) {
-    cli::cli_abort("The {.code {col_name}} must only have 2 levels.", call = call)
+    cli::cli_abort(
+      "The {.code {col_name}} must only have 2 levels.",
+      call = call
+    )
   }
 }
 
@@ -64,7 +67,6 @@ check_var <- function(var, df, call = caller_env()) {
       call = call
     )
   }
-
 }
 
 na_splice <- function(new_data, synthetic_data, object) {
