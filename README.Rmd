@@ -4,7 +4,8 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
+```{r}
+#| include: false
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -46,7 +47,9 @@ pak::pak("tidymodels/themis")
 
 Following is a example of using the [SMOTE](https://jair.org/index.php/jair/article/view/10302/24590) algorithm to deal with unbalanced data
 
-```{r example, message=FALSE}
+```{r}
+#| label: example
+#| message: false
 library(recipes)
 library(modeldata)
 library(themis)
