@@ -1,4 +1,3 @@
-
 test_that("order doesn't matter", {
   df <- data.frame(
     target = rep(c("Yes", "No"), c(10, 50)),
@@ -45,7 +44,7 @@ test_that("tomek() interfaces correctly", {
 
 test_that("ordering of columns shouldn't matter", {
   skip_if_not_installed("modeldata")
-  
+
   data("credit_data", package = "modeldata")
 
   credit_data0 <- credit_data %>%

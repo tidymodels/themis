@@ -2,7 +2,8 @@ test_that("all minority classes are upsampled", {
   skip_if_not_installed("modeldata")
 
   data("penguins", package = "modeldata")
-  rec1_p2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
+  rec1_p2 <- recipe(
+    species ~ bill_length_mm + bill_depth_mm,
     data = penguins
   ) %>%
     step_impute_mean(all_predictors()) %>%
@@ -76,7 +77,7 @@ test_that("errors if character are present", {
 
 test_that("NA in response", {
   skip_if_not_installed("modeldata")
-  
+
   data("credit_data", package = "modeldata")
 
   expect_snapshot(
@@ -175,7 +176,8 @@ test_that("majority classes are ignored if there is more than 1", {
   skip_if_not_installed("modeldata")
 
   data("penguins", package = "modeldata")
-  rec1_p2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
+  rec1_p2 <- recipe(
+    species ~ bill_length_mm + bill_depth_mm,
     data = penguins[-(1:28), ]
   ) %>%
     step_impute_mean(all_predictors()) %>%
@@ -187,13 +189,12 @@ test_that("majority classes are ignored if there is more than 1", {
 })
 
 
-
-
 test_that("majority classes are ignored if there is more than 1", {
   skip_if_not_installed("modeldata")
 
   data("penguins", package = "modeldata")
-  rec1_p2 <- recipe(species ~ bill_length_mm + bill_depth_mm,
+  rec1_p2 <- recipe(
+    species ~ bill_length_mm + bill_depth_mm,
     data = penguins[-(1:28), ]
   ) %>%
     step_impute_mean(all_predictors()) %>%
@@ -301,7 +302,6 @@ test_that("id variables don't turn predictors to factors", {
   expect_equal(is.double(rec_id$x), TRUE)
   expect_equal(is.double(rec_id$y), TRUE)
 })
-
 
 
 test_that("id variables don't turn predictors to factors", {

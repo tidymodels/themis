@@ -120,15 +120,25 @@
 #'   geom_point() +
 #'   labs(title = "With ROSE")
 step_rose <-
-  function(recipe, ..., role = NA, trained = FALSE,
-           column = NULL, over_ratio = 1, minority_prop = 0.5,
-           minority_smoothness = 1, majority_smoothness = 1, skip = TRUE,
-           seed = sample.int(10^5, 1), id = rand_id("rose")) {
+  function(
+    recipe,
+    ...,
+    role = NA,
+    trained = FALSE,
+    column = NULL,
+    over_ratio = 1,
+    minority_prop = 0.5,
+    minority_smoothness = 1,
+    majority_smoothness = 1,
+    skip = TRUE,
+    seed = sample.int(10^5, 1),
+    id = rand_id("rose")
+  ) {
     check_number_decimal(minority_prop, min = 0)
     check_number_decimal(minority_smoothness, min = 0)
     check_number_decimal(majority_smoothness, min = 0)
     check_number_whole(seed)
-    
+
     add_step(
       recipe,
       step_rose_new(
@@ -149,9 +159,20 @@ step_rose <-
   }
 
 step_rose_new <-
-  function(terms, role, trained, column, over_ratio, minority_prop,
-           minority_smoothness, majority_smoothness, predictors, skip, seed,
-           id) {
+  function(
+    terms,
+    role,
+    trained,
+    column,
+    over_ratio,
+    minority_prop,
+    minority_smoothness,
+    majority_smoothness,
+    predictors,
+    skip,
+    seed,
+    id
+  ) {
     step(
       subclass = "rose",
       terms = terms,
@@ -172,7 +193,7 @@ step_rose_new <-
 #' @export
 prep.step_rose <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
-  
+
   check_number_decimal(x$over_ratio, arg = "over_ratio", min = 0)
 
   check_1_selected(col_name)

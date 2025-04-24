@@ -18,3 +18,5 @@
 ^CRAN-SUBMISSION$
 ^man-roxygen$
 ^revdep$
+^[\.]?air\.toml$
+^\.vscode$

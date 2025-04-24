@@ -52,7 +52,6 @@ smotenc <- function(df, var, k = 5, over_ratio = 1) {
 
 # Splits data and appends new minority instances
 smotenc_impl <- function(df, var, k, over_ratio) {
-
   # split data into list names by classes
   data <- split(df, df[[var]])
   # Number of majority instances
@@ -67,7 +66,6 @@ smotenc_impl <- function(df, var, k, over_ratio) {
   # Just saving the names of those classes
   min_names <- names(samples_needed)
 
-
   # Create a list to save all the new minority classes
   out_dfs <- list()
 
@@ -75,7 +73,6 @@ smotenc_impl <- function(df, var, k, over_ratio) {
   for (i in seq_along(samples_needed)) {
     # Extract the minority dataframe
     minority <- data[[min_names[i]]]
-
 
     # Ensure that we have more minority isntances than desired neighbors
     if (nrow(minority) <= k) {
@@ -98,8 +95,12 @@ smotenc_impl <- function(df, var, k, over_ratio) {
 }
 
 # Uses nearest-neighbors and interpolation to generate new instances
-smotenc_data <- function(data, k, n_samples, smotenc_ids = seq_len(nrow(data))) {
-
+smotenc_data <- function(
+  data,
+  k,
+  n_samples,
+  smotenc_ids = seq_len(nrow(data))
+) {
   # Turning integer values into doubles
   integer_cols <- vapply(data, is.integer, FUN.VALUE = logical(1))
   if (any(integer_cols)) {
@@ -114,7 +115,9 @@ smotenc_data <- function(data, k, n_samples, smotenc_ids = seq_len(nrow(data))) 
   # outputs a matrix, each row is a minority instance and each column is a nearest neighbor
   # k is +1 because the sample is always a nearest neighbor to itself
   suppressWarnings(
-    ids <- t(gower::gower_topn(x = data, y = data, n = k + 1, nthread = 1)$index)
+    ids <- t(
+      gower::gower_topn(x = data, y = data, n = k + 1, nthread = 1)$index
+    )
   )
 
   # shuffles minority indicies and repeats that shuffling until the desired number of samples is reached
@@ -147,12 +150,19 @@ smotenc_data <- function(data, k, n_samples, smotenc_ids = seq_len(nrow(data))) 
     # need a total of index_len[row_num] new samples
     # calculates Xnew = X1 + t*(X1-Xnn)
     dif <- data_numeric[id_knn[sampleids[index_selection]], ] -
-           data_numeric[rep(row_num, index_len[row_num]), ]
+      data_numeric[rep(row_num, index_len[row_num]), ]
     gap <- dif * runif_ids[index_selection]
-    out_numeric[index_selection, ] <- data_numeric[rep(row_num, index_len[row_num]), ] + gap
+    out_numeric[index_selection, ] <- data_numeric[
+      rep(row_num, index_len[row_num]),
+    ] +
+      gap
 
     # Replace categories with most frequent among nearest neighbors
-    cat_to_upgrade <- data_factors[id_knn[sampleids[index_selection]], , drop = FALSE]
+    cat_to_upgrade <- data_factors[
+      id_knn[sampleids[index_selection]],
+      ,
+      drop = FALSE
+    ]
 
     cat_modes <- apply(cat_to_upgrade, 2, Mode)
 

@@ -101,11 +101,18 @@
 #'   xlim(c(1, 15)) +
 #'   ylim(c(1, 15))
 step_tomek <-
-  function(recipe, ..., role = NA, trained = FALSE,
-           column = NULL, skip = TRUE, seed = sample.int(10^5, 1),
-           id = rand_id("tomek")) {
+  function(
+    recipe,
+    ...,
+    role = NA,
+    trained = FALSE,
+    column = NULL,
+    skip = TRUE,
+    seed = sample.int(10^5, 1),
+    id = rand_id("tomek")
+  ) {
     check_number_whole(seed)
-    
+
     add_step(
       recipe,
       step_tomek_new(
@@ -140,7 +147,7 @@ step_tomek_new <-
 #' @export
 prep.step_tomek <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
-  
+
   check_1_selected(col_name)
   check_column_factor(training, col_name)
 

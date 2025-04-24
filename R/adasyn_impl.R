@@ -63,19 +63,27 @@ adasyn_impl <- function(df, var, k = 5, over_ratio = 1, call = caller_env()) {
       rowSums(matrix((min_class_in)[ids_full], ncol = ncol(ids_full))) - 1
     )
     r_value <- r_value[!min_class_in]
-    danger_ids <- sample(seq_along(r_value), samples_needed[i], TRUE,
+    danger_ids <- sample(
+      seq_along(r_value),
+      samples_needed[i],
+      TRUE,
       prob = r_value
     )
 
     minority <- data_mat[!min_class_in, , drop = FALSE]
 
     if (nrow(minority) <= k) {
-      cli::cli_abort("Not enough observations of {.val {min_names[i]}} to perform ADASYN.", call = call)
+      cli::cli_abort(
+        "Not enough observations of {.val {min_names[i]}} to perform ADASYN.",
+        call = call
+      )
     }
 
     tmp_df <- as.data.frame(
       adasyn_sampler(
-        minority, k, samples_needed[i],
+        minority,
+        k,
+        samples_needed[i],
         danger_ids
       )
     )

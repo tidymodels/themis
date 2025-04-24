@@ -114,11 +114,20 @@
 #'   geom_point() +
 #'   labs(title = "With SMOTE")
 step_smote <-
-  function(recipe, ..., role = NA, trained = FALSE,
-           column = NULL, over_ratio = 1, neighbors = 5,
-           skip = TRUE, seed = sample.int(10^5, 1), id = rand_id("smote")) {
+  function(
+    recipe,
+    ...,
+    role = NA,
+    trained = FALSE,
+    column = NULL,
+    over_ratio = 1,
+    neighbors = 5,
+    skip = TRUE,
+    seed = sample.int(10^5, 1),
+    id = rand_id("smote")
+  ) {
     check_number_whole(seed)
-    
+
     add_step(
       recipe,
       step_smote_new(
@@ -137,8 +146,18 @@ step_smote <-
   }
 
 step_smote_new <-
-  function(terms, role, trained, column, over_ratio, neighbors, predictors,
-           skip, seed, id) {
+  function(
+    terms,
+    role,
+    trained,
+    column,
+    over_ratio,
+    neighbors,
+    predictors,
+    skip,
+    seed,
+    id
+  ) {
     step(
       subclass = "smote",
       terms = terms,
@@ -158,7 +177,7 @@ step_smote_new <-
 #' @export
 prep.step_smote <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
-  
+
   check_number_decimal(x$over_ratio, arg = "over_ratio", min = 0)
   check_number_whole(x$neighbors, arg = "neighbors", min = 1)
 

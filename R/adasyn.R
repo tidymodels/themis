@@ -108,9 +108,18 @@
 #'   geom_point() +
 #'   labs(title = "With ADASYN")
 step_adasyn <-
-  function(recipe, ..., role = NA, trained = FALSE, column = NULL,
-           over_ratio = 1, neighbors = 5, skip = TRUE,
-           seed = sample.int(10^5, 1), id = rand_id("adasyn")) {
+  function(
+    recipe,
+    ...,
+    role = NA,
+    trained = FALSE,
+    column = NULL,
+    over_ratio = 1,
+    neighbors = 5,
+    skip = TRUE,
+    seed = sample.int(10^5, 1),
+    id = rand_id("adasyn")
+  ) {
     check_number_whole(seed)
 
     add_step(
@@ -131,8 +140,18 @@ step_adasyn <-
   }
 
 step_adasyn_new <-
-  function(terms, role, trained, column, over_ratio, neighbors, predictors,
-           skip, seed, id) {
+  function(
+    terms,
+    role,
+    trained,
+    column,
+    over_ratio,
+    neighbors,
+    predictors,
+    skip,
+    seed,
+    id
+  ) {
     step(
       subclass = "adasyn",
       terms = terms,
@@ -155,10 +174,10 @@ prep.step_adasyn <- function(x, training, info = NULL, ...) {
 
   check_number_decimal(x$over_ratio, arg = "over_ratio", min = 0)
   check_number_whole(x$neighbors, arg = "neighbors", min = 1)
-  
+
   check_1_selected(col_name)
   check_column_factor(training, col_name)
-  
+
   predictors <- setdiff(get_from_info(info, "predictor"), col_name)
 
   check_type(training[, predictors], types = c("double", "integer"))

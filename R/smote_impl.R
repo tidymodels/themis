@@ -67,7 +67,10 @@ smote_impl <- function(df, var, k, over_ratio, call = caller_env()) {
     minority <- as.matrix(minority_df[names(minority_df) != var])
 
     if (nrow(minority) <= k) {
-      cli::cli_abort("Not enough observations of {.val {min_names[i]}} to perform SMOTE.", call = call)
+      cli::cli_abort(
+        "Not enough observations of {.val {min_names[i]}} to perform SMOTE.",
+        call = call
+      )
     }
 
     synthetic <- smote_data(minority, k = k, n_samples = samples_needed[i])

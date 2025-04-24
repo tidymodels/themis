@@ -65,7 +65,7 @@ test_that("smote() interfaces correctly", {
 
 test_that("ordering of columns shouldn't matter", {
   skip_if_not_installed("modeldata")
-  
+
   data("credit_data", package = "modeldata")
 
   credit_data0 <- credit_data %>%
@@ -80,7 +80,8 @@ test_that("ordering of columns shouldn't matter", {
 test_that("Doesn't error if no upsampling is done (#119)", {
   dat <- data.frame(
     outcome = c(rep("X", 101), rep("Z", 50)),
-    X1 = 1)
+    X1 = 1
+  )
 
   expect_no_error(
     smote_impl(dat, "outcome", 5, over_ratio = 0.5)
