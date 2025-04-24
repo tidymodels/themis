@@ -1,12 +1,12 @@
 r1 <- recipe(class ~ ., data = circle_example)
-r2 <- r1 %>% step_adasyn(class)
-r3 <- r1 %>% step_bsmote(class)
-r4 <- r1 %>% step_downsample(class)
-r5 <- r1 %>% step_nearmiss(class)
-r6 <- r1 %>% step_rose(class)
-r7 <- r1 %>% step_smote(class)
-r8 <- r1 %>% step_tomek(class)
-r9 <- r1 %>% step_upsample(class)
+r2 <- r1 |> step_adasyn(class)
+r3 <- r1 |> step_bsmote(class)
+r4 <- r1 |> step_downsample(class)
+r5 <- r1 |> step_nearmiss(class)
+r6 <- r1 |> step_rose(class)
+r7 <- r1 |> step_smote(class)
+r8 <- r1 |> step_tomek(class)
+r9 <- r1 |> step_upsample(class)
 
 # ------------------------------------------------------------------------------
 

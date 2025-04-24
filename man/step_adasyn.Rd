@@ -108,33 +108,33 @@ library(recipes)
 library(modeldata)
 data(hpc_data)
 
-hpc_data0 <- hpc_data \%>\%
+hpc_data0 <- hpc_data |>
   select(-protocol, -day)
 
 orig <- count(hpc_data0, class, name = "orig")
 orig
 
-up_rec <- recipe(class ~ ., data = hpc_data0) \%>\%
+up_rec <- recipe(class ~ ., data = hpc_data0) |>
   # Bring the minority levels up to about 1000 each
   # 1000/2211 is approx 0.4523
-  step_adasyn(class, over_ratio = 0.4523) \%>\%
+  step_adasyn(class, over_ratio = 0.4523) |>
   prep()
 
-training <- up_rec \%>\%
-  bake(new_data = NULL) \%>\%
+training <- up_rec |>
+  bake(new_data = NULL) |>
   count(class, name = "training")
 training
 
 # Since `skip` defaults to TRUE, baking the step has no effect
-baked <- up_rec \%>\%
-  bake(new_data = hpc_data0) \%>\%
+baked <- up_rec |>
+  bake(new_data = hpc_data0) |>
   count(class, name = "baked")
 baked
 
 # Note that if the original data contained more rows than the
 # target n (= ratio * majority_n), the data are left alone:
-orig \%>\%
-  left_join(training, by = "class") \%>\%
+orig |>
+  left_join(training, by = "class") |>
   left_join(baked, by = "class")
 
 library(ggplot2)
@@ -143,10 +143,10 @@ ggplot(circle_example, aes(x, y, color = class)) +
   geom_point() +
   labs(title = "Without ADASYN")
 
-recipe(class ~ x + y, data = circle_example) \%>\%
-  step_adasyn(class) \%>\%
-  prep() \%>\%
-  bake(new_data = NULL) \%>\%
+recipe(class ~ x + y, data = circle_example) |>
+  step_adasyn(class) |>
+  prep() |>
+  bake(new_data = NULL) |>
   ggplot(aes(x, y, color = class)) +
   geom_point() +
   labs(title = "With ADASYN")

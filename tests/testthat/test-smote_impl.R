@@ -68,8 +68,8 @@ test_that("ordering of columns shouldn't matter", {
 
   data("credit_data", package = "modeldata")
 
-  credit_data0 <- credit_data %>%
-    filter(!is.na(Job)) %>%
+  credit_data0 <- credit_data |>
+    filter(!is.na(Job)) |>
     select(Job, Time, Age, Expenses)
 
   expect_no_error(

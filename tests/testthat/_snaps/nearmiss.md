@@ -1,7 +1,7 @@
 # bad data
 
     Code
-      rec %>% step_nearmiss(x) %>% prep()
+      prep(step_nearmiss(rec, x))
     Condition
       Error in `step_nearmiss()`:
       Caused by error in `prep()`:
@@ -10,7 +10,7 @@
 ---
 
     Code
-      rec %>% step_nearmiss(class, id) %>% prep()
+      prep(step_nearmiss(rec, class, id))
     Condition
       Error in `step_nearmiss()`:
       Caused by error in `prep()`:
@@ -19,7 +19,7 @@
 # errors if character are present
 
     Code
-      recipe(~., data = df_char) %>% step_nearmiss(x) %>% prep()
+      prep(step_nearmiss(recipe(~., data = df_char), x))
     Condition
       Error in `step_nearmiss()`:
       Caused by error in `prep()`:
@@ -29,7 +29,7 @@
 # NA in response
 
     Code
-      recipe(Job ~ Age, data = credit_data) %>% step_nearmiss(Job) %>% prep()
+      prep(step_nearmiss(recipe(Job ~ Age, data = credit_data), Job))
     Condition
       Error in `step_nearmiss()`:
       Caused by error in `prep()`:
@@ -38,7 +38,7 @@
 # bad args
 
     Code
-      recipe(~., data = mtcars) %>% step_nearmiss(over_ratio = "yes") %>% prep()
+      prep(step_nearmiss(recipe(~., data = mtcars), over_ratio = "yes"))
     Condition
       Error in `step_nearmiss()`:
       Caused by error in `prep()`:
@@ -47,7 +47,7 @@
 ---
 
     Code
-      recipe(~., data = mtcars) %>% step_nearmiss(neighbors = TRUE) %>% prep()
+      prep(step_nearmiss(recipe(~., data = mtcars), neighbors = TRUE))
     Condition
       Error in `step_nearmiss()`:
       Caused by error in `prep()`:
@@ -56,7 +56,7 @@
 ---
 
     Code
-      recipe(~., data = mtcars) %>% step_nearmiss(seed = TRUE)
+      step_nearmiss(recipe(~., data = mtcars), seed = TRUE)
     Condition
       Error in `step_nearmiss()`:
       ! `seed` must be a whole number, not `TRUE`.

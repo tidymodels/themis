@@ -5,17 +5,17 @@ test_that("all minority classes are upsampled", {
   rec1_p2 <- recipe(
     species ~ bill_length_mm + bill_depth_mm,
     data = penguins
-  ) %>%
-    step_impute_mean(all_predictors()) %>%
-    step_bsmote(species) %>%
-    prep() %>%
+  ) |>
+    step_impute_mean(all_predictors()) |>
+    step_bsmote(species) |>
+    prep() |>
     bake(new_data = NULL)
 
   expect_true(all(max(table(rec1_p2$species)) == 152))
 })
 
 test_that("basic usage", {
-  rec1 <- recipe(class ~ x + y, data = circle_example) %>%
+  rec1 <- recipe(class ~ x + y, data = circle_example) |>
     step_bsmote(class, all_neighbors = FALSE)
 
   rec1_p <- prep(rec1)
@@ -29,7 +29,7 @@ test_that("basic usage", {
 })
 
 test_that("basic usage", {
-  rec1 <- recipe(class ~ x + y, data = circle_example) %>%
+  rec1 <- recipe(class ~ x + y, data = circle_example) |>
     step_bsmote(class, all_neighbors = TRUE)
 
   rec1_p <- prep(rec1)
@@ -47,15 +47,15 @@ test_that("bad data", {
   # numeric check
   expect_snapshot(
     error = TRUE,
-    rec %>%
-      step_bsmote(x) %>%
+    rec |>
+      step_bsmote(x) |>
       prep()
   )
   # Multiple variable check
   expect_snapshot(
     error = TRUE,
-    rec %>%
-      step_bsmote(class, id) %>%
+    rec |>
+      step_bsmote(class, id) |>
       prep()
   )
 })
@@ -69,8 +69,8 @@ test_that("errors if character are present", {
 
   expect_snapshot(
     error = TRUE,
-    recipe(~., data = df_char) %>%
-      step_bsmote(x) %>%
+    recipe(~., data = df_char) |>
+      step_bsmote(x) |>
       prep()
   )
 })
@@ -82,18 +82,18 @@ test_that("NA in response", {
 
   expect_snapshot(
     error = TRUE,
-    recipe(Job ~ Age, data = credit_data) %>%
-      step_bsmote(Job) %>%
+    recipe(Job ~ Age, data = credit_data) |>
+      step_bsmote(Job) |>
       prep()
   )
 })
 
 test_that("`seed` produces identical sampling", {
   step_with_seed <- function(seed = sample.int(10^5, 1)) {
-    recipe(class ~ x + y, data = circle_example) %>%
-      step_bsmote(class, seed = seed) %>%
-      prep() %>%
-      bake(new_data = NULL) %>%
+    recipe(class ~ x + y, data = circle_example) |>
+      step_bsmote(class, seed = seed) |>
+      prep() |>
+      bake(new_data = NULL) |>
       pull(x)
   }
 
@@ -106,7 +106,7 @@ test_that("`seed` produces identical sampling", {
 })
 
 test_that("test tidy()", {
-  rec <- recipe(class ~ x + y, data = circle_example) %>%
+  rec <- recipe(class ~ x + y, data = circle_example) |>
     step_bsmote(class, id = "")
 
   rec_p <- prep(rec)
@@ -126,14 +126,14 @@ test_that("test tidy()", {
 })
 
 test_that("ratio value works when oversampling", {
-  res1 <- recipe(class ~ x + y, data = circle_example) %>%
-    step_bsmote(class, all_neighbors = FALSE) %>%
-    prep() %>%
+  res1 <- recipe(class ~ x + y, data = circle_example) |>
+    step_bsmote(class, all_neighbors = FALSE) |>
+    prep() |>
     bake(new_data = NULL)
 
-  res1.5 <- recipe(class ~ x + y, data = circle_example) %>%
-    step_bsmote(class, over_ratio = 0.5, all_neighbors = FALSE) %>%
-    prep() %>%
+  res1.5 <- recipe(class ~ x + y, data = circle_example) |>
+    step_bsmote(class, over_ratio = 0.5, all_neighbors = FALSE) |>
+    prep() |>
     bake(new_data = NULL)
 
   expect_true(all(table(res1$class) == max(table(circle_example$class))))
@@ -144,14 +144,14 @@ test_that("ratio value works when oversampling", {
 })
 
 test_that("ratio value works when oversampling", {
-  res1 <- recipe(class ~ x + y, data = circle_example) %>%
-    step_bsmote(class, all_neighbors = TRUE) %>%
-    prep() %>%
+  res1 <- recipe(class ~ x + y, data = circle_example) |>
+    step_bsmote(class, all_neighbors = TRUE) |>
+    prep() |>
     bake(new_data = NULL)
 
-  res1.5 <- recipe(class ~ x + y, data = circle_example) %>%
-    step_bsmote(class, over_ratio = 0.5, all_neighbors = TRUE) %>%
-    prep() %>%
+  res1.5 <- recipe(class ~ x + y, data = circle_example) |>
+    step_bsmote(class, over_ratio = 0.5, all_neighbors = TRUE) |>
+    prep() |>
     bake(new_data = NULL)
 
   expect_true(all(table(res1$class) == max(table(circle_example$class))))
@@ -166,8 +166,8 @@ test_that("allows multi-class", {
 
   data("credit_data", package = "modeldata")
   expect_no_error(
-    recipe(Home ~ Age + Income + Assets, data = credit_data) %>%
-      step_impute_mean(Income, Assets) %>%
+    recipe(Home ~ Age + Income + Assets, data = credit_data) |>
+      step_impute_mean(Income, Assets) |>
       step_bsmote(Home)
   )
 })
@@ -179,10 +179,10 @@ test_that("majority classes are ignored if there is more than 1", {
   rec1_p2 <- recipe(
     species ~ bill_length_mm + bill_depth_mm,
     data = penguins[-(1:28), ]
-  ) %>%
-    step_impute_mean(all_predictors()) %>%
-    step_bsmote(species, all_neighbors = FALSE) %>%
-    prep() %>%
+  ) |>
+    step_impute_mean(all_predictors()) |>
+    step_bsmote(species, all_neighbors = FALSE) |>
+    prep() |>
     bake(new_data = NULL)
 
   expect_true(all(max(table(rec1_p2$species)) == 124))
@@ -196,10 +196,10 @@ test_that("majority classes are ignored if there is more than 1", {
   rec1_p2 <- recipe(
     species ~ bill_length_mm + bill_depth_mm,
     data = penguins[-(1:28), ]
-  ) %>%
-    step_impute_mean(all_predictors()) %>%
-    step_bsmote(species, all_neighbors = TRUE) %>%
-    prep() %>%
+  ) |>
+    step_impute_mean(all_predictors()) |>
+    step_bsmote(species, all_neighbors = TRUE) |>
+    prep() |>
     bake(new_data = NULL)
 
   expect_true(all(max(table(rec1_p2$species)) == 124))
@@ -225,8 +225,8 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   }
 
   for (i in 1:4) {
-    rec_p <- recipe(class ~ x + y, data = circle_example_alt_levels[[i]]) %>%
-      step_bsmote(class) %>%
+    rec_p <- recipe(class ~ x + y, data = circle_example_alt_levels[[i]]) |>
+      step_bsmote(class) |>
       prep()
 
     expect_equal(
@@ -241,9 +241,9 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
 })
 
 test_that("ordering of newly generated points are right", {
-  res <- recipe(class ~ x + y, data = circle_example) %>%
-    step_bsmote(class, all_neighbors = FALSE) %>%
-    prep() %>%
+  res <- recipe(class ~ x + y, data = circle_example) |>
+    step_bsmote(class, all_neighbors = FALSE) |>
+    prep() |>
     bake(new_data = NULL)
 
   expect_equal(
@@ -253,9 +253,9 @@ test_that("ordering of newly generated points are right", {
 })
 
 test_that("ordering of newly generated points are right", {
-  res <- recipe(class ~ x + y, data = circle_example) %>%
-    step_bsmote(class, all_neighbors = TRUE) %>%
-    prep() %>%
+  res <- recipe(class ~ x + y, data = circle_example) |>
+    step_bsmote(class, all_neighbors = TRUE) |>
+    prep() |>
     bake(new_data = NULL)
 
   expect_equal(
@@ -265,10 +265,10 @@ test_that("ordering of newly generated points are right", {
 })
 
 test_that("non-predictor variables are ignored", {
-  res <- recipe(class ~ ., data = circle_example) %>%
-    update_role(id, new_role = "id") %>%
-    step_bsmote(class, all_neighbors = FALSE) %>%
-    prep() %>%
+  res <- recipe(class ~ ., data = circle_example) |>
+    update_role(id, new_role = "id") |>
+    step_bsmote(class, all_neighbors = FALSE) |>
+    prep() |>
     bake(new_data = NULL)
 
   expect_equal(
@@ -278,10 +278,10 @@ test_that("non-predictor variables are ignored", {
 })
 
 test_that("non-predictor variables are ignored", {
-  res <- recipe(class ~ ., data = circle_example) %>%
-    update_role(id, new_role = "id") %>%
-    step_bsmote(class, all_neighbors = TRUE) %>%
-    prep() %>%
+  res <- recipe(class ~ ., data = circle_example) |>
+    update_role(id, new_role = "id") |>
+    step_bsmote(class, all_neighbors = TRUE) |>
+    prep() |>
     bake(new_data = NULL)
 
   expect_equal(
@@ -293,10 +293,10 @@ test_that("non-predictor variables are ignored", {
 
 test_that("id variables don't turn predictors to factors", {
   # https://github.com/tidymodels/themis/issues/56
-  rec_id <- recipe(class ~ ., data = circle_example) %>%
-    update_role(id, new_role = "id") %>%
-    step_bsmote(class, all_neighbors = FALSE) %>%
-    prep() %>%
+  rec_id <- recipe(class ~ ., data = circle_example) |>
+    update_role(id, new_role = "id") |>
+    step_bsmote(class, all_neighbors = FALSE) |>
+    prep() |>
     bake(new_data = NULL)
 
   expect_equal(is.double(rec_id$x), TRUE)
@@ -306,10 +306,10 @@ test_that("id variables don't turn predictors to factors", {
 
 test_that("id variables don't turn predictors to factors", {
   # https://github.com/tidymodels/themis/issues/56
-  rec_id <- recipe(class ~ ., data = circle_example) %>%
-    update_role(id, new_role = "id") %>%
-    step_bsmote(class, all_neighbors = TRUE) %>%
-    prep() %>%
+  rec_id <- recipe(class ~ ., data = circle_example) |>
+    update_role(id, new_role = "id") |>
+    step_bsmote(class, all_neighbors = TRUE) |>
+    prep() |>
     bake(new_data = NULL)
 
   expect_equal(is.double(rec_id$x), TRUE)
@@ -317,7 +317,7 @@ test_that("id variables don't turn predictors to factors", {
 })
 
 test_that("tunable", {
-  rec <- recipe(~., data = mtcars) %>%
+  rec <- recipe(~., data = mtcars) |>
     step_bsmote(all_predictors())
   rec_param <- tunable.step_bsmote(rec$steps[[1]])
   expect_equal(rec_param$name, c("over_ratio", "neighbors", "all_neighbors"))
@@ -333,25 +333,25 @@ test_that("tunable", {
 test_that("bad args", {
   expect_snapshot(
     error = TRUE,
-    recipe(~., data = mtcars) %>%
-      step_bsmote(over_ratio = "yes") %>%
+    recipe(~., data = mtcars) |>
+      step_bsmote(over_ratio = "yes") |>
       prep()
   )
   expect_snapshot(
     error = TRUE,
-    recipe(~., data = mtcars) %>%
-      step_bsmote(neighbors = TRUE) %>%
+    recipe(~., data = mtcars) |>
+      step_bsmote(neighbors = TRUE) |>
       prep()
   )
   expect_snapshot(
     error = TRUE,
-    recipe(~., data = mtcars) %>%
-      step_bsmote(all_neighbors = "yes") %>%
+    recipe(~., data = mtcars) |>
+      step_bsmote(all_neighbors = "yes") |>
       prep()
   )
   expect_snapshot(
     error = TRUE,
-    recipe(~., data = mtcars) %>%
+    recipe(~., data = mtcars) |>
       step_bsmote(seed = TRUE)
   )
 })
@@ -360,9 +360,9 @@ test_that("bad args", {
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {
-  rec <- recipe(class ~ x + y, data = circle_example) %>%
-    step_bsmote(class, skip = FALSE) %>%
-    add_role(class, new_role = "potato") %>%
+  rec <- recipe(class ~ x + y, data = circle_example) |>
+    step_bsmote(class, skip = FALSE) |>
+    add_role(class, new_role = "potato") |>
     update_role_requirements(role = "potato", bake = FALSE)
 
   trained <- prep(rec, training = circle_example, verbose = FALSE)
@@ -411,7 +411,7 @@ test_that("empty selection tidy method works", {
 })
 
 test_that("printing", {
-  rec <- recipe(class ~ x + y, data = circle_example) %>%
+  rec <- recipe(class ~ x + y, data = circle_example) |>
     step_bsmote(class)
 
   expect_snapshot(print(rec))
@@ -420,7 +420,7 @@ test_that("printing", {
 
 test_that("tunable is setup to works with extract_parameter_set_dials", {
   skip_if_not_installed("dials")
-  rec <- recipe(~., data = mtcars) %>%
+  rec <- recipe(~., data = mtcars) |>
     step_bsmote(
       all_predictors(),
       over_ratio = hardhat::tune(),

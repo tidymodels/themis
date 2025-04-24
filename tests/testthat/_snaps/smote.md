@@ -1,7 +1,7 @@
 # errors if there isn't enough data
 
     Code
-      recipe(Status ~ Age, data = credit_data0) %>% step_smote(Status) %>% prep()
+      prep(step_smote(recipe(Status ~ Age, data = credit_data0), Status))
     Condition
       Error in `step_smote()`:
       Caused by error in `bake()`:
@@ -10,7 +10,7 @@
 # bad data
 
     Code
-      rec %>% step_smote(x) %>% prep()
+      prep(step_smote(rec, x))
     Condition
       Error in `step_smote()`:
       Caused by error in `prep()`:
@@ -19,7 +19,7 @@
 ---
 
     Code
-      rec %>% step_smote(class, id) %>% prep()
+      prep(step_smote(rec, class, id))
     Condition
       Error in `step_smote()`:
       Caused by error in `prep()`:
@@ -28,7 +28,7 @@
 # errors if character are present
 
     Code
-      recipe(~., data = df_char) %>% step_smote(x) %>% prep()
+      prep(step_smote(recipe(~., data = df_char), x))
     Condition
       Error in `step_smote()`:
       Caused by error in `prep()`:
@@ -38,7 +38,7 @@
 # NA in response
 
     Code
-      recipe(Job ~ Age, data = credit_data) %>% step_smote(Job) %>% prep()
+      prep(step_smote(recipe(Job ~ Age, data = credit_data), Job))
     Condition
       Error in `step_smote()`:
       Caused by error in `prep()`:
@@ -47,7 +47,7 @@
 # bad args
 
     Code
-      recipe(~., data = mtcars) %>% step_smote(over_ratio = "yes") %>% prep()
+      prep(step_smote(recipe(~., data = mtcars), over_ratio = "yes"))
     Condition
       Error in `step_smote()`:
       Caused by error in `prep()`:
@@ -56,7 +56,7 @@
 ---
 
     Code
-      recipe(~., data = mtcars) %>% step_smote(neighbors = TRUE) %>% prep()
+      prep(step_smote(recipe(~., data = mtcars), neighbors = TRUE))
     Condition
       Error in `step_smote()`:
       Caused by error in `prep()`:
@@ -65,7 +65,7 @@
 ---
 
     Code
-      recipe(~., data = mtcars) %>% step_smote(seed = TRUE)
+      step_smote(recipe(~., data = mtcars), seed = TRUE)
     Condition
       Error in `step_smote()`:
       ! `seed` must be a whole number, not `TRUE`.

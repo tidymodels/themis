@@ -51,7 +51,7 @@ library(themis)
 
 data("credit_data", package = "modeldata")
 
-credit_data0 <- credit_data %>%
+credit_data0 <- credit_data |>
   filter(!is.na(Job))
 
 count(credit_data0, Job)
@@ -61,13 +61,13 @@ count(credit_data0, Job)
 #> 3    others  171
 #> 4   partime  452
 
-ds_rec <- recipe(Job ~ Time + Age + Expenses, data = credit_data0) %>%
-  step_impute_mean(all_predictors()) %>%
-  step_smote(Job, over_ratio = 0.25) %>%
+ds_rec <- recipe(Job ~ Time + Age + Expenses, data = credit_data0) |>
+  step_impute_mean(all_predictors()) |>
+  step_smote(Job, over_ratio = 0.25) |>
   prep()
 
-ds_rec %>%
-  bake(new_data = NULL) %>%
+ds_rec |>
+  bake(new_data = NULL) |>
   count(Job)
 #> # A tibble: 4 × 2
 #>   Job           n
@@ -88,7 +88,7 @@ example_data <- data.frame(class = letters[rep(1:5, 1:5 * 10)],
 
 library(ggplot2)
 
-example_data %>%
+example_data |>
   ggplot(aes(class)) +
   geom_bar()
 ```
@@ -113,10 +113,10 @@ By setting `over_ratio = 1` you bring the number of samples of all
 minority classes equal to 100% of the majority class.
 
 ``` r
-recipe(~., example_data) %>%
-  step_upsample(class, over_ratio = 1) %>%
-  prep() %>%
-  bake(new_data = NULL) %>%
+recipe(~., example_data) |>
+  step_upsample(class, over_ratio = 1) |>
+  prep() |>
+  bake(new_data = NULL) |>
   ggplot(aes(class)) +
   geom_bar()
 ```
@@ -127,10 +127,10 @@ and by setting `over_ratio = 0.5` we upsample any minority class with
 less samples then 50% of the majority up to have 50% of the majority.
 
 ``` r
-recipe(~., example_data) %>%
-  step_upsample(class, over_ratio = 0.5) %>%
-  prep() %>%
-  bake(new_data = NULL) %>%
+recipe(~., example_data) |>
+  step_upsample(class, over_ratio = 0.5) |>
+  prep() |>
+  bake(new_data = NULL) |>
   ggplot(aes(class)) +
   geom_bar()
 ```
@@ -153,10 +153,10 @@ By setting `under_ratio = 1` you bring the number of samples of all
 majority classes equal to 100% of the minority class.
 
 ``` r
-recipe(~., example_data) %>%
-  step_downsample(class, under_ratio = 1) %>%
-  prep() %>%
-  bake(new_data = NULL) %>%
+recipe(~., example_data) |>
+  step_downsample(class, under_ratio = 1) |>
+  prep() |>
+  bake(new_data = NULL) |>
   ggplot(aes(class)) +
   geom_bar()
 ```
@@ -168,10 +168,10 @@ more then 200% samples of the minority class down to have to 200%
 samples of the minority.
 
 ``` r
-recipe(~., example_data) %>%
-  step_downsample(class, under_ratio = 2) %>%
-  prep() %>%
-  bake(new_data = NULL) %>%
+recipe(~., example_data) |>
+  step_downsample(class, under_ratio = 2) |>
+  prep() |>
+  bake(new_data = NULL) |>
   ggplot(aes(class)) +
   geom_bar()
 ```

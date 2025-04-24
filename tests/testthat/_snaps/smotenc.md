@@ -1,7 +1,7 @@
 # errors if there isn't enough data
 
     Code
-      recipe(Status ~ Age, data = credit_data0) %>% step_smotenc(Status) %>% prep()
+      prep(step_smotenc(recipe(Status ~ Age, data = credit_data0), Status))
     Condition
       Error in `step_smotenc()`:
       Caused by error in `smotenc_impl()`:
@@ -10,7 +10,7 @@
 # bad data
 
     Code
-      rec %>% step_smotenc(x) %>% prep()
+      prep(step_smotenc(rec, x))
     Condition
       Error in `step_smotenc()`:
       Caused by error in `prep()`:
@@ -19,7 +19,7 @@
 ---
 
     Code
-      rec %>% step_smotenc(class, id) %>% prep()
+      prep(step_smotenc(rec, class, id))
     Condition
       Error in `step_smotenc()`:
       Caused by error in `prep()`:
@@ -28,7 +28,7 @@
 # NA in response
 
     Code
-      recipe(Job ~ Age, data = credit_data) %>% step_smotenc(Job) %>% prep()
+      prep(step_smotenc(recipe(Job ~ Age, data = credit_data), Job))
     Condition
       Error in `step_smotenc()`:
       Caused by error in `prep()`:
@@ -37,7 +37,7 @@
 # bad args
 
     Code
-      recipe(~., data = mtcars) %>% step_smotenc(over_ratio = "yes") %>% prep()
+      prep(step_smotenc(recipe(~., data = mtcars), over_ratio = "yes"))
     Condition
       Error in `step_smotenc()`:
       Caused by error in `prep()`:
@@ -46,7 +46,7 @@
 ---
 
     Code
-      recipe(~., data = mtcars) %>% step_smotenc(neighbors = TRUE) %>% prep()
+      prep(step_smotenc(recipe(~., data = mtcars), neighbors = TRUE))
     Condition
       Error in `step_smotenc()`:
       Caused by error in `prep()`:
@@ -55,7 +55,7 @@
 ---
 
     Code
-      recipe(~., data = mtcars) %>% step_smotenc(seed = TRUE)
+      step_smotenc(recipe(~., data = mtcars), seed = TRUE)
     Condition
       Error in `step_smotenc()`:
       ! `seed` must be a whole number, not `TRUE`.

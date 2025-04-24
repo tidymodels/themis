@@ -1,7 +1,7 @@
 # errors if there isn't enough data
 
     Code
-      recipe(Status ~ Age, data = credit_data0) %>% step_adasyn(Status) %>% prep()
+      prep(step_adasyn(recipe(Status ~ Age, data = credit_data0), Status))
     Condition
       Error in `step_adasyn()`:
       Caused by error in `bake()`:
@@ -10,7 +10,7 @@
 # bad data
 
     Code
-      rec %>% step_adasyn(x) %>% prep()
+      prep(step_adasyn(rec, x))
     Condition
       Error in `step_adasyn()`:
       Caused by error in `prep()`:
@@ -19,7 +19,7 @@
 ---
 
     Code
-      rec %>% step_adasyn(class, id) %>% prep()
+      prep(step_adasyn(rec, class, id))
     Condition
       Error in `step_adasyn()`:
       Caused by error in `prep()`:
@@ -28,7 +28,7 @@
 # errors if character are present
 
     Code
-      recipe(~., data = df_char) %>% step_adasyn(x) %>% prep()
+      prep(step_adasyn(recipe(~., data = df_char), x))
     Condition
       Error in `step_adasyn()`:
       Caused by error in `prep()`:
@@ -38,7 +38,7 @@
 # NA in response
 
     Code
-      recipe(Job ~ Age, data = credit_data) %>% step_adasyn(Job) %>% prep()
+      prep(step_adasyn(recipe(Job ~ Age, data = credit_data), Job))
     Condition
       Error in `step_adasyn()`:
       Caused by error in `prep()`:
@@ -47,7 +47,7 @@
 # bad args
 
     Code
-      recipe(~., data = mtcars) %>% step_adasyn(over_ratio = "yes") %>% prep()
+      prep(step_adasyn(recipe(~., data = mtcars), over_ratio = "yes"))
     Condition
       Error in `step_adasyn()`:
       Caused by error in `prep()`:
@@ -56,7 +56,7 @@
 ---
 
     Code
-      recipe(~., data = mtcars) %>% step_adasyn(neighbors = TRUE) %>% prep()
+      prep(step_adasyn(recipe(~., data = mtcars), neighbors = TRUE))
     Condition
       Error in `step_adasyn()`:
       Caused by error in `prep()`:
@@ -65,7 +65,7 @@
 ---
 
     Code
-      recipe(~., data = mtcars) %>% step_adasyn(seed = TRUE)
+      step_adasyn(recipe(~., data = mtcars), seed = TRUE)
     Condition
       Error in `step_adasyn()`:
       ! `seed` must be a whole number, not `TRUE`.

@@ -10,14 +10,14 @@ test_that("errors if there isn't enough data", {
 
   expect_snapshot(
     error = TRUE,
-    recipe(Status ~ Age, data = credit_data0) %>%
-      step_adasyn(Status) %>%
+    recipe(Status ~ Age, data = credit_data0) |>
+      step_adasyn(Status) |>
       prep()
   )
 })
 
 test_that("basic usage", {
-  rec1 <- recipe(class ~ x + y, data = circle_example) %>%
+  rec1 <- recipe(class ~ x + y, data = circle_example) |>
     step_adasyn(class)
 
   rec1_p <- prep(rec1)
@@ -35,15 +35,15 @@ test_that("bad data", {
   # numeric check
   expect_snapshot(
     error = TRUE,
-    rec %>%
-      step_adasyn(x) %>%
+    rec |>
+      step_adasyn(x) |>
       prep()
   )
   # Multiple variable check
   expect_snapshot(
     error = TRUE,
-    rec %>%
-      step_adasyn(class, id) %>%
+    rec |>
+      step_adasyn(class, id) |>
       prep()
   )
 })
@@ -57,8 +57,8 @@ test_that("errors if character are present", {
 
   expect_snapshot(
     error = TRUE,
-    recipe(~., data = df_char) %>%
-      step_adasyn(x) %>%
+    recipe(~., data = df_char) |>
+      step_adasyn(x) |>
       prep()
   )
 })
@@ -70,18 +70,18 @@ test_that("NA in response", {
 
   expect_snapshot(
     error = TRUE,
-    recipe(Job ~ Age, data = credit_data) %>%
-      step_adasyn(Job) %>%
+    recipe(Job ~ Age, data = credit_data) |>
+      step_adasyn(Job) |>
       prep()
   )
 })
 
 test_that("`seed` produces identical sampling", {
   step_with_seed <- function(seed = sample.int(10^5, 1)) {
-    recipe(class ~ x + y, data = circle_example) %>%
-      step_adasyn(class, seed = seed) %>%
-      prep() %>%
-      bake(new_data = NULL) %>%
+    recipe(class ~ x + y, data = circle_example) |>
+      step_adasyn(class, seed = seed) |>
+      prep() |>
+      bake(new_data = NULL) |>
       pull(x)
   }
 
@@ -94,7 +94,7 @@ test_that("`seed` produces identical sampling", {
 })
 
 test_that("test tidy()", {
-  rec <- recipe(class ~ x + y, data = circle_example) %>%
+  rec <- recipe(class ~ x + y, data = circle_example) |>
     step_adasyn(class, id = "")
 
   rec_p <- prep(rec)
@@ -114,14 +114,14 @@ test_that("test tidy()", {
 })
 
 test_that("ratio value works when oversampling", {
-  res1 <- recipe(class ~ x + y, data = circle_example) %>%
-    step_adasyn(class) %>%
-    prep() %>%
+  res1 <- recipe(class ~ x + y, data = circle_example) |>
+    step_adasyn(class) |>
+    prep() |>
     bake(new_data = NULL)
 
-  res1.5 <- recipe(class ~ x + y, data = circle_example) %>%
-    step_adasyn(class, over_ratio = 0.5) %>%
-    prep() %>%
+  res1.5 <- recipe(class ~ x + y, data = circle_example) |>
+    step_adasyn(class, over_ratio = 0.5) |>
+    prep() |>
     bake(new_data = NULL)
 
   expect_true(all(table(res1$class) == max(table(circle_example$class))))
@@ -136,8 +136,8 @@ test_that("allows multi-class", {
 
   data("credit_data", package = "modeldata")
   expect_no_error(
-    recipe(Home ~ Age + Income + Assets, data = credit_data) %>%
-      step_impute_mean(Income, Assets) %>%
+    recipe(Home ~ Age + Income + Assets, data = credit_data) |>
+      step_impute_mean(Income, Assets) |>
       step_adasyn(Home)
   )
 })
@@ -149,10 +149,10 @@ test_that("majority classes are ignored if there is more than 1", {
   rec1_p2 <- recipe(
     species ~ bill_length_mm + bill_depth_mm,
     data = penguins[-(1:28), ]
-  ) %>%
-    step_impute_mean(all_predictors()) %>%
-    step_adasyn(species) %>%
-    prep() %>%
+  ) |>
+    step_impute_mean(all_predictors()) |>
+    step_adasyn(species) |>
+    prep() |>
     bake(new_data = NULL)
 
   expect_true(all(max(table(rec1_p2$species)) == 124))
@@ -178,8 +178,8 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   }
 
   for (i in 1:4) {
-    rec_p <- recipe(class ~ x + y, data = circle_example_alt_levels[[i]]) %>%
-      step_adasyn(class) %>%
+    rec_p <- recipe(class ~ x + y, data = circle_example_alt_levels[[i]]) |>
+      step_adasyn(class) |>
       prep()
 
     expect_equal(
@@ -194,9 +194,9 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
 })
 
 test_that("ordering of newly generated points are right", {
-  res <- recipe(class ~ x + y, data = circle_example) %>%
-    step_adasyn(class) %>%
-    prep() %>%
+  res <- recipe(class ~ x + y, data = circle_example) |>
+    step_adasyn(class) |>
+    prep() |>
     bake(new_data = NULL)
 
   expect_equal(
@@ -206,14 +206,14 @@ test_that("ordering of newly generated points are right", {
 })
 
 test_that("non-predictor variables are ignored", {
-  circle_example2 <- circle_example %>%
-    mutate(id = as.character(row_number())) %>%
+  circle_example2 <- circle_example |>
+    mutate(id = as.character(row_number())) |>
     as_tibble()
 
-  res <- recipe(class ~ ., data = circle_example2) %>%
-    update_role(id, new_role = "id") %>%
-    step_adasyn(class) %>%
-    prep() %>%
+  res <- recipe(class ~ ., data = circle_example2) |>
+    update_role(id, new_role = "id") |>
+    step_adasyn(class) |>
+    prep() |>
     bake(new_data = NULL)
 
   expect_equal(
@@ -224,10 +224,10 @@ test_that("non-predictor variables are ignored", {
 
 test_that("id variables don't turn predictors to factors", {
   # https://github.com/tidymodels/themis/issues/56
-  rec_id <- recipe(class ~ ., data = circle_example) %>%
-    update_role(id, new_role = "id") %>%
-    step_adasyn(class) %>%
-    prep() %>%
+  rec_id <- recipe(class ~ ., data = circle_example) |>
+    update_role(id, new_role = "id") |>
+    step_adasyn(class) |>
+    prep() |>
     bake(new_data = NULL)
 
   expect_equal(is.double(rec_id$x), TRUE)
@@ -235,7 +235,7 @@ test_that("id variables don't turn predictors to factors", {
 })
 
 test_that("tunable", {
-  rec <- recipe(~., data = mtcars) %>%
+  rec <- recipe(~., data = mtcars) |>
     step_adasyn(all_predictors())
   rec_param <- tunable.step_adasyn(rec$steps[[1]])
   expect_equal(rec_param$name, c("over_ratio", "neighbors"))
@@ -251,19 +251,19 @@ test_that("tunable", {
 test_that("bad args", {
   expect_snapshot(
     error = TRUE,
-    recipe(~., data = mtcars) %>%
-      step_adasyn(over_ratio = "yes") %>%
+    recipe(~., data = mtcars) |>
+      step_adasyn(over_ratio = "yes") |>
       prep()
   )
   expect_snapshot(
     error = TRUE,
-    recipe(~., data = mtcars) %>%
-      step_adasyn(neighbors = TRUE) %>%
+    recipe(~., data = mtcars) |>
+      step_adasyn(neighbors = TRUE) |>
       prep()
   )
   expect_snapshot(
     error = TRUE,
-    recipe(~., data = mtcars) %>%
+    recipe(~., data = mtcars) |>
       step_adasyn(seed = TRUE)
   )
 })
@@ -271,9 +271,9 @@ test_that("bad args", {
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {
-  rec <- recipe(class ~ x + y, data = circle_example) %>%
-    step_adasyn(class, skip = FALSE) %>%
-    add_role(class, new_role = "potato") %>%
+  rec <- recipe(class ~ x + y, data = circle_example) |>
+    step_adasyn(class, skip = FALSE) |>
+    add_role(class, new_role = "potato") |>
     update_role_requirements(role = "potato", bake = FALSE)
 
   trained <- prep(rec, training = circle_example, verbose = FALSE)
@@ -322,7 +322,7 @@ test_that("empty selection tidy method works", {
 })
 
 test_that("printing", {
-  rec <- recipe(class ~ x + y, data = circle_example) %>%
+  rec <- recipe(class ~ x + y, data = circle_example) |>
     step_adasyn(class)
 
   expect_snapshot(print(rec))
@@ -331,7 +331,7 @@ test_that("printing", {
 
 test_that("tunable is setup to works with extract_parameter_set_dials", {
   skip_if_not_installed("dials")
-  rec <- recipe(~., data = mtcars) %>%
+  rec <- recipe(~., data = mtcars) |>
     step_adasyn(
       all_predictors(),
       over_ratio = hardhat::tune(),

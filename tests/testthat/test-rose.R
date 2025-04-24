@@ -1,9 +1,9 @@
 test_that("minority_prop value", {
   rec <- recipe(class ~ x + y, data = circle_example)
-  rec21 <- rec %>%
+  rec21 <- rec |>
     step_rose(class, minority_prop = 0.1)
 
-  rec22 <- rec %>%
+  rec22 <- rec |>
     step_rose(class, minority_prop = 0.2)
 
   rec21_p <- prep(rec21)
@@ -19,26 +19,26 @@ test_that("minority_prop value", {
 
 test_that("row matching works correctly #36", {
   expect_no_error(
-    recipe(class ~ ., data = circle_example) %>%
-      step_rose(class, over_ratio = 1.2) %>%
+    recipe(class ~ ., data = circle_example) |>
+      step_rose(class, over_ratio = 1.2) |>
       prep()
   )
 
   expect_no_error(
-    recipe(class ~ ., data = circle_example) %>%
-      step_rose(class, over_ratio = 0.8) %>%
+    recipe(class ~ ., data = circle_example) |>
+      step_rose(class, over_ratio = 0.8) |>
       prep()
   )
 
   expect_no_error(
-    recipe(class ~ ., data = circle_example) %>%
-      step_rose(class, over_ratio = 1.7) %>%
+    recipe(class ~ ., data = circle_example) |>
+      step_rose(class, over_ratio = 1.7) |>
       prep()
   )
 })
 
 test_that("basic usage", {
-  rec1 <- recipe(class ~ x + y, data = circle_example) %>%
+  rec1 <- recipe(class ~ x + y, data = circle_example) |>
     step_rose(class)
 
   rec1_p <- prep(rec1)
@@ -56,15 +56,15 @@ test_that("bad data", {
   # numeric check
   expect_snapshot(
     error = TRUE,
-    rec %>%
-      step_rose(x) %>%
+    rec |>
+      step_rose(x) |>
       prep()
   )
   # Multiple variable check
   expect_snapshot(
     error = TRUE,
-    rec %>%
-      step_rose(class, id) %>%
+    rec |>
+      step_rose(class, id) |>
       prep()
   )
 })
@@ -78,18 +78,18 @@ test_that("NA in response", {
 
   expect_snapshot(
     error = TRUE,
-    recipe(Status ~ Age, data = credit_data0) %>%
-      step_rose(Status) %>%
+    recipe(Status ~ Age, data = credit_data0) |>
+      step_rose(Status) |>
       prep()
   )
 })
 
 test_that("`seed` produces identical sampling", {
   step_with_seed <- function(seed = sample.int(10^5, 1)) {
-    recipe(class ~ x + y, data = circle_example) %>%
-      step_rose(class, seed = seed) %>%
-      prep() %>%
-      bake(new_data = NULL) %>%
+    recipe(class ~ x + y, data = circle_example) |>
+      step_rose(class, seed = seed) |>
+      prep() |>
+      bake(new_data = NULL) |>
       pull(x)
   }
 
@@ -102,7 +102,7 @@ test_that("`seed` produces identical sampling", {
 })
 
 test_that("test tidy()", {
-  rec <- recipe(class ~ x + y, data = circle_example) %>%
+  rec <- recipe(class ~ x + y, data = circle_example) |>
     step_rose(class, id = "")
 
   rec_p <- prep(rec)
@@ -129,8 +129,8 @@ test_that("only except 2 classes", {
 
   expect_snapshot(
     error = TRUE,
-    recipe(~., data = df_char) %>%
-      step_rose(x) %>%
+    recipe(~., data = df_char) |>
+      step_rose(x) |>
       prep()
   )
 })
@@ -155,8 +155,8 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   }
 
   for (i in 1:4) {
-    rec_p <- recipe(class ~ x + y, data = circle_example_alt_levels[[i]]) %>%
-      step_rose(class) %>%
+    rec_p <- recipe(class ~ x + y, data = circle_example_alt_levels[[i]]) |>
+      step_rose(class) |>
       prep()
 
     expect_equal(
@@ -171,14 +171,14 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
 })
 
 test_that("non-predictor variables are ignored", {
-  circle_example2 <- circle_example %>%
-    mutate(id = as.character(row_number())) %>%
+  circle_example2 <- circle_example |>
+    mutate(id = as.character(row_number())) |>
     as_tibble()
 
-  res <- recipe(class ~ ., data = circle_example2) %>%
-    update_role(id, new_role = "id") %>%
-    step_rose(class) %>%
-    prep() %>%
+  res <- recipe(class ~ ., data = circle_example2) |>
+    update_role(id, new_role = "id") |>
+    step_rose(class) |>
+    prep() |>
     bake(new_data = NULL)
 
   expect_equal(
@@ -190,10 +190,10 @@ test_that("non-predictor variables are ignored", {
 
 test_that("id variables don't turn predictors to factors", {
   # https://github.com/tidymodels/themis/issues/56
-  rec_id <- recipe(class ~ ., data = circle_example) %>%
-    update_role(id, new_role = "id") %>%
-    step_rose(class) %>%
-    prep() %>%
+  rec_id <- recipe(class ~ ., data = circle_example) |>
+    update_role(id, new_role = "id") |>
+    step_rose(class) |>
+    prep() |>
     bake(new_data = NULL)
 
   expect_equal(is.double(rec_id$x), TRUE)
@@ -201,7 +201,7 @@ test_that("id variables don't turn predictors to factors", {
 })
 
 test_that("tunable", {
-  rec <- recipe(~., data = mtcars) %>%
+  rec <- recipe(~., data = mtcars) |>
     step_rose(all_predictors())
   rec_param <- tunable.step_rose(rec$steps[[1]])
   expect_equal(rec_param$name, c("over_ratio"))
@@ -217,28 +217,28 @@ test_that("tunable", {
 test_that("bad args", {
   expect_snapshot(
     error = TRUE,
-    recipe(~., data = mtcars) %>%
-      step_rose(over_ratio = "yes") %>%
+    recipe(~., data = mtcars) |>
+      step_rose(over_ratio = "yes") |>
       prep()
   )
   expect_snapshot(
     error = TRUE,
-    recipe(~., data = mtcars) %>%
+    recipe(~., data = mtcars) |>
       step_rose(minority_prop = TRUE)
   )
   expect_snapshot(
     error = TRUE,
-    recipe(~., data = mtcars) %>%
+    recipe(~., data = mtcars) |>
       step_rose(minority_smoothness = TRUE)
   )
   expect_snapshot(
     error = TRUE,
-    recipe(~., data = mtcars) %>%
+    recipe(~., data = mtcars) |>
       step_rose(majority_smoothness = TRUE)
   )
   expect_snapshot(
     error = TRUE,
-    recipe(~., data = mtcars) %>%
+    recipe(~., data = mtcars) |>
       step_rose(seed = TRUE)
   )
 })
@@ -247,9 +247,9 @@ test_that("bad args", {
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {
-  rec <- recipe(class ~ x + y, data = circle_example) %>%
-    step_rose(class, skip = FALSE) %>%
-    add_role(class, new_role = "potato") %>%
+  rec <- recipe(class ~ x + y, data = circle_example) |>
+    step_rose(class, skip = FALSE) |>
+    add_role(class, new_role = "potato") |>
     update_role_requirements(role = "potato", bake = FALSE)
 
   trained <- prep(rec, training = circle_example, verbose = FALSE)
@@ -298,7 +298,7 @@ test_that("empty selection tidy method works", {
 })
 
 test_that("printing", {
-  rec <- recipe(class ~ x + y, data = circle_example) %>%
+  rec <- recipe(class ~ x + y, data = circle_example) |>
     step_rose(class)
 
   expect_snapshot(print(rec))
@@ -307,7 +307,7 @@ test_that("printing", {
 
 test_that("tunable is setup to works with extract_parameter_set_dials", {
   skip_if_not_installed("dials")
-  rec <- recipe(~., data = mtcars) %>%
+  rec <- recipe(~., data = mtcars) |>
     step_rose(
       all_predictors(),
       over_ratio = hardhat::tune()

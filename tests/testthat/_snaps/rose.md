@@ -1,7 +1,7 @@
 # bad data
 
     Code
-      rec %>% step_rose(x) %>% prep()
+      prep(step_rose(rec, x))
     Condition
       Error in `step_rose()`:
       Caused by error in `prep()`:
@@ -10,7 +10,7 @@
 ---
 
     Code
-      rec %>% step_rose(class, id) %>% prep()
+      prep(step_rose(rec, class, id))
     Condition
       Error in `step_rose()`:
       Caused by error in `prep()`:
@@ -19,7 +19,7 @@
 # NA in response
 
     Code
-      recipe(Status ~ Age, data = credit_data0) %>% step_rose(Status) %>% prep()
+      prep(step_rose(recipe(Status ~ Age, data = credit_data0), Status))
     Condition
       Error in `step_rose()`:
       Caused by error in `prep()`:
@@ -28,7 +28,7 @@
 # only except 2 classes
 
     Code
-      recipe(~., data = df_char) %>% step_rose(x) %>% prep()
+      prep(step_rose(recipe(~., data = df_char), x))
     Condition
       Error in `step_rose()`:
       Caused by error in `prep()`:
@@ -37,7 +37,7 @@
 # bad args
 
     Code
-      recipe(~., data = mtcars) %>% step_rose(over_ratio = "yes") %>% prep()
+      prep(step_rose(recipe(~., data = mtcars), over_ratio = "yes"))
     Condition
       Error in `step_rose()`:
       Caused by error in `prep()`:
@@ -46,7 +46,7 @@
 ---
 
     Code
-      recipe(~., data = mtcars) %>% step_rose(minority_prop = TRUE)
+      step_rose(recipe(~., data = mtcars), minority_prop = TRUE)
     Condition
       Error in `step_rose()`:
       ! `minority_prop` must be a number, not `TRUE`.
@@ -54,7 +54,7 @@
 ---
 
     Code
-      recipe(~., data = mtcars) %>% step_rose(minority_smoothness = TRUE)
+      step_rose(recipe(~., data = mtcars), minority_smoothness = TRUE)
     Condition
       Error in `step_rose()`:
       ! `minority_smoothness` must be a number, not `TRUE`.
@@ -62,7 +62,7 @@
 ---
 
     Code
-      recipe(~., data = mtcars) %>% step_rose(majority_smoothness = TRUE)
+      step_rose(recipe(~., data = mtcars), majority_smoothness = TRUE)
     Condition
       Error in `step_rose()`:
       ! `majority_smoothness` must be a number, not `TRUE`.
@@ -70,7 +70,7 @@
 ---
 
     Code
-      recipe(~., data = mtcars) %>% step_rose(seed = TRUE)
+      step_rose(recipe(~., data = mtcars), seed = TRUE)
     Condition
       Error in `step_rose()`:
       ! `seed` must be a whole number, not `TRUE`.
