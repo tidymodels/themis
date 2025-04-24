@@ -126,30 +126,30 @@ library(recipes)
 library(modeldata)
 data(hpc_data)
 
-hpc_data0 <- hpc_data \%>\%
-  mutate(class = factor(class == "VF", labels = c("not VF", "VF"))) \%>\%
+hpc_data0 <- hpc_data |>
+  mutate(class = factor(class == "VF", labels = c("not VF", "VF"))) |>
   select(-protocol, -day)
 
 orig <- count(hpc_data0, class, name = "orig")
 orig
 
-up_rec <- recipe(class ~ ., data = hpc_data0) \%>\%
-  step_rose(class) \%>\%
+up_rec <- recipe(class ~ ., data = hpc_data0) |>
+  step_rose(class) |>
   prep()
 
-training <- up_rec \%>\%
-  bake(new_data = NULL) \%>\%
+training <- up_rec |>
+  bake(new_data = NULL) |>
   count(class, name = "training")
 training
 
 # Since `skip` defaults to TRUE, baking the step has no effect
-baked <- up_rec \%>\%
-  bake(new_data = hpc_data0) \%>\%
+baked <- up_rec |>
+  bake(new_data = hpc_data0) |>
   count(class, name = "baked")
 baked
 
-orig \%>\%
-  left_join(training, by = "class") \%>\%
+orig |>
+  left_join(training, by = "class") |>
   left_join(baked, by = "class")
 
 library(ggplot2)
@@ -158,10 +158,10 @@ ggplot(circle_example, aes(x, y, color = class)) +
   geom_point() +
   labs(title = "Without ROSE")
 
-recipe(class ~ x + y, data = circle_example) \%>\%
-  step_rose(class) \%>\%
-  prep() \%>\%
-  bake(new_data = NULL) \%>\%
+recipe(class ~ x + y, data = circle_example) |>
+  step_rose(class) |>
+  prep() |>
+  bake(new_data = NULL) |>
   ggplot(aes(x, y, color = class)) +
   geom_point() +
   labs(title = "With ROSE")

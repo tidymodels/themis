@@ -1,7 +1,7 @@
 # ratio deprecation
 
     Code
-      new_rec <- recipe(~., data = circle_example) %>% step_downsample(class, ratio = 2)
+      new_rec <- step_downsample(recipe(~., data = circle_example), class, ratio = 2)
     Condition
       Error:
       ! The `ratio` argument of `step_downsample()` was deprecated in themis 0.2.0 and is now defunct.
@@ -10,7 +10,7 @@
 # bad data
 
     Code
-      rec %>% step_downsample(x) %>% prep()
+      prep(step_downsample(rec, x))
     Condition
       Error in `step_downsample()`:
       Caused by error in `prep()`:
@@ -19,7 +19,7 @@
 ---
 
     Code
-      rec %>% step_downsample(class, id) %>% prep()
+      prep(step_downsample(rec, class, id))
     Condition
       Error in `step_downsample()`:
       Caused by error in `prep()`:
@@ -66,7 +66,7 @@
 # bad args
 
     Code
-      recipe(~., data = mtcars) %>% step_downsample(under_ratio = "yes") %>% prep()
+      prep(step_downsample(recipe(~., data = mtcars), under_ratio = "yes"))
     Condition
       Error in `step_downsample()`:
       Caused by error in `prep()`:
@@ -75,7 +75,7 @@
 ---
 
     Code
-      recipe(~., data = mtcars) %>% step_downsample(seed = TRUE)
+      step_downsample(recipe(~., data = mtcars), seed = TRUE)
     Condition
       Error in `step_downsample()`:
       ! `seed` must be a whole number, not `TRUE`.

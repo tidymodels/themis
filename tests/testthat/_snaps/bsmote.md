@@ -1,7 +1,7 @@
 # bad data
 
     Code
-      rec %>% step_bsmote(x) %>% prep()
+      prep(step_bsmote(rec, x))
     Condition
       Error in `step_bsmote()`:
       Caused by error in `prep()`:
@@ -10,7 +10,7 @@
 ---
 
     Code
-      rec %>% step_bsmote(class, id) %>% prep()
+      prep(step_bsmote(rec, class, id))
     Condition
       Error in `step_bsmote()`:
       Caused by error in `prep()`:
@@ -19,7 +19,7 @@
 # errors if character are present
 
     Code
-      recipe(~., data = df_char) %>% step_bsmote(x) %>% prep()
+      prep(step_bsmote(recipe(~., data = df_char), x))
     Condition
       Error in `step_bsmote()`:
       Caused by error in `prep()`:
@@ -29,7 +29,7 @@
 # NA in response
 
     Code
-      recipe(Job ~ Age, data = credit_data) %>% step_bsmote(Job) %>% prep()
+      prep(step_bsmote(recipe(Job ~ Age, data = credit_data), Job))
     Condition
       Error in `step_bsmote()`:
       Caused by error in `prep()`:
@@ -38,7 +38,7 @@
 # bad args
 
     Code
-      recipe(~., data = mtcars) %>% step_bsmote(over_ratio = "yes") %>% prep()
+      prep(step_bsmote(recipe(~., data = mtcars), over_ratio = "yes"))
     Condition
       Error in `step_bsmote()`:
       Caused by error in `prep()`:
@@ -47,7 +47,7 @@
 ---
 
     Code
-      recipe(~., data = mtcars) %>% step_bsmote(neighbors = TRUE) %>% prep()
+      prep(step_bsmote(recipe(~., data = mtcars), neighbors = TRUE))
     Condition
       Error in `step_bsmote()`:
       Caused by error in `prep()`:
@@ -56,7 +56,7 @@
 ---
 
     Code
-      recipe(~., data = mtcars) %>% step_bsmote(all_neighbors = "yes") %>% prep()
+      prep(step_bsmote(recipe(~., data = mtcars), all_neighbors = "yes"))
     Condition
       Error in `step_bsmote()`:
       Caused by error in `prep()`:
@@ -65,7 +65,7 @@
 ---
 
     Code
-      recipe(~., data = mtcars) %>% step_bsmote(seed = TRUE)
+      step_bsmote(recipe(~., data = mtcars), seed = TRUE)
     Condition
       Error in `step_bsmote()`:
       ! `seed` must be a whole number, not `TRUE`.

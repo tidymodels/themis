@@ -53,18 +53,18 @@ library(themis)
 
 data("credit_data", package = "modeldata")
 
-credit_data0 <- credit_data %>%
+credit_data0 <- credit_data |>
   filter(!is.na(Job))
 
 count(credit_data0, Job)
 
-ds_rec <- recipe(Job ~ Time + Age + Expenses, data = credit_data0) %>%
-  step_impute_mean(all_predictors()) %>%
-  step_smote(Job, over_ratio = 0.25) %>%
+ds_rec <- recipe(Job ~ Time + Age + Expenses, data = credit_data0) |>
+  step_impute_mean(all_predictors()) |>
+  step_smote(Job, over_ratio = 0.25) |>
   prep()
 
-ds_rec %>%
-  bake(new_data = NULL) %>%
+ds_rec |>
+  bake(new_data = NULL) |>
   count(Job)
 ```
 
@@ -79,7 +79,7 @@ example_data <- data.frame(class = letters[rep(1:5, 1:5 * 10)],
 
 library(ggplot2)
 
-example_data %>%
+example_data |>
   ggplot(aes(class)) +
   geom_bar()
 ```
@@ -101,10 +101,10 @@ By setting `over_ratio = 1` you bring the number of samples of all minority clas
 
 ```{r}
 #| fig-alt: "Bar chart with 5 columns. class on the x-axis and count on the y-axis. class a, b, c, d, and e all have a height of 50."
-recipe(~., example_data) %>%
-  step_upsample(class, over_ratio = 1) %>%
-  prep() %>%
-  bake(new_data = NULL) %>%
+recipe(~., example_data) |>
+  step_upsample(class, over_ratio = 1) |>
+  prep() |>
+  bake(new_data = NULL) |>
   ggplot(aes(class)) +
   geom_bar()
 ```
@@ -113,10 +113,10 @@ and by setting `over_ratio = 0.5` we upsample any minority class with less sampl
 
 ```{r}
 #| fig-alt: "Bar chart with 5 columns. class on the x-axis and count on the y-axis. Class a has height 25, b has 25, c has 30, d has 40, and e has 50."
-recipe(~., example_data) %>%
-  step_upsample(class, over_ratio = 0.5) %>%
-  prep() %>%
-  bake(new_data = NULL) %>%
+recipe(~., example_data) |>
+  step_upsample(class, over_ratio = 0.5) |>
+  prep() |>
+  bake(new_data = NULL) |>
   ggplot(aes(class)) +
   geom_bar()
 ```
@@ -135,10 +135,10 @@ By setting `under_ratio = 1` you bring the number of samples of all majority cla
 
 ```{r}
 #| fig-alt: "Bar chart with 5 columns. class on the x-axis and count on the y-axis. Class a, b, c, d, and e all have a height of 10."
-recipe(~., example_data) %>%
-  step_downsample(class, under_ratio = 1) %>%
-  prep() %>%
-  bake(new_data = NULL) %>%
+recipe(~., example_data) |>
+  step_downsample(class, under_ratio = 1) |>
+  prep() |>
+  bake(new_data = NULL) |>
   ggplot(aes(class)) +
   geom_bar()
 ```
@@ -147,10 +147,10 @@ and by setting `under_ratio = 2` we downsample any majority class with more then
 
 ```{r}
 #| fig-alt: "Bar chart with 5 columns. class on the x-axis and count on the y-axis. Class a has height 10, b, c, d, and e have ha height of 20."
-recipe(~., example_data) %>%
-  step_downsample(class, under_ratio = 2) %>%
-  prep() %>%
-  bake(new_data = NULL) %>%
+recipe(~., example_data) |>
+  step_downsample(class, under_ratio = 2) |>
+  prep() |>
+  bake(new_data = NULL) |>
   ggplot(aes(class)) +
   geom_bar()
 ```

@@ -76,28 +76,28 @@
 #' orig <- count(hpc_data, class, name = "orig")
 #' orig
 #'
-#' up_rec <- recipe(class ~ ., data = hpc_data) %>%
-#'   step_impute_knn(all_predictors()) %>%
+#' up_rec <- recipe(class ~ ., data = hpc_data) |>
+#'   step_impute_knn(all_predictors()) |>
 #'   # Bring the minority levels up to about 1000 each
 #'   # 1000/2211 is approx 0.4523
-#'   step_smotenc(class, over_ratio = 0.4523) %>%
+#'   step_smotenc(class, over_ratio = 0.4523) |>
 #'   prep()
 #'
-#' training <- up_rec %>%
-#'   bake(new_data = NULL) %>%
+#' training <- up_rec |>
+#'   bake(new_data = NULL) |>
 #'   count(class, name = "training")
 #' training
 #'
 #' # Since `skip` defaults to TRUE, baking the step has no effect
-#' baked <- up_rec %>%
-#'   bake(new_data = hpc_data) %>%
+#' baked <- up_rec |>
+#'   bake(new_data = hpc_data) |>
 #'   count(class, name = "baked")
 #' baked
 #'
 #' # Note that if the original data contained more rows than the
 #' # target n (= ratio * majority_n), the data are left alone:
-#' orig %>%
-#'   left_join(training, by = "class") %>%
+#' orig |>
+#'   left_join(training, by = "class") |>
 #'   left_join(baked, by = "class")
 step_smotenc <-
   function(

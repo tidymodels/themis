@@ -1,7 +1,7 @@
 # bad data
 
     Code
-      rec %>% step_smote(x) %>% prep()
+      prep(step_smote(rec, x))
     Condition
       Error in `step_smote()`:
       Caused by error in `prep()`:
@@ -10,7 +10,7 @@
 ---
 
     Code
-      rec %>% step_smote(class, id) %>% prep()
+      prep(step_smote(rec, class, id))
     Condition
       Error in `step_smote()`:
       Caused by error in `prep()`:
@@ -19,7 +19,7 @@
 # errors if character are present
 
     Code
-      recipe(~., data = df_char) %>% step_tomek(x) %>% prep()
+      prep(step_tomek(recipe(~., data = df_char), x))
     Condition
       Error in `step_tomek()`:
       Caused by error in `prep()`:
@@ -29,7 +29,7 @@
 # NA in response
 
     Code
-      recipe(Status ~ Age, data = credit_data0) %>% step_tomek(Status) %>% prep()
+      prep(step_tomek(recipe(Status ~ Age, data = credit_data0), Status))
     Condition
       Error in `step_tomek()`:
       Caused by error in `prep()`:
@@ -38,7 +38,7 @@
 # bad args
 
     Code
-      recipe(~., data = mtcars) %>% step_tomek(seed = TRUE)
+      step_tomek(recipe(~., data = mtcars), seed = TRUE)
     Condition
       Error in `step_tomek()`:
       ! `seed` must be a whole number, not `TRUE`.

@@ -1,5 +1,5 @@
 test_that("basic usage", {
-  rec1 <- recipe(class ~ x + y, data = circle_example) %>%
+  rec1 <- recipe(class ~ x + y, data = circle_example) |>
     step_tomek(class)
 
   rec1_p <- prep(rec1)
@@ -17,15 +17,15 @@ test_that("bad data", {
   # numeric check
   expect_snapshot(
     error = TRUE,
-    rec %>%
-      step_smote(x) %>%
+    rec |>
+      step_smote(x) |>
       prep()
   )
   # Multiple variable check
   expect_snapshot(
     error = TRUE,
-    rec %>%
-      step_smote(class, id) %>%
+    rec |>
+      step_smote(class, id) |>
       prep()
   )
 })
@@ -39,8 +39,8 @@ test_that("errors if character are present", {
 
   expect_snapshot(
     error = TRUE,
-    recipe(~., data = df_char) %>%
-      step_tomek(x) %>%
+    recipe(~., data = df_char) |>
+      step_tomek(x) |>
       prep()
   )
 })
@@ -54,14 +54,14 @@ test_that("NA in response", {
 
   expect_snapshot(
     error = TRUE,
-    recipe(Status ~ Age, data = credit_data0) %>%
-      step_tomek(Status) %>%
+    recipe(Status ~ Age, data = credit_data0) |>
+      step_tomek(Status) |>
       prep()
   )
 })
 
 test_that("test tidy()", {
-  rec <- recipe(class ~ x + y, data = circle_example) %>%
+  rec <- recipe(class ~ x + y, data = circle_example) |>
     step_tomek(class, id = "")
 
   rec_p <- prep(rec)
@@ -100,8 +100,8 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   }
 
   for (i in 1:4) {
-    rec_p <- recipe(class ~ x + y, data = circle_example_alt_levels[[i]]) %>%
-      step_tomek(class) %>%
+    rec_p <- recipe(class ~ x + y, data = circle_example_alt_levels[[i]]) |>
+      step_tomek(class) |>
       prep()
 
     expect_equal(
@@ -116,9 +116,9 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
 })
 
 test_that("id variables are ignored", {
-  rec_id <- recipe(class ~ ., data = circle_example) %>%
-    update_role(id, new_role = "id") %>%
-    step_tomek(class) %>%
+  rec_id <- recipe(class ~ ., data = circle_example) |>
+    update_role(id, new_role = "id") |>
+    step_tomek(class) |>
     prep()
 
   expect_equal(ncol(bake(rec_id, new_data = NULL)), 4)
@@ -126,10 +126,10 @@ test_that("id variables are ignored", {
 
 test_that("id variables don't turn predictors to factors", {
   # https://github.com/tidymodels/themis/issues/56
-  rec_id <- recipe(class ~ ., data = circle_example) %>%
-    update_role(id, new_role = "id") %>%
-    step_tomek(class) %>%
-    prep() %>%
+  rec_id <- recipe(class ~ ., data = circle_example) |>
+    update_role(id, new_role = "id") |>
+    step_tomek(class) |>
+    prep() |>
     bake(new_data = NULL)
 
   expect_equal(is.double(rec_id$x), TRUE)
@@ -139,7 +139,7 @@ test_that("id variables don't turn predictors to factors", {
 test_that("bad args", {
   expect_snapshot(
     error = TRUE,
-    recipe(~., data = mtcars) %>%
+    recipe(~., data = mtcars) |>
       step_tomek(seed = TRUE)
   )
 })
@@ -147,9 +147,9 @@ test_that("bad args", {
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {
-  rec <- recipe(class ~ x + y, data = circle_example) %>%
-    step_tomek(class, skip = FALSE) %>%
-    add_role(class, new_role = "potato") %>%
+  rec <- recipe(class ~ x + y, data = circle_example) |>
+    step_tomek(class, skip = FALSE) |>
+    add_role(class, new_role = "potato") |>
     update_role_requirements(role = "potato", bake = FALSE)
 
   trained <- prep(rec, training = circle_example, verbose = FALSE)
@@ -198,7 +198,7 @@ test_that("empty selection tidy method works", {
 })
 
 test_that("printing", {
-  rec <- recipe(class ~ x + y, data = circle_example) %>%
+  rec <- recipe(class ~ x + y, data = circle_example) |>
     step_tomek(class)
 
   expect_snapshot(print(rec))
