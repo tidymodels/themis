@@ -6,8 +6,9 @@ template:
   bslib:
     primary: "#CA225E"
   includes:
-      in_header: |
-        <script defer data-domain="themis.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script>
+    in_header: |
+      <script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script>
+      <script defer data-domain="themis.tidymodels.org,all.tidymodels.org" src="https://plausible.io/js/plausible.js"></script>
 development:
   mode: auto
 
@@ -18,31 +19,31 @@ reference:
     the minority classes. This is done either by random sampling or using
     more advanced methods.
   contents:
-    - step_upsample
-    - step_smote
-    - step_smotenc
-    - step_bsmote
-    - step_adasyn
-    - step_rose
+  - step_upsample
+  - step_smote
+  - step_smotenc
+  - step_bsmote
+  - step_adasyn
+  - step_rose
 - title: Under-sampling
   desc: >
     **Under-sampling** is the act of removing observations from the majority
     classes.
   contents:
-    - step_downsample
-    - step_nearmiss
-    - step_tomek
+  - step_downsample
+  - step_nearmiss
+  - step_tomek
 - title: Methods
   desc: >
     Some of the methods implemented in this package as steps are also
     available as their own functions.
   contents:
-    - smote
-    - smotenc
-    - bsmote
-    - adasyn
-    - nearmiss
-    - tomek
+  - smote
+  - smotenc
+  - bsmote
+  - adasyn
+  - nearmiss
+  - tomek
 - title: Datasets
   contents:
-    - circle_example
+  - circle_example
