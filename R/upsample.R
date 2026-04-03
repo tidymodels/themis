@@ -207,8 +207,6 @@ prep.step_upsample <- function(x, training, info = NULL, ...) {
     majority <- max(obs_freq)
   }
 
-  check_na(select(training, all_of(col_name)))
-
   step_upsample_new(
     terms = x$terms,
     ratio = x$ratio,
@@ -273,7 +271,10 @@ bake.step_upsample <- function(object, new_data, ...) {
         num = object$target
       )
       if (!is.null(missing)) {
-        new_data <- bind_rows(new_data, supsamp(missing, object$target))
+        new_data <- bind_rows(
+          new_data,
+          supsamp(missing, wts = rep(1, nrow(missing)), num = object$target)
+        )
       }
     }
   )

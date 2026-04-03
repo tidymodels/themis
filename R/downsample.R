@@ -211,8 +211,6 @@ prep.step_downsample <- function(x, training, info = NULL, ...) {
     minority <- min(obs_freq)
   }
 
-  check_na(select(training, all_of(col_name)))
-
   step_downsample_new(
     terms = x$terms,
     under_ratio = x$under_ratio,
@@ -277,7 +275,10 @@ bake.step_downsample <- function(object, new_data, ...) {
         num = object$target
       )
       if (!is.null(missing)) {
-        new_data <- bind_rows(new_data, subsamp(missing, object$target))
+        new_data <- bind_rows(
+          new_data,
+          subsamp(missing, wts = rep(1, nrow(missing)), num = object$target)
+        )
       }
     }
   )
