@@ -18,14 +18,14 @@ test_that("bad data", {
   expect_snapshot(
     error = TRUE,
     rec |>
-      step_smote(x) |>
+      step_tomek(x) |>
       prep()
   )
   # Multiple variable check
   expect_snapshot(
     error = TRUE,
     rec |>
-      step_smote(class, id) |>
+      step_tomek(class, id) |>
       prep()
   )
 })
