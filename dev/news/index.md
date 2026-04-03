@@ -2,6 +2,12 @@
 
 ## themis (development version)
 
+- [`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md)
+  and
+  [`step_upsample()`](https://themis.tidymodels.org/dev/reference/step_upsample.md)
+  now correctly handle `NA` values in the outcome variable instead of
+  erroring ([\#177](https://github.com/tidymodels/themis/issues/177)).
+
 ## themis 1.0.3
 
 CRAN release: 2025-01-22
