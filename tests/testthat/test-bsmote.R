@@ -435,3 +435,12 @@ test_that("tunable is setup to works with extract_parameter_set_dials", {
   expect_s3_class(params, "parameters")
   expect_identical(nrow(params), 3L)
 })
+
+test_that("bsmote() passes all_neighbors to bsmote_impl()", {
+  circle_numeric <- circle_example[, c("x", "y", "class")]
+
+  res_false <- bsmote(circle_numeric, var = "class", all_neighbors = FALSE)
+  res_true <- bsmote(circle_numeric, var = "class", all_neighbors = TRUE)
+
+  expect_false(identical(res_false, res_true))
+})
