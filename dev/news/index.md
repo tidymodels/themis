@@ -2,6 +2,11 @@
 
 ## themis (development version)
 
+- [`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md)
+  now correctly passes the `all_neighbors` argument to the underlying
+  implementation
+  ([\#176](https://github.com/tidymodels/themis/issues/176)).
+
 - [`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md)
   and
   [`step_upsample()`](https://themis.tidymodels.org/dev/reference/step_upsample.md)
