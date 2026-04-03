@@ -162,7 +162,6 @@ step_adasyn_new <-
       neighbors = neighbors,
       predictors = predictors,
       skip = skip,
-      id = id,
       seed = seed,
       id = id
     )
