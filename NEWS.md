@@ -1,5 +1,7 @@
 # themis (development version)
 
+* `step_downsample()` and `step_upsample()` now correctly handle `NA` values in the outcome variable instead of erroring (#177).
+
 # themis 1.0.3
 
 ## Improvements

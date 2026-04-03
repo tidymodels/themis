@@ -313,3 +313,22 @@ test_that("tunable is setup to works with extract_parameter_set_dials", {
   expect_s3_class(params, "parameters")
   expect_identical(nrow(params), 1L)
 })
+
+test_that("NA values in outcome are handled", {
+  df <- data.frame(
+    x = 1:10,
+    class = factor(c(NA, "A", "A", "A", "A", "B", "B", "B", "B", "B"))
+  )
+
+  result <- recipe(~., data = df) |>
+    step_upsample(class) |>
+    prep() |>
+    bake(new_data = NULL)
+
+  expect_true(any(is.na(result$class)))
+  # minority class should be upsampled to match majority
+  expect_equal(
+    length(unique(table(result$class, useNA = "no"))),
+    1L
+  )
+})
