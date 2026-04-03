@@ -137,7 +137,9 @@ test_that("only except 2 classes", {
 
 test_that("factor levels are not affected by alphabet ordering or class sizes", {
   circle_example_alt_levels <- list()
-  for (i in 1:4) circle_example_alt_levels[[i]] <- circle_example
+  for (i in 1:4) {
+    circle_example_alt_levels[[i]] <- circle_example
+  }
 
   # Checking for forgetting levels by majority/minor switching
   for (i in c(2, 4)) {
