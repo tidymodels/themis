@@ -196,7 +196,6 @@ step_bsmote_new <-
       all_neighbors = all_neighbors,
       predictors = predictors,
       skip = skip,
-      id = id,
       seed = seed,
       id = id
     )

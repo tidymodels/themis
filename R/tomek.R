@@ -138,7 +138,6 @@ step_tomek_new <-
       column = column,
       predictors = predictors,
       skip = skip,
-      id = id,
       seed = seed,
       id = id
     )

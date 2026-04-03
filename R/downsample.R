@@ -182,7 +182,6 @@ step_downsample_new <-
       column = column,
       target = target,
       skip = skip,
-      id = id,
       seed = seed,
       id = id,
       case_weights = case_weights

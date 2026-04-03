@@ -168,7 +168,6 @@ step_smote_new <-
       neighbors = neighbors,
       predictors = predictors,
       skip = skip,
-      id = id,
       seed = seed,
       id = id
     )
