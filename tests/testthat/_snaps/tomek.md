@@ -1,18 +1,18 @@
 # bad data
 
     Code
-      prep(step_smote(rec, x))
+      prep(step_tomek(rec, x))
     Condition
-      Error in `step_smote()`:
+      Error in `step_tomek()`:
       Caused by error in `prep()`:
       ! `x` should be a factor variable.
 
 ---
 
     Code
-      prep(step_smote(rec, class, id))
+      prep(step_tomek(rec, class, id))
     Condition
-      Error in `step_smote()`:
+      Error in `step_tomek()`:
       Caused by error in `prep()`:
       ! The selector should select at most a single variable.
 
