@@ -61,4 +61,8 @@ test_that("bad args", {
     error = TRUE,
     bsmote(matrix())
   )
+  expect_snapshot(
+    error = TRUE,
+    tomek(circle_example, var = "class")
+  )
 })

@@ -9,6 +9,14 @@
 ---
 
     Code
+      nearmiss(circle_example, var = "class")
+    Condition
+      Error in `nearmiss()`:
+      ! All columns for this function should be numeric. Non-numeric column found: `id`.
+
+---
+
+    Code
       nearmiss(circle_example, var = "class", k = 0)
     Condition
       Error in `nearmiss()`:

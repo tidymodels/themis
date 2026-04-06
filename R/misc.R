@@ -33,12 +33,16 @@ check_1_selected <- function(x, call = caller_env()) {
   }
 }
 
-check_numeric <- function(dat) {
+check_numeric <- function(dat, call = caller_env()) {
   all_good <- vapply(dat, is.numeric, logical(1))
-  label <- "numeric"
 
   if (!all(all_good)) {
-    cli::cli_abort("All columns for this function should be numeric.")
+    bad_cols <- names(all_good)[!all_good]
+    cli::cli_abort(
+      "All columns for this function should be numeric.
+       {cli::qty(length(bad_cols))} Non-numeric column{?s} found: {.var {bad_cols}}.",
+      call = call
+    )
   }
   invisible(all_good)
 }

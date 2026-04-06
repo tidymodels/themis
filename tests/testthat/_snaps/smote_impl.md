@@ -66,6 +66,23 @@
 ---
 
     Code
+      smote(circle_example, var = "class")
+    Condition
+      Error in `smote()`:
+      ! All columns for this function should be numeric. Non-numeric column found: `id`.
+
+---
+
+    Code
+      smote(data.frame(x = 1:4, a = letters[1:4], b = letters[1:4], class = factor(1:
+      4)), var = "class")
+    Condition
+      Error in `smote()`:
+      ! All columns for this function should be numeric. Non-numeric columns found: `a` and `b`.
+
+---
+
+    Code
       smote(circle_example, var = "class", k = 0)
     Condition
       Error in `smote()`:
