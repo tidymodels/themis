@@ -2,6 +2,14 @@
 
 ## themis (development version)
 
+- [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md),
+  [`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md),
+  [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md),
+  [`smote()`](https://themis.tidymodels.org/dev/reference/smote.md), and
+  [`tomek()`](https://themis.tidymodels.org/dev/reference/tomek.md) now
+  correctly attribute errors from non-numeric columns to the user-facing
+  function ([\#181](https://github.com/tidymodels/themis/issues/181)).
+
 - [`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md)
   now correctly passes the `all_neighbors` argument to the underlying
   implementation
