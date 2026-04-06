@@ -169,7 +169,7 @@ prep.step_smotenc <- function(x, training, info = NULL, ...) {
   check_1_selected(col_name)
   check_column_factor(training, col_name)
 
-  predictors <- setdiff(get_from_info(info, "predictor"), col_name)
+  predictors <- setdiff(recipes::recipes_names_predictors(info), col_name)
   check_na(select(training, all_of(c(col_name, predictors))))
 
   step_smotenc_new(

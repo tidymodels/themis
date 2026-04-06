@@ -200,7 +200,7 @@ prep.step_rose <- function(x, training, info = NULL, ...) {
   check_column_factor(training, col_name)
   check_2_levels_only(training, col_name)
 
-  predictors <- setdiff(get_from_info(info, "predictor"), col_name)
+  predictors <- setdiff(recipes::recipes_names_predictors(info), col_name)
   check_na(select(training, all_of(col_name)))
 
   step_rose_new(
