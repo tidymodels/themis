@@ -100,7 +100,12 @@ test_that("bad args", {
   expect_snapshot(
     error = TRUE,
     smote(
-      data.frame(x = 1:4, a = letters[1:4], b = letters[1:4], class = factor(1:4)),
+      data.frame(
+        x = 1:4,
+        a = letters[1:4],
+        b = letters[1:4],
+        class = factor(1:4)
+      ),
       var = "class"
     )
   )

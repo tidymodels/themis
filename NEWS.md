@@ -2,6 +2,8 @@
 
 * `adasyn()`, `bsmote()`, `nearmiss()`, `smote()`, and `tomek()` now correctly attribute errors from non-numeric columns to the user-facing function (#181).
 
+* `smotenc()` now only suppresses the specific benign warning from `gower::gower_topn()` about variables with zero range, rather than all warnings (#182).
+
 * `bsmote()` now correctly passes the `all_neighbors` argument to the underlying implementation (#176).
 
 * `step_downsample()` and `step_upsample()` now correctly handle `NA` values in the outcome variable instead of erroring (#177).
