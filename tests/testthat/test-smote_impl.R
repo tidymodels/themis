@@ -95,6 +95,10 @@ test_that("bad args", {
   )
   expect_snapshot(
     error = TRUE,
+    smote(circle_example, var = "class")
+  )
+  expect_snapshot(
+    error = TRUE,
     smote(circle_example, var = "class", k = 0)
   )
   expect_snapshot(

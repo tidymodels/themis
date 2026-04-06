@@ -66,6 +66,14 @@
 ---
 
     Code
+      adasyn(circle_example, var = "class")
+    Condition
+      Error in `adasyn()`:
+      ! All columns for this function should be numeric.
+
+---
+
+    Code
       adasyn(circle_example_num, var = "class", k = 0)
     Condition
       Error in `adasyn()`:

@@ -66,6 +66,14 @@
 ---
 
     Code
+      smote(circle_example, var = "class")
+    Condition
+      Error in `smote()`:
+      ! All columns for this function should be numeric.
+
+---
+
+    Code
       smote(circle_example, var = "class", k = 0)
     Condition
       Error in `smote()`:

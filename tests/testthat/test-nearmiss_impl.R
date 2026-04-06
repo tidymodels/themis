@@ -5,6 +5,10 @@ test_that("bad args", {
   )
   expect_snapshot(
     error = TRUE,
+    nearmiss(circle_example, var = "class")
+  )
+  expect_snapshot(
+    error = TRUE,
     nearmiss(circle_example, var = "class", k = 0)
   )
   expect_snapshot(

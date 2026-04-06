@@ -39,3 +39,11 @@
       Error in `bsmote()`:
       ! `df` must be a data frame, not a logical matrix.
 
+---
+
+    Code
+      tomek(circle_example, var = "class")
+    Condition
+      Error in `tomek()`:
+      ! All columns for this function should be numeric.
+
