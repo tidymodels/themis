@@ -267,12 +267,13 @@ bake.step_downsample <- function(object, new_data, ...) {
   with_seed(
     seed = object$seed,
     code = {
-      new_data <- purrr::map2_dfr(
+      new_data <- purrr::map2(
         split_data,
         split_wts,
         subsamp,
         num = object$target
-      )
+      ) |>
+        purrr::list_rbind()
       if (!is.null(missing)) {
         new_data <- bind_rows(
           new_data,
