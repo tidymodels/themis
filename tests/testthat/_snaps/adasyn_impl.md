@@ -69,7 +69,7 @@
       adasyn(circle_example, var = "class")
     Condition
       Error in `adasyn()`:
-      ! All columns for this function should be numeric.
+      ! All columns for this function should be numeric. Non-numeric column found: `id`.
 
 ---
 

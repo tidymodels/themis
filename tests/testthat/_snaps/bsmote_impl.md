@@ -69,7 +69,7 @@
       bsmote(circle_example, var = "class")
     Condition
       Error in `bsmote()`:
-      ! All columns for this function should be numeric.
+      ! All columns for this function should be numeric. Non-numeric column found: `id`.
 
 ---
 

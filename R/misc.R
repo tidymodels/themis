@@ -37,8 +37,10 @@ check_numeric <- function(dat, call = caller_env()) {
   all_good <- vapply(dat, is.numeric, logical(1))
 
   if (!all(all_good)) {
+    bad_cols <- names(all_good)[!all_good]
     cli::cli_abort(
-      "All columns for this function should be numeric.",
+      "All columns for this function should be numeric.
+       {cli::qty(length(bad_cols))} Non-numeric column{?s} found: {.var {bad_cols}}.",
       call = call
     )
   }
