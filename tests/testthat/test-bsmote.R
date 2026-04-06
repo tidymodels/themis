@@ -14,7 +14,7 @@ test_that("all minority classes are upsampled", {
   expect_true(all(max(table(rec1_p2$species)) == 152))
 })
 
-test_that("basic usage", {
+test_that("basic usage (all_neighbors = FALSE)", {
   rec1 <- recipe(class ~ x + y, data = circle_example) |>
     step_bsmote(class, all_neighbors = FALSE)
 
@@ -28,7 +28,7 @@ test_that("basic usage", {
   expect_no_warning(prep(rec1))
 })
 
-test_that("basic usage", {
+test_that("basic usage (all_neighbors = TRUE)", {
   rec1 <- recipe(class ~ x + y, data = circle_example) |>
     step_bsmote(class, all_neighbors = TRUE)
 
@@ -125,7 +125,7 @@ test_that("test tidy()", {
   expect_equal(trained, tidy(rec_p, number = 1))
 })
 
-test_that("ratio value works when oversampling", {
+test_that("ratio value works when oversampling (all_neighbors = FALSE)", {
   res1 <- recipe(class ~ x + y, data = circle_example) |>
     step_bsmote(class, all_neighbors = FALSE) |>
     prep() |>
@@ -143,7 +143,7 @@ test_that("ratio value works when oversampling", {
   )
 })
 
-test_that("ratio value works when oversampling", {
+test_that("ratio value works when oversampling (all_neighbors = TRUE)", {
   res1 <- recipe(class ~ x + y, data = circle_example) |>
     step_bsmote(class, all_neighbors = TRUE) |>
     prep() |>
@@ -172,7 +172,7 @@ test_that("allows multi-class", {
   )
 })
 
-test_that("majority classes are ignored if there is more than 1", {
+test_that("majority classes are ignored if there is more than 1 (all_neighbors = FALSE)", {
   skip_if_not_installed("modeldata")
 
   data("penguins", package = "modeldata")
@@ -189,7 +189,7 @@ test_that("majority classes are ignored if there is more than 1", {
 })
 
 
-test_that("majority classes are ignored if there is more than 1", {
+test_that("majority classes are ignored if there is more than 1 (all_neighbors = TRUE)", {
   skip_if_not_installed("modeldata")
 
   data("penguins", package = "modeldata")
@@ -242,7 +242,7 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   }
 })
 
-test_that("ordering of newly generated points are right", {
+test_that("ordering of newly generated points are right (all_neighbors = FALSE)", {
   res <- recipe(class ~ x + y, data = circle_example) |>
     step_bsmote(class, all_neighbors = FALSE) |>
     prep() |>
@@ -254,7 +254,7 @@ test_that("ordering of newly generated points are right", {
   )
 })
 
-test_that("ordering of newly generated points are right", {
+test_that("ordering of newly generated points are right (all_neighbors = TRUE)", {
   res <- recipe(class ~ x + y, data = circle_example) |>
     step_bsmote(class, all_neighbors = TRUE) |>
     prep() |>
@@ -266,7 +266,7 @@ test_that("ordering of newly generated points are right", {
   )
 })
 
-test_that("non-predictor variables are ignored", {
+test_that("non-predictor variables are ignored (all_neighbors = FALSE)", {
   res <- recipe(class ~ ., data = circle_example) |>
     update_role(id, new_role = "id") |>
     step_bsmote(class, all_neighbors = FALSE) |>
@@ -279,7 +279,7 @@ test_that("non-predictor variables are ignored", {
   )
 })
 
-test_that("non-predictor variables are ignored", {
+test_that("non-predictor variables are ignored (all_neighbors = TRUE)", {
   res <- recipe(class ~ ., data = circle_example) |>
     update_role(id, new_role = "id") |>
     step_bsmote(class, all_neighbors = TRUE) |>
@@ -293,7 +293,7 @@ test_that("non-predictor variables are ignored", {
 })
 
 
-test_that("id variables don't turn predictors to factors", {
+test_that("id variables don't turn predictors to factors (all_neighbors = FALSE)", {
   # https://github.com/tidymodels/themis/issues/56
   rec_id <- recipe(class ~ ., data = circle_example) |>
     update_role(id, new_role = "id") |>
@@ -306,7 +306,7 @@ test_that("id variables don't turn predictors to factors", {
 })
 
 
-test_that("id variables don't turn predictors to factors", {
+test_that("id variables don't turn predictors to factors (all_neighbors = TRUE)", {
   # https://github.com/tidymodels/themis/issues/56
   rec_id <- recipe(class ~ ., data = circle_example) |>
     update_role(id, new_role = "id") |>
