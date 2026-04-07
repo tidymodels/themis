@@ -51,6 +51,19 @@ test_that("basic usage", {
   expect_no_warning(prep(rec1))
 })
 
+test_that("works with a single predictor", {
+  skip_if_not_installed("modeldata")
+
+  data("credit_data", package = "modeldata")
+
+  expect_no_error(
+    recipe(Status ~ Age, data = credit_data) |>
+      step_rose(all_outcomes()) |>
+      prep() |>
+      bake(NULL)
+  )
+})
+
 test_that("bad data", {
   rec <- recipe(~., data = circle_example)
   # numeric check

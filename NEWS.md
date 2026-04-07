@@ -6,6 +6,8 @@
 
 * `bsmote()` now correctly passes the `all_neighbors` argument to the underlying implementation (#176).
 
+* `step_bsmote()` now works correctly when there is only a single predictor (#151).
+
 * `step_downsample()` and `step_upsample()` now correctly handle `NA` values in the outcome variable instead of erroring (#177).
 
 # themis 1.0.3

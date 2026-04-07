@@ -42,6 +42,19 @@ test_that("basic usage (all_neighbors = TRUE)", {
   expect_no_warning(prep(rec1))
 })
 
+test_that("works with a single predictor (#151)", {
+  skip_if_not_installed("modeldata")
+
+  data("hpc_data", package = "modeldata")
+
+  expect_no_error(
+    recipe(class ~ compounds, data = hpc_data) |>
+      step_bsmote(all_outcomes(), all_neighbors = FALSE) |>
+      prep() |>
+      bake(NULL)
+  )
+})
+
 test_that("bad data", {
   rec <- recipe(~., data = circle_example)
   # numeric check
