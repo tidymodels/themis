@@ -21,6 +21,10 @@
   implementation
   ([\#176](https://github.com/tidymodels/themis/issues/176)).
 
+- [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md)
+  now works correctly when there is only a single predictor
+  ([\#151](https://github.com/tidymodels/themis/issues/151)).
+
 - [`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md)
   and
   [`step_upsample()`](https://themis.tidymodels.org/dev/reference/step_upsample.md)
