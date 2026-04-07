@@ -97,7 +97,7 @@ bsmote_impl <- function(df, var, k = 5, over_ratio = 1, all_neighbors = FALSE) {
     if (all_neighbors == FALSE) {
       tmp_df <- as.data.frame(
         smote_data(
-          data = data_mat[min_class_in, ],
+          data = data_mat[min_class_in, , drop = FALSE],
           k = k,
           n_samples = samples_needed[i],
           smote_ids = which(danger_ids[min_class_in])
