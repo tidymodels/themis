@@ -230,6 +230,10 @@ bake.step_rose <- function(object, new_data, ...) {
     return(new_data)
   }
 
+  if (nrow(new_data) <= 1) {
+    return(new_data)
+  }
+
   if (any(is.na(new_data[[object$column]]))) {
     missing <- new_data[is.na(new_data[[object$column]]), ]
   } else {

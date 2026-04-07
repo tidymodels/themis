@@ -348,3 +348,12 @@ test_that("NA values in outcome are handled", {
     1L
   )
 })
+
+test_that("0 and 1 rows data work in bake method", {
+  rec <- recipe(class ~ x + y, data = circle_example) |>
+    step_downsample(class, skip = FALSE) |>
+    prep()
+
+  expect_identical(nrow(bake(rec, new_data = slice(circle_example, 0))), 0L)
+  expect_identical(nrow(bake(rec, new_data = slice(circle_example, 1))), 1L)
+})

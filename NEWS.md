@@ -1,5 +1,7 @@
 # themis (development version)
 
+* All `step_*()` functions now correctly handle 0 and 1 row inputs in `bake()` (#160).
+
 * `adasyn()`, `bsmote()`, `nearmiss()`, `smote()`, and `tomek()` now correctly attribute errors from non-numeric columns to the user-facing function (#181).
 
 * `smotenc()` now only suppresses the specific benign warning from `gower::gower_topn()` about variables with zero range, rather than all warnings (#182).

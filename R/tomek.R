@@ -177,6 +177,10 @@ bake.step_tomek <- function(object, new_data, ...) {
     return(new_data)
   }
 
+  if (nrow(new_data) <= 1) {
+    return(new_data)
+  }
+
   predictor_data <- new_data[, col_names]
 
   # tomek with seed for reproducibility

@@ -212,6 +212,10 @@ bake.step_nearmiss <- function(object, new_data, ...) {
     return(new_data)
   }
 
+  if (nrow(new_data) <= 1) {
+    return(new_data)
+  }
+
   ignore_vars <- setdiff(names(new_data), col_names)
 
   # nearmiss with seed for reproducibility

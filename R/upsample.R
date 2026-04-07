@@ -225,6 +225,9 @@ prep.step_upsample <- function(x, training, info = NULL, ...) {
 
 supsamp <- function(x, wts, num) {
   n <- nrow(x)
+  if (n == 0) {
+    return(x)
+  }
   if (nrow(x) == num) {
     out <- x
   } else {
@@ -241,6 +244,10 @@ bake.step_upsample <- function(object, new_data, ...) {
 
   if (length(col_names) == 0L) {
     # Empty selection
+    return(new_data)
+  }
+
+  if (nrow(new_data) <= 1) {
     return(new_data)
   }
 
