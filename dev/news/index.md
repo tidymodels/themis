@@ -2,6 +2,10 @@
 
 ## themis (development version)
 
+- All `step_*()` functions now correctly handle 0 and 1 row inputs in
+  [`bake()`](https://recipes.tidymodels.org/reference/bake.html)
+  ([\#160](https://github.com/tidymodels/themis/issues/160)).
+
 - [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md),
   [`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md),
   [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md),
