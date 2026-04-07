@@ -303,3 +303,12 @@ test_that("tunable is setup to works with extract_parameter_set_dials", {
   expect_s3_class(params, "parameters")
   expect_identical(nrow(params), 2L)
 })
+
+test_that("0 and 1 rows data work in bake method", {
+  rec <- recipe(class ~ x + y, data = circle_example) |>
+    step_nearmiss(class, skip = FALSE) |>
+    prep()
+
+  expect_identical(nrow(bake(rec, new_data = slice(circle_example, 0))), 0L)
+  expect_identical(nrow(bake(rec, new_data = slice(circle_example, 1))), 1L)
+})

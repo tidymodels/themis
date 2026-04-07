@@ -242,6 +242,10 @@ bake.step_bsmote <- function(object, new_data, ...) {
     return(new_data)
   }
 
+  if (nrow(new_data) <= 1) {
+    return(new_data)
+  }
+
   new_data <- as.data.frame(new_data)
 
   predictor_data <- new_data[, col_names]

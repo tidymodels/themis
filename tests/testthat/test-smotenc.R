@@ -381,3 +381,18 @@ test_that("tunable is setup to works with extract_parameter_set_dials", {
   expect_s3_class(params, "parameters")
   expect_identical(nrow(params), 2L)
 })
+
+test_that("0 and 1 rows data work in bake method", {
+  skip_if_not_installed("modeldata")
+  data("ames", package = "modeldata")
+
+  rec <- recipe(
+    Alley ~ MS_SubClass + MS_Zoning + Lot_Frontage + Lot_Area + Street,
+    data = ames
+  ) |>
+    step_smotenc(Alley, skip = FALSE) |>
+    prep()
+
+  expect_identical(nrow(bake(rec, new_data = slice(ames, 0))), 0L)
+  expect_identical(nrow(bake(rec, new_data = slice(ames, 1))), 1L)
+})

@@ -457,3 +457,12 @@ test_that("bsmote() passes all_neighbors to bsmote_impl()", {
 
   expect_false(identical(res_false, res_true))
 })
+
+test_that("0 and 1 rows data work in bake method", {
+  rec <- recipe(class ~ x + y, data = circle_example) |>
+    step_bsmote(class, skip = FALSE) |>
+    prep()
+
+  expect_identical(nrow(bake(rec, new_data = slice(circle_example, 0))), 0L)
+  expect_identical(nrow(bake(rec, new_data = slice(circle_example, 1))), 1L)
+})
