@@ -42,6 +42,7 @@ reference:
   - smotenc
   - bsmote
   - adasyn
+  - rose
   - nearmiss
   - tomek
 - title: Datasets

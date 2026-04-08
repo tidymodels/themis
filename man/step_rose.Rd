@@ -176,6 +176,8 @@ classification rules with imbalanced data. Data Mining and Knowledge
 Discovery, 28:92–122.
 }
 \seealso{
+\code{\link[=rose]{rose()}} for direct implementation
+
 Other Steps for over-sampling: 
 \code{\link{step_adasyn}()},
 \code{\link{step_bsmote}()},
