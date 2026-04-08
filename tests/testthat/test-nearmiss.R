@@ -1,3 +1,18 @@
+test_that("errors if there isn't enough data", {
+  tiny_minority <- data.frame(
+    x = c(1:100, 1),
+    y = c(1:100, 0),
+    class = factor(c(rep("majority", 100), "minority"))
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    recipe(class ~ x + y, data = tiny_minority) |>
+      step_nearmiss(class) |>
+      prep()
+  )
+})
+
 test_that("basic usage", {
   rec1 <- recipe(class ~ x + y, data = circle_example) |>
     step_nearmiss(class)

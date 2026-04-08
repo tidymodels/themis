@@ -51,7 +51,7 @@ smotenc <- function(df, var, k = 5, over_ratio = 1) {
 
 
 # Splits data and appends new minority instances
-smotenc_impl <- function(df, var, k, over_ratio) {
+smotenc_impl <- function(df, var, k, over_ratio, call = caller_env()) {
   # split data into list names by classes
   data <- split(df, df[[var]])
   # Number of majority instances
@@ -74,10 +74,14 @@ smotenc_impl <- function(df, var, k, over_ratio) {
     # Extract the minority dataframe
     minority <- data[[min_names[i]]]
 
-    # Ensure that we have more minority isntances than desired neighbors
+    # Ensure that we have more minority instances than desired neighbors
     if (nrow(minority) <= k) {
       cli::cli_abort(
-        "Not enough observations of {.var {min_names[i]}} to perform SMOTE."
+        c(
+          "The minority class {.val {min_names[i]}} does not have enough observations to perform SMOTENC.",
+          i = "{nrow(minority)} observation{?s} {?was/were} found, but {k + 1} {?is/are} needed."
+        ),
+        call = call
       )
     }
 

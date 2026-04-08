@@ -1,3 +1,13 @@
+# errors if there isn't enough data
+
+    Code
+      prep(step_bsmote(recipe(Status ~ Age, data = credit_data0), Status))
+    Condition
+      Error in `step_bsmote()`:
+      Caused by error in `bake()`:
+      ! The minority class "dummy" does not have enough danger observations to perform BSMOTE.
+      i 0 danger observations were found, but 6 are needed.
+
 # bad data
 
     Code
