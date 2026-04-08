@@ -246,25 +246,17 @@ bake.step_rose <- function(object, new_data, ...) {
   predictor_data <- new_data[, col_names]
 
   # rose with seed for reproducibility
-  majority_size <- max(table(predictor_data[[object$column]])) * 2
   with_seed(
     seed = object$seed,
     code = {
-      original_levels <- levels(predictor_data[[object$column]])
-      synthetic_data <- ROSE(
-        string2formula(object$column),
+      synthetic_data <- as_tibble(rose(
         predictor_data,
-        N = floor(majority_size * object$over_ratio),
-        p = object$minority_prop,
-        hmult.majo = object$majority_smoothness,
-        hmult.mino = object$minority_smoothness
-      )
-      synthetic_data <- synthetic_data$data
-      synthetic_data[[object$column]] <- factor(
-        synthetic_data[[object$column]],
-        levels = original_levels
-      )
-      synthetic_data <- as_tibble(synthetic_data)
+        var = object$column,
+        over_ratio = object$over_ratio,
+        minority_prop = object$minority_prop,
+        minority_smoothness = object$minority_smoothness,
+        majority_smoothness = object$majority_smoothness
+      ))
     }
   )
   new_data <- na_splice(new_data, synthetic_data, object)
