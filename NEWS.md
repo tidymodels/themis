@@ -1,5 +1,7 @@
 # themis (development version)
 
+* `step_adasyn()`, `step_bsmote()`, `step_nearmiss()`, `step_smote()`, and `step_smotenc()` now document the minimum number of observations needed to perform the algorithm (#104).
+
 * All `step_*()` functions now correctly handle 0 and 1 row inputs in `bake()` (#160).
 
 * `adasyn()`, `bsmote()`, `nearmiss()`, `smote()`, and `tomek()` now correctly attribute errors from non-numeric columns to the user-facing function (#181).

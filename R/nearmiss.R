@@ -37,6 +37,11 @@
 #'  option `skip = TRUE` so that the extra sampling is _not_
 #'  conducted outside of the training set.
 #'
+#' # Minimum observations
+#'
+#' Each minority class must have at least `neighbors + 1` observations to
+#' perform the NearMiss algorithm.
+#'
 #' # Tidying
 #'
 #' When you [`tidy()`][recipes::tidy.recipe()] this step, a tibble is returned with
