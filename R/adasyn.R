@@ -35,7 +35,7 @@
 #'
 #' # Tidying
 #'
-#' When you [`tidy()`][recipes::tidy.recipe()] this step, a tibble is retruned with
+#' When you [`tidy()`][recipes::tidy.recipe()] this step, a tibble is returned with
 #'  columns `terms` and `id`:
 #'
 #' \describe{
@@ -235,7 +235,7 @@ bake.step_adasyn <- function(object, new_data, ...) {
 #' @export
 print.step_adasyn <-
   function(x, width = max(20, options()$width - 26), ...) {
-    title <- "adasyn based on "
+    title <- "ADASYN based on "
     print_step(x$column, x$terms, x$trained, title, width)
     invisible(x)
   }

@@ -19,7 +19,7 @@
 #'  that all other levels are sampled up to have the same
 #'  frequency as the most occurring level. A value of 0.5 would mean
 #'  that the minority levels will have (at most) (approximately)
-#'  half as many rows than the majority level.
+#'  half as many rows as the majority level.
 #' @param ratio Deprecated argument; same as `over_ratio`.
 #' @param target An integer that will be used to subsample. This
 #'  should not be set by the user and will be populated by `prep`.
@@ -46,7 +46,7 @@
 #'
 #' # Tidying
 #'
-#' When you [`tidy()`][recipes::tidy.recipe()] this step, a tibble is retruned with
+#' When you [`tidy()`][recipes::tidy.recipe()] this step, a tibble is returned with
 #'  columns `terms` and `id`:
 #'
 #' \describe{

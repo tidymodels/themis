@@ -15,9 +15,10 @@
 #' @details
 #' All columns used in this function must be numeric with no missing data.
 #'
-#' @references Chawla, N. V., Bowyer, K. W., Hall, L. O., and Kegelmeyer,
-#'  W. P. (2002). Smote: Synthetic minority over-sampling technique.
-#'  Journal of Artificial Intelligence Research, 16:321-357.
+#' @references He, H., Bai, Y., Garcia, E. and Li, S. 2008. ADASYN: Adaptive
+#'  synthetic sampling approach for imbalanced learning. Proceedings of
+#'  IJCNN 2008. (IEEE World Congress on Computational Intelligence). IEEE
+#'  International Joint Conference. pp.1322-1328.
 #'
 #' @seealso [step_adasyn()] for step function of this method
 #' @family Direct Implementations

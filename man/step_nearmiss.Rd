@@ -70,8 +70,9 @@ majority class instances by undersampling points in the majority class based
 on their distance to other points in the same class.
 }
 \details{
-This method retains the points from the majority class which have the
-smallest mean distance to the k nearest points in the minority class.
+This step implements the NearMiss-1 algorithm. It retains the points from
+the majority class which have the smallest mean distance to the k nearest
+points in the minority class.
 
 All columns in the data are sampled and returned by \code{\link[recipes:juice]{recipes::juice()}}
 and \code{\link[recipes:bake]{recipes::bake()}}.
@@ -83,7 +84,7 @@ option \code{skip = TRUE} so that the extra sampling is \emph{not}
 conducted outside of the training set.
 }
 \section{Tidying}{
-When you \code{\link[recipes:tidy.recipe]{tidy()}} this step, a tibble is retruned with
+When you \code{\link[recipes:tidy.recipe]{tidy()}} this step, a tibble is returned with
 columns \code{terms} and \code{id}:
 
 \describe{

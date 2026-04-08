@@ -20,7 +20,7 @@ minority-to-majority frequencies. The default value (1) means
 that all other levels are sampled up to have the same
 frequency as the most occurring level. A value of 0.5 would mean
 that the minority levels will have (at most) (approximately)
-half as many rows than the majority level.}
+half as many rows as the majority level.}
 
 \item{all_neighbors}{Type of two borderline-SMOTE method. Defaults to FALSE.
 See details.}
@@ -29,7 +29,7 @@ See details.}
 A data.frame or tibble, depending on type of \code{df}.
 }
 \description{
-BSMOTE generates generate new examples of the minority class using nearest
+BSMOTE generates new examples of the minority class using nearest
 neighbors of these cases in the border region between classes.
 }
 \details{
@@ -39,6 +39,7 @@ first being classified into the boxes "danger" and "not". For each point the
 k nearest neighbors is calculated. If all the neighbors comes from a
 different class it is labeled noise and put in to the "not" box. If more then
 half of the neighbors comes from a different class it is labeled "danger.
+Points will be generated around points labeled "danger".
 
 If \code{all_neighbors = FALSE} then points will be generated between nearest
 neighbors in its own class. If \code{all_neighbors = TRUE} then points will be

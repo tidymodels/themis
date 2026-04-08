@@ -13,7 +13,8 @@
 #' @export
 #'
 #' @details
-#' All columns used in this function must be numeric with no missing data.
+#' This function implements the NearMiss-1 algorithm. All columns used in this
+#' function must be numeric with no missing data.
 #'
 #' @references Inderjeet Mani and I Zhang. knn approach to unbalanced data
 #' distributions: a case study involving information extraction. In Proceedings
@@ -57,7 +58,8 @@ nearmiss_impl <- function(df, var, ignore_vars, k = 5, under_ratio = 1) {
 
     if (nrow(not_class) <= k) {
       cli::cli_abort(
-        "Not enough danger observations of {.val {names(classes)[i]}} to perform NEARMISS."
+        "Not enough observations in the other classes to compute {k} nearest \\
+        neighbors for {.val {names(classes)[i]}}."
       )
     }
 
