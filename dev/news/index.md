@@ -2,6 +2,15 @@
 
 ## themis (development version)
 
+- [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
+  [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md),
+  [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),
+  [`step_smote()`](https://themis.tidymodels.org/dev/reference/step_smote.md),
+  and
+  [`step_smotenc()`](https://themis.tidymodels.org/dev/reference/step_smotenc.md)
+  now document the minimum number of observations needed to perform the
+  algorithm ([\#104](https://github.com/tidymodels/themis/issues/104)).
+
 - All `step_*()` functions now correctly handle 0 and 1 row inputs in
   [`bake()`](https://recipes.tidymodels.org/reference/bake.html)
   ([\#160](https://github.com/tidymodels/themis/issues/160)).

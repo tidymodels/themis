@@ -141,6 +141,11 @@ option <code>skip = TRUE</code> so that the extra sampling is <em>not</em>
 conducted outside of the training set.</p>
     </div>
     <div class="section level2">
+    <h2 id="minimum-observations">Minimum observations<a class="anchor" aria-label="anchor" href="#minimum-observations"></a></h2>
+    <p>Each minority class must have at least <code>neighbors + 1</code> observations to
+perform the NearMiss algorithm.</p>
+    </div>
+    <div class="section level2">
     <h2 id="tidying">Tidying<a class="anchor" aria-label="anchor" href="#tidying"></a></h2>
     <p>When you <code><a href="https://recipes.tidymodels.org/reference/tidy.recipe.html" class="external-link">tidy()</a></code> this step, a tibble is returned with
 columns <code>terms</code> and <code>id</code>:</p>

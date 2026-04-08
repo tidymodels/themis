@@ -111,6 +111,11 @@ When used in modeling, users should strongly consider using the option
 `skip = TRUE` so that the extra sampling is *not* conducted outside of
 the training set.
 
+## Minimum observations
+
+Each minority class must have at least `neighbors + 1` observations to
+perform the SMOTENC algorithm.
+
 ## Tidying
 
 When you
