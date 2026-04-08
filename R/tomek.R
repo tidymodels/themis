@@ -21,8 +21,8 @@
 #'  the variable used to sample.
 #'
 #' @details
-#' The factor variable used to balance around must only have 2 levels. All
-#' other variables must be numerics with no missing data.
+#' All variables other than the class variable must be numeric with no missing
+#' data.
 #'
 #' A tomek link is defined as a pair of points from different classes and are
 #' each others nearest neighbors.
@@ -36,7 +36,7 @@
 #'
 #' # Tidying
 #'
-#' When you [`tidy()`][recipes::tidy.recipe()] this step, a tibble is retruned with
+#' When you [`tidy()`][recipes::tidy.recipe()] this step, a tibble is returned with
 #'  columns `terms` and `id`:
 #'
 #' \describe{

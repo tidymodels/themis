@@ -57,8 +57,8 @@ the variable used to sample.
 majority class instances of tomek links.
 }
 \details{
-The factor variable used to balance around must only have 2 levels. All
-other variables must be numerics with no missing data.
+All variables other than the class variable must be numeric with no missing
+data.
 
 A tomek link is defined as a pair of points from different classes and are
 each others nearest neighbors.
@@ -71,7 +71,7 @@ option \code{skip = TRUE} so that the extra sampling is \emph{not}
 conducted outside of the training set.
 }
 \section{Tidying}{
-When you \code{\link[recipes:tidy.recipe]{tidy()}} this step, a tibble is retruned with
+When you \code{\link[recipes:tidy.recipe]{tidy()}} this step, a tibble is returned with
 columns \code{terms} and \code{id}:
 
 \describe{

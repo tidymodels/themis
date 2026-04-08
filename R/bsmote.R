@@ -33,7 +33,7 @@
 #' k nearest neighbors is calculated. If all the neighbors comes from a
 #' different class it is labeled noise and put in to the "not" box. If more then
 #' half of the neighbors comes from a different class it is labeled "danger.
-#  Points will be generated around points labeled "danger".
+#' Points will be generated around points labeled "danger".
 #'
 #' If all_neighbors = FALSE then points will be generated between nearest
 #' neighbors in its own class. If all_neighbors = TRUE then points will be
@@ -57,7 +57,7 @@
 #'
 #' # Tidying
 #'
-#' When you [`tidy()`][recipes::tidy.recipe()] this step, a tibble is retruned with
+#' When you [`tidy()`][recipes::tidy.recipe()] this step, a tibble is returned with
 #'  columns `terms` and `id`:
 #'
 #' \describe{

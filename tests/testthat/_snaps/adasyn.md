@@ -92,7 +92,7 @@
       predictor: 10
       
       -- Operations 
-      * adasyn based on: <none>
+      * ADASYN based on: <none>
 
 ---
 
@@ -111,7 +111,7 @@
       Training data contained 32 data points and no incomplete rows.
       
       -- Operations 
-      * adasyn based on: <none> | Trained
+      * ADASYN based on: <none> | Trained
 
 # printing
 
@@ -127,7 +127,7 @@
       predictor: 2
       
       -- Operations 
-      * adasyn based on: class
+      * ADASYN based on: class
 
 ---
 
@@ -146,5 +146,5 @@
       Training data contained 400 data points and no incomplete rows.
       
       -- Operations 
-      * adasyn based on: class | Trained
+      * ADASYN based on: class | Trained
 

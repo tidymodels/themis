@@ -20,7 +20,7 @@ minority-to-majority frequencies. The default value (1) means
 that all other levels are sampled up to have the same
 frequency as the most occurring level. A value of 0.5 would mean
 that the minority levels will have (at most) (approximately)
-half as many rows than the majority level.}
+half as many rows as the majority level.}
 }
 \value{
 A data.frame or tibble, depending on type of \code{df}.
@@ -41,9 +41,10 @@ res <- adasyn(circle_numeric, var = "class", k = 10)
 res <- adasyn(circle_numeric, var = "class", over_ratio = 0.8)
 }
 \references{
-Chawla, N. V., Bowyer, K. W., Hall, L. O., and Kegelmeyer,
-W. P. (2002). Smote: Synthetic minority over-sampling technique.
-Journal of Artificial Intelligence Research, 16:321-357.
+He, H., Bai, Y., Garcia, E. and Li, S. 2008. ADASYN: Adaptive
+synthetic sampling approach for imbalanced learning. Proceedings of
+IJCNN 2008. (IEEE World Congress on Computational Intelligence). IEEE
+International Joint Conference. pp.1322-1328.
 }
 \seealso{
 \code{\link[=step_adasyn]{step_adasyn()}} for step function of this method

@@ -1,6 +1,6 @@
 #' borderline-SMOTE Algorithm
 #'
-#' BSMOTE generates generate new examples of the minority class using nearest
+#' BSMOTE generates new examples of the minority class using nearest
 #'  neighbors of these cases in the border region between classes.
 #'
 #' @inheritParams step_smote
@@ -22,7 +22,7 @@
 #' k nearest neighbors is calculated. If all the neighbors comes from a
 #' different class it is labeled noise and put in to the "not" box. If more then
 #' half of the neighbors comes from a different class it is labeled "danger.
-#  Points will be generated around points labeled "danger".
+#' Points will be generated around points labeled "danger".
 #'
 #' If `all_neighbors = FALSE` then points will be generated between nearest
 #' neighbors in its own class. If `all_neighbors = TRUE` then points will be
