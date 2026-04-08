@@ -1,3 +1,15 @@
+test_that("smote synthetic points lie within the minority class x-range", {
+  df <- data.frame(
+    x = c(1, 2, 3, 4, 5, 100, 101, 102, 103, 104, 105),
+    class = factor(c(rep("min", 5), rep("maj", 6)))
+  )
+  result <- smote(df, var = "class", k = 3, over_ratio = 1)
+  synthetic <- tail(result, nrow(result) - nrow(df))
+  # Each synthetic point is: minority_point + t * (neighbor - minority_point), t ∈ [0,1]
+  # Both endpoints are minority points in [1, 5], so synthetics must stay in [1, 5]
+  expect_true(all(synthetic$x >= 1 & synthetic$x <= 5))
+})
+
 test_that("samples stay inside convex hull of data.", {
   rdata <- matrix(c(0, 1, 1, 0, 0, 0, 1, 1), ncol = 2)
 
