@@ -371,6 +371,30 @@ test_that("bad args", {
   )
 })
 
+test_that("tunable is setup to works with extract_parameter_set_dials", {
+  skip_if_not_installed("dials")
+  rec <- recipe(~., data = mtcars) |>
+    step_bsmote(
+      all_predictors(),
+      over_ratio = hardhat::tune(),
+      neighbors = hardhat::tune(),
+      all_neighbors = hardhat::tune()
+    )
+
+  params <- extract_parameter_set_dials(rec)
+
+  expect_s3_class(params, "parameters")
+  expect_identical(nrow(params), 3L)
+})
+
+test_that("bsmote() passes all_neighbors to bsmote_impl()", {
+  circle_numeric <- circle_example[, c("x", "y", "class")]
+
+  res_false <- bsmote(circle_numeric, var = "class", all_neighbors = FALSE)
+  res_true <- bsmote(circle_numeric, var = "class", all_neighbors = TRUE)
+
+  expect_false(identical(res_false, res_true))
+})
 
 # Infrastructure ---------------------------------------------------------------
 
@@ -431,31 +455,6 @@ test_that("printing", {
 
   expect_snapshot(print(rec))
   expect_snapshot(prep(rec))
-})
-
-test_that("tunable is setup to works with extract_parameter_set_dials", {
-  skip_if_not_installed("dials")
-  rec <- recipe(~., data = mtcars) |>
-    step_bsmote(
-      all_predictors(),
-      over_ratio = hardhat::tune(),
-      neighbors = hardhat::tune(),
-      all_neighbors = hardhat::tune()
-    )
-
-  params <- extract_parameter_set_dials(rec)
-
-  expect_s3_class(params, "parameters")
-  expect_identical(nrow(params), 3L)
-})
-
-test_that("bsmote() passes all_neighbors to bsmote_impl()", {
-  circle_numeric <- circle_example[, c("x", "y", "class")]
-
-  res_false <- bsmote(circle_numeric, var = "class", all_neighbors = FALSE)
-  res_true <- bsmote(circle_numeric, var = "class", all_neighbors = TRUE)
-
-  expect_false(identical(res_false, res_true))
 })
 
 test_that("0 and 1 rows data work in bake method", {
