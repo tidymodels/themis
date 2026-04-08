@@ -75,6 +75,70 @@
       Error in `step_rose()`:
       ! `seed` must be a whole number, not `TRUE`.
 
+# rose() bad args
+
+    Code
+      rose(matrix(), var = "class")
+    Condition
+      Error in `rose()`:
+      ! `df` must be a data frame, not a logical matrix.
+
+---
+
+    Code
+      rose(circle_numeric, var = c("class", "x"))
+    Condition
+      Error in `rose()`:
+      ! Please select a single factor variable for `var`.
+
+---
+
+    Code
+      rose(circle_numeric, var = "x")
+    Condition
+      Error in `rose()`:
+      ! `x` should refer to a factor or character column, not a double vector.
+
+---
+
+    Code
+      rose(circle_numeric, var = "class", over_ratio = TRUE)
+    Condition
+      Error in `rose()`:
+      ! `over_ratio` must be a number, not `TRUE`.
+
+---
+
+    Code
+      rose(circle_numeric, var = "class", minority_prop = TRUE)
+    Condition
+      Error in `rose()`:
+      ! `minority_prop` must be a number, not `TRUE`.
+
+---
+
+    Code
+      rose(circle_numeric, var = "class", minority_smoothness = TRUE)
+    Condition
+      Error in `rose()`:
+      ! `minority_smoothness` must be a number, not `TRUE`.
+
+---
+
+    Code
+      rose(circle_numeric, var = "class", majority_smoothness = TRUE)
+    Condition
+      Error in `rose()`:
+      ! `majority_smoothness` must be a number, not `TRUE`.
+
+# rose() errors on more than 2 class levels
+
+    Code
+      rose(df, var = "class")
+    Condition
+      Error in `rose()`:
+      ! The `class` must only have 2 levels.
+
 # bake method errors when needed non-standard role columns are missing
 
     Code

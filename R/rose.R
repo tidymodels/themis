@@ -72,6 +72,7 @@
 #'  classification rules with imbalanced data. Data Mining and Knowledge
 #'  Discovery, 28:92–122.
 #'
+#' @seealso [rose()] for direct implementation
 #' @family Steps for over-sampling
 #'
 #' @export
@@ -245,25 +246,17 @@ bake.step_rose <- function(object, new_data, ...) {
   predictor_data <- new_data[, col_names]
 
   # rose with seed for reproducibility
-  majority_size <- max(table(predictor_data[[object$column]])) * 2
   with_seed(
     seed = object$seed,
     code = {
-      original_levels <- levels(predictor_data[[object$column]])
-      synthetic_data <- ROSE(
-        string2formula(object$column),
+      synthetic_data <- as_tibble(rose(
         predictor_data,
-        N = floor(majority_size * object$over_ratio),
-        p = object$minority_prop,
-        hmult.majo = object$majority_smoothness,
-        hmult.mino = object$minority_smoothness
-      )
-      synthetic_data <- synthetic_data$data
-      synthetic_data[[object$column]] <- factor(
-        synthetic_data[[object$column]],
-        levels = original_levels
-      )
-      synthetic_data <- as_tibble(synthetic_data)
+        var = object$column,
+        over_ratio = object$over_ratio,
+        minority_prop = object$minority_prop,
+        minority_smoothness = object$minority_smoothness,
+        majority_smoothness = object$majority_smoothness
+      ))
     }
   )
   new_data <- na_splice(new_data, synthetic_data, object)
@@ -311,4 +304,83 @@ tunable.step_rose <- function(x, ...) {
 #' @export
 required_pkgs.step_rose <- function(x, ...) {
   c("themis", "ROSE")
+}
+
+#' ROSE Algorithm
+#'
+#' A thin wrapper around [ROSE::ROSE()] that generates a synthetic balanced
+#' sample by enlarging the feature space of minority and majority class
+#' examples.
+#'
+#' @inheritParams step_rose
+#' @param df A data.frame or tibble. Must have 1 factor variable with exactly
+#'   2 levels and remaining numeric variables.
+#' @param var Character, name of variable containing the 2-level factor
+#'   variable.
+#'
+#' @return A data.frame or tibble, depending on type of `df`.
+#' @export
+#'
+#' @details
+#' This function is a thin wrapper around [ROSE::ROSE()]. For full details on
+#' the underlying implementation, see that function's documentation.
+#'
+#' The factor variable used to balance around must only have 2 levels.
+#'
+#' The ROSE algorithm works by selecting an observation belonging to class k
+#' and generates new examples in its neighborhood as determined by some matrix
+#' H_k. Smaller values of `minority_smoothness` and `majority_smoothness`
+#' have the effect of shrinking the entries of the corresponding smoothing
+#' matrix H_k. Shrinking would be a cautious choice if there is a concern
+#' that excessively large neighborhoods could lead to blurring the boundaries
+#' between the regions of the feature space associated with each class.
+#'
+#' @references Lunardon, N., Menardi, G., and Torelli, N. (2014). ROSE: a
+#'  Package for Binary Imbalanced Learning. R Jorunal, 6:82–92.
+#' @references Menardi, G. and Torelli, N. (2014). Training and assessing
+#'  classification rules with imbalanced data. Data Mining and Knowledge
+#'  Discovery, 28:92–122.
+#'
+#' @seealso [step_rose()] for step function of this method
+#' @family Direct Implementations
+#'
+#' @examples
+#' rose(circle_example[, c("x", "y", "class")], var = "class")
+#'
+#' rose(circle_example[, c("x", "y", "class")], var = "class", over_ratio = 0.8)
+rose <- function(
+  df,
+  var,
+  over_ratio = 1,
+  minority_prop = 0.5,
+  minority_smoothness = 1,
+  majority_smoothness = 1
+) {
+  check_data_frame(df)
+  check_var(var, df)
+  check_number_decimal(over_ratio, min = 0)
+  check_number_decimal(minority_prop, min = 0)
+  check_number_decimal(minority_smoothness, min = 0)
+  check_number_decimal(majority_smoothness, min = 0)
+  check_2_levels_only(df, var)
+
+  majority_size <- max(table(df[[var]])) * 2
+  original_levels <- levels(df[[var]])
+  synthetic_data <- ROSE(
+    string2formula(var),
+    df,
+    N = floor(majority_size * over_ratio),
+    p = minority_prop,
+    hmult.majo = majority_smoothness,
+    hmult.mino = minority_smoothness
+  )
+  synthetic_data <- synthetic_data$data
+  synthetic_data[[var]] <- factor(
+    synthetic_data[[var]],
+    levels = original_levels
+  )
+  if (is.data.frame(df) && !inherits(df, "tbl_df")) {
+    return(synthetic_data)
+  }
+  as_tibble(synthetic_data)
 }

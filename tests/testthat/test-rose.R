@@ -273,6 +273,82 @@ test_that("tunable is setup to works with extract_parameter_set_dials", {
   expect_identical(nrow(params), 1L)
 })
 
+test_that("rose() basic usage", {
+  circle_numeric <- circle_example[, c("x", "y", "class")]
+
+  res <- rose(circle_numeric, var = "class")
+  expect_s3_class(res, "data.frame")
+  expect_named(res, c("x", "y", "class"))
+  expect_s3_class(res$class, "factor")
+})
+
+test_that("rose() preserves factor levels", {
+  circle_numeric <- circle_example[, c("x", "y", "class")]
+  original_levels <- levels(circle_numeric$class)
+
+  res <- rose(circle_numeric, var = "class")
+  expect_equal(levels(res$class), original_levels)
+})
+
+test_that("rose() returns tibble when given tibble", {
+  circle_tbl <- as_tibble(circle_example[, c("x", "y", "class")])
+
+  res <- rose(circle_tbl, var = "class")
+  expect_s3_class(res, "tbl_df")
+})
+
+test_that("rose() returns data.frame when given data.frame", {
+  circle_df <- as.data.frame(circle_example[, c("x", "y", "class")])
+
+  res <- rose(circle_df, var = "class")
+  expect_s3_class(res, "data.frame")
+  expect_false(inherits(res, "tbl_df"))
+})
+
+test_that("rose() bad args", {
+  circle_numeric <- circle_example[, c("x", "y", "class")]
+
+  expect_snapshot(
+    error = TRUE,
+    rose(matrix(), var = "class")
+  )
+  expect_snapshot(
+    error = TRUE,
+    rose(circle_numeric, var = c("class", "x"))
+  )
+  expect_snapshot(
+    error = TRUE,
+    rose(circle_numeric, var = "x")
+  )
+  expect_snapshot(
+    error = TRUE,
+    rose(circle_numeric, var = "class", over_ratio = TRUE)
+  )
+  expect_snapshot(
+    error = TRUE,
+    rose(circle_numeric, var = "class", minority_prop = TRUE)
+  )
+  expect_snapshot(
+    error = TRUE,
+    rose(circle_numeric, var = "class", minority_smoothness = TRUE)
+  )
+  expect_snapshot(
+    error = TRUE,
+    rose(circle_numeric, var = "class", majority_smoothness = TRUE)
+  )
+})
+
+test_that("rose() errors on more than 2 class levels", {
+  df <- data.frame(
+    x = 1:9,
+    class = factor(rep(c("a", "b", "c"), 3))
+  )
+  expect_snapshot(
+    error = TRUE,
+    rose(df, var = "class")
+  )
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {

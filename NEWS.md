@@ -1,5 +1,7 @@
 # themis (development version)
 
+* Added standalone `rose()` function as a thin wrapper around `ROSE::ROSE()`, making it consistent with the other algorithms in the package that expose a direct implementation alongside their recipe step (#195).
+
 * `step_adasyn()`, `step_bsmote()`, `step_nearmiss()`, `step_smote()`, and `step_smotenc()` now document the minimum number of observations needed to perform the algorithm (#104).
 
 * All `step_*()` functions now correctly handle 0 and 1 row inputs in `bake()` (#160).

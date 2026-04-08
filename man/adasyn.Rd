@@ -52,6 +52,7 @@ International Joint Conference. pp.1322-1328.
 Other Direct Implementations: 
 \code{\link{bsmote}()},
 \code{\link{nearmiss}()},
+\code{\link{rose}()},
 \code{\link{smote}()},
 \code{\link{smotenc}()},
 \code{\link{tomek}()}

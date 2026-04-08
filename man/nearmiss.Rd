@@ -52,6 +52,7 @@ of workshop on learning from imbalanced datasets, 2003.
 Other Direct Implementations: 
 \code{\link{adasyn}()},
 \code{\link{bsmote}()},
+\code{\link{rose}()},
 \code{\link{smote}()},
 \code{\link{smotenc}()},
 \code{\link{tomek}()}
