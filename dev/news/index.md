@@ -2,6 +2,14 @@
 
 ## themis (development version)
 
+- Added standalone
+  [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md)
+  function as a thin wrapper around
+  [`ROSE::ROSE()`](https://rdrr.io/pkg/ROSE/man/ROSE.html), making it
+  consistent with the other algorithms in the package that expose a
+  direct implementation alongside their recipe step
+  ([\#195](https://github.com/tidymodels/themis/issues/195)).
+
 - [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
   [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md),
   [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),

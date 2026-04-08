@@ -44,6 +44,8 @@ available as their own functions.
   borderline-SMOTE Algorithm
 - [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md) :
   Adaptive Synthetic Algorithm
+- [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md) : ROSE
+  Algorithm
 - [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md)
   : Remove Points Near Other Classes
 - [`tomek()`](https://themis.tidymodels.org/dev/reference/tomek.md) :

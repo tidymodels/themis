@@ -159,6 +159,9 @@ Discovery, 28:92–122.
 
 ## See also
 
+[`rose()`](https://themis.tidymodels.org/dev/reference/rose.md) for
+direct implementation
+
 Other Steps for over-sampling:
 [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
 [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md),
@@ -196,8 +199,8 @@ training
 #> # A tibble: 2 × 2
 #>   class  training
 #>   <fct>     <int>
-#> 1 not VF     2114
-#> 2 VF         2308
+#> 1 not VF     2242
+#> 2 VF         2180
 
 # Since `skip` defaults to TRUE, baking the step has no effect
 baked <- up_rec |>
@@ -216,8 +219,8 @@ orig |>
 #> # A tibble: 2 × 4
 #>   class   orig training baked
 #>   <fct>  <int>    <int> <int>
-#> 1 not VF  2120     2114  2120
-#> 2 VF      2211     2308  2211
+#> 1 not VF  2120     2242  2120
+#> 2 VF      2211     2180  2211
 
 library(ggplot2)
 

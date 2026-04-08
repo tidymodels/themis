@@ -64,6 +64,7 @@ Other Direct Implementations:
 [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md),
 [`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md),
 [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md),
+[`rose()`](https://themis.tidymodels.org/dev/reference/rose.md),
 [`smotenc()`](https://themis.tidymodels.org/dev/reference/smotenc.md),
 [`tomek()`](https://themis.tidymodels.org/dev/reference/tomek.md)
 
