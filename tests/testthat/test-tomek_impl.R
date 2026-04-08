@@ -1,3 +1,16 @@
+test_that("tomek removes exactly the points forming Tomek links", {
+  df <- data.frame(
+    x = c(0, 0.9, 3, 10, 11),
+    class = factor(c("min", "maj", "min", "maj", "maj"))
+  )
+  result <- tomek(df, var = "class")
+  # Pair {1, 2}: mutual NN, different class → Tomek link, both removed
+  # Point 3: NN is point 2, but point 2's NN is point 1 → not a link
+  # Pair {4, 5}: mutual NN, same class → not a link
+  expect_equal(result$x, c(3, 10, 11))
+  expect_equal(as.character(result$class), c("min", "maj", "maj"))
+})
+
 test_that("order doesn't matter", {
   df <- data.frame(
     target = rep(c("Yes", "No"), c(10, 50)),
