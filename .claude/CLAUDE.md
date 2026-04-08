@@ -48,6 +48,10 @@ air format .
 - When testing errors and warnings, don't us `expect_error()` or `expect_warning()`. Instead, use `expect_snapshot(error = TRUE)` for errors and `expect_snapshot()` for warnings because these allow the user to review the full text of the output.
 - Avoid the `.package` argument to `local_mocked_bindings()`; this modifies the namespace of another package which is not good practice. Instead create a mockable version of the function in the current package. See `?local_mocked_bindings` for more details.
 
+### Infrastructure test section
+
+Each step test file ends with a `# Infrastructure ---` section. It contains only generic boilerplate tests that apply to every step equally (e.g. empty selection, printing, missing role columns). Tests that are specific to the behavior of a particular step — such as tunable parameter integration or edge cases in the step's logic — must go above the Infrastructure line.
+
 ### Documentation
 
 - Every user-facing function should be exported and have roxygen2 documentation.
