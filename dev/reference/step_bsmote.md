@@ -57,7 +57,7 @@ step_bsmote(
   The default value (1) means that all other levels are sampled up to
   have the same frequency as the most occurring level. A value of 0.5
   would mean that the minority levels will have (at most)
-  (approximately) half as many rows than the majority level.
+  (approximately) half as many rows as the majority level.
 
 - neighbors:
 
@@ -102,7 +102,8 @@ minority class each point is first being classified into the boxes
 "danger" and "not". For each point the k nearest neighbors is
 calculated. If all the neighbors comes from a different class it is
 labeled noise and put in to the "not" box. If more then half of the
-neighbors comes from a different class it is labeled "danger.
+neighbors comes from a different class it is labeled "danger. Points
+will be generated around points labeled "danger".
 
 If all_neighbors = FALSE then points will be generated between nearest
 neighbors in its own class. If all_neighbors = TRUE then points will be
@@ -131,7 +132,7 @@ the training set.
 
 When you
 [`tidy()`](https://recipes.tidymodels.org/reference/tidy.recipe.html)
-this step, a tibble is retruned with columns `terms` and `id`:
+this step, a tibble is returned with columns `terms` and `id`:
 
 - terms:
 

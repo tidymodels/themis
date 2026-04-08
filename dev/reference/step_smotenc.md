@@ -58,7 +58,7 @@ step_smotenc(
   The default value (1) means that all other levels are sampled up to
   have the same frequency as the most occurring level. A value of 0.5
   would mean that the minority levels will have (at most)
-  (approximately) half as many rows than the majority level.
+  (approximately) half as many rows as the majority level.
 
 - neighbors:
 
@@ -115,7 +115,7 @@ the training set.
 
 When you
 [`tidy()`](https://recipes.tidymodels.org/reference/tidy.recipe.html)
-this step, a tibble is retruned with columns `terms` and `id`:
+this step, a tibble is returned with columns `terms` and `id`:
 
 - terms:
 

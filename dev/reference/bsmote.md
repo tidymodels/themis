@@ -1,7 +1,7 @@
 # borderline-SMOTE Algorithm
 
-BSMOTE generates generate new examples of the minority class using
-nearest neighbors of these cases in the border region between classes.
+BSMOTE generates new examples of the minority class using nearest
+neighbors of these cases in the border region between classes.
 
 ## Usage
 
@@ -31,7 +31,7 @@ bsmote(df, var, k = 5, over_ratio = 1, all_neighbors = FALSE)
   The default value (1) means that all other levels are sampled up to
   have the same frequency as the most occurring level. A value of 0.5
   would mean that the minority levels will have (at most)
-  (approximately) half as many rows than the majority level.
+  (approximately) half as many rows as the majority level.
 
 - all_neighbors:
 
@@ -50,7 +50,8 @@ minority class each point is first being classified into the boxes
 "danger" and "not". For each point the k nearest neighbors is
 calculated. If all the neighbors comes from a different class it is
 labeled noise and put in to the "not" box. If more then half of the
-neighbors comes from a different class it is labeled "danger.
+neighbors comes from a different class it is labeled "danger. Points
+will be generated around points labeled "danger".
 
 If `all_neighbors = FALSE` then points will be generated between nearest
 neighbors in its own class. If `all_neighbors = TRUE` then points will

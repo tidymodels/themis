@@ -38,7 +38,8 @@ A data.frame or tibble, depending on type of `df`.
 
 ## Details
 
-All columns used in this function must be numeric with no missing data.
+This function implements the NearMiss-1 algorithm. All columns used in
+this function must be numeric with no missing data.
 
 ## References
 

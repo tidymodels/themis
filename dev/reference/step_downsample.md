@@ -120,7 +120,7 @@ removed.
 
 When you
 [`tidy()`](https://recipes.tidymodels.org/reference/tidy.recipe.html)
-this step, a tibble is retruned with columns `terms` and `id`:
+this step, a tibble is returned with columns `terms` and `id`:
 
 - terms:
 

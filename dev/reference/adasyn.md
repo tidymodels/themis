@@ -30,7 +30,7 @@ adasyn(df, var, k = 5, over_ratio = 1)
   The default value (1) means that all other levels are sampled up to
   have the same frequency as the most occurring level. A value of 0.5
   would mean that the minority levels will have (at most)
-  (approximately) half as many rows than the majority level.
+  (approximately) half as many rows as the majority level.
 
 ## Value
 
@@ -42,9 +42,10 @@ All columns used in this function must be numeric with no missing data.
 
 ## References
 
-Chawla, N. V., Bowyer, K. W., Hall, L. O., and Kegelmeyer, W. P. (2002).
-Smote: Synthetic minority over-sampling technique. Journal of Artificial
-Intelligence Research, 16:321-357.
+He, H., Bai, Y., Garcia, E. and Li, S. 2008. ADASYN: Adaptive synthetic
+sampling approach for imbalanced learning. Proceedings of IJCNN 2008.
+(IEEE World Congress on Computational Intelligence). IEEE International
+Joint Conference. pp.1322-1328.
 
 ## See also
 
