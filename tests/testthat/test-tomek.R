@@ -130,6 +130,37 @@ test_that("factor levels are not affected by alphabet ordering or class sizes", 
   }
 })
 
+test_that("distance_with allows non-numeric columns to be present", {
+  df_mixed <- data.frame(
+    x = c(rnorm(50, 0, 1), rnorm(20, 0.5, 1)),
+    y = c(rnorm(50, 0, 1), rnorm(20, 0.5, 1)),
+    name = c(rep("alice", 50), rep("bob", 20)),
+    class = factor(c(rep("majority", 50), rep("minority", 20)))
+  )
+
+  expect_no_error(
+    recipe(class ~ ., data = df_mixed) |>
+      step_tomek(class, distance_with = c(x, y)) |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+})
+
+test_that("distance_with errors on non-numeric column", {
+  df_mixed <- data.frame(
+    x = c(1:5, 1:2),
+    name = c(rep("a", 5), rep("b", 2)),
+    class = factor(c(rep("majority", 5), rep("minority", 2)))
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    recipe(class ~ ., data = df_mixed) |>
+      step_tomek(class, distance_with = c(x, name)) |>
+      prep()
+  )
+})
+
 test_that("id variables are ignored", {
   rec_id <- recipe(class ~ ., data = circle_example) |>
     update_role(id, new_role = "id") |>
