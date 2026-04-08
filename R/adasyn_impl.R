@@ -75,7 +75,10 @@ adasyn_impl <- function(df, var, k = 5, over_ratio = 1, call = caller_env()) {
 
     if (nrow(minority) <= k) {
       cli::cli_abort(
-        "Not enough observations of {.val {min_names[i]}} to perform ADASYN.",
+        c(
+          "The minority class {.val {min_names[i]}} does not have enough observations to perform ADASYN.",
+          i = "{nrow(minority)} observation{?s} {?was/were} found, but {k + 1} {?is/are} needed."
+        ),
         call = call
       )
     }

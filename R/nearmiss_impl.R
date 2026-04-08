@@ -45,7 +45,14 @@ nearmiss <- function(df, var, k = 5, under_ratio = 1) {
   nearmiss_impl(df, var, ignore_vars = character(), k, under_ratio)
 }
 
-nearmiss_impl <- function(df, var, ignore_vars, k = 5, under_ratio = 1) {
+nearmiss_impl <- function(
+  df,
+  var,
+  ignore_vars,
+  k = 5,
+  under_ratio = 1,
+  call = caller_env()
+) {
   classes <- downsample_count(df, var, under_ratio)
 
   out_dfs <- list()
@@ -58,8 +65,11 @@ nearmiss_impl <- function(df, var, ignore_vars, k = 5, under_ratio = 1) {
 
     if (nrow(not_class) <= k) {
       cli::cli_abort(
-        "Not enough observations in the other classes to compute {k} nearest \\
-        neighbors for {.val {names(classes)[i]}}."
+        c(
+          "Not enough observations in the other classes to compute {k} nearest neighbors for {.val {names(classes)[i]}}.",
+          i = "{nrow(not_class)} observation{?s} {?was/were} found, but {k + 1} {?is/are} needed."
+        ),
+        call = call
       )
     }
 

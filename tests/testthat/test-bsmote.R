@@ -1,3 +1,21 @@
+test_that("errors if there isn't enough data", {
+  skip_if_not_installed("modeldata")
+
+  data("credit_data", package = "modeldata")
+  credit_data0 <- credit_data
+
+  credit_data0$Status <- as.character(credit_data0$Status)
+  credit_data0$Status[1] <- "dummy"
+  credit_data0$Status <- as.factor(credit_data0$Status)
+
+  expect_snapshot(
+    error = TRUE,
+    recipe(Status ~ Age, data = credit_data0) |>
+      step_bsmote(Status) |>
+      prep()
+  )
+})
+
 test_that("all minority classes are upsampled", {
   skip_if_not_installed("modeldata")
 

@@ -1,3 +1,13 @@
+# errors if there isn't enough data
+
+    Code
+      prep(step_nearmiss(recipe(class ~ x + y, data = tiny_minority), class))
+    Condition
+      Error in `step_nearmiss()`:
+      Caused by error in `bake()`:
+      ! Not enough observations in the other classes to compute 5 nearest neighbors for "majority".
+      i 1 observation was found, but 6 are needed.
+
 # bad data
 
     Code

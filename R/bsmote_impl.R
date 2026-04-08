@@ -70,7 +70,14 @@ bsmote <- function(df, var, k = 5, over_ratio = 1, all_neighbors = FALSE) {
   bsmote_impl(df, var, k, over_ratio, all_neighbors)
 }
 
-bsmote_impl <- function(df, var, k = 5, over_ratio = 1, all_neighbors = FALSE) {
+bsmote_impl <- function(
+  df,
+  var,
+  k = 5,
+  over_ratio = 1,
+  all_neighbors = FALSE,
+  call = caller_env()
+) {
   majority_count <- max(table(df[[var]]))
   ratio_target <- majority_count * over_ratio
   which_upsample <- which(table(df[[var]]) < ratio_target)
@@ -89,8 +96,11 @@ bsmote_impl <- function(df, var, k = 5, over_ratio = 1, all_neighbors = FALSE) {
 
     if (sum(danger_ids) <= k) {
       cli::cli_abort(
-        "Not enough danger observations of {.val {min_names[i]}} to perform
-        BSMOTE."
+        c(
+          "The minority class {.val {min_names[i]}} does not have enough danger observations to perform BSMOTE.",
+          i = "{sum(danger_ids)} danger observation{?s} {?was/were} found, but {k + 1} {?is/are} needed."
+        ),
+        call = call
       )
     }
 

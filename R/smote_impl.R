@@ -68,7 +68,10 @@ smote_impl <- function(df, var, k, over_ratio, call = caller_env()) {
 
     if (nrow(minority) <= k) {
       cli::cli_abort(
-        "Not enough observations of {.val {min_names[i]}} to perform SMOTE.",
+        c(
+          "The minority class {.val {min_names[i]}} does not have enough observations to perform SMOTE.",
+          i = "{nrow(minority)} observation{?s} {?was/were} found, but {k + 1} {?is/are} needed."
+        ),
         call = call
       )
     }

@@ -4,8 +4,9 @@
       prep(step_smotenc(recipe(Status ~ Age, data = credit_data0), Status))
     Condition
       Error in `step_smotenc()`:
-      Caused by error in `smotenc_impl()`:
-      ! Not enough observations of `dummy` to perform SMOTE.
+      Caused by error in `bake()`:
+      ! The minority class "dummy" does not have enough observations to perform SMOTENC.
+      i 1 observation was found, but 6 are needed.
 
 # bad data
 

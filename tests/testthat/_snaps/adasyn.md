@@ -5,7 +5,8 @@
     Condition
       Error in `step_adasyn()`:
       Caused by error in `bake()`:
-      ! Not enough observations of "dummy" to perform ADASYN.
+      ! The minority class "dummy" does not have enough observations to perform ADASYN.
+      i 1 observation was found, but 6 are needed.
 
 # bad data
 
