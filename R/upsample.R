@@ -10,8 +10,8 @@
 #'  for more details. The selection should result in _single
 #'  factor variable_. For the `tidy` method, these are not
 #'  currently used.
-#' @param role Not used by this step since no new variables are
-#'  created.
+#' @param role For new variables created by this step, what analysis role
+#'  should they be assigned? Only used when `indicator_column` is not `NULL`.
 #' @param column A character string of the variable name that will
 #'  be populated (eventually) by the `...` selectors.
 #' @param over_ratio A numeric value for the ratio of the
@@ -23,6 +23,10 @@
 #' @param ratio Deprecated argument; same as `over_ratio`.
 #' @param target An integer that will be used to subsample. This
 #'  should not be set by the user and will be populated by `prep`.
+#' @param indicator_column A single string or `NULL` (the default). If a
+#'  string is given, a logical column with that name is added to the output,
+#'  marking rows added by the step (`TRUE`) vs rows from the original data
+#'  (`FALSE`).
 #' @param seed An integer that will be used as the seed when upsampling.
 #' @return An updated version of `recipe` with the new step
 #'  added to the sequence of existing steps (if any). For the
@@ -122,6 +126,7 @@ step_upsample <-
     trained = FALSE,
     column = NULL,
     target = NA,
+    indicator_column = NULL,
     skip = TRUE,
     seed = sample.int(10^5, 1),
     id = rand_id("upsample")
@@ -135,6 +140,7 @@ step_upsample <-
     }
 
     check_number_whole(seed)
+    check_string(indicator_column, allow_null = TRUE, allow_empty = FALSE)
 
     add_step(
       recipe,
@@ -146,6 +152,7 @@ step_upsample <-
         trained = trained,
         column = column,
         target = target,
+        indicator_column = indicator_column,
         skip = skip,
         seed = seed,
         id = id,
@@ -163,6 +170,7 @@ step_upsample_new <-
     trained,
     column,
     target,
+    indicator_column,
     skip,
     seed,
     id,
@@ -177,6 +185,7 @@ step_upsample_new <-
       trained = trained,
       column = column,
       target = target,
+      indicator_column = indicator_column,
       skip = skip,
       id = id,
       seed = seed,
@@ -207,6 +216,13 @@ prep.step_upsample <- function(x, training, info = NULL, ...) {
     majority <- max(obs_freq)
   }
 
+  recipes::check_name(
+    tibble(x = logical(0)),
+    training,
+    x,
+    newname = x$indicator_column
+  )
+
   step_upsample_new(
     terms = x$terms,
     ratio = x$ratio,
@@ -215,6 +231,7 @@ prep.step_upsample <- function(x, training, info = NULL, ...) {
     trained = TRUE,
     column = col_name,
     target = floor(majority * x$over_ratio),
+    indicator_column = x$indicator_column,
     skip = x$skip,
     id = x$id,
     seed = x$seed,
@@ -235,6 +252,21 @@ supsamp <- function(x, wts, num) {
     out <- x[sample(seq_len(n), max(num, n), replace = TRUE, prob = wts), ]
   }
   out
+}
+
+supsamp_with_indicator <- function(x, wts, num) {
+  n <- nrow(x)
+  if (n == 0) {
+    return(list(data = x, is_new = logical(0)))
+  }
+  if (n >= num) {
+    return(list(data = x, is_new = rep(FALSE, n)))
+  }
+  extra_idx <- sample(seq_len(n), num - n, replace = TRUE, prob = wts)
+  list(
+    data = rbind(x, x[extra_idx, ]),
+    is_new = c(rep(FALSE, n), rep(TRUE, num - n))
+  )
 }
 
 #' @export
@@ -268,24 +300,50 @@ bake.step_upsample <- function(object, new_data, ...) {
   split_wts <- split(wts, new_data[[col_names]])
 
   # Upsample with seed for reproducibility
-  with_seed(
-    seed = object$seed,
-    code = {
-      new_data <- purrr::map2(
-        split_data,
-        split_wts,
-        supsamp,
-        num = object$target
-      ) |>
-        purrr::list_rbind()
-      if (!is.null(missing)) {
-        new_data <- bind_rows(
-          new_data,
-          supsamp(missing, wts = rep(1, nrow(missing)), num = object$target)
+  if (!is.null(object$indicator_column)) {
+    with_seed(
+      seed = object$seed,
+      code = {
+        result_list <- purrr::map2(
+          split_data,
+          split_wts,
+          supsamp_with_indicator,
+          num = object$target
         )
+        new_data <- purrr::map(result_list, "data") |> purrr::list_rbind()
+        is_new <- purrr::map(result_list, "is_new") |> purrr::list_c()
+        if (!is.null(missing)) {
+          missing_result <- supsamp_with_indicator(
+            missing,
+            wts = rep(1, nrow(missing)),
+            num = object$target
+          )
+          new_data <- bind_rows(new_data, missing_result$data)
+          is_new <- c(is_new, missing_result$is_new)
+        }
       }
-    }
-  )
+    )
+    new_data[[object$indicator_column]] <- is_new
+  } else {
+    with_seed(
+      seed = object$seed,
+      code = {
+        new_data <- purrr::map2(
+          split_data,
+          split_wts,
+          supsamp,
+          num = object$target
+        ) |>
+          purrr::list_rbind()
+        if (!is.null(missing)) {
+          new_data <- bind_rows(
+            new_data,
+            supsamp(missing, wts = rep(1, nrow(missing)), num = object$target)
+          )
+        }
+      }
+    )
+  }
 
   new_data
 }

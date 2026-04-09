@@ -11,8 +11,6 @@
 #'  for more details. The selection should result in _single
 #'  factor variable_. For the `tidy` method, these are not
 #'  currently used.
-#' @param role Not used by this step since no new variables are
-#'  created.
 #' @param column A character string of the variable name that will
 #'  be populated (eventually) by the `...` selectors.
 #' @param minority_prop A numeric value between 0 and 1 for the proportion of
@@ -26,6 +24,10 @@
 #' @param majority_smoothness A numeric. Shrink factor to be multiplied by the
 #'  smoothing parameters to estimate the conditional kernel density of the
 #'  majority class. Defaults to 1.
+#' @param indicator_column A single string or `NULL` (the default). If a
+#'  string is given, a logical column with that name is added to the output.
+#'  Because ROSE generates a fully synthetic dataset, all rows are marked
+#'  `TRUE`.
 #' @param seed An integer that will be used as the seed when
 #' rose-ing.
 #' @return An updated version of `recipe` with the new step
@@ -134,6 +136,7 @@ step_rose <-
     minority_prop = 0.5,
     minority_smoothness = 1,
     majority_smoothness = 1,
+    indicator_column = NULL,
     skip = TRUE,
     seed = sample.int(10^5, 1),
     id = rand_id("rose")
@@ -142,6 +145,7 @@ step_rose <-
     check_number_decimal(minority_smoothness, min = 0)
     check_number_decimal(majority_smoothness, min = 0)
     check_number_whole(seed)
+    check_string(indicator_column, allow_null = TRUE, allow_empty = FALSE)
 
     add_step(
       recipe,
@@ -155,6 +159,7 @@ step_rose <-
         minority_smoothness = minority_smoothness,
         majority_smoothness = majority_smoothness,
         predictors = NULL,
+        indicator_column = indicator_column,
         skip = skip,
         seed = seed,
         id = id
@@ -173,6 +178,7 @@ step_rose_new <-
     minority_smoothness,
     majority_smoothness,
     predictors,
+    indicator_column,
     skip,
     seed,
     id
@@ -188,6 +194,7 @@ step_rose_new <-
       minority_smoothness = minority_smoothness,
       majority_smoothness = majority_smoothness,
       predictors = predictors,
+      indicator_column = indicator_column,
       skip = skip,
       seed = seed,
       id = id
@@ -204,6 +211,13 @@ prep.step_rose <- function(x, training, info = NULL, ...) {
   check_column_factor(training, col_name)
   check_2_levels_only(training, col_name)
 
+  recipes::check_name(
+    tibble(x = logical(0)),
+    training,
+    x,
+    newname = x$indicator_column
+  )
+
   predictors <- setdiff(recipes::recipes_names_predictors(info), col_name)
   check_na(select(training, all_of(col_name)))
 
@@ -217,6 +231,7 @@ prep.step_rose <- function(x, training, info = NULL, ...) {
     minority_smoothness = x$minority_smoothness,
     majority_smoothness = x$majority_smoothness,
     predictors = predictors,
+    indicator_column = x$indicator_column,
     skip = x$skip,
     seed = x$seed,
     id = x$id
@@ -263,6 +278,10 @@ bake.step_rose <- function(object, new_data, ...) {
     }
   )
   new_data <- na_splice(new_data, synthetic_data, object)
+
+  if (!is.null(object$indicator_column)) {
+    new_data[[object$indicator_column]] <- rep(TRUE, nrow(new_data))
+  }
 
   new_data
 }

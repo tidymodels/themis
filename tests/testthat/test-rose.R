@@ -229,6 +229,38 @@ test_that("tunable", {
   )
 })
 
+test_that("indicator_column marks all rows TRUE (ROSE generates fully synthetic data)", {
+  rec <- recipe(class ~ x + y, data = circle_example) |>
+    step_rose(class, indicator_column = ".new_row") |>
+    prep()
+
+  res <- bake(rec, new_data = NULL)
+
+  expect_true(".new_row" %in% names(res))
+  expect_type(res$.new_row, "logical")
+  expect_true(all(res$.new_row))
+})
+
+test_that("indicator_column bad args", {
+  expect_snapshot(
+    error = TRUE,
+    recipe(class ~ x + y, data = circle_example) |>
+      step_rose(class, indicator_column = 1)
+  )
+  expect_snapshot(
+    error = TRUE,
+    recipe(class ~ x + y, data = circle_example) |>
+      step_rose(class, indicator_column = "") |>
+      prep()
+  )
+  expect_snapshot(
+    error = TRUE,
+    recipe(class ~ x + y, data = circle_example) |>
+      step_rose(class, indicator_column = "x") |>
+      prep()
+  )
+})
+
 test_that("bad args", {
   expect_snapshot(
     error = TRUE,
