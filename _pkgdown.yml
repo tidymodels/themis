@@ -17,6 +17,12 @@ template:
 development:
   mode: auto
 
+articles:
+- title: Getting started
+  navbar: ~
+  contents:
+  - articles/ratio
+
 reference:
 - title: Over-sampling
   desc: >
