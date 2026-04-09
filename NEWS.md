@@ -2,6 +2,8 @@
 
 * All upsampling steps gain an `indicator_column` argument. When set, a logical column is added to the baked data marking rows added by the step (`TRUE`) vs rows from the original data (`FALSE`). For `step_rose()`, all rows are `TRUE` since ROSE generates a fully synthetic dataset (#58).
 
+* `step_rose()` and `rose()` now have improved documentation for `minority_prop`, clarifying that it controls the proportion of synthetic observations from the minority class, and how it differs from `over_ratio` (#144).
+
 * Added standalone `rose()` function as a thin wrapper around `ROSE::ROSE()`, making it consistent with the other algorithms in the package that expose a direct implementation alongside their recipe step (#195).
 
 * `step_nearmiss()` and `step_tomek()` gain a `distance_with` argument to control which variables are used for distance calculations. This allows the steps to be used when non-numeric predictor variables are present in the data (#166).
