@@ -46,8 +46,11 @@ frequency as the most occurring level. A value of 0.5 would mean
 that the minority levels will have (at most) (approximately)
 half as many rows as the majority level.}
 
-\item{minority_prop}{A numeric. Determines the of over-sampling of the
-minority class. Defaults to 0.5.}
+\item{minority_prop}{A numeric value between 0 and 1 for the proportion of
+synthetic observations from the minority class. Defaults to 0.5, which
+generates an equal split of minority and majority synthetic observations.
+This parameter controls the class balance \emph{within} the synthetic data,
+while \code{over_ratio} controls the \emph{total size} of the synthetic data.}
 
 \item{minority_smoothness}{A numeric. Shrink factor to be multiplied by the
 smoothing parameters to estimate the conditional kernel density of the
