@@ -54,6 +54,7 @@ on their distance to other points in the same class.</p>
 <span>  neighbors <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  skip <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample.int</a></span><span class="op">(</span><span class="fl">10</span><span class="op">^</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  distance_with <span class="op">=</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/rand_id.html" class="external-link">rand_id</a></span><span class="op">(</span><span class="st">"nearmiss"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -117,6 +118,13 @@ may affect the computations for subsequent operations.</p></dd>
 applied.</p></dd>
 
 
+<dt id="arg-distance-with">distance_with<a class="anchor" aria-label="anchor" href="#arg-distance-with"></a></dt>
+<dd><p>A call to a selector function to choose
+which variables are used for distance calculations. Defaults to
+<code><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">recipes::all_predictors()</a></code>. The variable selected by <code>...</code> is
+always excluded from the distance calculations.</p></dd>
+
+
 <dt id="arg-id">id<a class="anchor" aria-label="anchor" href="#arg-id"></a></dt>
 <dd><p>A character string that is unique to this step to identify it.</p></dd>
 
@@ -135,7 +143,8 @@ the majority class which have the smallest mean distance to the k nearest
 points in the minority class.</p>
 <p>All columns in the data are sampled and returned by <code><a href="https://recipes.tidymodels.org/reference/juice.html" class="external-link">recipes::juice()</a></code>
 and <code><a href="https://recipes.tidymodels.org/reference/bake.html" class="external-link">recipes::bake()</a></code>.</p>
-<p>All columns used in this step must be numeric with no missing data.</p>
+<p>All columns selected by <code>distance_with</code> must be numeric with no missing
+data.</p>
 <p>When used in modeling, users should strongly consider using the
 option <code>skip = TRUE</code> so that the extra sampling is <em>not</em>
 conducted outside of the training set.</p>

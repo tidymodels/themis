@@ -49,6 +49,7 @@ majority class instances of tomek links.</p>
 <span>  column <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  skip <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample.int</a></span><span class="op">(</span><span class="fl">10</span><span class="op">^</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">)</span>,</span>
+<span>  distance_with <span class="op">=</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span>,</span>
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/rand_id.html" class="external-link">rand_id</a></span><span class="op">(</span><span class="st">"tomek"</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -98,6 +99,13 @@ may affect the computations for subsequent operations.</p></dd>
 applied.</p></dd>
 
 
+<dt id="arg-distance-with">distance_with<a class="anchor" aria-label="anchor" href="#arg-distance-with"></a></dt>
+<dd><p>A call to a selector function to choose
+which variables are used for distance calculations. Defaults to
+<code><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">recipes::all_predictors()</a></code>. The variable selected by <code>...</code> is
+always excluded from the distance calculations.</p></dd>
+
+
 <dt id="arg-id">id<a class="anchor" aria-label="anchor" href="#arg-id"></a></dt>
 <dd><p>A character string that is unique to this step to identify it.</p></dd>
 
@@ -111,7 +119,7 @@ the variable used to sample.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>All variables other than the class variable must be numeric with no missing
+    <p>All variables selected by <code>distance_with</code> must be numeric with no missing
 data.</p>
 <p>A tomek link is defined as a pair of points from different classes and are
 each others nearest neighbors.</p>

@@ -14,6 +14,7 @@ step_tomek(
   column = NULL,
   skip = TRUE,
   seed = sample.int(10^5, 1),
+  distance_with = all_predictors(),
   id = rand_id("tomek")
 )
 ```
@@ -62,6 +63,14 @@ step_tomek(
 
   An integer that will be used as the seed when applied.
 
+- distance_with:
+
+  A call to a selector function to choose which variables are used for
+  distance calculations. Defaults to
+  [`recipes::all_predictors()`](https://recipes.tidymodels.org/reference/has_role.html).
+  The variable selected by `...` is always excluded from the distance
+  calculations.
+
 - id:
 
   A character string that is unique to this step to identify it.
@@ -74,7 +83,7 @@ of existing steps (if any). For the `tidy` method, a tibble with columns
 
 ## Details
 
-All variables other than the class variable must be numeric with no
+All variables selected by `distance_with` must be numeric with no
 missing data.
 
 A tomek link is defined as a pair of points from different classes and

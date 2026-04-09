@@ -17,6 +17,7 @@ step_nearmiss(
   neighbors = 5,
   skip = TRUE,
   seed = sample.int(10^5, 1),
+  distance_with = all_predictors(),
   id = rand_id("nearmiss")
 )
 ```
@@ -78,6 +79,14 @@ step_nearmiss(
 
   An integer that will be used as the seed when applied.
 
+- distance_with:
+
+  A call to a selector function to choose which variables are used for
+  distance calculations. Defaults to
+  [`recipes::all_predictors()`](https://recipes.tidymodels.org/reference/has_role.html).
+  The variable selected by `...` is always excluded from the distance
+  calculations.
+
 - id:
 
   A character string that is unique to this step to identify it.
@@ -99,7 +108,8 @@ All columns in the data are sampled and returned by
 and
 [`recipes::bake()`](https://recipes.tidymodels.org/reference/bake.html).
 
-All columns used in this step must be numeric with no missing data.
+All columns selected by `distance_with` must be numeric with no missing
+data.
 
 When used in modeling, users should strongly consider using the option
 `skip = TRUE` so that the extra sampling is *not* conducted outside of

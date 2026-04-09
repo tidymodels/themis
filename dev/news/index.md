@@ -10,6 +10,14 @@
   direct implementation alongside their recipe step
   ([\#195](https://github.com/tidymodels/themis/issues/195)).
 
+- [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md)
+  and
+  [`step_tomek()`](https://themis.tidymodels.org/dev/reference/step_tomek.md)
+  gain a `distance_with` argument to control which variables are used
+  for distance calculations. This allows the steps to be used when
+  non-numeric predictor variables are present in the data
+  ([\#166](https://github.com/tidymodels/themis/issues/166)).
+
 - [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
   [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md),
   [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),
