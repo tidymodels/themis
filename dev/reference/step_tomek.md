@@ -14,7 +14,7 @@ step_tomek(
   column = NULL,
   skip = TRUE,
   seed = sample.int(10^5, 1),
-  distance_with = all_predictors(),
+  distance_with = recipes::all_predictors(),
   id = rand_id("tomek")
 )
 ```

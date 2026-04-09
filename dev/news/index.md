@@ -2,6 +2,13 @@
 
 ## themis (development version)
 
+- [`step_rose()`](https://themis.tidymodels.org/dev/reference/step_rose.md)
+  and [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md)
+  now have improved documentation for `minority_prop`, clarifying that
+  it controls the proportion of synthetic observations from the minority
+  class, and how it differs from `over_ratio`
+  ([\#144](https://github.com/tidymodels/themis/issues/144)).
+
 - Added standalone
   [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md)
   function as a thin wrapper around

@@ -81,8 +81,11 @@ half as many rows as the majority level.</p></dd>
 
 
 <dt id="arg-minority-prop">minority_prop<a class="anchor" aria-label="anchor" href="#arg-minority-prop"></a></dt>
-<dd><p>A numeric. Determines the of over-sampling of the
-minority class. Defaults to 0.5.</p></dd>
+<dd><p>A numeric value between 0 and 1 for the proportion of
+synthetic observations from the minority class. Defaults to 0.5, which
+generates an equal split of minority and majority synthetic observations.
+This parameter controls the class balance <em>within</em> the synthetic data,
+while <code>over_ratio</code> controls the <em>total size</em> of the synthetic data.</p></dd>
 
 
 <dt id="arg-minority-smoothness">minority_smoothness<a class="anchor" aria-label="anchor" href="#arg-minority-smoothness"></a></dt>

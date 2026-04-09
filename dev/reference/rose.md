@@ -39,8 +39,11 @@ rose(
 
 - minority_prop:
 
-  A numeric. Determines the of over-sampling of the minority class.
-  Defaults to 0.5.
+  A numeric value between 0 and 1 for the proportion of synthetic
+  observations from the minority class. Defaults to 0.5, which generates
+  an equal split of minority and majority synthetic observations. This
+  parameter controls the class balance *within* the synthetic data,
+  while `over_ratio` controls the *total size* of the synthetic data.
 
 - minority_smoothness:
 
