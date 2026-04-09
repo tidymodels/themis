@@ -38,7 +38,7 @@ Imports:
     tibble,
     vctrs,
     withr
-Suggests: 
+Suggests:
     covr,
     dials (>= 1.2.0),
     ggplot2,
