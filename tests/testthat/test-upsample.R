@@ -240,6 +240,39 @@ test_that("tunable", {
   )
 })
 
+test_that("indicator_column adds logical column marking upsampled rows", {
+  rec <- recipe(class ~ x + y, data = circle_example) |>
+    step_upsample(class, indicator_column = ".new_row") |>
+    prep()
+
+  res <- bake(rec, new_data = NULL)
+
+  expect_true(".new_row" %in% names(res))
+  expect_type(res$.new_row, "logical")
+  expect_equal(sum(!res$.new_row), nrow(circle_example))
+  expect_gt(sum(res$.new_row), 0L)
+})
+
+test_that("indicator_column bad args", {
+  expect_snapshot(
+    error = TRUE,
+    recipe(class ~ x + y, data = circle_example) |>
+      step_upsample(class, indicator_column = 1)
+  )
+  expect_snapshot(
+    error = TRUE,
+    recipe(class ~ x + y, data = circle_example) |>
+      step_upsample(class, indicator_column = "") |>
+      prep()
+  )
+  expect_snapshot(
+    error = TRUE,
+    recipe(class ~ x + y, data = circle_example) |>
+      step_upsample(class, indicator_column = "x") |>
+      prep()
+  )
+})
+
 test_that("bad args", {
   expect_snapshot(
     error = TRUE,

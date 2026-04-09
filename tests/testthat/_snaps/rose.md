@@ -34,6 +34,35 @@
       Caused by error in `prep()`:
       ! The `x` must only have 2 levels.
 
+# indicator_column bad args
+
+    Code
+      step_rose(recipe(class ~ x + y, data = circle_example), class,
+      indicator_column = 1)
+    Condition
+      Error in `step_rose()`:
+      ! `indicator_column` must be a single string or `NULL`, not the number 1.
+
+---
+
+    Code
+      prep(step_rose(recipe(class ~ x + y, data = circle_example), class,
+      indicator_column = ""))
+    Condition
+      Error in `step_rose()`:
+      ! `indicator_column` must be a single string or `NULL`, not the empty string "".
+
+---
+
+    Code
+      prep(step_rose(recipe(class ~ x + y, data = circle_example), class,
+      indicator_column = "x"))
+    Condition
+      Error in `step_rose()`:
+      Caused by error in `prep()`:
+      ! Name collision occurred. The following variable names already exist:
+      * `x`
+
 # bad args
 
     Code
