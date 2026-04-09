@@ -16,6 +16,7 @@ step_bsmote(
   over_ratio = 1,
   neighbors = 5,
   all_neighbors = FALSE,
+  indicator_column = NULL,
   skip = TRUE,
   seed = sample.int(10^5, 1),
   id = rand_id("bsmote")
@@ -67,6 +68,12 @@ step_bsmote(
 - all_neighbors:
 
   Type of two borderline-SMOTE method. Defaults to FALSE. See details.
+
+- indicator_column:
+
+  A single string or `NULL` (the default). If a string is given, a
+  logical column with that name is added to the output, marking rows
+  added by the step (`TRUE`) vs rows from the original data (`FALSE`).
 
 - skip:
 

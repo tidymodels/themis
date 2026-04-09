@@ -18,6 +18,7 @@ step_rose(
   minority_prop = 0.5,
   minority_smoothness = 1,
   majority_smoothness = 1,
+  indicator_column = NULL,
   skip = TRUE,
   seed = sample.int(10^5, 1),
   id = rand_id("rose")
@@ -80,6 +81,12 @@ step_rose(
   A numeric. Shrink factor to be multiplied by the smoothing parameters
   to estimate the conditional kernel density of the majority class.
   Defaults to 1.
+
+- indicator_column:
+
+  A single string or `NULL` (the default). If a string is given, a
+  logical column with that name is added to the output. Because ROSE
+  generates a fully synthetic dataset, all rows are marked `TRUE`.
 
 - skip:
 

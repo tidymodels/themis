@@ -16,6 +16,7 @@ step_upsample(
   trained = FALSE,
   column = NULL,
   target = NA,
+  indicator_column = NULL,
   skip = TRUE,
   seed = sample.int(10^5, 1),
   id = rand_id("upsample")
@@ -51,7 +52,8 @@ step_upsample(
 
 - role:
 
-  Not used by this step since no new variables are created.
+  For new variables created by this step, what analysis role should they
+  be assigned? Only used when `indicator_column` is not `NULL`.
 
 - trained:
 
@@ -67,6 +69,12 @@ step_upsample(
 
   An integer that will be used to subsample. This should not be set by
   the user and will be populated by `prep`.
+
+- indicator_column:
+
+  A single string or `NULL` (the default). If a string is given, a
+  logical column with that name is added to the output, marking rows
+  added by the step (`TRUE`) vs rows from the original data (`FALSE`).
 
 - skip:
 

@@ -14,6 +14,7 @@ step_adasyn(
   column = NULL,
   over_ratio = 1,
   neighbors = 5,
+  indicator_column = NULL,
   skip = TRUE,
   seed = sample.int(10^5, 1),
   id = rand_id("adasyn")
@@ -61,6 +62,12 @@ step_adasyn(
 
   An integer. Number of nearest neighbor that are used to generate the
   new examples of the minority class.
+
+- indicator_column:
+
+  A single string or `NULL` (the default). If a string is given, a
+  logical column with that name is added to the output, marking rows
+  added by the step (`TRUE`) vs rows from the original data (`FALSE`).
 
 - skip:
 

@@ -57,6 +57,7 @@ majority class example. Using <code><a href="https://rdrr.io/pkg/ROSE/man/ROSE.h
 <span>  minority_prop <span class="op">=</span> <span class="fl">0.5</span>,</span>
 <span>  minority_smoothness <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  majority_smoothness <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  indicator_column <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  skip <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample.int</a></span><span class="op">(</span><span class="fl">10</span><span class="op">^</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  id <span class="op">=</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/rand_id.html" class="external-link">rand_id</a></span><span class="op">(</span><span class="st">"rose"</span><span class="op">)</span></span>
@@ -81,8 +82,7 @@ currently used.</p></dd>
 
 
 <dt id="arg-role">role<a class="anchor" aria-label="anchor" href="#arg-role"></a></dt>
-<dd><p>Not used by this step since no new variables are
-created.</p></dd>
+<dd><p>Not used by this step since no new variables are created.</p></dd>
 
 
 <dt id="arg-trained">trained<a class="anchor" aria-label="anchor" href="#arg-trained"></a></dt>
@@ -122,6 +122,13 @@ minority class. Defaults to 1.</p></dd>
 <dd><p>A numeric. Shrink factor to be multiplied by the
 smoothing parameters to estimate the conditional kernel density of the
 majority class. Defaults to 1.</p></dd>
+
+
+<dt id="arg-indicator-column">indicator_column<a class="anchor" aria-label="anchor" href="#arg-indicator-column"></a></dt>
+<dd><p>A single string or <code>NULL</code> (the default). If a
+string is given, a logical column with that name is added to the output.
+Because ROSE generates a fully synthetic dataset, all rows are marked
+<code>TRUE</code>.</p></dd>
 
 
 <dt id="arg-skip">skip<a class="anchor" aria-label="anchor" href="#arg-skip"></a></dt>

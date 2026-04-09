@@ -2,6 +2,13 @@
 
 ## themis (development version)
 
+- All upsampling steps gain an `indicator_column` argument. When set, a
+  logical column is added to the baked data marking rows added by the
+  step (`TRUE`) vs rows from the original data (`FALSE`). For
+  [`step_rose()`](https://themis.tidymodels.org/dev/reference/step_rose.md),
+  all rows are `TRUE` since ROSE generates a fully synthetic dataset
+  ([\#58](https://github.com/tidymodels/themis/issues/58)).
+
 - [`step_rose()`](https://themis.tidymodels.org/dev/reference/step_rose.md)
   and [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md)
   now have improved documentation for `minority_prop`, clarifying that
