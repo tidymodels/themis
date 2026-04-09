@@ -20,7 +20,8 @@ minority-to-majority frequencies. The default value (1) means
 that all other levels are sampled up to have the same
 frequency as the most occurring level. A value of 0.5 would mean
 that the minority levels will have (at most) (approximately)
-half as many rows as the majority level.}
+half as many rows as the majority level. See
+\code{vignette("ratio", package = "themis")} for more details.}
 
 \item{all_neighbors}{Type of two borderline-SMOTE method. Defaults to FALSE.
 See details.}

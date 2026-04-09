@@ -25,7 +25,8 @@ minority-to-majority frequencies. The default value (1) means
 that all other levels are sampled up to have the same
 frequency as the most occurring level. A value of 0.5 would mean
 that the minority levels will have (at most) (approximately)
-half as many rows as the majority level.}
+half as many rows as the majority level. See
+\code{vignette("ratio", package = "themis")} for more details.}
 
 \item{minority_prop}{A numeric value between 0 and 1 for the proportion of
 synthetic observations from the minority class. Defaults to 0.5, which

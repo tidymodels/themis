@@ -19,7 +19,8 @@
 #'  that all other levels are sampled up to have the same
 #'  frequency as the most occurring level. A value of 0.5 would mean
 #'  that the minority levels will have (at most) (approximately)
-#'  half as many rows as the majority level.
+#'  half as many rows as the majority level. See
+#'  `vignette("ratio", package = "themis")` for more details.
 #' @param ratio Deprecated argument; same as `over_ratio`.
 #' @param target An integer that will be used to subsample. This
 #'  should not be set by the user and will be populated by `prep`.
