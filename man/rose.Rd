@@ -71,7 +71,7 @@ rose(circle_example[, c("x", "y", "class")], var = "class", over_ratio = 0.8)
 }
 \references{
 Lunardon, N., Menardi, G., and Torelli, N. (2014). ROSE: a
-Package for Binary Imbalanced Learning. R Jorunal, 6:82–92.
+Package for Binary Imbalanced Learning. R Journal, 6:82–92.
 
 Menardi, G. and Torelli, N. (2014). Training and assessing
 classification rules with imbalanced data. Data Mining and Knowledge

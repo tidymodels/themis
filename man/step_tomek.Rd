@@ -63,11 +63,17 @@ the variable used to sample.
 majority class instances of tomek links.
 }
 \details{
+A Tomek link is a pair of points from different classes that are each
+other's nearest neighbors. Such pairs sit on or very near the decision
+boundary and are considered noise or borderline cases. \code{step_tomek()}
+identifies all Tomek links and removes the majority class instance from
+each pair, cleaning the class boundary without discarding
+non-boundary majority examples. Because only boundary points are removed,
+this step typically discards far fewer observations than other
+under-sampling methods.
+
 All variables selected by \code{distance_with} must be numeric with no missing
 data.
-
-A tomek link is defined as a pair of points from different classes and are
-each others nearest neighbors.
 
 All columns in the data are sampled and returned by \code{\link[recipes:juice]{recipes::juice()}}
 and \code{\link[recipes:bake]{recipes::bake()}}.

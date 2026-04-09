@@ -72,7 +72,7 @@ the variable used to sample.
 }
 \description{
 \code{step_smote()} creates a \emph{specification} of a recipe step that generate new
-examples of the  minority class using nearest neighbors of these cases.
+examples of the minority class using nearest neighbors of these cases.
 }
 \details{
 The parameter \code{neighbors} controls the way the new examples are created.

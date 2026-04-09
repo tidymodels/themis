@@ -74,7 +74,7 @@ the variable used to sample.
 \description{
 \code{step_nearmiss()} creates a \emph{specification} of a recipe step that removes
 majority class instances by undersampling points in the majority class based
-on their distance to other points in the same class.
+on their distance to points in the minority class.
 }
 \details{
 This step implements the NearMiss-1 algorithm. It retains the points from
