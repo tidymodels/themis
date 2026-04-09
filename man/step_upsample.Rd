@@ -14,6 +14,7 @@ step_upsample(
   trained = FALSE,
   column = NULL,
   target = NA,
+  indicator_column = NULL,
   skip = TRUE,
   seed = sample.int(10^5, 1),
   id = rand_id("upsample")
@@ -38,8 +39,8 @@ half as many rows as the majority level.}
 
 \item{ratio}{Deprecated argument; same as \code{over_ratio}.}
 
-\item{role}{Not used by this step since no new variables are
-created.}
+\item{role}{For new variables created by this step, what analysis role
+should they be assigned? Only used when \code{indicator_column} is not \code{NULL}.}
 
 \item{trained}{A logical to indicate if the quantities for preprocessing have
 been estimated.}
@@ -49,6 +50,11 @@ be populated (eventually) by the \code{...} selectors.}
 
 \item{target}{An integer that will be used to subsample. This
 should not be set by the user and will be populated by \code{prep}.}
+
+\item{indicator_column}{A single string or \code{NULL} (the default). If a
+string is given, a logical column with that name is added to the output,
+marking rows added by the step (\code{TRUE}) vs rows from the original data
+(\code{FALSE}).}
 
 \item{skip}{A logical. Should the step be skipped when the recipe is baked by
 \code{\link[recipes:bake]{bake()}}? While all operations are baked when \code{\link[recipes:prep]{prep()}} is run, some

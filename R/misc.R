@@ -73,6 +73,16 @@ check_var <- function(var, df, call = caller_env()) {
   }
 }
 
+add_indicator_column <- function(new_data, n_orig, indicator_column) {
+  if (!is.null(indicator_column)) {
+    new_data[[indicator_column]] <- c(
+      rep(FALSE, n_orig),
+      rep(TRUE, nrow(new_data) - n_orig)
+    )
+  }
+  new_data
+}
+
 na_splice <- function(new_data, synthetic_data, object) {
   non_predictor <- setdiff(names(new_data), c(object$column, object$predictors))
 

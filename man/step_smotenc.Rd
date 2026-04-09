@@ -13,6 +13,7 @@ step_smotenc(
   column = NULL,
   over_ratio = 1,
   neighbors = 5,
+  indicator_column = NULL,
   skip = TRUE,
   seed = sample.int(10^5, 1),
   id = rand_id("smotenc")
@@ -28,8 +29,7 @@ for more details. The selection should result in \emph{single
 factor variable}. For the \code{tidy} method, these are not
 currently used.}
 
-\item{role}{Not used by this step since no new variables are
-created.}
+\item{role}{Not used by this step since no new variables are created.}
 
 \item{trained}{A logical to indicate if the quantities for preprocessing have
 been estimated.}
@@ -46,6 +46,11 @@ half as many rows as the majority level.}
 
 \item{neighbors}{An integer. Number of nearest neighbor that are used
 to generate the new examples of the minority class.}
+
+\item{indicator_column}{A single string or \code{NULL} (the default). If a
+string is given, a logical column with that name is added to the output,
+marking rows added by the step (\code{TRUE}) vs rows from the original data
+(\code{FALSE}).}
 
 \item{skip}{A logical. Should the step be skipped when the recipe is baked by
 \code{\link[recipes:bake]{bake()}}? While all operations are baked when \code{\link[recipes:prep]{prep()}} is run, some

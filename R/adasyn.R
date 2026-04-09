@@ -10,8 +10,6 @@
 #'  for more details. The selection should result in _single
 #'  factor variable_. For the `tidy` method, these are not
 #'  currently used.
-#' @param role Not used by this step since no new variables are
-#'  created.
 #' @param column A character string of the variable name that will
 #'  be populated (eventually) by the `...` selectors.
 #' @param neighbors An integer. Number of nearest neighbor that are used
@@ -121,11 +119,13 @@ step_adasyn <-
     column = NULL,
     over_ratio = 1,
     neighbors = 5,
+    indicator_column = NULL,
     skip = TRUE,
     seed = sample.int(10^5, 1),
     id = rand_id("adasyn")
   ) {
     check_number_whole(seed)
+    check_string(indicator_column, allow_null = TRUE, allow_empty = FALSE)
 
     add_step(
       recipe,
@@ -137,6 +137,7 @@ step_adasyn <-
         over_ratio = over_ratio,
         neighbors = neighbors,
         predictors = NULL,
+        indicator_column = indicator_column,
         skip = skip,
         seed = seed,
         id = id
@@ -153,6 +154,7 @@ step_adasyn_new <-
     over_ratio,
     neighbors,
     predictors,
+    indicator_column,
     skip,
     seed,
     id
@@ -166,6 +168,7 @@ step_adasyn_new <-
       over_ratio = over_ratio,
       neighbors = neighbors,
       predictors = predictors,
+      indicator_column = indicator_column,
       skip = skip,
       seed = seed,
       id = id
@@ -182,6 +185,13 @@ prep.step_adasyn <- function(x, training, info = NULL, ...) {
   check_1_selected(col_name)
   check_column_factor(training, col_name)
 
+  recipes::check_name(
+    tibble(x = logical(0)),
+    training,
+    x,
+    newname = x$indicator_column
+  )
+
   predictors <- setdiff(recipes::recipes_names_predictors(info), col_name)
 
   check_type(training[, predictors], types = c("double", "integer"))
@@ -195,6 +205,7 @@ prep.step_adasyn <- function(x, training, info = NULL, ...) {
     over_ratio = x$over_ratio,
     neighbors = x$neighbors,
     predictors = predictors,
+    indicator_column = x$indicator_column,
     skip = x$skip,
     seed = x$seed,
     id = x$id
@@ -215,6 +226,7 @@ bake.step_adasyn <- function(object, new_data, ...) {
     return(new_data)
   }
 
+  n_orig <- nrow(new_data)
   new_data <- as.data.frame(new_data)
 
   predictor_data <- new_data[, col_names]
@@ -233,6 +245,8 @@ bake.step_adasyn <- function(object, new_data, ...) {
     }
   )
   new_data <- na_splice(new_data, synthetic_data, object)
+
+  new_data <- add_indicator_column(new_data, n_orig, object$indicator_column)
 
   new_data
 }

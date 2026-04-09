@@ -15,6 +15,7 @@ step_rose(
   minority_prop = 0.5,
   minority_smoothness = 1,
   majority_smoothness = 1,
+  indicator_column = NULL,
   skip = TRUE,
   seed = sample.int(10^5, 1),
   id = rand_id("rose")
@@ -30,8 +31,7 @@ for more details. The selection should result in \emph{single
 factor variable}. For the \code{tidy} method, these are not
 currently used.}
 
-\item{role}{Not used by this step since no new variables are
-created.}
+\item{role}{Not used by this step since no new variables are created.}
 
 \item{trained}{A logical to indicate if the quantities for preprocessing have
 been estimated.}
@@ -56,6 +56,11 @@ minority class. Defaults to 1.}
 \item{majority_smoothness}{A numeric. Shrink factor to be multiplied by the
 smoothing parameters to estimate the conditional kernel density of the
 majority class. Defaults to 1.}
+
+\item{indicator_column}{A single string or \code{NULL} (the default). If a
+string is given, a logical column with that name is added to the output.
+Because ROSE generates a fully synthetic dataset, all rows are marked
+\code{TRUE}.}
 
 \item{skip}{A logical. Should the step be skipped when the recipe is baked by
 \code{\link[recipes:bake]{bake()}}? While all operations are baked when \code{\link[recipes:prep]{prep()}} is run, some
