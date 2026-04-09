@@ -16,6 +16,10 @@
 #'  created.
 #' @param column A character string of the variable name that will
 #'  be populated (eventually) by the `...` selectors.
+#' @param distance_with A call to a selector function to choose
+#'  which variables are used for distance calculations. Defaults to
+#'  [recipes::all_predictors()]. The variable selected by `...` is
+#'  always excluded from the distance calculations.
 #' @param seed An integer that will be used as the seed when
 #' applied.
 #' @return An updated version of `recipe` with the new step
@@ -31,7 +35,8 @@
 #' All columns in the data are sampled and returned by [recipes::juice()]
 #'  and [recipes::bake()].
 #'
-#' All columns used in this step must be numeric with no missing data.
+#' All columns selected by `distance_with` must be numeric with no missing
+#' data.
 #'
 #' When used in modeling, users should strongly consider using the
 #'  option `skip = TRUE` so that the extra sampling is _not_
@@ -130,6 +135,7 @@ step_nearmiss <-
     neighbors = 5,
     skip = TRUE,
     seed = sample.int(10^5, 1),
+    distance_with = all_predictors(),
     id = rand_id("nearmiss")
   ) {
     check_number_whole(seed)
@@ -146,6 +152,7 @@ step_nearmiss <-
         predictors = NULL,
         skip = skip,
         seed = seed,
+        distance_with = enquos(distance_with),
         id = id
       )
     )
@@ -162,6 +169,7 @@ step_nearmiss_new <-
     predictors,
     skip,
     seed,
+    distance_with,
     id
   ) {
     step(
@@ -175,6 +183,7 @@ step_nearmiss_new <-
       predictors = predictors,
       skip = skip,
       seed = seed,
+      distance_with = distance_with,
       id = id
     )
   }
@@ -189,7 +198,14 @@ prep.step_nearmiss <- function(x, training, info = NULL, ...) {
   check_1_selected(col_name)
   check_column_factor(training, col_name)
 
-  predictors <- setdiff(recipes::recipes_names_predictors(info), col_name)
+  distance_cols <- recipes_argument_select(
+    x$distance_with,
+    training,
+    info,
+    single = FALSE,
+    arg_name = "distance_with"
+  )
+  predictors <- setdiff(distance_cols, col_name)
 
   check_type(training[, predictors], types = c("double", "integer"))
   check_na(select(training, all_of(c(col_name, predictors))))
@@ -204,6 +220,7 @@ prep.step_nearmiss <- function(x, training, info = NULL, ...) {
     predictors = predictors,
     skip = x$skip,
     seed = x$seed,
+    distance_with = x$distance_with,
     id = x$id
   )
 }

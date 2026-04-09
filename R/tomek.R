@@ -4,6 +4,7 @@
 #' majority class instances of tomek links.
 #'
 #' @inheritParams recipes::step_center
+#' @inheritParams step_nearmiss
 #' @param ... One or more selector functions to choose which
 #'  variable is used to sample the data. See [recipes::selections]
 #'  for more details. The selection should result in _single
@@ -21,7 +22,7 @@
 #'  the variable used to sample.
 #'
 #' @details
-#' All variables other than the class variable must be numeric with no missing
+#' All variables selected by `distance_with` must be numeric with no missing
 #' data.
 #'
 #' A tomek link is defined as a pair of points from different classes and are
@@ -109,6 +110,7 @@ step_tomek <-
     column = NULL,
     skip = TRUE,
     seed = sample.int(10^5, 1),
+    distance_with = all_predictors(),
     id = rand_id("tomek")
   ) {
     check_number_whole(seed)
@@ -123,13 +125,24 @@ step_tomek <-
         predictors = NULL,
         skip = skip,
         seed = seed,
+        distance_with = enquos(distance_with),
         id = id
       )
     )
   }
 
 step_tomek_new <-
-  function(terms, role, trained, column, predictors, skip, seed, id) {
+  function(
+    terms,
+    role,
+    trained,
+    column,
+    predictors,
+    skip,
+    seed,
+    distance_with,
+    id
+  ) {
     step(
       subclass = "tomek",
       terms = terms,
@@ -139,6 +152,7 @@ step_tomek_new <-
       predictors = predictors,
       skip = skip,
       seed = seed,
+      distance_with = distance_with,
       id = id
     )
   }
@@ -150,7 +164,14 @@ prep.step_tomek <- function(x, training, info = NULL, ...) {
   check_1_selected(col_name)
   check_column_factor(training, col_name)
 
-  predictors <- setdiff(recipes::recipes_names_predictors(info), col_name)
+  distance_cols <- recipes_argument_select(
+    x$distance_with,
+    training,
+    info,
+    single = FALSE,
+    arg_name = "distance_with"
+  )
+  predictors <- setdiff(distance_cols, col_name)
 
   check_type(training[, predictors], types = c("double", "integer"))
   check_na(select(training, all_of(c(col_name, predictors))))
@@ -163,6 +184,7 @@ prep.step_tomek <- function(x, training, info = NULL, ...) {
     predictors = predictors,
     skip = x$skip,
     seed = x$seed,
+    distance_with = x$distance_with,
     id = x$id
   )
 }

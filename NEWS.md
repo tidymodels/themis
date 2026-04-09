@@ -2,6 +2,8 @@
 
 * Added standalone `rose()` function as a thin wrapper around `ROSE::ROSE()`, making it consistent with the other algorithms in the package that expose a direct implementation alongside their recipe step (#195).
 
+* `step_nearmiss()` and `step_tomek()` gain a `distance_with` argument to control which variables are used for distance calculations. This allows the steps to be used when non-numeric predictor variables are present in the data (#166).
+
 * `step_adasyn()`, `step_bsmote()`, `step_nearmiss()`, `step_smote()`, and `step_smotenc()` now document the minimum number of observations needed to perform the algorithm (#104).
 
 * All `step_*()` functions now correctly handle 0 and 1 row inputs in `bake()` (#160).

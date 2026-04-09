@@ -35,6 +35,17 @@
       Caused by error in `prep()`:
       ! Cannot have any missing values. NAs found in Status.
 
+# distance_with errors on non-numeric column
+
+    Code
+      prep(step_tomek(recipe(class ~ ., data = df_mixed), class, distance_with = c(x,
+        name)))
+    Condition
+      Error in `step_tomek()`:
+      Caused by error in `prep()`:
+      x All columns selected for the step should be double or integer.
+      * 1 factor variable found: `name`
+
 # bad args
 
     Code

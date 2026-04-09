@@ -13,6 +13,7 @@ step_tomek(
   column = NULL,
   skip = TRUE,
   seed = sample.int(10^5, 1),
+  distance_with = all_predictors(),
   id = rand_id("tomek")
 )
 }
@@ -44,6 +45,11 @@ may affect the computations for subsequent operations.}
 \item{seed}{An integer that will be used as the seed when
 applied.}
 
+\item{distance_with}{A call to a selector function to choose
+which variables are used for distance calculations. Defaults to
+\code{\link[recipes:has_role]{recipes::all_predictors()}}. The variable selected by \code{...} is
+always excluded from the distance calculations.}
+
 \item{id}{A character string that is unique to this step to identify it.}
 }
 \value{
@@ -57,7 +63,7 @@ the variable used to sample.
 majority class instances of tomek links.
 }
 \details{
-All variables other than the class variable must be numeric with no missing
+All variables selected by \code{distance_with} must be numeric with no missing
 data.
 
 A tomek link is defined as a pair of points from different classes and are

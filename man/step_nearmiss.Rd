@@ -15,6 +15,7 @@ step_nearmiss(
   neighbors = 5,
   skip = TRUE,
   seed = sample.int(10^5, 1),
+  distance_with = all_predictors(),
   id = rand_id("nearmiss")
 )
 }
@@ -56,6 +57,11 @@ may affect the computations for subsequent operations.}
 \item{seed}{An integer that will be used as the seed when
 applied.}
 
+\item{distance_with}{A call to a selector function to choose
+which variables are used for distance calculations. Defaults to
+\code{\link[recipes:has_role]{recipes::all_predictors()}}. The variable selected by \code{...} is
+always excluded from the distance calculations.}
+
 \item{id}{A character string that is unique to this step to identify it.}
 }
 \value{
@@ -77,7 +83,8 @@ points in the minority class.
 All columns in the data are sampled and returned by \code{\link[recipes:juice]{recipes::juice()}}
 and \code{\link[recipes:bake]{recipes::bake()}}.
 
-All columns used in this step must be numeric with no missing data.
+All columns selected by \code{distance_with} must be numeric with no missing
+data.
 
 When used in modeling, users should strongly consider using the
 option \code{skip = TRUE} so that the extra sampling is \emph{not}

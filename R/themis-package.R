@@ -19,6 +19,7 @@
 #' @importFrom recipes prep
 #' @importFrom recipes print_step
 #' @importFrom recipes rand_id
+#' @importFrom recipes recipes_argument_select
 #' @importFrom recipes recipes_eval_select
 #' @importFrom recipes sel2char
 #' @importFrom recipes step
