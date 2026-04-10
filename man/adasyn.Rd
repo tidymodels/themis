@@ -4,7 +4,7 @@
 \alias{adasyn}
 \title{Adaptive Synthetic Algorithm}
 \usage{
-adasyn(df, var, k = 5, over_ratio = 1)
+adasyn(df, var, k = 5, over_ratio = 1, distance = "euclidean")
 }
 \arguments{
 \item{df}{data.frame or tibble. Must have 1 factor variable and remaining
@@ -22,6 +22,10 @@ frequency as the most occurring level. A value of 0.5 would mean
 that the minority levels will have (at most) (approximately)
 half as many rows as the majority level. See
 \code{vignette("ratio", package = "themis")} for more details.}
+
+\item{distance}{A character string specifying the distance metric used for
+nearest neighbor calculations. One of \code{"euclidean"} (default), \code{"cosine"},
+\code{"mahalanobis"}, \code{"manhattan"}, or \code{"chebyshev"}.}
 }
 \value{
 A data.frame or tibble, depending on type of \code{df}.
@@ -40,6 +44,8 @@ res <- adasyn(circle_numeric, var = "class")
 res <- adasyn(circle_numeric, var = "class", k = 10)
 
 res <- adasyn(circle_numeric, var = "class", over_ratio = 0.8)
+
+res <- adasyn(circle_numeric, var = "class", distance = "manhattan")
 }
 \references{
 He, H., Bai, Y., Garcia, E. and Li, S. 2008. ADASYN: Adaptive

@@ -14,6 +14,7 @@ step_bsmote(
   over_ratio = 1,
   neighbors = 5,
   all_neighbors = FALSE,
+  distance = "euclidean",
   indicator_column = NULL,
   skip = TRUE,
   seed = sample.int(10^5, 1),
@@ -51,6 +52,10 @@ to generate the new examples of the minority class.}
 
 \item{all_neighbors}{Type of two borderline-SMOTE method. Defaults to FALSE.
 See details.}
+
+\item{distance}{A character string specifying the distance metric used for
+nearest neighbor calculations. One of \code{"euclidean"} (default), \code{"cosine"},
+\code{"mahalanobis"}, \code{"manhattan"}, or \code{"chebyshev"}.}
 
 \item{indicator_column}{A single string or \code{NULL} (the default). If a
 string is given, a logical column with that name is added to the output,
