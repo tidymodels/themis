@@ -1,3 +1,11 @@
+# bad distance arg errors for adasyn
+
+    Code
+      adasyn(circle_example_num, var = "class", distance = "minkowski")
+    Condition
+      Error in `adasyn()`:
+      ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", or "chebyshev", not "minkowski".
+
 # adasyn() interfaces correctly
 
     Code

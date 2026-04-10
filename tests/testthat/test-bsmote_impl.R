@@ -1,5 +1,51 @@
 circle_example_num <- circle_example[, c("x", "y", "class")]
 
+test_that("distance argument accepted by bsmote()", {
+  expect_no_error(
+    bsmote(
+      circle_example_num,
+      var = "class",
+      distance = "euclidean"
+    )
+  )
+  expect_no_error(
+    bsmote(
+      circle_example_num,
+      var = "class",
+      distance = "cosine"
+    )
+  )
+  expect_no_error(
+    bsmote(
+      circle_example_num,
+      var = "class",
+      distance = "mahalanobis"
+    )
+  )
+  expect_no_error(
+    bsmote(
+      circle_example_num,
+      var = "class",
+      distance = "manhattan"
+    )
+  )
+  expect_no_error(
+    bsmote(
+      circle_example_num,
+      var = "class",
+      distance = "chebyshev"
+    )
+  )
+})
+
+
+test_that("bad distance arg errors for bsmote", {
+  expect_snapshot(
+    error = TRUE,
+    bsmote(circle_example_num, var = "class", distance = "minkowski")
+  )
+})
+
 test_that("danger() classifies minority points correctly by neighbor composition", {
   df <- data.frame(
     x = c(0, 0.1, 2.0, 2.1, 2.2, 10),
