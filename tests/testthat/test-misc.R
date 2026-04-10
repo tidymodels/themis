@@ -1,3 +1,9 @@
+test_that("nn_indices() errors informatively for singular mahalanobis covariance", {
+  # More predictors than observations -> singular covariance matrix
+  data <- matrix(rnorm(20), nrow = 4, ncol = 5)
+  expect_snapshot(error = TRUE, nn_indices(data, 1, "mahalanobis"))
+})
+
 test_that("nn_indices() uses the correct distance metric", {
   # Each case is constructed so the nearest neighbor differs by metric.
   # Row 1 is the query point; we check which of rows 2/3 it picks as neighbor.

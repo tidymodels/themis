@@ -135,6 +135,15 @@ nn_indices <- function(data, k, distance) {
     return(RANN::nn2(data_norm, k = k + 1, searchtype = "priority")$nn.idx)
   }
   if (distance == "mahalanobis") {
+    if (nrow(data) <= ncol(data)) {
+      cli::cli_abort(
+        c(
+          "{.code distance = \"mahalanobis\"} requires more observations than predictors in each class.",
+          i = "{nrow(data)} observation{?s} {?was/were} found but {ncol(data)} predictor{?s} {?is/are} present.",
+          i = "Try a different {.arg distance} metric or reduce the number of predictors."
+        )
+      )
+    }
     S <- cov(data)
     data_w <- data %*% solve(t(chol(S)))
     return(RANN::nn2(data_w, k = k + 1, searchtype = "priority")$nn.idx)
