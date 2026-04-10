@@ -144,7 +144,7 @@ nn_indices <- function(data, k, distance) {
         )
       )
     }
-    S <- cov(data)
+    S <- stats::cov(data)
     data_w <- data %*% solve(t(chol(S)))
     return(RANN::nn2(data_w, k = k + 1, searchtype = "priority")$nn.idx)
   }
