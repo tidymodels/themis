@@ -116,6 +116,38 @@ Mode <- function(x) {
   ux[which.max(tabulate(match(x, ux)))]
 }
 
+check_distance_arg <- function(distance, call = caller_env()) {
+  rlang::arg_match(
+    distance,
+    c("euclidean", "cosine", "mahalanobis", "manhattan", "chebyshev"),
+    error_call = call
+  )
+}
+
+nn_indices <- function(data, k, distance) {
+  if (distance == "euclidean") {
+    return(RANN::nn2(data, k = k + 1, searchtype = "priority")$nn.idx)
+  }
+  if (distance == "cosine") {
+    norms <- sqrt(rowSums(data^2))
+    norms[norms == 0] <- 1
+    data_norm <- data / norms
+    return(RANN::nn2(data_norm, k = k + 1, searchtype = "priority")$nn.idx)
+  }
+  if (distance == "mahalanobis") {
+    S <- cov(data)
+    data_w <- data %*% solve(t(chol(S)))
+    return(RANN::nn2(data_w, k = k + 1, searchtype = "priority")$nn.idx)
+  }
+  dist_method <- switch(
+    distance,
+    "manhattan" = "manhattan",
+    "chebyshev" = "maximum"
+  )
+  dist_mat <- as.matrix(stats::dist(data, method = dist_method))
+  t(apply(dist_mat, 1, \(x) order(x)[seq_len(k + 1)]))
+}
+
 weighted_table <- function(x, wts = NULL) {
   if (is.null(wts)) {
     wts <- rep(1, length(x))
