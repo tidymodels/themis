@@ -16,7 +16,11 @@
 #'  to generate the new examples of the minority class.
 #' @param distance A character string specifying the distance metric used for
 #'  nearest neighbor calculations. One of `"euclidean"` (default), `"cosine"`,
-#'  `"mahalanobis"`, `"manhattan"`, or `"chebyshev"`.
+#'  `"mahalanobis"`, `"manhattan"`, or `"chebyshev"`. `"euclidean"`,
+#'  `"cosine"`, and `"mahalanobis"` use approximate nearest neighbors via
+#'  the RANN package and scale well to large datasets. `"manhattan"` and
+#'  `"chebyshev"` compute an exact O(n^2) distance matrix and may be slow for
+#'  large datasets.
 #' @param seed An integer that will be used as the seed when
 #' smote-ing.
 #' @return An updated version of `recipe` with the new step

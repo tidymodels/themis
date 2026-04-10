@@ -25,7 +25,11 @@ half as many rows as the majority level. See
 
 \item{distance}{A character string specifying the distance metric used for
 nearest neighbor calculations. One of \code{"euclidean"} (default), \code{"cosine"},
-\code{"mahalanobis"}, \code{"manhattan"}, or \code{"chebyshev"}.}
+\code{"mahalanobis"}, \code{"manhattan"}, or \code{"chebyshev"}. \code{"euclidean"},
+\code{"cosine"}, and \code{"mahalanobis"} use approximate nearest neighbors via
+the RANN package and scale well to large datasets. \code{"manhattan"} and
+\code{"chebyshev"} compute an exact O(n^2) distance matrix and may be slow for
+large datasets.}
 }
 \value{
 A data.frame or tibble, depending on type of \code{df}.
