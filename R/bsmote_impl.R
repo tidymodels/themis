@@ -55,19 +55,29 @@
 #' res <- bsmote(circle_numeric, var = "class", over_ratio = 0.8)
 #'
 #' res <- bsmote(circle_numeric, var = "class", all_neighbors = TRUE)
-bsmote <- function(df, var, k = 5, over_ratio = 1, all_neighbors = FALSE) {
+#'
+#' res <- bsmote(circle_numeric, var = "class", distance = "manhattan")
+bsmote <- function(
+  df,
+  var,
+  k = 5,
+  over_ratio = 1,
+  all_neighbors = FALSE,
+  distance = "euclidean"
+) {
   check_data_frame(df)
   check_var(var, df)
   check_number_whole(k, min = 1)
   check_number_decimal(over_ratio)
   check_bool(all_neighbors)
+  check_distance_arg(distance)
 
   predictors <- setdiff(colnames(df), var)
 
   check_numeric(df[, predictors])
   check_na(select(df, -all_of(var)))
 
-  bsmote_impl(df, var, k, over_ratio, all_neighbors)
+  bsmote_impl(df, var, k, over_ratio, all_neighbors, distance)
 }
 
 bsmote_impl <- function(
@@ -76,6 +86,7 @@ bsmote_impl <- function(
   k = 5,
   over_ratio = 1,
   all_neighbors = FALSE,
+  distance = "euclidean",
   call = caller_env()
 ) {
   majority_count <- max(table(df[[var]]))
@@ -86,7 +97,7 @@ bsmote_impl <- function(
   out_dfs <- list()
   for (i in seq_along(min_names)) {
     data_mat <- as.matrix(df[names(df) != var])
-    ids <- RANN::nn2(data_mat, k = k + 1, searchtype = "priority")$nn.idx
+    ids <- nn_indices(data_mat, k, distance)
     min_class_in <- df[[var]] == min_names[i]
 
     danger_ids <- danger(
@@ -106,7 +117,7 @@ bsmote_impl <- function(
 
     if (all_neighbors) {
       tmp_df <- as.data.frame(
-        smote_data(data_mat, k, samples_needed[i], which(danger_ids))
+        smote_data(data_mat, k, samples_needed[i], which(danger_ids), distance)
       )
     } else {
       tmp_df <- as.data.frame(
@@ -114,7 +125,8 @@ bsmote_impl <- function(
           data = data_mat[min_class_in, , drop = FALSE],
           k = k,
           n_samples = samples_needed[i],
-          smote_ids = which(danger_ids[min_class_in])
+          smote_ids = which(danger_ids[min_class_in]),
+          distance = distance
         )
       )
     }
