@@ -56,7 +56,8 @@ step_adasyn(
   The default value (1) means that all other levels are sampled up to
   have the same frequency as the most occurring level. A value of 0.5
   would mean that the minority levels will have (at most)
-  (approximately) half as many rows as the majority level.
+  (approximately) half as many rows as the majority level. See
+  `vignette("ratio", package = "themis")` for more details.
 
 - neighbors:
 
@@ -95,6 +96,15 @@ of existing steps (if any). For the `tidy` method, a tibble with columns
 `terms` which is the variable used to sample.
 
 ## Details
+
+ADASYN is an extension of SMOTE that adaptively generates synthetic
+minority class examples based on the local distribution of each minority
+instance. Instead of generating the same number of synthetic examples
+for every minority instance, ADASYN generates more synthetic examples
+for instances that are harder to learn — specifically those surrounded
+by more majority class neighbors. This focuses synthetic data generation
+on the difficult boundary regions of the minority class, resulting in a
+more informative augmentation than standard SMOTE.
 
 All columns in the data are sampled and returned by
 [`recipes::juice()`](https://recipes.tidymodels.org/reference/juice.html)

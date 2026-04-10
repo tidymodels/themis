@@ -1,0 +1,225 @@
+# How over_ratio and under_ratio work
+
+``` r
+library(themis)
+library(recipes)
+library(dplyr)
+```
+
+## Introduction
+
+Many of the sampling steps in themis accept an `over_ratio` or
+`under_ratio` argument that controls how much sampling is performed.
+This article explains what these arguments do and how to set them.
+
+## Setup
+
+To illustrate, we’ll use a small data set with a known class imbalance.
+In this data set, class `"a"` has 100 observations, `"b"` has 65, and
+`"c"` has 20.
+
+``` r
+set.seed(1)
+imbalanced_data <- tibble(
+  x = rnorm(185),
+  class = factor(c(rep("a", 100), rep("b", 65), rep("c", 20)))
+)
+
+count(imbalanced_data, class)
+#> # A tibble: 3 × 2
+#>   class     n
+#>   <fct> <int>
+#> 1 a       100
+#> 2 b        65
+#> 3 c        20
+```
+
+## `over_ratio`
+
+The `over_ratio` argument is used by [over-sampling
+steps](https://themis.tidymodels.org/dev/reference/index.html#over-sampling).
+It controls the ratio of the minority-to-majority frequencies after
+sampling.
+
+The target number of observations for each class is calculated as:
+
+$$\text{target} = \lfloor\text{majority\_n} \times \text{over\_ratio}\rfloor$$
+
+where $\text{majority\_n}$ is the number of observations in the most
+common class.
+
+- **`over_ratio = 1` (default)**: All classes are upsampled to the
+  frequency of the majority class, resulting in a perfectly balanced
+  data set.
+
+- **`over_ratio < 1`**: Minority classes are upsampled to a fraction of
+  the majority class frequency, resulting in a partially balanced data
+  set.
+
+- **`over_ratio > 1`**: All classes, including the majority, are
+  upsampled to the same target, resulting in a balanced data set that is
+  larger than the original.
+
+- If a class already has at least as many observations as the target, it
+  is left unchanged.
+
+### Examples
+
+With the default `over_ratio = 1`, all classes are brought up to 100
+observations (the size of the majority class):
+
+``` r
+recipe(class ~ x, data = imbalanced_data) |>
+  step_upsample(class, over_ratio = 1) |>
+  prep() |>
+  bake(new_data = NULL) |>
+  count(class)
+#> # A tibble: 3 × 2
+#>   class     n
+#>   <fct> <int>
+#> 1 a       100
+#> 2 b       100
+#> 3 c       100
+```
+
+With `over_ratio = 0.5`, the target is `floor(100 * 0.5) = 50`. Only
+class `"c"` is upsampled to 50. Classes `"a"` and `"b"` already exceed
+the target and are left unchanged:
+
+``` r
+recipe(class ~ x, data = imbalanced_data) |>
+  step_upsample(class, over_ratio = 0.5) |>
+  prep() |>
+  bake(new_data = NULL) |>
+  count(class)
+#> # A tibble: 3 × 2
+#>   class     n
+#>   <fct> <int>
+#> 1 a       100
+#> 2 b        65
+#> 3 c        50
+```
+
+With `over_ratio = 0.3`, the target is `floor(100 * 0.3) = 30`. Class
+`"c"` is upsampled from 20 to 30. Classes `"a"` and `"b"` both exceed
+the target and are left unchanged:
+
+``` r
+recipe(class ~ x, data = imbalanced_data) |>
+  step_upsample(class, over_ratio = 0.3) |>
+  prep() |>
+  bake(new_data = NULL) |>
+  count(class)
+#> # A tibble: 3 × 2
+#>   class     n
+#>   <fct> <int>
+#> 1 a       100
+#> 2 b        65
+#> 3 c        30
+```
+
+## `under_ratio`
+
+The `under_ratio` argument is used by [under-sampling
+steps](https://themis.tidymodels.org/dev/reference/index.html#under-sampling).
+It controls the ratio of the majority-to-minority frequencies after
+sampling.
+
+The target number of observations for each class is calculated as:
+
+$$\text{target} = \lfloor\text{minority\_n} \times \text{under\_ratio}\rfloor$$
+
+where $\text{minority\_n}$ is the number of observations in the least
+common class.
+
+- **`under_ratio = 1` (default)**: All classes are downsampled to the
+  frequency of the minority class, resulting in a perfectly balanced
+  data set.
+
+- **`under_ratio > 1`**: Majority classes are downsampled to a multiple
+  of the minority class frequency, resulting in a partially balanced
+  data set.
+
+- **`under_ratio < 1`**: All classes, including the minority, are
+  downsampled to the same target, resulting in a balanced data set that
+  is smaller than the original.
+
+- If a class already has at most as many observations as the target, it
+  is left unchanged.
+
+### Examples
+
+With the default `under_ratio = 1`, all classes are brought down to 20
+observations (the size of the minority class):
+
+``` r
+recipe(class ~ x, data = imbalanced_data) |>
+  step_downsample(class, under_ratio = 1) |>
+  prep() |>
+  bake(new_data = NULL) |>
+  count(class)
+#> # A tibble: 3 × 2
+#>   class     n
+#>   <fct> <int>
+#> 1 a        20
+#> 2 b        20
+#> 3 c        20
+```
+
+With `under_ratio = 2`, the target is `floor(20 * 2) = 40`. Classes
+`"a"` and `"b"` are both downsampled to 40. Class `"c"` already has
+fewer than 40 observations and is left unchanged:
+
+``` r
+recipe(class ~ x, data = imbalanced_data) |>
+  step_downsample(class, under_ratio = 2) |>
+  prep() |>
+  bake(new_data = NULL) |>
+  count(class)
+#> # A tibble: 3 × 2
+#>   class     n
+#>   <fct> <int>
+#> 1 a        40
+#> 2 b        40
+#> 3 c        20
+```
+
+With `under_ratio = 3`, the target is `floor(20 * 3) = 60`. Classes
+`"a"` and `"b"` are both downsampled to 60. Class `"c"` already has
+fewer than 60 observations and is left unchanged:
+
+``` r
+recipe(class ~ x, data = imbalanced_data) |>
+  step_downsample(class, under_ratio = 3) |>
+  prep() |>
+  bake(new_data = NULL) |>
+  count(class)
+#> # A tibble: 3 × 2
+#>   class     n
+#>   <fct> <int>
+#> 1 a        60
+#> 2 b        60
+#> 3 c        20
+```
+
+## Choosing a ratio
+
+Choosing the right ratio depends on your data and the model you are
+using. The default value of 1 gives a perfectly balanced data set, which
+is the most common choice. However, there are cases where a partial
+balance is preferable:
+
+- **Preserving more majority class data**: A perfectly balanced data set
+  from under-sampling discards most of the majority class data. Using
+  `under_ratio > 1` retains more data at the cost of a less balanced
+  class distribution.
+
+- **Limiting over-sampling**: With a very large majority class,
+  upsampling to perfect balance can generate a very large amount of
+  synthetic data. Using `over_ratio < 1` limits the amount of synthetic
+  data generated.
+
+In practice, `over_ratio` and `under_ratio` are often treated as tunable
+hyperparameters and selected by cross-validation. See the
+[`dials`](https://dials.tidymodels.org/) package for the `over_ratio()`
+and `under_ratio()` parameter objects used in tuning.

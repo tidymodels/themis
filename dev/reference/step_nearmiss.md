@@ -2,7 +2,7 @@
 
 `step_nearmiss()` creates a *specification* of a recipe step that
 removes majority class instances by undersampling points in the majority
-class based on their distance to other points in the same class.
+class based on their distance to points in the minority class.
 
 ## Usage
 
@@ -57,7 +57,8 @@ step_nearmiss(
   The default value (1) means that all other levels are sampled down to
   have the same frequency as the least occurring level. A value of 2
   would mean that the majority levels will have (at most)
-  (approximately) twice as many rows than the minority level.
+  (approximately) twice as many rows than the minority level. See
+  `vignette("ratio", package = "themis")` for more details.
 
 - neighbors:
 

@@ -1,8 +1,8 @@
 # Apply ROSE Algorithm
 
 `step_rose()` creates a *specification* of a recipe step that generates
-sample of synthetic data by enlarging the features space of minority and
-majority class example. Using
+samples of synthetic data by enlarging the feature space of minority and
+majority class examples. Using
 [`ROSE::ROSE()`](https://rdrr.io/pkg/ROSE/man/ROSE.html).
 
 ## Usage
@@ -60,7 +60,8 @@ step_rose(
   The default value (1) means that all other levels are sampled up to
   have the same frequency as the most occurring level. A value of 0.5
   would mean that the minority levels will have (at most)
-  (approximately) half as many rows as the majority level.
+  (approximately) half as many rows as the majority level. See
+  `vignette("ratio", package = "themis")` for more details.
 
 - minority_prop:
 
@@ -118,12 +119,12 @@ of existing steps (if any). For the `tidy` method, a tibble with columns
 The factor variable used to balance around must only have 2 levels.
 
 The ROSE algorithm works by selecting an observation belonging to class
-k and generates new examples in its neighborhood is determined by some
-matrix H_k. Smaller values of these arguments have the effect of
-shrinking the entries of the corresponding smoothing matrix H_k,
-Shrinking would be a cautious choice if there is a concern that
-excessively large neighborhoods could lead to blur the boundaries
-between the regions of the feature space associated with each class.
+k and generating new examples in its neighborhood, which is determined
+by a smoothing matrix H_k. Smaller values of `minority_smoothness` and
+`majority_smoothness` shrink the entries of H_k, producing tighter
+neighborhoods. This is a cautious choice when there is a concern that
+excessively large neighborhoods could blur the boundaries between
+classes.
 
 All columns in the data are sampled and returned by
 [`recipes::juice()`](https://recipes.tidymodels.org/reference/juice.html)
@@ -161,7 +162,7 @@ The underlying operation does not allow for case weights.
 ## References
 
 Lunardon, N., Menardi, G., and Torelli, N. (2014). ROSE: a Package for
-Binary Imbalanced Learning. R Jorunal, 6:82–92.
+Binary Imbalanced Learning. R Journal, 6:82–92.
 
 Menardi, G. and Torelli, N. (2014). Training and assessing
 classification rules with imbalanced data. Data Mining and Knowledge

@@ -2,6 +2,9 @@
 
 ## themis (development version)
 
+- Added a new article explaining how `over_ratio` and `under_ratio` work
+  ([\#141](https://github.com/tidymodels/themis/issues/141)).
+
 - All upsampling steps gain an `indicator_column` argument. When set, a
   logical column is added to the baked data marking rows added by the
   step (`TRUE`) vs rows from the original data (`FALSE`). For

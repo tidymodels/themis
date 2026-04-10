@@ -253,3 +253,9 @@ available as their own functions.
 - [`circle_example`](https://themis.tidymodels.org/dev/reference/circle_example.md)
   : Synthetic Dataset With a Circle
 
+# Articles
+
+### Getting started
+
+- [How over_ratio and under_ratio
+  work](https://themis.tidymodels.org/dev/articles/ratio.md):

@@ -21,6 +21,10 @@ majority class instances of tomek links."><meta property="og:image" content="htt
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/ratio.html">How over_ratio and under_ratio work</a></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -122,10 +126,16 @@ the variable used to sample.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>All variables selected by <code>distance_with</code> must be numeric with no missing
+    <p>A Tomek link is a pair of points from different classes that are each
+other's nearest neighbors. Such pairs sit on or very near the decision
+boundary and are considered noise or borderline cases. <code>step_tomek()</code>
+identifies all Tomek links and removes the majority class instance from
+each pair, cleaning the class boundary without discarding
+non-boundary majority examples. Because only boundary points are removed,
+this step typically discards far fewer observations than other
+under-sampling methods.</p>
+<p>All variables selected by <code>distance_with</code> must be numeric with no missing
 data.</p>
-<p>A tomek link is defined as a pair of points from different classes and are
-each others nearest neighbors.</p>
 <p>All columns in the data are sampled and returned by <code><a href="https://recipes.tidymodels.org/reference/juice.html" class="external-link">recipes::juice()</a></code>
 and <code><a href="https://recipes.tidymodels.org/reference/bake.html" class="external-link">recipes::bake()</a></code>.</p>
 <p>When used in modeling, users should strongly consider using the

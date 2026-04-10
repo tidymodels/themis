@@ -19,6 +19,10 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/ratio.html">How over_ratio and under_ratio work</a></li>
+  </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -36,7 +40,8 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="development version" id="themis-development-version">themis (development version)<a class="anchor" aria-label="anchor" href="#themis-development-version"></a></h2>
-<ul><li><p>All upsampling steps gain an <code>indicator_column</code> argument. When set, a logical column is added to the baked data marking rows added by the step (<code>TRUE</code>) vs rows from the original data (<code>FALSE</code>). For <code><a href="../reference/step_rose.html">step_rose()</a></code>, all rows are <code>TRUE</code> since ROSE generates a fully synthetic dataset (<a href="https://github.com/tidymodels/themis/issues/58" class="external-link">#58</a>).</p></li>
+<ul><li><p>Added a new article explaining how <code>over_ratio</code> and <code>under_ratio</code> work (<a href="https://github.com/tidymodels/themis/issues/141" class="external-link">#141</a>).</p></li>
+<li><p>All upsampling steps gain an <code>indicator_column</code> argument. When set, a logical column is added to the baked data marking rows added by the step (<code>TRUE</code>) vs rows from the original data (<code>FALSE</code>). For <code><a href="../reference/step_rose.html">step_rose()</a></code>, all rows are <code>TRUE</code> since ROSE generates a fully synthetic dataset (<a href="https://github.com/tidymodels/themis/issues/58" class="external-link">#58</a>).</p></li>
 <li><p><code><a href="../reference/step_rose.html">step_rose()</a></code> and <code><a href="../reference/rose.html">rose()</a></code> now have improved documentation for <code>minority_prop</code>, clarifying that it controls the proportion of synthetic observations from the minority class, and how it differs from <code>over_ratio</code> (<a href="https://github.com/tidymodels/themis/issues/144" class="external-link">#144</a>).</p></li>
 <li><p>Added standalone <code><a href="../reference/rose.html">rose()</a></code> function as a thin wrapper around <code><a href="https://rdrr.io/pkg/ROSE/man/ROSE.html" class="external-link">ROSE::ROSE()</a></code>, making it consistent with the other algorithms in the package that expose a direct implementation alongside their recipe step (<a href="https://github.com/tidymodels/themis/issues/195" class="external-link">#195</a>).</p></li>
 <li><p><code><a href="../reference/step_nearmiss.html">step_nearmiss()</a></code> and <code><a href="../reference/step_tomek.html">step_tomek()</a></code> gain a <code>distance_with</code> argument to control which variables are used for distance calculations. This allows the steps to be used when non-numeric predictor variables are present in the data (<a href="https://github.com/tidymodels/themis/issues/166" class="external-link">#166</a>).</p></li>

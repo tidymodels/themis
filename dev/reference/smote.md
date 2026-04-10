@@ -31,7 +31,8 @@ smote(df, var, k = 5, over_ratio = 1)
   The default value (1) means that all other levels are sampled up to
   have the same frequency as the most occurring level. A value of 0.5
   would mean that the minority levels will have (at most)
-  (approximately) half as many rows as the majority level.
+  (approximately) half as many rows as the majority level. See
+  `vignette("ratio", package = "themis")` for more details.
 
 ## Value
 
