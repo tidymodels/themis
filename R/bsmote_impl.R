@@ -95,9 +95,9 @@ bsmote_impl <- function(
   samples_needed <- ratio_target - table(df[[var]])[which_upsample]
   min_names <- names(samples_needed)
   out_dfs <- list()
+  data_mat <- as.matrix(df[names(df) != var])
+  ids <- nn_indices(data_mat, k, distance)
   for (i in seq_along(min_names)) {
-    data_mat <- as.matrix(df[names(df) != var])
-    ids <- nn_indices(data_mat, k, distance)
     min_class_in <- df[[var]] == min_names[i]
 
     danger_ids <- danger(
