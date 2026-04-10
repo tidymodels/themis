@@ -2,7 +2,7 @@
 #'
 #' `step_nearmiss()` creates a *specification* of a recipe step that removes
 #' majority class instances by undersampling points in the majority class based
-#' on their distance to other points in the same class.
+#' on their distance to points in the minority class.
 #'
 #' @inheritParams recipes::step_center
 #' @inheritParams step_downsample

@@ -22,11 +22,17 @@
 #'  the variable used to sample.
 #'
 #' @details
+#' A Tomek link is a pair of points from different classes that are each
+#' other's nearest neighbors. Such pairs sit on or very near the decision
+#' boundary and are considered noise or borderline cases. `step_tomek()`
+#' identifies all Tomek links and removes the majority class instance from
+#' each pair, cleaning the class boundary without discarding
+#' non-boundary majority examples. Because only boundary points are removed,
+#' this step typically discards far fewer observations than other
+#' under-sampling methods.
+#'
 #' All variables selected by `distance_with` must be numeric with no missing
 #' data.
-#'
-#' A tomek link is defined as a pair of points from different classes and are
-#' each others nearest neighbors.
 #'
 #' All columns in the data are sampled and returned by [recipes::juice()]
 #'  and [recipes::bake()].
@@ -50,7 +56,7 @@
 #' @references Tomek. Two modifications of cnn. IEEE Trans. Syst. Man Cybern.,
 #'  6:769-772, 1976.
 #'
-#'@seealso [tomek()] for direct implementation
+#' @seealso [tomek()] for direct implementation
 #' @family Steps for under-sampling
 #'
 #' @export

@@ -42,7 +42,8 @@ minority-to-majority frequencies. The default value (1) means
 that all other levels are sampled up to have the same
 frequency as the most occurring level. A value of 0.5 would mean
 that the minority levels will have (at most) (approximately)
-half as many rows as the majority level.}
+half as many rows as the majority level. See
+\code{vignette("ratio", package = "themis")} for more details.}
 
 \item{neighbors}{An integer. Number of nearest neighbor that are used
 to generate the new examples of the minority class.}
@@ -71,7 +72,7 @@ the variable used to sample.
 }
 \description{
 \code{step_smote()} creates a \emph{specification} of a recipe step that generate new
-examples of the  minority class using nearest neighbors of these cases.
+examples of the minority class using nearest neighbors of these cases.
 }
 \details{
 The parameter \code{neighbors} controls the way the new examples are created.

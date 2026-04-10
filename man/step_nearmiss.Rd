@@ -43,7 +43,8 @@ majority-to-minority frequencies. The default value (1) means
 that all other levels are sampled down to have the same
 frequency as the least occurring level. A value of 2 would mean
 that the majority levels will have (at most) (approximately)
-twice as many rows than the minority level.}
+twice as many rows than the minority level. See
+\code{vignette("ratio", package = "themis")} for more details.}
 
 \item{neighbors}{An integer. Number of nearest neighbor that are used
 to generate the new examples of the minority class.}
@@ -73,7 +74,7 @@ the variable used to sample.
 \description{
 \code{step_nearmiss()} creates a \emph{specification} of a recipe step that removes
 majority class instances by undersampling points in the majority class based
-on their distance to other points in the same class.
+on their distance to points in the minority class.
 }
 \details{
 This step implements the NearMiss-1 algorithm. It retains the points from

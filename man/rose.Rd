@@ -25,7 +25,8 @@ minority-to-majority frequencies. The default value (1) means
 that all other levels are sampled up to have the same
 frequency as the most occurring level. A value of 0.5 would mean
 that the minority levels will have (at most) (approximately)
-half as many rows as the majority level.}
+half as many rows as the majority level. See
+\code{vignette("ratio", package = "themis")} for more details.}
 
 \item{minority_prop}{A numeric value between 0 and 1 for the proportion of
 synthetic observations from the minority class. Defaults to 0.5, which
@@ -70,7 +71,7 @@ rose(circle_example[, c("x", "y", "class")], var = "class", over_ratio = 0.8)
 }
 \references{
 Lunardon, N., Menardi, G., and Torelli, N. (2014). ROSE: a
-Package for Binary Imbalanced Learning. R Jorunal, 6:82–92.
+Package for Binary Imbalanced Learning. R Journal, 6:82–92.
 
 Menardi, G. and Torelli, N. (2014). Training and assessing
 classification rules with imbalanced data. Data Mining and Knowledge

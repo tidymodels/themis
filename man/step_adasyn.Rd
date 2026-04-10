@@ -42,7 +42,8 @@ minority-to-majority frequencies. The default value (1) means
 that all other levels are sampled up to have the same
 frequency as the most occurring level. A value of 0.5 would mean
 that the minority levels will have (at most) (approximately)
-half as many rows as the majority level.}
+half as many rows as the majority level. See
+\code{vignette("ratio", package = "themis")} for more details.}
 
 \item{neighbors}{An integer. Number of nearest neighbor that are used
 to generate the new examples of the minority class.}
@@ -74,6 +75,15 @@ the variable used to sample.
 synthetic positive instances using ADASYN algorithm.
 }
 \details{
+ADASYN is an extension of SMOTE that adaptively generates synthetic minority
+class examples based on the local distribution of each minority instance.
+Instead of generating the same number of synthetic examples for every
+minority instance, ADASYN generates more synthetic examples for instances
+that are harder to learn — specifically those surrounded by more majority
+class neighbors. This focuses synthetic data generation on the difficult
+boundary regions of the minority class, resulting in a more informative
+augmentation than standard SMOTE.
+
 All columns in the data are sampled and returned by \code{\link[recipes:juice]{recipes::juice()}}
 and \code{\link[recipes:bake]{recipes::bake()}}.
 
