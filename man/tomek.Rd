@@ -4,13 +4,21 @@
 \alias{tomek}
 \title{Remove Tomek's links}
 \usage{
-tomek(df, var)
+tomek(df, var, distance = "euclidean")
 }
 \arguments{
 \item{df}{data.frame or tibble. Must have 1 factor variable and remaining
 numeric variables.}
 
 \item{var}{Character, name of variable containing factor variable.}
+
+\item{distance}{A character string specifying the distance metric used for
+nearest neighbor calculations. One of \code{"euclidean"} (default), \code{"cosine"},
+\code{"mahalanobis"}, \code{"manhattan"}, or \code{"chebyshev"}. \code{"euclidean"},
+\code{"cosine"}, and \code{"mahalanobis"} use approximate nearest neighbors via
+the RANN package and scale well to large datasets. \code{"manhattan"} and
+\code{"chebyshev"} compute an exact O(n^2) distance matrix and may be slow for
+large datasets.}
 }
 \value{
 A data.frame or tibble, depending on type of \code{df}.
@@ -25,6 +33,8 @@ All columns used in this function must be numeric with no missing data.
 circle_numeric <- circle_example[, c("x", "y", "class")]
 
 res <- tomek(circle_numeric, var = "class")
+
+res <- tomek(circle_numeric, var = "class", distance = "manhattan")
 }
 \references{
 Tomek. Two modifications of cnn. IEEE Trans. Syst. Man Cybern.,

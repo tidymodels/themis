@@ -133,12 +133,14 @@ step_nearmiss <-
     column = NULL,
     under_ratio = 1,
     neighbors = 5,
+    distance = "euclidean",
     skip = TRUE,
     seed = sample.int(10^5, 1),
     distance_with = recipes::all_predictors(),
     id = rand_id("nearmiss")
   ) {
     check_number_whole(seed)
+    check_distance_arg(distance)
 
     add_step(
       recipe,
@@ -149,6 +151,7 @@ step_nearmiss <-
         column = column,
         under_ratio = under_ratio,
         neighbors = neighbors,
+        distance = distance,
         predictors = NULL,
         skip = skip,
         seed = seed,
@@ -166,6 +169,7 @@ step_nearmiss_new <-
     column,
     under_ratio,
     neighbors,
+    distance,
     predictors,
     skip,
     seed,
@@ -180,6 +184,7 @@ step_nearmiss_new <-
       column = column,
       under_ratio = under_ratio,
       neighbors = neighbors,
+      distance = distance,
       predictors = predictors,
       skip = skip,
       seed = seed,
@@ -217,6 +222,7 @@ prep.step_nearmiss <- function(x, training, info = NULL, ...) {
     column = col_name,
     under_ratio = x$under_ratio,
     neighbors = x$neighbors,
+    distance = x$distance,
     predictors = predictors,
     skip = x$skip,
     seed = x$seed,
@@ -251,7 +257,8 @@ bake.step_nearmiss <- function(object, new_data, ...) {
         var = object$column,
         ignore_vars = ignore_vars,
         k = object$neighbors,
-        under_ratio = object$under_ratio
+        under_ratio = object$under_ratio,
+        distance = object$distance
       )
       new_data[[object$column]] <- factor(
         new_data[[object$column]],
