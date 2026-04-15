@@ -1,6 +1,6 @@
 # themis (development version)
 
-* `step_adasyn()`, `step_bsmote()`, and `step_smote()` (and their direct-implementation counterparts `adasyn()`, `bsmote()`, and `smote()`) gain a `distance` argument to control which distance metric is used for nearest neighbor calculations. Supported metrics are `"euclidean"` (default), `"cosine"`, `"mahalanobis"`, `"manhattan"`, and `"chebyshev"` (#171).
+* `step_adasyn()`, `step_bsmote()`, `step_nearmiss()`, `step_smote()`, and `step_tomek()` (and their direct-implementation counterparts `adasyn()`, `bsmote()`, `nearmiss()`, `smote()`, and `tomek()`) gain a `distance` argument to control which distance metric is used for nearest neighbor calculations. Supported metrics are `"euclidean"` (default), `"cosine"`, `"mahalanobis"`, `"manhattan"`, and `"chebyshev"` (#171).
 
 * Added a new article explaining how `over_ratio` and `under_ratio` work (#141).
 

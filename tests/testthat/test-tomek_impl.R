@@ -1,3 +1,24 @@
+test_that("distance argument accepted by tomek()", {
+  circle_numeric <- circle_example[, c("x", "y", "class")]
+  expect_no_error(tomek(circle_numeric, var = "class", distance = "euclidean"))
+  expect_no_error(tomek(circle_numeric, var = "class", distance = "cosine"))
+  expect_no_error(tomek(
+    circle_numeric,
+    var = "class",
+    distance = "mahalanobis"
+  ))
+  expect_no_error(tomek(circle_numeric, var = "class", distance = "manhattan"))
+  expect_no_error(tomek(circle_numeric, var = "class", distance = "chebyshev"))
+})
+
+test_that("bad distance arg errors for tomek", {
+  circle_numeric <- circle_example[, c("x", "y", "class")]
+  expect_snapshot(
+    error = TRUE,
+    tomek(circle_numeric, var = "class", distance = "minkowski")
+  )
+})
+
 test_that("tomek removes exactly the points forming Tomek links", {
   df <- data.frame(
     x = c(0, 0.9, 3, 10, 11),

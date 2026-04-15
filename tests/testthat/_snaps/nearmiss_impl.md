@@ -1,3 +1,11 @@
+# bad distance arg errors for nearmiss
+
+    Code
+      nearmiss(circle_numeric, var = "class", distance = "minkowski")
+    Condition
+      Error in `nearmiss()`:
+      ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", or "chebyshev", not "minkowski".
+
 # bad args
 
     Code

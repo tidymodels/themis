@@ -56,6 +56,15 @@
       x All columns selected for the step should be double or integer.
       * 1 factor variable found: `name`
 
+# bad distance arg for step_nearmiss()
+
+    Code
+      bake(prep(step_nearmiss(recipe(class ~ x + y, data = circle_example), class,
+      distance = "L2")), new_data = NULL)
+    Condition
+      Error in `step_nearmiss()`:
+      ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", or "chebyshev", not "L2".
+
 # bad args
 
     Code
