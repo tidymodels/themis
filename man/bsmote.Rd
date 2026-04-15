@@ -4,7 +4,14 @@
 \alias{bsmote}
 \title{borderline-SMOTE Algorithm}
 \usage{
-bsmote(df, var, k = 5, over_ratio = 1, all_neighbors = FALSE)
+bsmote(
+  df,
+  var,
+  k = 5,
+  over_ratio = 1,
+  all_neighbors = FALSE,
+  distance = "euclidean"
+)
 }
 \arguments{
 \item{df}{data.frame or tibble. Must have 1 factor variable and remaining
@@ -25,6 +32,14 @@ half as many rows as the majority level. See
 
 \item{all_neighbors}{Type of two borderline-SMOTE method. Defaults to FALSE.
 See details.}
+
+\item{distance}{A character string specifying the distance metric used for
+nearest neighbor calculations. One of \code{"euclidean"} (default), \code{"cosine"},
+\code{"mahalanobis"}, \code{"manhattan"}, or \code{"chebyshev"}. \code{"euclidean"},
+\code{"cosine"}, and \code{"mahalanobis"} use approximate nearest neighbors via
+the RANN package and scale well to large datasets. \code{"manhattan"} and
+\code{"chebyshev"} compute an exact O(n^2) distance matrix and may be slow for
+large datasets.}
 }
 \value{
 A data.frame or tibble, depending on type of \code{df}.
@@ -65,6 +80,8 @@ res <- bsmote(circle_numeric, var = "class", k = 10)
 res <- bsmote(circle_numeric, var = "class", over_ratio = 0.8)
 
 res <- bsmote(circle_numeric, var = "class", all_neighbors = TRUE)
+
+res <- bsmote(circle_numeric, var = "class", distance = "manhattan")
 }
 \references{
 Hui Han, Wen-Yuan Wang, and Bing-Huan Mao. Borderline-smote:

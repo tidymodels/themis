@@ -1,3 +1,46 @@
+test_that("distance argument accepted by step_smote()", {
+  expect_no_error(
+    recipe(class ~ x + y, data = circle_example) |>
+      step_smote(class, distance = "euclidean") |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+  expect_no_error(
+    recipe(class ~ x + y, data = circle_example) |>
+      step_smote(class, distance = "cosine") |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+  expect_no_error(
+    recipe(class ~ x + y, data = circle_example) |>
+      step_smote(class, distance = "mahalanobis") |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+  expect_no_error(
+    recipe(class ~ x + y, data = circle_example) |>
+      step_smote(class, distance = "manhattan") |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+  expect_no_error(
+    recipe(class ~ x + y, data = circle_example) |>
+      step_smote(class, distance = "chebyshev") |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+})
+
+test_that("bad distance arg for step_smote()", {
+  expect_snapshot(
+    error = TRUE,
+    recipe(class ~ x + y, data = circle_example) |>
+      step_smote(class, distance = "L2") |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+})
+
 test_that("errors if there isn't enough data", {
   skip_if_not_installed("modeldata")
 

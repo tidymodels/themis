@@ -1,3 +1,11 @@
+# bad distance arg errors for bsmote
+
+    Code
+      bsmote(circle_example_num, var = "class", distance = "minkowski")
+    Condition
+      Error in `bsmote()`:
+      ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", or "chebyshev", not "minkowski".
+
 # bsmote() interfaces correctly
 
     Code

@@ -1,3 +1,11 @@
+# bad distance arg errors
+
+    Code
+      smote(circle_example[, c("x", "y", "class")], var = "class", distance = "minkowski")
+    Condition
+      Error in `smote()`:
+      ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", or "chebyshev", not "minkowski".
+
 # smote() interfaces correctly
 
     Code

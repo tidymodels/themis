@@ -31,21 +31,31 @@
 #' res <- adasyn(circle_numeric, var = "class", k = 10)
 #'
 #' res <- adasyn(circle_numeric, var = "class", over_ratio = 0.8)
-adasyn <- function(df, var, k = 5, over_ratio = 1) {
+#'
+#' res <- adasyn(circle_numeric, var = "class", distance = "manhattan")
+adasyn <- function(df, var, k = 5, over_ratio = 1, distance = "euclidean") {
   check_data_frame(df)
   check_var(var, df)
   check_number_whole(k, min = 1)
   check_number_decimal(over_ratio)
+  check_distance_arg(distance)
 
   predictors <- setdiff(colnames(df), var)
 
   check_numeric(df[, predictors])
   check_na(select(df, -all_of(var)))
 
-  adasyn_impl(df, var, k, over_ratio)
+  adasyn_impl(df, var, k, over_ratio, distance)
 }
 
-adasyn_impl <- function(df, var, k = 5, over_ratio = 1, call = caller_env()) {
+adasyn_impl <- function(
+  df,
+  var,
+  k = 5,
+  over_ratio = 1,
+  distance = "euclidean",
+  call = caller_env()
+) {
   majority_count <- max(table(df[[var]]))
   ratio_target <- majority_count * over_ratio
   which_upsample <- which(table(df[[var]]) < ratio_target)
@@ -54,7 +64,7 @@ adasyn_impl <- function(df, var, k = 5, over_ratio = 1, call = caller_env()) {
   out_dfs <- list()
 
   data_mat <- as.matrix(df[names(df) != var])
-  ids_full <- RANN::nn2(data_mat, k = k + 1, searchtype = "priority")$nn.idx
+  ids_full <- nn_indices(data_mat, k, distance)
 
   for (i in seq_along(min_names)) {
     min_class_in <- df[[var]] != min_names[i]
@@ -88,7 +98,8 @@ adasyn_impl <- function(df, var, k = 5, over_ratio = 1, call = caller_env()) {
         minority,
         k,
         samples_needed[i],
-        danger_ids
+        danger_ids,
+        distance
       )
     )
 
@@ -102,8 +113,14 @@ adasyn_impl <- function(df, var, k = 5, over_ratio = 1, call = caller_env()) {
   final
 }
 
-adasyn_sampler <- function(data, k, n_samples, smote_ids) {
-  ids <- RANN::nn2(data, k = k + 1, searchtype = "priority")$nn.idx
+adasyn_sampler <- function(
+  data,
+  k,
+  n_samples,
+  smote_ids,
+  distance = "euclidean"
+) {
+  ids <- nn_indices(data, k, distance)
   index_len <- tabulate(smote_ids, NROW(data))
   out <- matrix(0, nrow = n_samples, ncol = ncol(data))
   sampleids <- sample.int(k, n_samples, TRUE)

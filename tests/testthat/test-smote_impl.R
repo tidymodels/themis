@@ -1,3 +1,83 @@
+test_that("distance argument accepted by smote()", {
+  circle_numeric <- circle_example[, c("x", "y", "class")]
+  expect_no_error(
+    smote(
+      circle_numeric,
+      var = "class",
+      distance = "euclidean"
+    )
+  )
+  expect_no_error(
+    smote(
+      circle_numeric,
+      var = "class",
+      distance = "cosine"
+    )
+  )
+  expect_no_error(
+    smote(
+      circle_numeric,
+      var = "class",
+      distance = "mahalanobis"
+    )
+  )
+  expect_no_error(
+    smote(
+      circle_numeric,
+      var = "class",
+      distance = "manhattan"
+    )
+  )
+  expect_no_error(
+    smote(
+      circle_numeric,
+      var = "class",
+      distance = "chebyshev"
+    )
+  )
+})
+
+
+test_that("distance variants produce valid synthetic data", {
+  circle_numeric <- circle_example[, c("x", "y", "class")]
+
+  result <- smote(circle_numeric, var = "class", distance = "euclidean")
+  expect_s3_class(result, "data.frame")
+  expect_equal(sort(names(result)), sort(names(circle_numeric)))
+  expect_gt(nrow(result), nrow(circle_numeric))
+
+  result <- smote(circle_numeric, var = "class", distance = "cosine")
+  expect_s3_class(result, "data.frame")
+  expect_equal(sort(names(result)), sort(names(circle_numeric)))
+  expect_gt(nrow(result), nrow(circle_numeric))
+
+  result <- smote(circle_numeric, var = "class", distance = "mahalanobis")
+  expect_s3_class(result, "data.frame")
+  expect_equal(sort(names(result)), sort(names(circle_numeric)))
+  expect_gt(nrow(result), nrow(circle_numeric))
+
+  result <- smote(circle_numeric, var = "class", distance = "manhattan")
+  expect_s3_class(result, "data.frame")
+  expect_equal(sort(names(result)), sort(names(circle_numeric)))
+  expect_gt(nrow(result), nrow(circle_numeric))
+
+  result <- smote(circle_numeric, var = "class", distance = "chebyshev")
+  expect_s3_class(result, "data.frame")
+  expect_equal(sort(names(result)), sort(names(circle_numeric)))
+  expect_gt(nrow(result), nrow(circle_numeric))
+})
+
+test_that("bad distance arg errors", {
+  expect_snapshot(
+    error = TRUE,
+    smote(
+      circle_example[, c("x", "y", "class")],
+      var = "class",
+      distance = "minkowski"
+    )
+  )
+})
+
 test_that("smote synthetic points lie within the minority class x-range", {
   df <- data.frame(
     x = c(1, 2, 3, 4, 5, 100, 101, 102, 103, 104, 105),

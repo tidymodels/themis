@@ -11,6 +11,7 @@ step_tomek(
   role = NA,
   trained = FALSE,
   column = NULL,
+  distance = "euclidean",
   skip = TRUE,
   seed = sample.int(10^5, 1),
   distance_with = recipes::all_predictors(),
@@ -35,6 +36,14 @@ been estimated.}
 
 \item{column}{A character string of the variable name that will
 be populated (eventually) by the \code{...} selectors.}
+
+\item{distance}{A character string specifying the distance metric used for
+nearest neighbor calculations. One of \code{"euclidean"} (default), \code{"cosine"},
+\code{"mahalanobis"}, \code{"manhattan"}, or \code{"chebyshev"}. \code{"euclidean"},
+\code{"cosine"}, and \code{"mahalanobis"} use approximate nearest neighbors via
+the RANN package and scale well to large datasets. \code{"manhattan"} and
+\code{"chebyshev"} compute an exact O(n^2) distance matrix and may be slow for
+large datasets.}
 
 \item{skip}{A logical. Should the step be skipped when the recipe is baked by
 \code{\link[recipes:bake]{bake()}}? While all operations are baked when \code{\link[recipes:prep]{prep()}} is run, some
