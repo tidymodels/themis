@@ -157,6 +157,45 @@ nn_indices <- function(data, k, distance) {
   t(apply(dist_mat, 1, \(x) order(x)[seq_len(k + 1)]))
 }
 
+nn_dists_cross <- function(query, reference, k, distance) {
+  if (distance == "euclidean") {
+    return(RANN::nn2(reference, query, k = k)$nn.dists)
+  }
+  if (distance == "cosine") {
+    norms_ref <- sqrt(rowSums(reference^2))
+    norms_ref[norms_ref == 0] <- 1
+    norms_qry <- sqrt(rowSums(query^2))
+    norms_qry[norms_qry == 0] <- 1
+    return(RANN::nn2(reference / norms_ref, query / norms_qry, k = k)$nn.dists)
+  }
+  if (distance == "mahalanobis") {
+    if (nrow(reference) <= ncol(reference)) {
+      cli::cli_abort(
+        c(
+          "{.code distance = \"mahalanobis\"} requires more observations than predictors in each class.",
+          i = "{nrow(reference)} observation{?s} {?was/were} found but {ncol(reference)} predictor{?s} {?is/are} present.",
+          i = "Try a different {.arg distance} metric or reduce the number of predictors."
+        )
+      )
+    }
+    S <- stats::cov(reference)
+    L_inv <- solve(t(chol(S)))
+    reference_w <- reference %*% L_inv
+    query_w <- query %*% L_inv
+    return(RANN::nn2(reference_w, query_w, k = k)$nn.dists)
+  }
+  dist_method <- switch(
+    distance,
+    "manhattan" = "manhattan",
+    "chebyshev" = "maximum"
+  )
+  combined <- rbind(query, reference)
+  d_full <- as.matrix(stats::dist(combined, method = dist_method))
+  nq <- nrow(query)
+  d_cross <- d_full[seq_len(nq), nq + seq_len(nrow(reference)), drop = FALSE]
+  t(apply(d_cross, 1, \(x) sort(x)[seq_len(k)]))
+}
+
 weighted_table <- function(x, wts = NULL) {
   if (is.null(wts)) {
     wts <- rep(1, length(x))
