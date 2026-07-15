@@ -13,6 +13,7 @@ step_enn(
   column = NULL,
   neighbors = 3,
   distance = "euclidean",
+  times = 1,
   skip = TRUE,
   seed = sample.int(10^5, 1),
   distance_with = recipes::all_predictors(),
@@ -49,6 +50,11 @@ the RANN package and scale well to large datasets. \code{"manhattan"} and
 \code{"chebyshev"} compute an exact O(n^2) distance matrix and may be slow for
 large datasets.}
 
+\item{times}{A positive integer for the maximum number of times ENN is
+applied. Defaults to \code{1} for a single pass. Values greater than \code{1} repeat
+the cleaning, stopping early once a pass removes no observations. Use
+\code{Inf} to repeat until convergence (Repeated Edited Nearest Neighbors).}
+
 \item{skip}{A logical. Should the step be skipped when the recipe is baked by
 \code{\link[recipes:bake]{bake()}}? While all operations are baked when \code{\link[recipes:prep]{prep()}} is run, some
 operations may not be able to be conducted on new data (e.g. processing the
@@ -82,6 +88,11 @@ finds the \code{neighbors} nearest neighbors and, if the class of the observatio
 does not match the majority class among those neighbors, the observation is
 removed. This tends to remove noisy and borderline observations, which can
 lead to smoother decision boundaries.
+
+Setting \code{times} greater than 1 applies ENN repeatedly, removing more noisy
+and borderline observations on each pass and stopping early once a pass
+removes nothing. This corresponds to Repeated Edited Nearest Neighbors
+(RENN).
 
 All variables selected by \code{distance_with} must be numeric with no missing
 data.
@@ -170,6 +181,9 @@ recipe(class ~ x + y, data = circle_example) |>
 Wilson, D. L. (1972). Asymptotic properties of nearest neighbor
 rules using edited data. IEEE Transactions on Systems, Man, and Cybernetics,
 (3), 408-421.
+
+Tomek, I. (1976). An experiment with the edited nearest-neighbor rule. IEEE
+Transactions on Systems, Man, and Cybernetics, (6), 448-452.
 }
 \seealso{
 \code{\link[=enn]{enn()}} for direct implementation
