@@ -42,6 +42,7 @@ reference:
     classes.
   contents:
   - step_downsample
+  - step_enn
   - step_instance_hardness
   - step_nearmiss
   - step_tomek
@@ -55,6 +56,7 @@ reference:
   - bsmote
   - adasyn
   - rose
+  - enn
   - instance_hardness
   - nearmiss
   - tomek

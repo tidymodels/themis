@@ -63,6 +63,7 @@ of workshop on learning from imbalanced datasets, 2003.
 Other Direct Implementations:
 \code{\link[=adasyn]{adasyn()}},
 \code{\link[=bsmote]{bsmote()}},
+\code{\link[=enn]{enn()}},
 \code{\link[=instance_hardness]{instance_hardness()}},
 \code{\link[=rose]{rose()}},
 \code{\link[=smote]{smote()}},
