@@ -6,7 +6,7 @@ neighbors of these cases.
 ## Usage
 
 ``` r
-smote(df, var, k = 5, over_ratio = 1)
+smote(df, var, k = 5, over_ratio = 1, distance = "euclidean")
 ```
 
 ## Arguments
@@ -33,6 +33,16 @@ smote(df, var, k = 5, over_ratio = 1)
   would mean that the minority levels will have (at most)
   (approximately) half as many rows as the majority level. See
   `vignette("ratio", package = "themis")` for more details.
+
+- distance:
+
+  A character string specifying the distance metric used for nearest
+  neighbor calculations. One of `"euclidean"` (default), `"cosine"`,
+  `"mahalanobis"`, `"manhattan"`, or `"chebyshev"`. `"euclidean"`,
+  `"cosine"`, and `"mahalanobis"` use approximate nearest neighbors via
+  the RANN package and scale well to large datasets. `"manhattan"` and
+  `"chebyshev"` compute an exact O(n^2) distance matrix and may be slow
+  for large datasets.
 
 ## Value
 
@@ -79,4 +89,6 @@ res <- smote(circle_numeric, var = "class")
 res <- smote(circle_numeric, var = "class", k = 10)
 
 res <- smote(circle_numeric, var = "class", over_ratio = 0.8)
+
+res <- smote(circle_numeric, var = "class", distance = "manhattan")
 ```

@@ -16,6 +16,7 @@ step_bsmote(
   over_ratio = 1,
   neighbors = 5,
   all_neighbors = FALSE,
+  distance = "euclidean",
   indicator_column = NULL,
   skip = TRUE,
   seed = sample.int(10^5, 1),
@@ -69,6 +70,16 @@ step_bsmote(
 - all_neighbors:
 
   Type of two borderline-SMOTE method. Defaults to FALSE. See details.
+
+- distance:
+
+  A character string specifying the distance metric used for nearest
+  neighbor calculations. One of `"euclidean"` (default), `"cosine"`,
+  `"mahalanobis"`, `"manhattan"`, or `"chebyshev"`. `"euclidean"`,
+  `"cosine"`, and `"mahalanobis"` use approximate nearest neighbors via
+  the RANN package and scale well to large datasets. `"manhattan"` and
+  `"chebyshev"` compute an exact O(n^2) distance matrix and may be slow
+  for large datasets.
 
 - indicator_column:
 

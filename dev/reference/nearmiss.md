@@ -5,7 +5,7 @@ Generates synthetic positive instances using nearmiss algorithm.
 ## Usage
 
 ``` r
-nearmiss(df, var, k = 5, under_ratio = 1)
+nearmiss(df, var, k = 5, under_ratio = 1, distance = "euclidean")
 ```
 
 ## Arguments
@@ -32,6 +32,16 @@ nearmiss(df, var, k = 5, under_ratio = 1)
   would mean that the majority levels will have (at most)
   (approximately) twice as many rows than the minority level. See
   `vignette("ratio", package = "themis")` for more details.
+
+- distance:
+
+  A character string specifying the distance metric used for nearest
+  neighbor calculations. One of `"euclidean"` (default), `"cosine"`,
+  `"mahalanobis"`, `"manhattan"`, or `"chebyshev"`. `"euclidean"`,
+  `"cosine"`, and `"mahalanobis"` use approximate nearest neighbors via
+  the RANN package and scale well to large datasets. `"manhattan"` and
+  `"chebyshev"` compute an exact O(n^2) distance matrix and may be slow
+  for large datasets.
 
 ## Value
 
@@ -71,4 +81,6 @@ res <- nearmiss(circle_numeric, var = "class")
 res <- nearmiss(circle_numeric, var = "class", k = 10)
 
 res <- nearmiss(circle_numeric, var = "class", under_ratio = 1.5)
+
+res <- nearmiss(circle_numeric, var = "class", distance = "manhattan")
 ```

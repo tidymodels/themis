@@ -5,7 +5,7 @@ Generates synthetic positive instances using ADASYN algorithm.
 ## Usage
 
 ``` r
-adasyn(df, var, k = 5, over_ratio = 1)
+adasyn(df, var, k = 5, over_ratio = 1, distance = "euclidean")
 ```
 
 ## Arguments
@@ -32,6 +32,16 @@ adasyn(df, var, k = 5, over_ratio = 1)
   would mean that the minority levels will have (at most)
   (approximately) half as many rows as the majority level. See
   `vignette("ratio", package = "themis")` for more details.
+
+- distance:
+
+  A character string specifying the distance metric used for nearest
+  neighbor calculations. One of `"euclidean"` (default), `"cosine"`,
+  `"mahalanobis"`, `"manhattan"`, or `"chebyshev"`. `"euclidean"`,
+  `"cosine"`, and `"mahalanobis"` use approximate nearest neighbors via
+  the RANN package and scale well to large datasets. `"manhattan"` and
+  `"chebyshev"` compute an exact O(n^2) distance matrix and may be slow
+  for large datasets.
 
 ## Value
 
@@ -71,4 +81,6 @@ res <- adasyn(circle_numeric, var = "class")
 res <- adasyn(circle_numeric, var = "class", k = 10)
 
 res <- adasyn(circle_numeric, var = "class", over_ratio = 0.8)
+
+res <- adasyn(circle_numeric, var = "class", distance = "manhattan")
 ```

@@ -6,7 +6,14 @@ neighbors of these cases in the border region between classes.
 ## Usage
 
 ``` r
-bsmote(df, var, k = 5, over_ratio = 1, all_neighbors = FALSE)
+bsmote(
+  df,
+  var,
+  k = 5,
+  over_ratio = 1,
+  all_neighbors = FALSE,
+  distance = "euclidean"
+)
 ```
 
 ## Arguments
@@ -37,6 +44,16 @@ bsmote(df, var, k = 5, over_ratio = 1, all_neighbors = FALSE)
 - all_neighbors:
 
   Type of two borderline-SMOTE method. Defaults to FALSE. See details.
+
+- distance:
+
+  A character string specifying the distance metric used for nearest
+  neighbor calculations. One of `"euclidean"` (default), `"cosine"`,
+  `"mahalanobis"`, `"manhattan"`, or `"chebyshev"`. `"euclidean"`,
+  `"cosine"`, and `"mahalanobis"` use approximate nearest neighbors via
+  the RANN package and scale well to large datasets. `"manhattan"` and
+  `"chebyshev"` compute an exact O(n^2) distance matrix and may be slow
+  for large datasets.
 
 ## Value
 
@@ -100,4 +117,6 @@ res <- bsmote(circle_numeric, var = "class", k = 10)
 res <- bsmote(circle_numeric, var = "class", over_ratio = 0.8)
 
 res <- bsmote(circle_numeric, var = "class", all_neighbors = TRUE)
+
+res <- bsmote(circle_numeric, var = "class", distance = "manhattan")
 ```

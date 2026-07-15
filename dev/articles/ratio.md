@@ -1,6 +1,7 @@
 # How over_ratio and under_ratio work
 
 ``` r
+
 library(themis)
 library(recipes)
 library(dplyr)
@@ -19,6 +20,7 @@ In this data set, class `"a"` has 100 observations, `"b"` has 65, and
 `"c"` has 20.
 
 ``` r
+
 set.seed(1)
 imbalanced_data <- tibble(
   x = rnorm(185),
@@ -43,9 +45,11 @@ sampling.
 
 The target number of observations for each class is calculated as:
 
-$$\text{target} = \lfloor\text{majority\_n} \times \text{over\_ratio}\rfloor$$
+``` math
+\text{target} = \lfloor \text{majority\_n} \times \text{over\_ratio} \rfloor
+```
 
-where $\text{majority\_n}$ is the number of observations in the most
+where $`\text{majority\_n}`$ is the number of observations in the most
 common class.
 
 - **`over_ratio = 1` (default)**: All classes are upsampled to the
@@ -69,6 +73,7 @@ With the default `over_ratio = 1`, all classes are brought up to 100
 observations (the size of the majority class):
 
 ``` r
+
 recipe(class ~ x, data = imbalanced_data) |>
   step_upsample(class, over_ratio = 1) |>
   prep() |>
@@ -87,6 +92,7 @@ class `"c"` is upsampled to 50. Classes `"a"` and `"b"` already exceed
 the target and are left unchanged:
 
 ``` r
+
 recipe(class ~ x, data = imbalanced_data) |>
   step_upsample(class, over_ratio = 0.5) |>
   prep() |>
@@ -105,6 +111,7 @@ With `over_ratio = 0.3`, the target is `floor(100 * 0.3) = 30`. Class
 the target and are left unchanged:
 
 ``` r
+
 recipe(class ~ x, data = imbalanced_data) |>
   step_upsample(class, over_ratio = 0.3) |>
   prep() |>
@@ -127,9 +134,11 @@ sampling.
 
 The target number of observations for each class is calculated as:
 
-$$\text{target} = \lfloor\text{minority\_n} \times \text{under\_ratio}\rfloor$$
+``` math
+\text{target} = \lfloor \text{minority\_n} \times \text{under\_ratio} \rfloor
+```
 
-where $\text{minority\_n}$ is the number of observations in the least
+where $`\text{minority\_n}`$ is the number of observations in the least
 common class.
 
 - **`under_ratio = 1` (default)**: All classes are downsampled to the
@@ -153,6 +162,7 @@ With the default `under_ratio = 1`, all classes are brought down to 20
 observations (the size of the minority class):
 
 ``` r
+
 recipe(class ~ x, data = imbalanced_data) |>
   step_downsample(class, under_ratio = 1) |>
   prep() |>
@@ -171,6 +181,7 @@ With `under_ratio = 2`, the target is `floor(20 * 2) = 40`. Classes
 fewer than 40 observations and is left unchanged:
 
 ``` r
+
 recipe(class ~ x, data = imbalanced_data) |>
   step_downsample(class, under_ratio = 2) |>
   prep() |>
@@ -189,6 +200,7 @@ With `under_ratio = 3`, the target is `floor(20 * 3) = 60`. Classes
 fewer than 60 observations and is left unchanged:
 
 ``` r
+
 recipe(class ~ x, data = imbalanced_data) |>
   step_downsample(class, under_ratio = 3) |>
   prep() |>

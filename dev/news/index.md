@@ -2,6 +2,24 @@
 
 ## themis (development version)
 
+- [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
+  [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md),
+  [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),
+  [`step_smote()`](https://themis.tidymodels.org/dev/reference/step_smote.md),
+  and
+  [`step_tomek()`](https://themis.tidymodels.org/dev/reference/step_tomek.md)
+  (and their direct-implementation counterparts
+  [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md),
+  [`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md),
+  [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md),
+  [`smote()`](https://themis.tidymodels.org/dev/reference/smote.md), and
+  [`tomek()`](https://themis.tidymodels.org/dev/reference/tomek.md))
+  gain a `distance` argument to control which distance metric is used
+  for nearest neighbor calculations. Supported metrics are `"euclidean"`
+  (default), `"cosine"`, `"mahalanobis"`, `"manhattan"`, and
+  `"chebyshev"`
+  ([\#171](https://github.com/tidymodels/themis/issues/171)).
+
 - Added a new article explaining how `over_ratio` and `under_ratio` work
   ([\#141](https://github.com/tidymodels/themis/issues/141)).
 
