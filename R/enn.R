@@ -28,8 +28,8 @@
 #' Edited Nearest Neighbors (ENN) is a cleaning method. For each observation it
 #' finds the `neighbors` nearest neighbors and, if the class of the observation
 #' does not match the majority class among those neighbors, the observation is
-#' removed. This removes noisy and borderline observations, resulting in
-#' smoother decision boundaries.
+#' removed. This tends to remove noisy and borderline observations, which can
+#' lead to smoother decision boundaries.
 #'
 #' All variables selected by `distance_with` must be numeric with no missing
 #' data.
