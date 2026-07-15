@@ -166,6 +166,7 @@ Tomek. Two modifications of cnn. IEEE Trans. Syst. Man Cybern.,
 
 Other Steps for under-sampling:
 \code{\link[=step_downsample]{step_downsample()}},
+\code{\link[=step_enn]{step_enn()}},
 \code{\link[=step_instance_hardness]{step_instance_hardness()}},
 \code{\link[=step_nearmiss]{step_nearmiss()}}
 }
