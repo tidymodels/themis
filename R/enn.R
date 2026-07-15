@@ -17,6 +17,10 @@
 #'  be populated (eventually) by the `...` selectors.
 #' @param neighbors An integer. Number of nearest neighbor that are used to
 #'  decide whether an observation is removed.
+#' @param times A positive integer for the maximum number of times ENN is
+#'  applied. Defaults to `1` for a single pass. Values greater than `1` repeat
+#'  the cleaning, stopping early once a pass removes no observations. Use
+#'  `Inf` to repeat until convergence (Repeated Edited Nearest Neighbors).
 #' @param seed An integer that will be used as the seed when
 #' applied.
 #' @return An updated version of `recipe` with the new step
@@ -30,6 +34,11 @@
 #' does not match the majority class among those neighbors, the observation is
 #' removed. This tends to remove noisy and borderline observations, which can
 #' lead to smoother decision boundaries.
+#'
+#' Setting `times` greater than 1 applies ENN repeatedly, removing more noisy
+#' and borderline observations on each pass and stopping early once a pass
+#' removes nothing. This corresponds to Repeated Edited Nearest Neighbors
+#' (RENN).
 #'
 #' All variables selected by `distance_with` must be numeric with no missing
 #' data.
@@ -62,6 +71,9 @@
 #' @references Wilson, D. L. (1972). Asymptotic properties of nearest neighbor
 #' rules using edited data. IEEE Transactions on Systems, Man, and Cybernetics,
 #' (3), 408-421.
+#'
+#' Tomek, I. (1976). An experiment with the edited nearest-neighbor rule. IEEE
+#' Transactions on Systems, Man, and Cybernetics, (6), 448-452.
 #'
 #' @seealso [enn()] for direct implementation
 #' @family Steps for under-sampling
@@ -123,6 +135,7 @@ step_enn <-
     column = NULL,
     neighbors = 3,
     distance = "euclidean",
+    times = 1,
     skip = TRUE,
     seed = sample.int(10^5, 1),
     distance_with = recipes::all_predictors(),
@@ -140,6 +153,7 @@ step_enn <-
         column = column,
         neighbors = neighbors,
         distance = distance,
+        times = times,
         predictors = NULL,
         skip = skip,
         seed = seed,
@@ -157,6 +171,7 @@ step_enn_new <-
     column,
     neighbors,
     distance,
+    times,
     predictors,
     skip,
     seed,
@@ -171,6 +186,7 @@ step_enn_new <-
       column = column,
       neighbors = neighbors,
       distance = distance,
+      times = times,
       predictors = predictors,
       skip = skip,
       seed = seed,
@@ -184,6 +200,7 @@ prep.step_enn <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
 
   check_number_whole(x$neighbors, arg = "neighbors", min = 1)
+  check_number_whole(x$times, arg = "times", min = 1, allow_infinite = TRUE)
 
   check_1_selected(col_name)
   check_column_factor(training, col_name)
@@ -207,6 +224,7 @@ prep.step_enn <- function(x, training, info = NULL, ...) {
     column = col_name,
     neighbors = x$neighbors,
     distance = x$distance,
+    times = x$times,
     predictors = predictors,
     skip = x$skip,
     seed = x$seed,
@@ -239,7 +257,8 @@ bake.step_enn <- function(object, new_data, ...) {
         df = predictor_data,
         var = object$column,
         neighbors = object$neighbors,
-        distance = object$distance
+        distance = object$distance,
+        times = object$times
       )
     }
   )
