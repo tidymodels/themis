@@ -1,25 +1,24 @@
-# Remove Points Near Other Classes
+# Edited Nearest Neighbors
 
-`step_nearmiss()` creates a *specification* of a recipe step that
-removes majority class instances by undersampling points in the majority
-class based on their distance to points in the minority class.
+`step_enn()` creates a *specification* of a recipe step that removes
+observations whose class differs from the majority of their nearest
+neighbors.
 
 ## Usage
 
 ``` r
-step_nearmiss(
+step_enn(
   recipe,
   ...,
   role = NA,
   trained = FALSE,
   column = NULL,
-  under_ratio = 1,
-  neighbors = 5,
+  neighbors = 3,
   distance = "euclidean",
   skip = TRUE,
   seed = sample.int(10^5, 1),
   distance_with = recipes::all_predictors(),
-  id = rand_id("nearmiss")
+  id = rand_id("enn")
 )
 ```
 
@@ -52,19 +51,10 @@ step_nearmiss(
   A character string of the variable name that will be populated
   (eventually) by the `...` selectors.
 
-- under_ratio:
-
-  A numeric value for the ratio of the majority-to-minority frequencies.
-  The default value (1) means that all other levels are sampled down to
-  have the same frequency as the least occurring level. A value of 2
-  would mean that the majority levels will have (at most)
-  (approximately) twice as many rows than the minority level. See
-  `vignette("ratio", package = "themis")` for more details.
-
 - neighbors:
 
-  An integer. Number of nearest neighbor that are used to generate the
-  new examples of the minority class.
+  An integer. Number of nearest neighbor that are used to decide whether
+  an observation is removed.
 
 - distance:
 
@@ -111,26 +101,23 @@ of existing steps (if any). For the `tidy` method, a tibble with columns
 
 ## Details
 
-This step implements the NearMiss-1 algorithm. It retains the points
-from the majority class which have the smallest mean distance to the k
-nearest points in the minority class.
+Edited Nearest Neighbors (ENN) is a cleaning method. For each
+observation it finds the `neighbors` nearest neighbors and, if the class
+of the observation does not match the majority class among those
+neighbors, the observation is removed. This tends to remove noisy and
+borderline observations, which can lead to smoother decision boundaries.
+
+All variables selected by `distance_with` must be numeric with no
+missing data.
 
 All columns in the data are sampled and returned by
 [`recipes::juice()`](https://recipes.tidymodels.org/reference/juice.html)
 and
 [`recipes::bake()`](https://recipes.tidymodels.org/reference/bake.html).
 
-All columns selected by `distance_with` must be numeric with no missing
-data.
-
 When used in modeling, users should strongly consider using the option
 `skip = TRUE` so that the extra sampling is *not* conducted outside of
 the training set.
-
-## Minimum observations
-
-Each minority class must have at least `neighbors + 1` observations to
-perform the NearMiss algorithm.
 
 ## Tidying
 
@@ -148,11 +135,9 @@ this step, a tibble is returned with columns `terms` and `id`:
 
 ## Tuning Parameters
 
-This step has 2 tuning parameters:
+This step has 1 tuning parameters:
 
-- `under_ratio`: Under-Sampling Ratio (type: double, default: 1)
-
-- `neighbors`: \# Nearest Neighbors (type: integer, default: 5)
+- `neighbors`: \# Nearest Neighbors (type: integer, default: 3)
 
 ## Case weights
 
@@ -160,19 +145,19 @@ The underlying operation does not allow for case weights.
 
 ## References
 
-Inderjeet Mani and I Zhang. knn approach to unbalanced data
-distributions: a case study involving information extraction. In
-Proceedings of workshop on learning from imbalanced datasets, 2003.
+Wilson, D. L. (1972). Asymptotic properties of nearest neighbor rules
+using edited data. IEEE Transactions on Systems, Man, and Cybernetics,
+(3), 408-421.
 
 ## See also
 
-[`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md)
-for direct implementation
+[`enn()`](https://themis.tidymodels.org/dev/reference/enn.md) for direct
+implementation
 
 Other Steps for under-sampling:
 [`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md),
-[`step_enn()`](https://themis.tidymodels.org/dev/reference/step_enn.md),
 [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md),
+[`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),
 [`step_tomek()`](https://themis.tidymodels.org/dev/reference/step_tomek.md)
 
 ## Examples
@@ -196,9 +181,7 @@ orig
 #> 4 L       259
 
 up_rec <- recipe(class ~ ., data = hpc_data0) |>
-  # Bring the majority levels down to about 1000 each
-  # 1000/259 is approx 3.862
-  step_nearmiss(class, under_ratio = 3.862) |>
+  step_enn(class) |>
   prep()
 
 training <- up_rec |>
@@ -208,10 +191,10 @@ training
 #> # A tibble: 4 × 2
 #>   class training
 #>   <fct>    <int>
-#> 1 VF        1000
-#> 2 F         1000
-#> 3 M          514
-#> 4 L          259
+#> 1 VF        1737
+#> 2 F          732
+#> 3 M          262
+#> 4 L          173
 
 # Since `skip` defaults to TRUE, baking the step has no effect
 baked <- up_rec |>
@@ -226,35 +209,33 @@ baked
 #> 3 M       514
 #> 4 L       259
 
-# Note that if the original data contained more rows than the
-# target n (= ratio * majority_n), the data are left alone:
 orig |>
   left_join(training, by = "class") |>
   left_join(baked, by = "class")
 #> # A tibble: 4 × 4
 #>   class  orig training baked
 #>   <fct> <int>    <int> <int>
-#> 1 VF     2211     1000  2211
-#> 2 F      1347     1000  1347
-#> 3 M       514      514   514
-#> 4 L       259      259   259
+#> 1 VF     2211     1737  2211
+#> 2 F      1347      732  1347
+#> 3 M       514      262   514
+#> 4 L       259      173   259
 
 library(ggplot2)
 
 ggplot(circle_example, aes(x, y, color = class)) +
   geom_point() +
-  labs(title = "Without NEARMISS") +
+  labs(title = "Without ENN") +
   xlim(c(1, 15)) +
   ylim(c(1, 15))
 
 
 recipe(class ~ x + y, data = circle_example) |>
-  step_nearmiss(class) |>
+  step_enn(class) |>
   prep() |>
   bake(new_data = NULL) |>
   ggplot(aes(x, y, color = class)) +
   geom_point() +
-  labs(title = "With NEARMISS") +
+  labs(title = "With ENN") +
   xlim(c(1, 15)) +
   ylim(c(1, 15))
 ```

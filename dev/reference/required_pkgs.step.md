@@ -14,6 +14,9 @@ required_pkgs(x, ...)
 # S3 method for class 'step_downsample'
 required_pkgs(x, ...)
 
+# S3 method for class 'step_enn'
+required_pkgs(x, ...)
+
 # S3 method for class 'step_instance_hardness'
 required_pkgs(x, ...)
 

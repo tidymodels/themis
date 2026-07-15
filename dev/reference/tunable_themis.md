@@ -17,6 +17,9 @@ tunable(x, ...)
 # S3 method for class 'step_downsample'
 tunable(x, ...)
 
+# S3 method for class 'step_enn'
+tunable(x, ...)
+
 # S3 method for class 'step_instance_hardness'
 tunable(x, ...)
 

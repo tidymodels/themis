@@ -1,11 +1,12 @@
-# Adaptive Synthetic Algorithm
+# Edited Nearest Neighbors
 
-Generates synthetic positive instances using ADASYN algorithm.
+Removes observations whose class differs from the majority of their
+nearest neighbors.
 
 ## Usage
 
 ``` r
-adasyn(df, var, k = 5, over_ratio = 1, distance = "euclidean")
+enn(df, var, neighbors = 3, distance = "euclidean")
 ```
 
 ## Arguments
@@ -19,19 +20,10 @@ adasyn(df, var, k = 5, over_ratio = 1, distance = "euclidean")
 
   Character, name of variable containing factor variable.
 
-- k:
+- neighbors:
 
-  An integer. Number of nearest neighbor that are used to generate the
-  new examples of the minority class.
-
-- over_ratio:
-
-  A numeric value for the ratio of the minority-to-majority frequencies.
-  The default value (1) means that all other levels are sampled up to
-  have the same frequency as the most occurring level. A value of 0.5
-  would mean that the minority levels will have (at most)
-  (approximately) half as many rows as the majority level. See
-  `vignette("ratio", package = "themis")` for more details.
+  An integer. Number of nearest neighbor that are used to decide whether
+  an observation is removed.
 
 - distance:
 
@@ -53,19 +45,18 @@ All columns used in this function must be numeric with no missing data.
 
 ## References
 
-He, H., Bai, Y., Garcia, E. and Li, S. 2008. ADASYN: Adaptive synthetic
-sampling approach for imbalanced learning. Proceedings of IJCNN 2008.
-(IEEE World Congress on Computational Intelligence). IEEE International
-Joint Conference. pp.1322-1328.
+Wilson, D. L. (1972). Asymptotic properties of nearest neighbor rules
+using edited data. IEEE Transactions on Systems, Man, and Cybernetics,
+(3), 408-421.
 
 ## See also
 
-[`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md)
+[`step_enn()`](https://themis.tidymodels.org/dev/reference/step_enn.md)
 for step function of this method
 
 Other Direct Implementations:
+[`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md),
 [`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md),
-[`enn()`](https://themis.tidymodels.org/dev/reference/enn.md),
 [`instance_hardness()`](https://themis.tidymodels.org/dev/reference/instance_hardness.md),
 [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md),
 [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md),
@@ -78,11 +69,9 @@ Other Direct Implementations:
 ``` r
 circle_numeric <- circle_example[, c("x", "y", "class")]
 
-res <- adasyn(circle_numeric, var = "class")
+res <- enn(circle_numeric, var = "class")
 
-res <- adasyn(circle_numeric, var = "class", k = 10)
+res <- enn(circle_numeric, var = "class", neighbors = 5)
 
-res <- adasyn(circle_numeric, var = "class", over_ratio = 0.8)
-
-res <- adasyn(circle_numeric, var = "class", distance = "manhattan")
+res <- enn(circle_numeric, var = "class", distance = "manhattan")
 ```
