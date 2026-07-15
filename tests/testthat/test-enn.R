@@ -26,6 +26,18 @@ test_that("neighbors argument changes result", {
   expect_false(identical(nrow(baked1), nrow(baked3)))
 })
 
+test_that("errors when not enough observations for neighbors", {
+  small <- circle_example[1:3, c("x", "y", "class")]
+
+  expect_snapshot(
+    error = TRUE,
+    recipe(class ~ x + y, data = small) |>
+      step_enn(class, neighbors = 5, skip = FALSE) |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+})
+
 test_that("works with a single predictor", {
   skip_if_not_installed("modeldata")
 

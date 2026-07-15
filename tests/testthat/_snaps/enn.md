@@ -151,3 +151,14 @@
       -- Operations 
       * ENN based on: class | Trained
 
+# errors when not enough observations for neighbors
+
+    Code
+      bake(prep(step_enn(recipe(class ~ x + y, data = small), class, neighbors = 5,
+      skip = FALSE)), new_data = NULL)
+    Condition
+      Error in `step_enn()`:
+      Caused by error in `bake()`:
+      ! Not enough observations to compute 5 nearest neighbors.
+      i 3 observations were found, but 6 are needed.
+
