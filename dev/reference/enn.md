@@ -6,7 +6,7 @@ nearest neighbors.
 ## Usage
 
 ``` r
-enn(df, var, neighbors = 3, distance = "euclidean")
+enn(df, var, neighbors = 3, distance = "euclidean", times = 1)
 ```
 
 ## Arguments
@@ -35,6 +35,13 @@ enn(df, var, neighbors = 3, distance = "euclidean")
   `"chebyshev"` compute an exact O(n^2) distance matrix and may be slow
   for large datasets.
 
+- times:
+
+  A positive integer for the maximum number of times ENN is applied.
+  Defaults to `1` for a single pass. Values greater than `1` repeat the
+  cleaning, stopping early once a pass removes no observations. Use
+  `Inf` to repeat until convergence (Repeated Edited Nearest Neighbors).
+
 ## Value
 
 A data.frame or tibble, depending on type of `df`.
@@ -43,11 +50,20 @@ A data.frame or tibble, depending on type of `df`.
 
 All columns used in this function must be numeric with no missing data.
 
+Setting `times` greater than 1 applies ENN repeatedly. Each pass removes
+observations from the data before the next pass runs, stopping early
+once a pass removes nothing (convergence). This corresponds to Repeated
+Edited Nearest Neighbors (RENN). Use `times = Inf` to repeat until
+convergence.
+
 ## References
 
 Wilson, D. L. (1972). Asymptotic properties of nearest neighbor rules
 using edited data. IEEE Transactions on Systems, Man, and Cybernetics,
 (3), 408-421.
+
+Tomek, I. (1976). An experiment with the edited nearest-neighbor rule.
+IEEE Transactions on Systems, Man, and Cybernetics, (6), 448-452.
 
 ## See also
 
@@ -74,4 +90,7 @@ res <- enn(circle_numeric, var = "class")
 res <- enn(circle_numeric, var = "class", neighbors = 5)
 
 res <- enn(circle_numeric, var = "class", distance = "manhattan")
+
+# Repeated Edited Nearest Neighbors (RENN)
+res <- enn(circle_numeric, var = "class", times = Inf)
 ```

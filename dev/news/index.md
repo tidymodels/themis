@@ -10,6 +10,13 @@
   nearest neighbors
   ([\#115](https://github.com/tidymodels/themis/issues/115)).
 
+- [`step_enn()`](https://themis.tidymodels.org/dev/reference/step_enn.md)
+  (and its direct-implementation counterpart
+  [`enn()`](https://themis.tidymodels.org/dev/reference/enn.md)) gain a
+  `times` argument to apply the cleaning repeatedly, stopping early on
+  convergence, which corresponds to Repeated Edited Nearest Neighbors
+  (RENN) ([\#173](https://github.com/tidymodels/themis/issues/173)).
+
 - [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md)
   (and its direct-implementation counterpart
   [`instance_hardness()`](https://themis.tidymodels.org/dev/reference/instance_hardness.md))

@@ -48,7 +48,7 @@ neighbors.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">enn</span><span class="op">(</span><span class="va">df</span>, <span class="va">var</span>, neighbors <span class="op">=</span> <span class="fl">3</span>, distance <span class="op">=</span> <span class="st">"euclidean"</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">enn</span><span class="op">(</span><span class="va">df</span>, <span class="va">var</span>, neighbors <span class="op">=</span> <span class="fl">3</span>, distance <span class="op">=</span> <span class="st">"euclidean"</span>, times <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -78,6 +78,13 @@ the RANN package and scale well to large datasets. <code>"manhattan"</code> and
 <code>"chebyshev"</code> compute an exact O(n^2) distance matrix and may be slow for
 large datasets.</p></dd>
 
+
+<dt id="arg-times">times<a class="anchor" aria-label="anchor" href="#arg-times"></a></dt>
+<dd><p>A positive integer for the maximum number of times ENN is
+applied. Defaults to <code>1</code> for a single pass. Values greater than <code>1</code> repeat
+the cleaning, stopping early once a pass removes no observations. Use
+<code>Inf</code> to repeat until convergence (Repeated Edited Nearest Neighbors).</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -86,12 +93,18 @@ large datasets.</p></dd>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
     <p>All columns used in this function must be numeric with no missing data.</p>
+<p>Setting <code>times</code> greater than 1 applies ENN repeatedly. Each pass removes
+observations from the data before the next pass runs, stopping early once a
+pass removes nothing (convergence). This corresponds to Repeated Edited
+Nearest Neighbors (RENN). Use <code>times = Inf</code> to repeat until convergence.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
     <p>Wilson, D. L. (1972). Asymptotic properties of nearest neighbor
 rules using edited data. IEEE Transactions on Systems, Man, and Cybernetics,
 (3), 408-421.</p>
+<p>Tomek, I. (1976). An experiment with the edited nearest-neighbor rule. IEEE
+Transactions on Systems, Man, and Cybernetics, (6), 448-452.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -116,6 +129,9 @@ rules using edited data. IEEE Transactions on Systems, Man, and Cybernetics,
 <span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">enn</span><span class="op">(</span><span class="va">circle_numeric</span>, var <span class="op">=</span> <span class="st">"class"</span>, neighbors <span class="op">=</span> <span class="fl">5</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">enn</span><span class="op">(</span><span class="va">circle_numeric</span>, var <span class="op">=</span> <span class="st">"class"</span>, distance <span class="op">=</span> <span class="st">"manhattan"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Repeated Edited Nearest Neighbors (RENN)</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">enn</span><span class="op">(</span><span class="va">circle_numeric</span>, var <span class="op">=</span> <span class="st">"class"</span>, times <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

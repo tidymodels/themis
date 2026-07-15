@@ -59,6 +59,7 @@ neighbors.</p>
 <span>  column <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  neighbors <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  distance <span class="op">=</span> <span class="st">"euclidean"</span>,</span>
+<span>  times <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  skip <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample.int</a></span><span class="op">(</span><span class="fl">10</span><span class="op">^</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  distance_with <span class="op">=</span> <span class="fu">recipes</span><span class="fu">::</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -113,6 +114,13 @@ the RANN package and scale well to large datasets. <code>"manhattan"</code> and
 large datasets.</p></dd>
 
 
+<dt id="arg-times">times<a class="anchor" aria-label="anchor" href="#arg-times"></a></dt>
+<dd><p>A positive integer for the maximum number of times ENN is
+applied. Defaults to <code>1</code> for a single pass. Values greater than <code>1</code> repeat
+the cleaning, stopping early once a pass removes no observations. Use
+<code>Inf</code> to repeat until convergence (Repeated Edited Nearest Neighbors).</p></dd>
+
+
 <dt id="arg-skip">skip<a class="anchor" aria-label="anchor" href="#arg-skip"></a></dt>
 <dd><p>A logical. Should the step be skipped when the recipe is baked by
 <code><a href="https://recipes.tidymodels.org/reference/bake.html" class="external-link">bake()</a></code>? While all operations are baked when <code><a href="https://recipes.tidymodels.org/reference/prep.html" class="external-link">prep()</a></code> is run, some
@@ -151,6 +159,10 @@ finds the <code>neighbors</code> nearest neighbors and, if the class of the obse
 does not match the majority class among those neighbors, the observation is
 removed. This tends to remove noisy and borderline observations, which can
 lead to smoother decision boundaries.</p>
+<p>Setting <code>times</code> greater than 1 applies ENN repeatedly, removing more noisy
+and borderline observations on each pass and stopping early once a pass
+removes nothing. This corresponds to Repeated Edited Nearest Neighbors
+(RENN).</p>
 <p>All variables selected by <code>distance_with</code> must be numeric with no missing
 data.</p>
 <p>All columns in the data are sampled and returned by <code><a href="https://recipes.tidymodels.org/reference/juice.html" class="external-link">recipes::juice()</a></code>
@@ -187,6 +199,8 @@ columns <code>terms</code> and <code>id</code>:</p>
     <p>Wilson, D. L. (1972). Asymptotic properties of nearest neighbor
 rules using edited data. IEEE Transactions on Systems, Man, and Cybernetics,
 (3), 408-421.</p>
+<p>Tomek, I. (1976). An experiment with the edited nearest-neighbor rule. IEEE
+Transactions on Systems, Man, and Cybernetics, (6), 448-452.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>

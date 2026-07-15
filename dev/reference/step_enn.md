@@ -15,6 +15,7 @@ step_enn(
   column = NULL,
   neighbors = 3,
   distance = "euclidean",
+  times = 1,
   skip = TRUE,
   seed = sample.int(10^5, 1),
   distance_with = recipes::all_predictors(),
@@ -66,6 +67,13 @@ step_enn(
   `"chebyshev"` compute an exact O(n^2) distance matrix and may be slow
   for large datasets.
 
+- times:
+
+  A positive integer for the maximum number of times ENN is applied.
+  Defaults to `1` for a single pass. Values greater than `1` repeat the
+  cleaning, stopping early once a pass removes no observations. Use
+  `Inf` to repeat until convergence (Repeated Edited Nearest Neighbors).
+
 - skip:
 
   A logical. Should the step be skipped when the recipe is baked by
@@ -106,6 +114,11 @@ observation it finds the `neighbors` nearest neighbors and, if the class
 of the observation does not match the majority class among those
 neighbors, the observation is removed. This tends to remove noisy and
 borderline observations, which can lead to smoother decision boundaries.
+
+Setting `times` greater than 1 applies ENN repeatedly, removing more
+noisy and borderline observations on each pass and stopping early once a
+pass removes nothing. This corresponds to Repeated Edited Nearest
+Neighbors (RENN).
 
 All variables selected by `distance_with` must be numeric with no
 missing data.
@@ -148,6 +161,9 @@ The underlying operation does not allow for case weights.
 Wilson, D. L. (1972). Asymptotic properties of nearest neighbor rules
 using edited data. IEEE Transactions on Systems, Man, and Cybernetics,
 (3), 408-421.
+
+Tomek, I. (1976). An experiment with the edited nearest-neighbor rule.
+IEEE Transactions on Systems, Man, and Cybernetics, (6), 448-452.
 
 ## See also
 
