@@ -170,11 +170,11 @@ recipe(class ~ x + y, data = circle_example) |>
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other Steps for over-sampling: 
-\code{\link{step_adasyn}()},
-\code{\link{step_bsmote}()},
-\code{\link{step_rose}()},
-\code{\link{step_smote}()},
-\code{\link{step_smotenc}()}
+Other Steps for over-sampling:
+\code{\link[=step_adasyn]{step_adasyn()}},
+\code{\link[=step_bsmote]{step_bsmote()}},
+\code{\link[=step_rose]{step_rose()}},
+\code{\link[=step_smote]{step_smote()}},
+\code{\link[=step_smotenc]{step_smotenc()}}
 }
 \concept{Steps for over-sampling}

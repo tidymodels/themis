@@ -43,12 +43,13 @@ Tomek. Two modifications of cnn. IEEE Trans. Syst. Man Cybern.,
 \seealso{
 \code{\link[=step_tomek]{step_tomek()}} for step function of this method
 
-Other Direct Implementations: 
-\code{\link{adasyn}()},
-\code{\link{bsmote}()},
-\code{\link{nearmiss}()},
-\code{\link{rose}()},
-\code{\link{smote}()},
-\code{\link{smotenc}()}
+Other Direct Implementations:
+\code{\link[=adasyn]{adasyn()}},
+\code{\link[=bsmote]{bsmote()}},
+\code{\link[=instance_hardness]{instance_hardness()}},
+\code{\link[=nearmiss]{nearmiss()}},
+\code{\link[=rose]{rose()}},
+\code{\link[=smote]{smote()}},
+\code{\link[=smotenc]{smotenc()}}
 }
 \concept{Direct Implementations}

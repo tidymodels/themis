@@ -42,6 +42,7 @@ reference:
     classes.
   contents:
   - step_downsample
+  - step_instance_hardness
   - step_nearmiss
   - step_tomek
 - title: Methods
@@ -54,6 +55,7 @@ reference:
   - bsmote
   - adasyn
   - rose
+  - instance_hardness
   - nearmiss
   - tomek
 - title: Datasets

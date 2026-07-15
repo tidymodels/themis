@@ -169,8 +169,9 @@ recipe(class ~ x + y, data = circle_example) |>
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-Other Steps for under-sampling: 
-\code{\link{step_nearmiss}()},
-\code{\link{step_tomek}()}
+Other Steps for under-sampling:
+\code{\link[=step_instance_hardness]{step_instance_hardness()}},
+\code{\link[=step_nearmiss]{step_nearmiss()}},
+\code{\link[=step_tomek]{step_tomek()}}
 }
 \concept{Steps for under-sampling}

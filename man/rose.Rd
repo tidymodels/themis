@@ -80,12 +80,13 @@ Discovery, 28:92–122.
 \seealso{
 \code{\link[=step_rose]{step_rose()}} for step function of this method
 
-Other Direct Implementations: 
-\code{\link{adasyn}()},
-\code{\link{bsmote}()},
-\code{\link{nearmiss}()},
-\code{\link{smote}()},
-\code{\link{smotenc}()},
-\code{\link{tomek}()}
+Other Direct Implementations:
+\code{\link[=adasyn]{adasyn()}},
+\code{\link[=bsmote]{bsmote()}},
+\code{\link[=instance_hardness]{instance_hardness()}},
+\code{\link[=nearmiss]{nearmiss()}},
+\code{\link[=smote]{smote()}},
+\code{\link[=smotenc]{smotenc()}},
+\code{\link[=tomek]{tomek()}}
 }
 \concept{Direct Implementations}

@@ -92,12 +92,13 @@ International Conference on Intelligent Computing, pages 878–887. Springer,
 \seealso{
 \code{\link[=step_bsmote]{step_bsmote()}} for step function of this method
 
-Other Direct Implementations: 
-\code{\link{adasyn}()},
-\code{\link{nearmiss}()},
-\code{\link{rose}()},
-\code{\link{smote}()},
-\code{\link{smotenc}()},
-\code{\link{tomek}()}
+Other Direct Implementations:
+\code{\link[=adasyn]{adasyn()}},
+\code{\link[=instance_hardness]{instance_hardness()}},
+\code{\link[=nearmiss]{nearmiss()}},
+\code{\link[=rose]{rose()}},
+\code{\link[=smote]{smote()}},
+\code{\link[=smotenc]{smotenc()}},
+\code{\link[=tomek]{tomek()}}
 }
 \concept{Direct Implementations}

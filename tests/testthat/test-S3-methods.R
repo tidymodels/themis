@@ -7,6 +7,7 @@ r6 <- r1 |> step_rose(class)
 r7 <- r1 |> step_smote(class)
 r8 <- r1 |> step_tomek(class)
 r9 <- r1 |> step_upsample(class)
+r10 <- r1 |> step_instance_hardness(class)
 
 # ------------------------------------------------------------------------------
 
@@ -19,6 +20,7 @@ test_that("required packages", {
   expect_equal(required_pkgs(r7), c("recipes", "themis"))
   expect_equal(required_pkgs(r8), c("recipes", "themis"))
   expect_equal(required_pkgs(r9), c("recipes", "themis"))
+  expect_equal(required_pkgs(r10), c("recipes", "themis"))
 })
 
 test_that("tunable arguments", {
@@ -33,4 +35,5 @@ test_that("tunable arguments", {
   expect_equal(tunable(r7)$name, c("over_ratio", "neighbors"))
   expect_true(nrow(tunable(r8)) == 0)
   expect_equal(tunable(r9)$name, "over_ratio")
+  expect_equal(tunable(r10)$name, c("under_ratio", "neighbors"))
 })
