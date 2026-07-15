@@ -1,3 +1,14 @@
+# errors when not enough observations for neighbors
+
+    Code
+      bake(prep(step_enn(recipe(class ~ x + y, data = small), class, neighbors = 5,
+      skip = FALSE)), new_data = NULL)
+    Condition
+      Error in `step_enn()`:
+      Caused by error in `bake()`:
+      ! Not enough observations to compute 5 nearest neighbors.
+      i 3 observations were found, but 6 are needed.
+
 # bad data
 
     Code
@@ -72,6 +83,15 @@
       Error in `step_enn()`:
       Caused by error in `prep()`:
       ! `neighbors` must be a whole number larger than or equal to 1, not the number -1.
+
+---
+
+    Code
+      prep(step_enn(recipe(class ~ x + y, data = circle_example), class, times = -1))
+    Condition
+      Error in `step_enn()`:
+      Caused by error in `prep()`:
+      ! `times` must be a whole number larger than or equal to 1, not the number -1.
 
 # bake method errors when needed non-standard role columns are missing
 
@@ -150,15 +170,4 @@
       
       -- Operations 
       * ENN based on: class | Trained
-
-# errors when not enough observations for neighbors
-
-    Code
-      bake(prep(step_enn(recipe(class ~ x + y, data = small), class, neighbors = 5,
-      skip = FALSE)), new_data = NULL)
-    Condition
-      Error in `step_enn()`:
-      Caused by error in `bake()`:
-      ! Not enough observations to compute 5 nearest neighbors.
-      i 3 observations were found, but 6 are needed.
 

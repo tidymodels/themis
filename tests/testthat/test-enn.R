@@ -26,6 +26,38 @@ test_that("neighbors argument changes result", {
   expect_false(identical(nrow(baked1), nrow(baked3)))
 })
 
+test_that("times argument applies ENN repeatedly", {
+  set.seed(1)
+  n <- 200
+  noisy <- data.frame(
+    x = rnorm(n),
+    y = rnorm(n),
+    class = factor(sample(c("a", "b"), n, replace = TRUE))
+  )
+
+  n1 <- nrow(enn(noisy, var = "class", times = 1))
+  n2 <- nrow(enn(noisy, var = "class", times = 2))
+  n_inf <- nrow(enn(noisy, var = "class", times = Inf))
+
+  expect_lt(n2, n1)
+  expect_lte(n_inf, n2)
+})
+
+test_that("times converges before reaching the cap", {
+  set.seed(1)
+  n <- 200
+  noisy <- data.frame(
+    x = rnorm(n),
+    y = rnorm(n),
+    class = factor(sample(c("a", "b"), n, replace = TRUE))
+  )
+
+  expect_identical(
+    enn(noisy, var = "class", times = 100),
+    enn(noisy, var = "class", times = Inf)
+  )
+})
+
 test_that("errors when not enough observations for neighbors", {
   small <- circle_example[1:3, c("x", "y", "class")]
 
@@ -273,6 +305,12 @@ test_that("bad args", {
     error = TRUE,
     recipe(class ~ x + y, data = circle_example) |>
       step_enn(class, neighbors = -1) |>
+      prep()
+  )
+  expect_snapshot(
+    error = TRUE,
+    recipe(class ~ x + y, data = circle_example) |>
+      step_enn(class, times = -1) |>
       prep()
   )
 })
