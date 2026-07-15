@@ -171,6 +171,7 @@ for direct implementation
 
 Other Steps for under-sampling:
 [`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md),
+[`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md),
 [`step_tomek()`](https://themis.tidymodels.org/dev/reference/step_tomek.md)
 
 ## Examples

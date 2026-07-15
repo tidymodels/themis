@@ -2,6 +2,14 @@
 
 ## themis (development version)
 
+- [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md)
+  (and its direct-implementation counterpart
+  [`instance_hardness()`](https://themis.tidymodels.org/dev/reference/instance_hardness.md))
+  was added. It under-samples the majority classes by removing the
+  observations that are hardest to classify, estimated using the
+  k-Disagreeing Neighbors measure
+  ([\#172](https://github.com/tidymodels/themis/issues/172)).
+
 - [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
   [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md),
   [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),

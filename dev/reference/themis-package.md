@@ -27,6 +27,11 @@ Useful links:
 **Maintainer**: Emil Hvitfeldt <emil.hvitfeldt@posit.co>
 ([ORCID](https://orcid.org/0000-0002-0679-1945))
 
+Authors:
+
+- Emil Hvitfeldt <emil.hvitfeldt@posit.co>
+  ([ORCID](https://orcid.org/0000-0002-0679-1945))
+
 Other contributors:
 
 - Posit Software, PBC ([ROR](https://ror.org/03wc8by49)) \[copyright

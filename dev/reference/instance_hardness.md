@@ -1,11 +1,12 @@
-# Remove Points Near Other Classes
+# Remove hard to classify points
 
-Generates synthetic positive instances using nearmiss algorithm.
+Under-samples the majority classes by removing the points that are
+hardest to classify.
 
 ## Usage
 
 ``` r
-nearmiss(df, var, k = 5, under_ratio = 1, distance = "euclidean")
+instance_hardness(df, var, k = 5, under_ratio = 1, distance = "euclidean")
 ```
 
 ## Arguments
@@ -21,8 +22,8 @@ nearmiss(df, var, k = 5, under_ratio = 1, distance = "euclidean")
 
 - k:
 
-  An integer. Number of nearest neighbor that are used to generate the
-  new examples of the minority class.
+  An integer. Number of nearest neighbors used to estimate the instance
+  hardness of each observation.
 
 - under_ratio:
 
@@ -49,24 +50,29 @@ A data.frame or tibble, depending on type of `df`.
 
 ## Details
 
-This function implements the NearMiss-1 algorithm. All columns used in
-this function must be numeric with no missing data.
+The instance hardness of each observation is estimated using the
+k-Disagreeing Neighbors measure: the proportion of the `k` nearest
+neighbors that belong to a different class. Observations that are
+surrounded by points of a different class are considered hard to
+classify. For each majority class, the hardest observations are removed
+until the desired `under_ratio` is reached.
+
+All columns used in this function must be numeric with no missing data.
 
 ## References
 
-Inderjeet Mani and I Zhang. knn approach to unbalanced data
-distributions: a case study involving information extraction. In
-Proceedings of workshop on learning from imbalanced datasets, 2003.
+Smith, M. R., Martinez, T., & Giraud-Carrier, C. (2014). An instance
+level analysis of data complexity. Machine learning, 95(2), 225-256.
 
 ## See also
 
-[`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md)
+[`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md)
 for step function of this method
 
 Other Direct Implementations:
 [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md),
 [`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md),
-[`instance_hardness()`](https://themis.tidymodels.org/dev/reference/instance_hardness.md),
+[`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md),
 [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md),
 [`smote()`](https://themis.tidymodels.org/dev/reference/smote.md),
 [`smotenc()`](https://themis.tidymodels.org/dev/reference/smotenc.md),
@@ -77,11 +83,11 @@ Other Direct Implementations:
 ``` r
 circle_numeric <- circle_example[, c("x", "y", "class")]
 
-res <- nearmiss(circle_numeric, var = "class")
+res <- instance_hardness(circle_numeric, var = "class")
 
-res <- nearmiss(circle_numeric, var = "class", k = 10)
+res <- instance_hardness(circle_numeric, var = "class", k = 10)
 
-res <- nearmiss(circle_numeric, var = "class", under_ratio = 1.5)
+res <- instance_hardness(circle_numeric, var = "class", under_ratio = 1.5)
 
-res <- nearmiss(circle_numeric, var = "class", distance = "manhattan")
+res <- instance_hardness(circle_numeric, var = "class", distance = "manhattan")
 ```

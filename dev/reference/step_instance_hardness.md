@@ -1,24 +1,25 @@
-# Down-Sample a Data Set Based on a Factor Variable
+# Remove hard to classify points
 
-`step_downsample()` creates a *specification* of a recipe step that will
-remove rows of a data set to make the occurrence of levels in a specific
-factor level equal.
+`step_instance_hardness()` creates a *specification* of a recipe step
+that removes majority class instances by under-sampling the points that
+are hardest to classify.
 
 ## Usage
 
 ``` r
-step_downsample(
+step_instance_hardness(
   recipe,
   ...,
-  under_ratio = 1,
-  ratio = deprecated(),
   role = NA,
   trained = FALSE,
   column = NULL,
-  target = NA,
+  under_ratio = 1,
+  neighbors = 5,
+  distance = "euclidean",
   skip = TRUE,
   seed = sample.int(10^5, 1),
-  id = rand_id("downsample")
+  distance_with = recipes::all_predictors(),
+  id = rand_id("instance_hardness")
 )
 ```
 
@@ -37,19 +38,6 @@ step_downsample(
   for more details. The selection should result in *single factor
   variable*. For the `tidy` method, these are not currently used.
 
-- under_ratio:
-
-  A numeric value for the ratio of the majority-to-minority frequencies.
-  The default value (1) means that all other levels are sampled down to
-  have the same frequency as the least occurring level. A value of 2
-  would mean that the majority levels will have (at most)
-  (approximately) twice as many rows than the minority level. See
-  `vignette("ratio", package = "themis")` for more details.
-
-- ratio:
-
-  Deprecated argument; same as `under_ratio`
-
 - role:
 
   Not used by this step since no new variables are created.
@@ -64,10 +52,29 @@ step_downsample(
   A character string of the variable name that will be populated
   (eventually) by the `...` selectors.
 
-- target:
+- under_ratio:
 
-  An integer that will be used to subsample. This should not be set by
-  the user and will be populated by `prep`.
+  A numeric value for the ratio of the majority-to-minority frequencies.
+  The default value (1) means that all other levels are sampled down to
+  have the same frequency as the least occurring level. A value of 2
+  would mean that the majority levels will have (at most)
+  (approximately) twice as many rows than the minority level. See
+  `vignette("ratio", package = "themis")` for more details.
+
+- neighbors:
+
+  An integer. Number of nearest neighbor that are used to generate the
+  new examples of the minority class.
+
+- distance:
+
+  A character string specifying the distance metric used for nearest
+  neighbor calculations. One of `"euclidean"` (default), `"cosine"`,
+  `"mahalanobis"`, `"manhattan"`, or `"chebyshev"`. `"euclidean"`,
+  `"cosine"`, and `"mahalanobis"` use approximate nearest neighbors via
+  the RANN package and scale well to large datasets. `"manhattan"` and
+  `"chebyshev"` compute an exact O(n^2) distance matrix and may be slow
+  for large datasets.
 
 - skip:
 
@@ -82,7 +89,15 @@ step_downsample(
 
 - seed:
 
-  An integer that will be used as the seed when downsampling.
+  An integer that will be used as the seed when applied.
+
+- distance_with:
+
+  A call to a selector function to choose which variables are used for
+  distance calculations. Defaults to
+  [`recipes::all_predictors()`](https://recipes.tidymodels.org/reference/has_role.html).
+  The variable selected by `...` is always excluded from the distance
+  calculations.
 
 - id:
 
@@ -96,26 +111,24 @@ of existing steps (if any). For the `tidy` method, a tibble with columns
 
 ## Details
 
-Down-sampling is intended to be performed on the *training* set alone.
-For this reason, the default is `skip = TRUE`.
-
-If there are missing values in the factor variable that is used to
-define the sampling, missing data are selected at random in the same way
-that the other factor levels are sampled. Missing values are not used to
-determine the amount of data in the minority level
-
-For any data with factor levels occurring with the same frequency as the
-minority level, all data will be retained.
+The instance hardness of each observation is estimated using the
+k-Disagreeing Neighbors measure: the proportion of the `neighbors`
+nearest neighbors that belong to a different class. Observations that
+are surrounded by points of a different class are considered hard to
+classify. For each majority class, the hardest observations are removed
+until the desired `under_ratio` is reached.
 
 All columns in the data are sampled and returned by
 [`recipes::juice()`](https://recipes.tidymodels.org/reference/juice.html)
 and
 [`recipes::bake()`](https://recipes.tidymodels.org/reference/bake.html).
 
-Keep in mind that the location of down-sampling in the step may have
-effects. For example, if centering and scaling, it is not clear whether
-those operations should be conducted *before* or *after* rows are
-removed.
+All columns selected by `distance_with` must be numeric with no missing
+data.
+
+When used in modeling, users should strongly consider using the option
+`skip = TRUE` so that the extra sampling is *not* conducted outside of
+the training set.
 
 ## Tidying
 
@@ -133,21 +146,28 @@ this step, a tibble is returned with columns `terms` and `id`:
 
 ## Tuning Parameters
 
-This step has 1 tuning parameters:
+This step has 2 tuning parameters:
 
 - `under_ratio`: Under-Sampling Ratio (type: double, default: 1)
 
+- `neighbors`: \# Nearest Neighbors (type: integer, default: 5)
+
 ## Case weights
 
-This step performs an unsupervised operation that can utilize case
-weights. To use them, see the documentation in
-[recipes::case_weights](https://recipes.tidymodels.org/reference/case_weights.html)
-and the examples on `tidymodels.org`.
+The underlying operation does not allow for case weights.
+
+## References
+
+Smith, M. R., Martinez, T., & Giraud-Carrier, C. (2014). An instance
+level analysis of data complexity. Machine learning, 95(2), 225-256.
 
 ## See also
 
+[`instance_hardness()`](https://themis.tidymodels.org/dev/reference/instance_hardness.md)
+for direct implementation
+
 Other Steps for under-sampling:
-[`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md),
+[`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md),
 [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),
 [`step_tomek()`](https://themis.tidymodels.org/dev/reference/step_tomek.md)
 
@@ -174,7 +194,7 @@ orig
 up_rec <- recipe(class ~ ., data = hpc_data0) |>
   # Bring the majority levels down to about 1000 each
   # 1000/259 is approx 3.862
-  step_downsample(class, under_ratio = 3.862) |>
+  step_instance_hardness(class, under_ratio = 3.862) |>
   prep()
 
 training <- up_rec |>
@@ -219,14 +239,18 @@ library(ggplot2)
 
 ggplot(circle_example, aes(x, y, color = class)) +
   geom_point() +
-  labs(title = "Without downsample")
+  labs(title = "Without instance hardness") +
+  xlim(c(1, 15)) +
+  ylim(c(1, 15))
 
 
 recipe(class ~ x + y, data = circle_example) |>
-  step_downsample(class) |>
+  step_instance_hardness(class) |>
   prep() |>
   bake(new_data = NULL) |>
   ggplot(aes(x, y, color = class)) +
   geom_point() +
-  labs(title = "With downsample")
+  labs(title = "With instance hardness") +
+  xlim(c(1, 15)) +
+  ylim(c(1, 15))
 ```

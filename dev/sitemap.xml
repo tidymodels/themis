@@ -12,6 +12,7 @@
 <url><loc>https://themis.tidymodels.org/dev/reference/bsmote.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/circle_example.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/index.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/instance_hardness.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/nearmiss.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/reexports.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/required_pkgs.step.html</loc></url>
@@ -21,6 +22,7 @@
 <url><loc>https://themis.tidymodels.org/dev/reference/step_adasyn.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/step_bsmote.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/step_downsample.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/step_instance_hardness.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/step_nearmiss.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/step_rose.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/step_smote.html</loc></url>

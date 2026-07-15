@@ -26,6 +26,8 @@ classes.
 
 - [`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md)
   : Down-Sample a Data Set Based on a Factor Variable
+- [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md)
+  : Remove hard to classify points
 - [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md)
   : Remove Points Near Other Classes
 - [`step_tomek()`](https://themis.tidymodels.org/dev/reference/step_tomek.md)
@@ -46,6 +48,8 @@ available as their own functions.
   Adaptive Synthetic Algorithm
 - [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md) : ROSE
   Algorithm
+- [`instance_hardness()`](https://themis.tidymodels.org/dev/reference/instance_hardness.md)
+  : Remove hard to classify points
 - [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md)
   : Remove Points Near Other Classes
 - [`tomek()`](https://themis.tidymodels.org/dev/reference/tomek.md) :
