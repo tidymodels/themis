@@ -170,11 +170,11 @@ Journal of Artificial Intelligence Research, 16:321-357.
 \seealso{
 \code{\link[=smotenc]{smotenc()}} for direct implementation
 
-Other Steps for over-sampling: 
-\code{\link{step_adasyn}()},
-\code{\link{step_bsmote}()},
-\code{\link{step_rose}()},
-\code{\link{step_smote}()},
-\code{\link{step_upsample}()}
+Other Steps for over-sampling:
+\code{\link[=step_adasyn]{step_adasyn()}},
+\code{\link[=step_bsmote]{step_bsmote()}},
+\code{\link[=step_rose]{step_rose()}},
+\code{\link[=step_smote]{step_smote()}},
+\code{\link[=step_upsample]{step_upsample()}}
 }
 \concept{Steps for over-sampling}

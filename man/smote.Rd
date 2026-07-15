@@ -67,12 +67,13 @@ Journal of Artificial Intelligence Research, 16:321-357.
 \seealso{
 \code{\link[=step_smote]{step_smote()}} for step function of this method
 
-Other Direct Implementations: 
-\code{\link{adasyn}()},
-\code{\link{bsmote}()},
-\code{\link{nearmiss}()},
-\code{\link{rose}()},
-\code{\link{smotenc}()},
-\code{\link{tomek}()}
+Other Direct Implementations:
+\code{\link[=adasyn]{adasyn()}},
+\code{\link[=bsmote]{bsmote()}},
+\code{\link[=instance_hardness]{instance_hardness()}},
+\code{\link[=nearmiss]{nearmiss()}},
+\code{\link[=rose]{rose()}},
+\code{\link[=smotenc]{smotenc()}},
+\code{\link[=tomek]{tomek()}}
 }
 \concept{Direct Implementations}

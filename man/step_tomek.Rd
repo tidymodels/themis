@@ -56,7 +56,7 @@ applied.}
 
 \item{distance_with}{A call to a selector function to choose
 which variables are used for distance calculations. Defaults to
-\code{\link[recipes:has_role]{recipes::all_predictors()}}. The variable selected by \code{...} is
+\code{\link[recipes:all_predictors]{recipes::all_predictors()}}. The variable selected by \code{...} is
 always excluded from the distance calculations.}
 
 \item{id}{A character string that is unique to this step to identify it.}
@@ -164,8 +164,9 @@ Tomek. Two modifications of cnn. IEEE Trans. Syst. Man Cybern.,
 \seealso{
 \code{\link[=tomek]{tomek()}} for direct implementation
 
-Other Steps for under-sampling: 
-\code{\link{step_downsample}()},
-\code{\link{step_nearmiss}()}
+Other Steps for under-sampling:
+\code{\link[=step_downsample]{step_downsample()}},
+\code{\link[=step_instance_hardness]{step_instance_hardness()}},
+\code{\link[=step_nearmiss]{step_nearmiss()}}
 }
 \concept{Steps for under-sampling}

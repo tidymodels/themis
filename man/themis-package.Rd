@@ -22,6 +22,11 @@ Useful links:
 \author{
 \strong{Maintainer}: Emil Hvitfeldt \email{emil.hvitfeldt@posit.co} (\href{https://orcid.org/0000-0002-0679-1945}{ORCID})
 
+Authors:
+\itemize{
+  \item Emil Hvitfeldt \email{emil.hvitfeldt@posit.co} (\href{https://orcid.org/0000-0002-0679-1945}{ORCID})
+}
+
 Other contributors:
 \itemize{
   \item Posit Software, PBC (\href{https://ror.org/03wc8by49}{ROR}) [copyright holder, funder]

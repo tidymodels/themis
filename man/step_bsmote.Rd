@@ -214,11 +214,11 @@ International Conference on Intelligent Computing, pages 878–887. Springer,
 \seealso{
 \code{\link[=bsmote]{bsmote()}} for direct implementation
 
-Other Steps for over-sampling: 
-\code{\link{step_adasyn}()},
-\code{\link{step_rose}()},
-\code{\link{step_smote}()},
-\code{\link{step_smotenc}()},
-\code{\link{step_upsample}()}
+Other Steps for over-sampling:
+\code{\link[=step_adasyn]{step_adasyn()}},
+\code{\link[=step_rose]{step_rose()}},
+\code{\link[=step_smote]{step_smote()}},
+\code{\link[=step_smotenc]{step_smotenc()}},
+\code{\link[=step_upsample]{step_upsample()}}
 }
 \concept{Steps for over-sampling}

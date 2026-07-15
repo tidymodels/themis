@@ -186,11 +186,11 @@ Discovery, 28:92–122.
 \seealso{
 \code{\link[=rose]{rose()}} for direct implementation
 
-Other Steps for over-sampling: 
-\code{\link{step_adasyn}()},
-\code{\link{step_bsmote}()},
-\code{\link{step_smote}()},
-\code{\link{step_smotenc}()},
-\code{\link{step_upsample}()}
+Other Steps for over-sampling:
+\code{\link[=step_adasyn]{step_adasyn()}},
+\code{\link[=step_bsmote]{step_bsmote()}},
+\code{\link[=step_smote]{step_smote()}},
+\code{\link[=step_smotenc]{step_smotenc()}},
+\code{\link[=step_upsample]{step_upsample()}}
 }
 \concept{Steps for over-sampling}
