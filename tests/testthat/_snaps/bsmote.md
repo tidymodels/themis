@@ -1,3 +1,12 @@
+# bad distance arg for step_bsmote()
+
+    Code
+      bake(prep(step_bsmote(recipe(class ~ x + y, data = circle_example), class,
+      distance = "L2")), new_data = NULL)
+    Condition
+      Error in `step_bsmote()`:
+      ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", or "chebyshev", not "L2".
+
 # errors if there isn't enough data
 
     Code

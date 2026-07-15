@@ -31,18 +31,28 @@
 #' res <- nearmiss(circle_numeric, var = "class", k = 10)
 #'
 #' res <- nearmiss(circle_numeric, var = "class", under_ratio = 1.5)
-nearmiss <- function(df, var, k = 5, under_ratio = 1) {
+#'
+#' res <- nearmiss(circle_numeric, var = "class", distance = "manhattan")
+nearmiss <- function(df, var, k = 5, under_ratio = 1, distance = "euclidean") {
   check_data_frame(df)
   check_var(var, df)
   check_number_whole(k, min = 1)
   check_number_decimal(under_ratio)
+  check_distance_arg(distance)
 
   predictors <- setdiff(colnames(df), var)
 
   check_numeric(df[, predictors])
   check_na(select(df, -all_of(var)))
 
-  nearmiss_impl(df, var, ignore_vars = character(), k, under_ratio)
+  nearmiss_impl(
+    df,
+    var,
+    ignore_vars = character(),
+    k,
+    under_ratio,
+    distance = distance
+  )
 }
 
 nearmiss_impl <- function(
@@ -51,6 +61,7 @@ nearmiss_impl <- function(
   ignore_vars,
   k = 5,
   under_ratio = 1,
+  distance = "euclidean",
   call = caller_env()
 ) {
   classes <- downsample_count(df, var, under_ratio)
@@ -73,11 +84,7 @@ nearmiss_impl <- function(
       )
     }
 
-    dists <- RANN::nn2(
-      not_class[, !(colnames(not_class) %in% ignore_vars)],
-      class[, !(colnames(class) %in% ignore_vars)],
-      k = k
-    )$nn.dists
+    dists <- nn_dists_cross(class, not_class, k, distance)
 
     selected_ind <- order(rowMeans(dists)) <= (nrow(class) - classes[i])
     deleted_rows <- c(

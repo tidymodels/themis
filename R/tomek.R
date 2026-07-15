@@ -114,12 +114,14 @@ step_tomek <-
     role = NA,
     trained = FALSE,
     column = NULL,
+    distance = "euclidean",
     skip = TRUE,
     seed = sample.int(10^5, 1),
     distance_with = recipes::all_predictors(),
     id = rand_id("tomek")
   ) {
     check_number_whole(seed)
+    check_distance_arg(distance)
 
     add_step(
       recipe,
@@ -128,6 +130,7 @@ step_tomek <-
         role = role,
         trained = trained,
         column = column,
+        distance = distance,
         predictors = NULL,
         skip = skip,
         seed = seed,
@@ -143,6 +146,7 @@ step_tomek_new <-
     role,
     trained,
     column,
+    distance,
     predictors,
     skip,
     seed,
@@ -155,6 +159,7 @@ step_tomek_new <-
       role = role,
       trained = trained,
       column = column,
+      distance = distance,
       predictors = predictors,
       skip = skip,
       seed = seed,
@@ -187,6 +192,7 @@ prep.step_tomek <- function(x, training, info = NULL, ...) {
     role = x$role,
     trained = TRUE,
     column = col_name,
+    distance = x$distance,
     predictors = predictors,
     skip = x$skip,
     seed = x$seed,
@@ -217,7 +223,8 @@ bake.step_tomek <- function(object, new_data, ...) {
     code = {
       tomek_data <- tomek_impl(
         df = predictor_data,
-        var = object$column
+        var = object$column,
+        distance = object$distance
       )
     }
   )

@@ -1,3 +1,11 @@
+# bad distance arg errors for tomek
+
+    Code
+      tomek(circle_numeric, var = "class", distance = "minkowski")
+    Condition
+      Error in `tomek()`:
+      ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", or "chebyshev", not "minkowski".
+
 # tomek() interfaces correctly
 
     Code

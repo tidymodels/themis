@@ -182,6 +182,53 @@ test_that("id variables don't turn predictors to factors", {
   expect_equal(is.double(rec_id$y), TRUE)
 })
 
+test_that("distance argument accepted by step_tomek()", {
+  expect_no_error(
+    recipe(class ~ x + y, data = circle_example) |>
+      step_tomek(class, distance = "euclidean") |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+  expect_no_error(
+    recipe(class ~ x + y, data = circle_example) |>
+      step_tomek(class, distance = "cosine") |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+  expect_no_error(
+    recipe(class ~ x + y, data = circle_example) |>
+      step_tomek(class, distance = "mahalanobis") |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+  expect_no_error(
+    recipe(class ~ x + y, data = circle_example) |>
+      step_tomek(class, distance = "manhattan") |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+  expect_no_error(
+    recipe(class ~ x + y, data = circle_example) |>
+      step_tomek(class, distance = "chebyshev") |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+})
+
+test_that("bad distance arg for step_tomek()", {
+  expect_snapshot(
+    error = TRUE,
+    bake(
+      prep(step_tomek(
+        recipe(class ~ x + y, data = circle_example),
+        class,
+        distance = "L2"
+      )),
+      new_data = NULL
+    )
+  )
+})
+
 test_that("bad args", {
   expect_snapshot(
     error = TRUE,

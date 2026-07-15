@@ -5,6 +5,7 @@
 #' @param df data.frame or tibble. Must have 1 factor variable and remaining
 #'  numeric variables.
 #' @param var Character, name of variable containing factor variable.
+#' @inheritParams step_smote
 #'
 #' @return A data.frame or tibble, depending on type of `df`.
 #' @export
@@ -22,20 +23,23 @@
 #' circle_numeric <- circle_example[, c("x", "y", "class")]
 #'
 #' res <- tomek(circle_numeric, var = "class")
-tomek <- function(df, var) {
+#'
+#' res <- tomek(circle_numeric, var = "class", distance = "manhattan")
+tomek <- function(df, var, distance = "euclidean") {
   check_data_frame(df)
   check_var(var, df)
+  check_distance_arg(distance)
 
   predictors <- setdiff(colnames(df), var)
 
   check_numeric(df[, predictors])
   check_na(select(df, -all_of(var)))
 
-  df[-tomek_impl(df, var), ]
+  df[-tomek_impl(df, var, distance), ]
 }
 
-tomek_impl <- function(df, var) {
-  res <- RANN::nn2(df[names(df) != var], k = 2)$nn.idx
+tomek_impl <- function(df, var, distance = "euclidean") {
+  res <- nn_indices(as.matrix(df[names(df) != var]), k = 1, distance)
   # Make sure itself isn't counted as nearest neighbor for overlaps
   res <- dplyr::if_else(seq_len(nrow(res)) == res[, 2], res[, 1], res[, 2])
 

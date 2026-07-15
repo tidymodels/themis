@@ -46,6 +46,15 @@
       x All columns selected for the step should be double or integer.
       * 1 factor variable found: `name`
 
+# bad distance arg for step_tomek()
+
+    Code
+      bake(prep(step_tomek(recipe(class ~ x + y, data = circle_example), class,
+      distance = "L2")), new_data = NULL)
+    Condition
+      Error in `step_tomek()`:
+      ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", or "chebyshev", not "L2".
+
 # bad args
 
     Code

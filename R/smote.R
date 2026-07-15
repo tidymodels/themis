@@ -14,6 +14,13 @@
 #'  be populated (eventually) by the `...` selectors.
 #' @param neighbors An integer. Number of nearest neighbor that are used
 #'  to generate the new examples of the minority class.
+#' @param distance A character string specifying the distance metric used for
+#'  nearest neighbor calculations. One of `"euclidean"` (default), `"cosine"`,
+#'  `"mahalanobis"`, `"manhattan"`, or `"chebyshev"`. `"euclidean"`,
+#'  `"cosine"`, and `"mahalanobis"` use approximate nearest neighbors via
+#'  the RANN package and scale well to large datasets. `"manhattan"` and
+#'  `"chebyshev"` compute an exact O(n^2) distance matrix and may be slow for
+#'  large datasets.
 #' @param seed An integer that will be used as the seed when
 #' smote-ing.
 #' @return An updated version of `recipe` with the new step
@@ -125,6 +132,7 @@ step_smote <-
     column = NULL,
     over_ratio = 1,
     neighbors = 5,
+    distance = "euclidean",
     indicator_column = NULL,
     skip = TRUE,
     seed = sample.int(10^5, 1),
@@ -132,6 +140,7 @@ step_smote <-
   ) {
     check_number_whole(seed)
     check_string(indicator_column, allow_null = TRUE, allow_empty = FALSE)
+    check_distance_arg(distance)
 
     add_step(
       recipe,
@@ -142,6 +151,7 @@ step_smote <-
         column = column,
         over_ratio = over_ratio,
         neighbors = neighbors,
+        distance = distance,
         predictors = NULL,
         indicator_column = indicator_column,
         skip = skip,
@@ -159,6 +169,7 @@ step_smote_new <-
     column,
     over_ratio,
     neighbors,
+    distance,
     predictors,
     indicator_column,
     skip,
@@ -173,6 +184,7 @@ step_smote_new <-
       column = column,
       over_ratio = over_ratio,
       neighbors = neighbors,
+      distance = distance,
       predictors = predictors,
       indicator_column = indicator_column,
       skip = skip,
@@ -210,6 +222,7 @@ prep.step_smote <- function(x, training, info = NULL, ...) {
     column = col_name,
     over_ratio = x$over_ratio,
     neighbors = x$neighbors,
+    distance = x$distance,
     predictors = predictors,
     indicator_column = x$indicator_column,
     skip = x$skip,
@@ -245,7 +258,8 @@ bake.step_smote <- function(object, new_data, ...) {
         predictor_data,
         object$column,
         k = object$neighbors,
-        over_ratio = object$over_ratio
+        over_ratio = object$over_ratio,
+        distance = object$distance
       )
       synthetic_data <- as_tibble(synthetic_data)
     }

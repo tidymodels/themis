@@ -4,7 +4,7 @@
 \alias{nearmiss}
 \title{Remove Points Near Other Classes}
 \usage{
-nearmiss(df, var, k = 5, under_ratio = 1)
+nearmiss(df, var, k = 5, under_ratio = 1, distance = "euclidean")
 }
 \arguments{
 \item{df}{data.frame or tibble. Must have 1 factor variable and remaining
@@ -22,6 +22,14 @@ frequency as the least occurring level. A value of 2 would mean
 that the majority levels will have (at most) (approximately)
 twice as many rows than the minority level. See
 \code{vignette("ratio", package = "themis")} for more details.}
+
+\item{distance}{A character string specifying the distance metric used for
+nearest neighbor calculations. One of \code{"euclidean"} (default), \code{"cosine"},
+\code{"mahalanobis"}, \code{"manhattan"}, or \code{"chebyshev"}. \code{"euclidean"},
+\code{"cosine"}, and \code{"mahalanobis"} use approximate nearest neighbors via
+the RANN package and scale well to large datasets. \code{"manhattan"} and
+\code{"chebyshev"} compute an exact O(n^2) distance matrix and may be slow for
+large datasets.}
 }
 \value{
 A data.frame or tibble, depending on type of \code{df}.
@@ -41,6 +49,8 @@ res <- nearmiss(circle_numeric, var = "class")
 res <- nearmiss(circle_numeric, var = "class", k = 10)
 
 res <- nearmiss(circle_numeric, var = "class", under_ratio = 1.5)
+
+res <- nearmiss(circle_numeric, var = "class", distance = "manhattan")
 }
 \references{
 Inderjeet Mani and I Zhang. knn approach to unbalanced data

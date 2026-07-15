@@ -254,6 +254,53 @@ test_that("tunable", {
   )
 })
 
+test_that("distance argument accepted by step_nearmiss()", {
+  expect_no_error(
+    recipe(class ~ x + y, data = circle_example) |>
+      step_nearmiss(class, distance = "euclidean") |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+  expect_no_error(
+    recipe(class ~ x + y, data = circle_example) |>
+      step_nearmiss(class, distance = "cosine") |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+  expect_no_error(
+    recipe(class ~ x + y, data = circle_example) |>
+      step_nearmiss(class, distance = "mahalanobis") |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+  expect_no_error(
+    recipe(class ~ x + y, data = circle_example) |>
+      step_nearmiss(class, distance = "manhattan") |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+  expect_no_error(
+    recipe(class ~ x + y, data = circle_example) |>
+      step_nearmiss(class, distance = "chebyshev") |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+})
+
+test_that("bad distance arg for step_nearmiss()", {
+  expect_snapshot(
+    error = TRUE,
+    bake(
+      prep(step_nearmiss(
+        recipe(class ~ x + y, data = circle_example),
+        class,
+        distance = "L2"
+      )),
+      new_data = NULL
+    )
+  )
+})
+
 test_that("bad args", {
   expect_snapshot(
     error = TRUE,

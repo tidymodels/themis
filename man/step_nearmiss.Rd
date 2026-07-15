@@ -13,6 +13,7 @@ step_nearmiss(
   column = NULL,
   under_ratio = 1,
   neighbors = 5,
+  distance = "euclidean",
   skip = TRUE,
   seed = sample.int(10^5, 1),
   distance_with = recipes::all_predictors(),
@@ -48,6 +49,14 @@ twice as many rows than the minority level. See
 
 \item{neighbors}{An integer. Number of nearest neighbor that are used
 to generate the new examples of the minority class.}
+
+\item{distance}{A character string specifying the distance metric used for
+nearest neighbor calculations. One of \code{"euclidean"} (default), \code{"cosine"},
+\code{"mahalanobis"}, \code{"manhattan"}, or \code{"chebyshev"}. \code{"euclidean"},
+\code{"cosine"}, and \code{"mahalanobis"} use approximate nearest neighbors via
+the RANN package and scale well to large datasets. \code{"manhattan"} and
+\code{"chebyshev"} compute an exact O(n^2) distance matrix and may be slow for
+large datasets.}
 
 \item{skip}{A logical. Should the step be skipped when the recipe is baked by
 \code{\link[recipes:bake]{bake()}}? While all operations are baked when \code{\link[recipes:prep]{prep()}} is run, some

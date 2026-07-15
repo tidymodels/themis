@@ -1,5 +1,51 @@
 circle_example_num <- circle_example[, c("x", "y", "class")]
 
+test_that("distance argument accepted by adasyn()", {
+  expect_no_error(
+    adasyn(
+      circle_example_num,
+      var = "class",
+      distance = "euclidean"
+    )
+  )
+  expect_no_error(
+    adasyn(
+      circle_example_num,
+      var = "class",
+      distance = "cosine"
+    )
+  )
+  expect_no_error(
+    adasyn(
+      circle_example_num,
+      var = "class",
+      distance = "mahalanobis"
+    )
+  )
+  expect_no_error(
+    adasyn(
+      circle_example_num,
+      var = "class",
+      distance = "manhattan"
+    )
+  )
+  expect_no_error(
+    adasyn(
+      circle_example_num,
+      var = "class",
+      distance = "chebyshev"
+    )
+  )
+})
+
+
+test_that("bad distance arg errors for adasyn", {
+  expect_snapshot(
+    error = TRUE,
+    adasyn(circle_example_num, var = "class", distance = "minkowski")
+  )
+})
+
 test_that("adasyn generates synthetic points only near minority-majority boundary", {
   df <- data.frame(
     x = c(

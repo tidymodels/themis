@@ -38,21 +38,31 @@
 #' res <- smote(circle_numeric, var = "class", k = 10)
 #'
 #' res <- smote(circle_numeric, var = "class", over_ratio = 0.8)
-smote <- function(df, var, k = 5, over_ratio = 1) {
+#'
+#' res <- smote(circle_numeric, var = "class", distance = "manhattan")
+smote <- function(df, var, k = 5, over_ratio = 1, distance = "euclidean") {
   check_data_frame(df)
   check_var(var, df)
   check_number_whole(k, min = 1)
   check_number_decimal(over_ratio)
+  check_distance_arg(distance)
 
   predictors <- setdiff(colnames(df), var)
 
   check_numeric(df[, predictors])
   check_na(select(df, -all_of(var)))
 
-  smote_impl(df, var, k, over_ratio)
+  smote_impl(df, var, k, over_ratio, distance)
 }
 
-smote_impl <- function(df, var, k, over_ratio, call = caller_env()) {
+smote_impl <- function(
+  df,
+  var,
+  k,
+  over_ratio,
+  distance = "euclidean",
+  call = caller_env()
+) {
   data <- split(df, df[[var]])
   majority_count <- max(table(df[[var]]))
   ratio_target <- majority_count * over_ratio
@@ -76,7 +86,12 @@ smote_impl <- function(df, var, k, over_ratio, call = caller_env()) {
       )
     }
 
-    synthetic <- smote_data(minority, k = k, n_samples = samples_needed[i])
+    synthetic <- smote_data(
+      minority,
+      k = k,
+      n_samples = samples_needed[i],
+      distance = distance
+    )
     out_df <- as.data.frame(synthetic)
     names(out_df) <- setdiff(names(df), var)
     out_df_nrow <- min(nrow(out_df), 1)
@@ -91,8 +106,15 @@ smote_impl <- function(df, var, k, over_ratio, call = caller_env()) {
   final
 }
 
-smote_data <- function(data, k, n_samples, smote_ids = seq_len(nrow(data))) {
-  ids <- RANN::nn2(data, k = k + 1, searchtype = "priority")$nn.idx
+
+smote_data <- function(
+  data,
+  k,
+  n_samples,
+  smote_ids = seq_len(nrow(data)),
+  distance = "euclidean"
+) {
+  ids <- nn_indices(data, k, distance)
   indexes <- rep(sample(smote_ids), length.out = n_samples)
   index_len <- tabulate(indexes, NROW(data))
   out <- matrix(0, nrow = n_samples, ncol = ncol(data))

@@ -1,3 +1,36 @@
+test_that("distance argument accepted by nearmiss()", {
+  circle_numeric <- circle_example[, c("x", "y", "class")]
+  expect_no_error(nearmiss(
+    circle_numeric,
+    var = "class",
+    distance = "euclidean"
+  ))
+  expect_no_error(nearmiss(circle_numeric, var = "class", distance = "cosine"))
+  expect_no_error(nearmiss(
+    circle_numeric,
+    var = "class",
+    distance = "mahalanobis"
+  ))
+  expect_no_error(nearmiss(
+    circle_numeric,
+    var = "class",
+    distance = "manhattan"
+  ))
+  expect_no_error(nearmiss(
+    circle_numeric,
+    var = "class",
+    distance = "chebyshev"
+  ))
+})
+
+test_that("bad distance arg errors for nearmiss", {
+  circle_numeric <- circle_example[, c("x", "y", "class")]
+  expect_snapshot(
+    error = TRUE,
+    nearmiss(circle_numeric, var = "class", distance = "minkowski")
+  )
+})
+
 test_that("nearmiss keeps majority points closest to minority class (k=1)", {
   df <- data.frame(
     x = c(0, 1, 3, 6, 11),
