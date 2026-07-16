@@ -1,3 +1,35 @@
+# warns when both times and all_k are set
+
+    Code
+      tmp <- enn(circle_example[, c("x", "y", "class")], var = "class", times = 2,
+      all_k = TRUE)
+    Condition
+      Warning in `enn()`:
+      `times` is ignored when `all_k` is `TRUE`.
+
+---
+
+    Code
+      prep(step_enn(recipe(class ~ x + y, data = circle_example), class, times = 2,
+      all_k = TRUE))
+    Condition
+      Warning in `prep()`:
+      `times` is ignored when `all_k` is `TRUE`.
+    Message
+      
+      -- Recipe ----------------------------------------------------------------------
+      
+      -- Inputs 
+      Number of variables by role
+      outcome:   1
+      predictor: 2
+      
+      -- Training information 
+      Training data contained 400 data points and no incomplete rows.
+      
+      -- Operations 
+      * ENN based on: class | Trained
+
 # errors when not enough observations for neighbors
 
     Code
@@ -92,6 +124,14 @@
       Error in `step_enn()`:
       Caused by error in `prep()`:
       ! `times` must be a whole number larger than or equal to 1, not the number -1.
+
+---
+
+    Code
+      step_enn(recipe(class ~ x + y, data = circle_example), class, all_k = 1)
+    Condition
+      Error in `step_enn()`:
+      ! `all_k` must be `TRUE` or `FALSE`, not the number 1.
 
 # bake method errors when needed non-standard role columns are missing
 
