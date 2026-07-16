@@ -12,9 +12,10 @@
 #' @return A data.frame or tibble, depending on type of `df`.
 #' @export
 #'
+#' @template details-nearmiss
+#'
 #' @details
-#' This function implements the NearMiss-1 algorithm. All columns used in this
-#' function must be numeric with no missing data.
+#' All columns used in this function must be numeric with no missing data.
 #'
 #' @references Inderjeet Mani and I Zhang. knn approach to unbalanced data
 #' distributions: a case study involving information extraction. In Proceedings

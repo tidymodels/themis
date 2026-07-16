@@ -27,14 +27,9 @@
 #'  `tidy` method, a tibble with columns `terms` which is
 #'  the variable used to sample.
 #'
-#' @details
-#' The instance hardness of each observation is estimated using the
-#' k-Disagreeing Neighbors measure: the proportion of the `neighbors` nearest
-#' neighbors that belong to a different class. Observations that are surrounded
-#' by points of a different class are considered hard to classify. For each
-#' majority class, the hardest observations are removed until the desired
-#' `under_ratio` is reached.
+#' @template details-instance_hardness
 #'
+#' @details
 #' All columns in the data are sampled and returned by [recipes::juice()]
 #'  and [recipes::bake()].
 #'

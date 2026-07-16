@@ -12,6 +12,8 @@
 #' @return A data.frame or tibble, depending on type of `df`.
 #' @export
 #'
+#' @template details-adasyn
+#'
 #' @details
 #' All columns used in this function must be numeric with no missing data.
 #'

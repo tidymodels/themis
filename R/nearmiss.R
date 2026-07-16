@@ -27,11 +27,9 @@
 #'  `tidy` method, a tibble with columns `terms` which is
 #'  the variable used to sample.
 #'
-#' @details
-#' This step implements the NearMiss-1 algorithm. It retains the points from
-#' the majority class which have the smallest mean distance to the k nearest
-#' points in the minority class.
+#' @template details-nearmiss
 #'
+#' @details
 #' All columns in the data are sampled and returned by [recipes::juice()]
 #'  and [recipes::bake()].
 #'

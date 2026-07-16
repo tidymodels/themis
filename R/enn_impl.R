@@ -11,17 +11,12 @@
 #' @return A data.frame or tibble, depending on type of `df`.
 #' @export
 #'
+#' @template details-enn
+#'
 #' @details
 #' All columns used in this function must be numeric with no missing data.
 #'
-#' Setting `times` greater than 1 applies ENN repeatedly. Each pass removes
-#' observations from the data before the next pass runs, stopping early once a
-#' pass removes nothing (convergence). This corresponds to Repeated Edited
-#' Nearest Neighbors (RENN). Use `times = Inf` to repeat until convergence.
-#'
-#' Setting `all_k = TRUE` applies ENN with increasing numbers of neighbors, from
-#' `1` up to `neighbors`, cleaning the data at each step. This corresponds to
-#' All k-Nearest Neighbors (AllKNN) and takes precedence over `times`.
+#' Use `times = Inf` to repeat ENN until convergence.
 #'
 #' @references Wilson, D. L. (1972). Asymptotic properties of nearest neighbor
 #' rules using edited data. IEEE Transactions on Systems, Man, and Cybernetics,
