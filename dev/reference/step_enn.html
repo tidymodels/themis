@@ -60,6 +60,7 @@ neighbors.</p>
 <span>  neighbors <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  distance <span class="op">=</span> <span class="st">"euclidean"</span>,</span>
 <span>  times <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  all_k <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  skip <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample.int</a></span><span class="op">(</span><span class="fl">10</span><span class="op">^</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  distance_with <span class="op">=</span> <span class="fu">recipes</span><span class="fu">::</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -121,6 +122,13 @@ the cleaning, stopping early once a pass removes no observations. Use
 <code>Inf</code> to repeat until convergence (Repeated Edited Nearest Neighbors).</p></dd>
 
 
+<dt id="arg-all-k">all_k<a class="anchor" aria-label="anchor" href="#arg-all-k"></a></dt>
+<dd><p>A logical. When <code>TRUE</code>, ENN is applied with an increasing number
+of neighbors, from <code>1</code> up to <code>neighbors</code>, cleaning the data at each step
+(All k-Nearest Neighbors). Takes precedence over <code>times</code>. Defaults to
+<code>FALSE</code>.</p></dd>
+
+
 <dt id="arg-skip">skip<a class="anchor" aria-label="anchor" href="#arg-skip"></a></dt>
 <dd><p>A logical. Should the step be skipped when the recipe is baked by
 <code><a href="https://recipes.tidymodels.org/reference/bake.html" class="external-link">bake()</a></code>? While all operations are baked when <code><a href="https://recipes.tidymodels.org/reference/prep.html" class="external-link">prep()</a></code> is run, some
@@ -163,6 +171,9 @@ lead to smoother decision boundaries.</p>
 and borderline observations on each pass and stopping early once a pass
 removes nothing. This corresponds to Repeated Edited Nearest Neighbors
 (RENN).</p>
+<p>Setting <code>all_k = TRUE</code> applies ENN with increasing numbers of neighbors, from
+<code>1</code> up to <code>neighbors</code>, cleaning the data at each step. This corresponds to
+All k-Nearest Neighbors (AllKNN) and takes precedence over <code>times</code>.</p>
 <p>All variables selected by <code>distance_with</code> must be numeric with no missing
 data.</p>
 <p>All columns in the data are sampled and returned by <code><a href="https://recipes.tidymodels.org/reference/juice.html" class="external-link">recipes::juice()</a></code>

@@ -48,7 +48,7 @@ neighbors.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">enn</span><span class="op">(</span><span class="va">df</span>, <span class="va">var</span>, neighbors <span class="op">=</span> <span class="fl">3</span>, distance <span class="op">=</span> <span class="st">"euclidean"</span>, times <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">enn</span><span class="op">(</span><span class="va">df</span>, <span class="va">var</span>, neighbors <span class="op">=</span> <span class="fl">3</span>, distance <span class="op">=</span> <span class="st">"euclidean"</span>, times <span class="op">=</span> <span class="fl">1</span>, all_k <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -85,6 +85,13 @@ applied. Defaults to <code>1</code> for a single pass. Values greater than <code
 the cleaning, stopping early once a pass removes no observations. Use
 <code>Inf</code> to repeat until convergence (Repeated Edited Nearest Neighbors).</p></dd>
 
+
+<dt id="arg-all-k">all_k<a class="anchor" aria-label="anchor" href="#arg-all-k"></a></dt>
+<dd><p>A logical. When <code>TRUE</code>, ENN is applied with an increasing number
+of neighbors, from <code>1</code> up to <code>neighbors</code>, cleaning the data at each step
+(All k-Nearest Neighbors). Takes precedence over <code>times</code>. Defaults to
+<code>FALSE</code>.</p></dd>
+
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
@@ -97,6 +104,9 @@ the cleaning, stopping early once a pass removes no observations. Use
 observations from the data before the next pass runs, stopping early once a
 pass removes nothing (convergence). This corresponds to Repeated Edited
 Nearest Neighbors (RENN). Use <code>times = Inf</code> to repeat until convergence.</p>
+<p>Setting <code>all_k = TRUE</code> applies ENN with increasing numbers of neighbors, from
+<code>1</code> up to <code>neighbors</code>, cleaning the data at each step. This corresponds to
+All k-Nearest Neighbors (AllKNN) and takes precedence over <code>times</code>.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>
@@ -132,6 +142,9 @@ Transactions on Systems, Man, and Cybernetics, (6), 448-452.</p>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Repeated Edited Nearest Neighbors (RENN)</span></span></span>
 <span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">enn</span><span class="op">(</span><span class="va">circle_numeric</span>, var <span class="op">=</span> <span class="st">"class"</span>, times <span class="op">=</span> <span class="cn">Inf</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># All k-Nearest Neighbors (AllKNN)</span></span></span>
+<span class="r-in"><span><span class="va">res</span> <span class="op">&lt;-</span> <span class="fu">enn</span><span class="op">(</span><span class="va">circle_numeric</span>, var <span class="op">=</span> <span class="st">"class"</span>, all_k <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>

@@ -17,6 +17,14 @@
   convergence, which corresponds to Repeated Edited Nearest Neighbors
   (RENN) ([\#173](https://github.com/tidymodels/themis/issues/173)).
 
+- [`step_enn()`](https://themis.tidymodels.org/dev/reference/step_enn.md)
+  (and its direct-implementation counterpart
+  [`enn()`](https://themis.tidymodels.org/dev/reference/enn.md)) gain an
+  `all_k` argument to apply the cleaning with an increasing number of
+  neighbors, from 1 up to `neighbors`, which corresponds to All
+  k-Nearest Neighbors (AllKNN)
+  ([\#174](https://github.com/tidymodels/themis/issues/174)).
+
 - [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md)
   (and its direct-implementation counterpart
   [`instance_hardness()`](https://themis.tidymodels.org/dev/reference/instance_hardness.md))

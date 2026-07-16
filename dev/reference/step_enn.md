@@ -16,6 +16,7 @@ step_enn(
   neighbors = 3,
   distance = "euclidean",
   times = 1,
+  all_k = FALSE,
   skip = TRUE,
   seed = sample.int(10^5, 1),
   distance_with = recipes::all_predictors(),
@@ -74,6 +75,13 @@ step_enn(
   cleaning, stopping early once a pass removes no observations. Use
   `Inf` to repeat until convergence (Repeated Edited Nearest Neighbors).
 
+- all_k:
+
+  A logical. When `TRUE`, ENN is applied with an increasing number of
+  neighbors, from `1` up to `neighbors`, cleaning the data at each step
+  (All k-Nearest Neighbors). Takes precedence over `times`. Defaults to
+  `FALSE`.
+
 - skip:
 
   A logical. Should the step be skipped when the recipe is baked by
@@ -119,6 +127,11 @@ Setting `times` greater than 1 applies ENN repeatedly, removing more
 noisy and borderline observations on each pass and stopping early once a
 pass removes nothing. This corresponds to Repeated Edited Nearest
 Neighbors (RENN).
+
+Setting `all_k = TRUE` applies ENN with increasing numbers of neighbors,
+from `1` up to `neighbors`, cleaning the data at each step. This
+corresponds to All k-Nearest Neighbors (AllKNN) and takes precedence
+over `times`.
 
 All variables selected by `distance_with` must be numeric with no
 missing data.
