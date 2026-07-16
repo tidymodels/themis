@@ -201,6 +201,7 @@ Transactions on Systems, Man, and Cybernetics, (6), 448-452.
 Other Steps for under-sampling:
 \code{\link[=step_downsample]{step_downsample()}},
 \code{\link[=step_instance_hardness]{step_instance_hardness()}},
+\code{\link[=step_ncl]{step_ncl()}},
 \code{\link[=step_nearmiss]{step_nearmiss()}},
 \code{\link[=step_tomek]{step_tomek()}}
 }

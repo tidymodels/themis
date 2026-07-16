@@ -44,6 +44,7 @@ reference:
   - step_downsample
   - step_enn
   - step_instance_hardness
+  - step_ncl
   - step_nearmiss
   - step_tomek
 - title: Methods
@@ -58,6 +59,7 @@ reference:
   - rose
   - enn
   - instance_hardness
+  - ncl
   - nearmiss
   - tomek
 - title: Datasets
