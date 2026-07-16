@@ -13,14 +13,9 @@
 #' @return A data.frame or tibble, depending on type of `df`.
 #' @export
 #'
-#' @details
-#' The instance hardness of each observation is estimated using the
-#' k-Disagreeing Neighbors measure: the proportion of the `k` nearest neighbors
-#' that belong to a different class. Observations that are surrounded by points
-#' of a different class are considered hard to classify. For each majority
-#' class, the hardest observations are removed until the desired
-#' `under_ratio` is reached.
+#' @template details-instance_hardness
 #'
+#' @details
 #' All columns used in this function must be numeric with no missing data.
 #'
 #' @references Smith, M. R., Martinez, T., & Giraud-Carrier, C. (2014). An

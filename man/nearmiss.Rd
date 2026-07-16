@@ -38,8 +38,11 @@ A data.frame or tibble, depending on type of \code{df}.
 Generates synthetic positive instances using nearmiss algorithm.
 }
 \details{
-This function implements the NearMiss-1 algorithm. All columns used in this
-function must be numeric with no missing data.
+This implements the NearMiss-1 algorithm. It retains the points from the
+majority class which have the smallest mean distance to the nearest points
+in the minority class.
+
+All columns used in this function must be numeric with no missing data.
 }
 \examples{
 circle_numeric <- circle_example[, c("x", "y", "class")]

@@ -41,16 +41,24 @@ Removes observations whose class differs from the majority of their nearest
 neighbors.
 }
 \details{
-All columns used in this function must be numeric with no missing data.
+Edited Nearest Neighbors (ENN) is a cleaning method. For each observation it
+finds the \code{neighbors} nearest neighbors and, if the class of the observation
+does not match the majority class among those neighbors, the observation is
+removed. This tends to remove noisy and borderline observations, which can
+lead to smoother decision boundaries.
 
-Setting \code{times} greater than 1 applies ENN repeatedly. Each pass removes
-observations from the data before the next pass runs, stopping early once a
-pass removes nothing (convergence). This corresponds to Repeated Edited
-Nearest Neighbors (RENN). Use \code{times = Inf} to repeat until convergence.
+Setting \code{times} greater than 1 applies ENN repeatedly, removing more noisy
+and borderline observations on each pass and stopping early once a pass
+removes nothing. This corresponds to Repeated Edited Nearest Neighbors
+(RENN).
 
 Setting \code{all_k = TRUE} applies ENN with increasing numbers of neighbors, from
 \code{1} up to \code{neighbors}, cleaning the data at each step. This corresponds to
 All k-Nearest Neighbors (AllKNN) and takes precedence over \code{times}.
+
+All columns used in this function must be numeric with no missing data.
+
+Use \code{times = Inf} to repeat ENN until convergence.
 }
 \examples{
 circle_numeric <- circle_example[, c("x", "y", "class")]

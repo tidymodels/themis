@@ -35,16 +35,9 @@
 #'  `tidy` method, a tibble with columns `terms` which is
 #'  the variable used to sample.
 #'
+#' @template details-rose
+#'
 #' @details
-#' The factor variable used to balance around must only have 2 levels.
-#'
-#' The ROSE algorithm works by selecting an observation belonging to class k
-#' and generating new examples in its neighborhood, which is determined by a
-#' smoothing matrix H_k. Smaller values of `minority_smoothness` and
-#' `majority_smoothness` shrink the entries of H_k, producing tighter
-#' neighborhoods. This is a cautious choice when there is a concern that
-#' excessively large neighborhoods could blur the boundaries between classes.
-#'
 #' All columns in the data are sampled and returned by [recipes::juice()]
 #'  and [recipes::bake()].
 #'
@@ -342,19 +335,11 @@ required_pkgs.step_rose <- function(x, ...) {
 #' @return A data.frame or tibble, depending on type of `df`.
 #' @export
 #'
+#' @template details-rose
+#'
 #' @details
 #' This function is a thin wrapper around [ROSE::ROSE()]. For full details on
 #' the underlying implementation, see that function's documentation.
-#'
-#' The factor variable used to balance around must only have 2 levels.
-#'
-#' The ROSE algorithm works by selecting an observation belonging to class k
-#' and generates new examples in its neighborhood as determined by some matrix
-#' H_k. Smaller values of `minority_smoothness` and `majority_smoothness`
-#' have the effect of shrinking the entries of the corresponding smoothing
-#' matrix H_k. Shrinking would be a cautious choice if there is a concern
-#' that excessively large neighborhoods could lead to blurring the boundaries
-#' between the regions of the feature space associated with each class.
 #'
 #' @references Lunardon, N., Menardi, G., and Torelli, N. (2014). ROSE: a
 #'  Package for Binary Imbalanced Learning. R Journal, 6:82–92.
