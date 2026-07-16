@@ -58,6 +58,48 @@ test_that("times converges before reaching the cap", {
   )
 })
 
+test_that("all_k applies ENN with increasing neighbors", {
+  set.seed(1)
+  n <- 200
+  noisy <- data.frame(
+    x = rnorm(n),
+    y = rnorm(n),
+    class = factor(sample(c("a", "b"), n, replace = TRUE))
+  )
+
+  n1 <- nrow(enn(noisy, var = "class", neighbors = 3, times = 1))
+  n_all <- nrow(enn(noisy, var = "class", neighbors = 3, all_k = TRUE))
+
+  expect_lt(n_all, n1)
+})
+
+test_that("all_k argument accepted by step_enn()", {
+  baked <- recipe(class ~ x + y, data = circle_example) |>
+    step_enn(class, all_k = TRUE) |>
+    prep() |>
+    bake(new_data = NULL)
+
+  expect_all_true(
+    as.vector(table(baked$class) <= table(circle_example$class))
+  )
+})
+
+test_that("warns when both times and all_k are set", {
+  expect_snapshot(
+    tmp <- enn(
+      circle_example[, c("x", "y", "class")],
+      var = "class",
+      times = 2,
+      all_k = TRUE
+    )
+  )
+  expect_snapshot(
+    recipe(class ~ x + y, data = circle_example) |>
+      step_enn(class, times = 2, all_k = TRUE) |>
+      prep()
+  )
+})
+
 test_that("errors when not enough observations for neighbors", {
   small <- circle_example[1:3, c("x", "y", "class")]
 
@@ -312,6 +354,11 @@ test_that("bad args", {
     recipe(class ~ x + y, data = circle_example) |>
       step_enn(class, times = -1) |>
       prep()
+  )
+  expect_snapshot(
+    error = TRUE,
+    recipe(class ~ x + y, data = circle_example) |>
+      step_enn(class, all_k = 1)
   )
 })
 
