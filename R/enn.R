@@ -21,6 +21,10 @@
 #'  applied. Defaults to `1` for a single pass. Values greater than `1` repeat
 #'  the cleaning, stopping early once a pass removes no observations. Use
 #'  `Inf` to repeat until convergence (Repeated Edited Nearest Neighbors).
+#' @param all_k A logical. When `TRUE`, ENN is applied with an increasing number
+#'  of neighbors, from `1` up to `neighbors`, cleaning the data at each step
+#'  (All k-Nearest Neighbors). Takes precedence over `times`. Defaults to
+#'  `FALSE`.
 #' @param seed An integer that will be used as the seed when
 #' applied.
 #' @return An updated version of `recipe` with the new step
@@ -39,6 +43,10 @@
 #' and borderline observations on each pass and stopping early once a pass
 #' removes nothing. This corresponds to Repeated Edited Nearest Neighbors
 #' (RENN).
+#'
+#' Setting `all_k = TRUE` applies ENN with increasing numbers of neighbors, from
+#' `1` up to `neighbors`, cleaning the data at each step. This corresponds to
+#' All k-Nearest Neighbors (AllKNN) and takes precedence over `times`.
 #'
 #' All variables selected by `distance_with` must be numeric with no missing
 #' data.
@@ -136,6 +144,7 @@ step_enn <-
     neighbors = 3,
     distance = "euclidean",
     times = 1,
+    all_k = FALSE,
     skip = TRUE,
     seed = sample.int(10^5, 1),
     distance_with = recipes::all_predictors(),
@@ -143,6 +152,7 @@ step_enn <-
   ) {
     check_number_whole(seed)
     check_distance_arg(distance)
+    check_bool(all_k)
 
     add_step(
       recipe,
@@ -154,6 +164,7 @@ step_enn <-
         neighbors = neighbors,
         distance = distance,
         times = times,
+        all_k = all_k,
         predictors = NULL,
         skip = skip,
         seed = seed,
@@ -172,6 +183,7 @@ step_enn_new <-
     neighbors,
     distance,
     times,
+    all_k,
     predictors,
     skip,
     seed,
@@ -187,6 +199,7 @@ step_enn_new <-
       neighbors = neighbors,
       distance = distance,
       times = times,
+      all_k = all_k,
       predictors = predictors,
       skip = skip,
       seed = seed,
@@ -201,6 +214,7 @@ prep.step_enn <- function(x, training, info = NULL, ...) {
 
   check_number_whole(x$neighbors, arg = "neighbors", min = 1)
   check_number_whole(x$times, arg = "times", min = 1, allow_infinite = TRUE)
+  warn_times_all_k(x$times, x$all_k)
 
   check_1_selected(col_name)
   check_column_factor(training, col_name)
@@ -225,6 +239,7 @@ prep.step_enn <- function(x, training, info = NULL, ...) {
     neighbors = x$neighbors,
     distance = x$distance,
     times = x$times,
+    all_k = x$all_k,
     predictors = predictors,
     skip = x$skip,
     seed = x$seed,
@@ -258,7 +273,8 @@ bake.step_enn <- function(object, new_data, ...) {
         var = object$column,
         neighbors = object$neighbors,
         distance = object$distance,
-        times = object$times
+        times = object$times,
+        all_k = object$all_k
       )
     }
   )
