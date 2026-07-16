@@ -111,9 +111,9 @@ of existing steps (if any). For the `tidy` method, a tibble with columns
 
 ## Details
 
-This step implements the NearMiss-1 algorithm. It retains the points
-from the majority class which have the smallest mean distance to the k
-nearest points in the minority class.
+This implements the NearMiss-1 algorithm. It retains the points from the
+majority class which have the smallest mean distance to the nearest
+points in the minority class.
 
 All columns in the data are sampled and returned by
 [`recipes::juice()`](https://recipes.tidymodels.org/reference/juice.html)

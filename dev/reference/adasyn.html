@@ -92,7 +92,15 @@ large datasets.</p></dd>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>All columns used in this function must be numeric with no missing data.</p>
+    <p>ADASYN is an extension of SMOTE that adaptively generates synthetic minority
+class examples based on the local distribution of each minority instance.
+Instead of generating the same number of synthetic examples for every
+minority instance, ADASYN generates more synthetic examples for instances
+that are harder to learn, specifically those surrounded by more majority
+class neighbors. This focuses synthetic data generation on the difficult
+boundary regions of the minority class, resulting in a more informative
+augmentation than standard SMOTE.</p>
+<p>All columns used in this function must be numeric with no missing data.</p>
     </div>
     <div class="section level2">
     <h2 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a></h2>

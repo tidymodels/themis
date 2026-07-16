@@ -64,21 +64,20 @@ A data.frame or tibble, depending on type of `df`.
 
 ## Details
 
+The factor variable used to balance around must only have 2 levels.
+
+The ROSE algorithm works by selecting an observation belonging to class
+k and generating new examples in its neighborhood, which is determined
+by a smoothing matrix H_k. Smaller values of `minority_smoothness` and
+`majority_smoothness` shrink the entries of H_k, producing tighter
+neighborhoods. This is a cautious choice when there is a concern that
+excessively large neighborhoods could blur the boundaries between
+classes.
+
 This function is a thin wrapper around
 [`ROSE::ROSE()`](https://rdrr.io/pkg/ROSE/man/ROSE.html). For full
 details on the underlying implementation, see that function's
 documentation.
-
-The factor variable used to balance around must only have 2 levels.
-
-The ROSE algorithm works by selecting an observation belonging to class
-k and generates new examples in its neighborhood as determined by some
-matrix H_k. Smaller values of `minority_smoothness` and
-`majority_smoothness` have the effect of shrinking the entries of the
-corresponding smoothing matrix H_k. Shrinking would be a cautious choice
-if there is a concern that excessively large neighborhoods could lead to
-blurring the boundaries between the regions of the feature space
-associated with each class.
 
 ## References
 
