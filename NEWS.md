@@ -4,6 +4,8 @@
 
 * `step_enn()` (and its direct-implementation counterpart `enn()`) gain a `times` argument to apply the cleaning repeatedly, stopping early on convergence, which corresponds to Repeated Edited Nearest Neighbors (RENN) (#173).
 
+* `step_enn()` (and its direct-implementation counterpart `enn()`) gain an `all_k` argument to apply the cleaning with an increasing number of neighbors, from 1 up to `neighbors`, which corresponds to All k-Nearest Neighbors (AllKNN) (#174).
+
 * `step_instance_hardness()` (and its direct-implementation counterpart `instance_hardness()`) was added. It under-samples the majority classes by removing the observations that are hardest to classify, estimated using the k-Disagreeing Neighbors measure (#172).
 
 * `step_adasyn()`, `step_bsmote()`, `step_nearmiss()`, `step_smote()`, and `step_tomek()` (and their direct-implementation counterparts `adasyn()`, `bsmote()`, `nearmiss()`, `smote()`, and `tomek()`) gain a `distance` argument to control which distance metric is used for nearest neighbor calculations. Supported metrics are `"euclidean"` (default), `"cosine"`, `"mahalanobis"`, `"manhattan"`, and `"chebyshev"` (#171).

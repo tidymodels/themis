@@ -14,6 +14,7 @@ step_enn(
   neighbors = 3,
   distance = "euclidean",
   times = 1,
+  all_k = FALSE,
   skip = TRUE,
   seed = sample.int(10^5, 1),
   distance_with = recipes::all_predictors(),
@@ -55,6 +56,11 @@ applied. Defaults to \code{1} for a single pass. Values greater than \code{1} re
 the cleaning, stopping early once a pass removes no observations. Use
 \code{Inf} to repeat until convergence (Repeated Edited Nearest Neighbors).}
 
+\item{all_k}{A logical. When \code{TRUE}, ENN is applied with an increasing number
+of neighbors, from \code{1} up to \code{neighbors}, cleaning the data at each step
+(All k-Nearest Neighbors). Takes precedence over \code{times}. Defaults to
+\code{FALSE}.}
+
 \item{skip}{A logical. Should the step be skipped when the recipe is baked by
 \code{\link[recipes:bake]{bake()}}? While all operations are baked when \code{\link[recipes:prep]{prep()}} is run, some
 operations may not be able to be conducted on new data (e.g. processing the
@@ -93,6 +99,10 @@ Setting \code{times} greater than 1 applies ENN repeatedly, removing more noisy
 and borderline observations on each pass and stopping early once a pass
 removes nothing. This corresponds to Repeated Edited Nearest Neighbors
 (RENN).
+
+Setting \code{all_k = TRUE} applies ENN with increasing numbers of neighbors, from
+\code{1} up to \code{neighbors}, cleaning the data at each step. This corresponds to
+All k-Nearest Neighbors (AllKNN) and takes precedence over \code{times}.
 
 All variables selected by \code{distance_with} must be numeric with no missing
 data.

@@ -4,7 +4,7 @@
 \alias{enn}
 \title{Edited Nearest Neighbors}
 \usage{
-enn(df, var, neighbors = 3, distance = "euclidean", times = 1)
+enn(df, var, neighbors = 3, distance = "euclidean", times = 1, all_k = FALSE)
 }
 \arguments{
 \item{df}{data.frame or tibble. Must have 1 factor variable and remaining
@@ -27,6 +27,11 @@ large datasets.}
 applied. Defaults to \code{1} for a single pass. Values greater than \code{1} repeat
 the cleaning, stopping early once a pass removes no observations. Use
 \code{Inf} to repeat until convergence (Repeated Edited Nearest Neighbors).}
+
+\item{all_k}{A logical. When \code{TRUE}, ENN is applied with an increasing number
+of neighbors, from \code{1} up to \code{neighbors}, cleaning the data at each step
+(All k-Nearest Neighbors). Takes precedence over \code{times}. Defaults to
+\code{FALSE}.}
 }
 \value{
 A data.frame or tibble, depending on type of \code{df}.
@@ -42,6 +47,10 @@ Setting \code{times} greater than 1 applies ENN repeatedly. Each pass removes
 observations from the data before the next pass runs, stopping early once a
 pass removes nothing (convergence). This corresponds to Repeated Edited
 Nearest Neighbors (RENN). Use \code{times = Inf} to repeat until convergence.
+
+Setting \code{all_k = TRUE} applies ENN with increasing numbers of neighbors, from
+\code{1} up to \code{neighbors}, cleaning the data at each step. This corresponds to
+All k-Nearest Neighbors (AllKNN) and takes precedence over \code{times}.
 }
 \examples{
 circle_numeric <- circle_example[, c("x", "y", "class")]
@@ -54,6 +63,9 @@ res <- enn(circle_numeric, var = "class", distance = "manhattan")
 
 # Repeated Edited Nearest Neighbors (RENN)
 res <- enn(circle_numeric, var = "class", times = Inf)
+
+# All k-Nearest Neighbors (AllKNN)
+res <- enn(circle_numeric, var = "class", all_k = TRUE)
 }
 \references{
 Wilson, D. L. (1972). Asymptotic properties of nearest neighbor
