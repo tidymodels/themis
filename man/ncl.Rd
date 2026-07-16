@@ -70,6 +70,7 @@ Intelligence in Medicine in Europe (pp. 63-66). Springer.
 Other Direct Implementations:
 \code{\link[=adasyn]{adasyn()}},
 \code{\link[=bsmote]{bsmote()}},
+\code{\link[=cnn]{cnn()}},
 \code{\link[=enn]{enn()}},
 \code{\link[=instance_hardness]{instance_hardness()}},
 \code{\link[=nearmiss]{nearmiss()}},

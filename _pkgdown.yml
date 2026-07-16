@@ -41,6 +41,7 @@ reference:
     **Under-sampling** is the act of removing observations from the majority
     classes.
   contents:
+  - step_cnn
   - step_downsample
   - step_enn
   - step_instance_hardness
@@ -57,6 +58,7 @@ reference:
   - bsmote
   - adasyn
   - rose
+  - cnn
   - enn
   - instance_hardness
   - ncl

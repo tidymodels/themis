@@ -190,6 +190,7 @@ instance level analysis of data complexity. Machine learning, 95(2),
 \code{\link[=instance_hardness]{instance_hardness()}} for direct implementation
 
 Other Steps for under-sampling:
+\code{\link[=step_cnn]{step_cnn()}},
 \code{\link[=step_downsample]{step_downsample()}},
 \code{\link[=step_enn]{step_enn()}},
 \code{\link[=step_ncl]{step_ncl()}},
