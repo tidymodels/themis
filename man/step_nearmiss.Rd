@@ -86,9 +86,9 @@ majority class instances by undersampling points in the majority class based
 on their distance to points in the minority class.
 }
 \details{
-This step implements the NearMiss-1 algorithm. It retains the points from
-the majority class which have the smallest mean distance to the k nearest
-points in the minority class.
+This implements the NearMiss-1 algorithm. It retains the points from the
+majority class which have the smallest mean distance to the nearest points
+in the minority class.
 
 All columns in the data are sampled and returned by \code{\link[recipes:juice]{recipes::juice()}}
 and \code{\link[recipes:bake]{recipes::bake()}}.
