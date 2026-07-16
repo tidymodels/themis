@@ -70,6 +70,7 @@ instance level analysis of data complexity. Machine learning, 95(2),
 Other Direct Implementations:
 \code{\link[=adasyn]{adasyn()}},
 \code{\link[=bsmote]{bsmote()}},
+\code{\link[=cnn]{cnn()}},
 \code{\link[=enn]{enn()}},
 \code{\link[=ncl]{ncl()}},
 \code{\link[=nearmiss]{nearmiss()}},

@@ -71,6 +71,7 @@ International Joint Conference. pp.1322-1328.
 
 Other Direct Implementations:
 \code{\link[=bsmote]{bsmote()}},
+\code{\link[=cnn]{cnn()}},
 \code{\link[=enn]{enn()}},
 \code{\link[=instance_hardness]{instance_hardness()}},
 \code{\link[=ncl]{ncl()}},

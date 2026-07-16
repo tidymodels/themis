@@ -199,6 +199,7 @@ Transactions on Systems, Man, and Cybernetics, (6), 448-452.
 \code{\link[=enn]{enn()}} for direct implementation
 
 Other Steps for under-sampling:
+\code{\link[=step_cnn]{step_cnn()}},
 \code{\link[=step_downsample]{step_downsample()}},
 \code{\link[=step_instance_hardness]{step_instance_hardness()}},
 \code{\link[=step_ncl]{step_ncl()}},

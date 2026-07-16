@@ -89,6 +89,7 @@ Transactions on Systems, Man, and Cybernetics, (6), 448-452.
 Other Direct Implementations:
 \code{\link[=adasyn]{adasyn()}},
 \code{\link[=bsmote]{bsmote()}},
+\code{\link[=cnn]{cnn()}},
 \code{\link[=instance_hardness]{instance_hardness()}},
 \code{\link[=ncl]{ncl()}},
 \code{\link[=nearmiss]{nearmiss()}},

@@ -82,6 +82,7 @@ Discovery, 28:92–122.
 Other Direct Implementations:
 \code{\link[=adasyn]{adasyn()}},
 \code{\link[=bsmote]{bsmote()}},
+\code{\link[=cnn]{cnn()}},
 \code{\link[=enn]{enn()}},
 \code{\link[=instance_hardness]{instance_hardness()}},
 \code{\link[=ncl]{ncl()}},
