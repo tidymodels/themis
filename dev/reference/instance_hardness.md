@@ -73,6 +73,7 @@ Other Direct Implementations:
 [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md),
 [`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md),
 [`enn()`](https://themis.tidymodels.org/dev/reference/enn.md),
+[`ncl()`](https://themis.tidymodels.org/dev/reference/ncl.md),
 [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md),
 [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md),
 [`smote()`](https://themis.tidymodels.org/dev/reference/smote.md),

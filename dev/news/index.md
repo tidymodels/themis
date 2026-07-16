@@ -33,6 +33,14 @@
   k-Disagreeing Neighbors measure
   ([\#172](https://github.com/tidymodels/themis/issues/172)).
 
+- [`step_ncl()`](https://themis.tidymodels.org/dev/reference/step_ncl.md)
+  (and its direct-implementation counterpart
+  [`ncl()`](https://themis.tidymodels.org/dev/reference/ncl.md)) was
+  added. It cleans the data using the Neighborhood Cleaning Rule,
+  removing majority class observations that are noisy or that pollute
+  the neighborhood of minority class observations
+  ([\#116](https://github.com/tidymodels/themis/issues/116)).
+
 - [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
   [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md),
   [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),

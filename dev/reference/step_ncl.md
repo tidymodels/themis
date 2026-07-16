@@ -1,25 +1,25 @@
-# Remove hard to classify points
+# Neighborhood Cleaning Rule
 
-`step_instance_hardness()` creates a *specification* of a recipe step
-that removes majority class instances by under-sampling the points that
-are hardest to classify.
+`step_ncl()` creates a *specification* of a recipe step that removes
+majority class observations that are noisy or that pollute the
+neighborhood of minority class observations.
 
 ## Usage
 
 ``` r
-step_instance_hardness(
+step_ncl(
   recipe,
   ...,
   role = NA,
   trained = FALSE,
   column = NULL,
-  under_ratio = 1,
-  neighbors = 5,
+  neighbors = 3,
   distance = "euclidean",
+  threshold_clean = 0.5,
   skip = TRUE,
   seed = sample.int(10^5, 1),
   distance_with = recipes::all_predictors(),
-  id = rand_id("instance_hardness")
+  id = rand_id("ncl")
 )
 ```
 
@@ -52,19 +52,10 @@ step_instance_hardness(
   A character string of the variable name that will be populated
   (eventually) by the `...` selectors.
 
-- under_ratio:
-
-  A numeric value for the ratio of the majority-to-minority frequencies.
-  The default value (1) means that all other levels are sampled down to
-  have the same frequency as the least occurring level. A value of 2
-  would mean that the majority levels will have (at most)
-  (approximately) twice as many rows than the minority level. See
-  `vignette("ratio", package = "themis")` for more details.
-
 - neighbors:
 
-  An integer. Number of nearest neighbor that are used to generate the
-  new examples of the minority class.
+  An integer. Number of nearest neighbor that are used to decide whether
+  an observation is removed.
 
 - distance:
 
@@ -75,6 +66,12 @@ step_instance_hardness(
   the RANN package and scale well to large datasets. `"manhattan"` and
   `"chebyshev"` compute an exact O(n^2) distance matrix and may be slow
   for large datasets.
+
+- threshold_clean:
+
+  A numeric. Majority classes are only cleaned around minority class
+  observations when their size is greater than `threshold_clean` times
+  the size of the minority class. Defaults to `0.5`.
 
 - skip:
 
@@ -111,20 +108,26 @@ of existing steps (if any). For the `tidy` method, a tibble with columns
 
 ## Details
 
-The instance hardness of each observation is estimated using the
-k-Disagreeing Neighbors measure: the proportion of the nearest neighbors
-that belong to a different class. Observations that are surrounded by
-points of a different class are considered hard to classify. For each
-majority class, the hardest observations are removed until the desired
-`under_ratio` is reached.
+The Neighborhood Cleaning Rule (NCL) is a cleaning method that combines
+two passes over the data. First, it applies the Edited Nearest Neighbors
+rule, removing majority class observations whose class differs from the
+majority of their `neighbors` nearest neighbors. Second, for each
+minority class observation that is itself misclassified by its
+neighbors, the majority class observations among those neighbors are
+removed. Compared to Edited Nearest Neighbors, this focuses the cleaning
+on the neighborhoods of minority class observations.
+
+The smallest class is treated as the minority class. Only majority
+classes larger than `threshold_clean` times the size of the minority
+class are cleaned in the second pass.
+
+All variables selected by `distance_with` must be numeric with no
+missing data.
 
 All columns in the data are sampled and returned by
 [`recipes::juice()`](https://recipes.tidymodels.org/reference/juice.html)
 and
 [`recipes::bake()`](https://recipes.tidymodels.org/reference/bake.html).
-
-All columns selected by `distance_with` must be numeric with no missing
-data.
 
 When used in modeling, users should strongly consider using the option
 `skip = TRUE` so that the extra sampling is *not* conducted outside of
@@ -146,11 +149,9 @@ this step, a tibble is returned with columns `terms` and `id`:
 
 ## Tuning Parameters
 
-This step has 2 tuning parameters:
+This step has 1 tuning parameters:
 
-- `under_ratio`: Under-Sampling Ratio (type: double, default: 1)
-
-- `neighbors`: \# Nearest Neighbors (type: integer, default: 5)
+- `neighbors`: \# Nearest Neighbors (type: integer, default: 3)
 
 ## Case weights
 
@@ -158,18 +159,19 @@ The underlying operation does not allow for case weights.
 
 ## References
 
-Smith, M. R., Martinez, T., & Giraud-Carrier, C. (2014). An instance
-level analysis of data complexity. Machine learning, 95(2), 225-256.
+Laurikkala, J. (2001). Improving identification of difficult small
+classes by balancing class distribution. In Conference on Artificial
+Intelligence in Medicine in Europe (pp. 63-66). Springer.
 
 ## See also
 
-[`instance_hardness()`](https://themis.tidymodels.org/dev/reference/instance_hardness.md)
-for direct implementation
+[`ncl()`](https://themis.tidymodels.org/dev/reference/ncl.md) for direct
+implementation
 
 Other Steps for under-sampling:
 [`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md),
 [`step_enn()`](https://themis.tidymodels.org/dev/reference/step_enn.md),
-[`step_ncl()`](https://themis.tidymodels.org/dev/reference/step_ncl.md),
+[`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md),
 [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),
 [`step_tomek()`](https://themis.tidymodels.org/dev/reference/step_tomek.md)
 
@@ -194,9 +196,7 @@ orig
 #> 4 L       259
 
 up_rec <- recipe(class ~ ., data = hpc_data0) |>
-  # Bring the majority levels down to about 1000 each
-  # 1000/259 is approx 3.862
-  step_instance_hardness(class, under_ratio = 3.862) |>
+  step_ncl(class) |>
   prep()
 
 training <- up_rec |>
@@ -206,9 +206,9 @@ training
 #> # A tibble: 4 × 2
 #>   class training
 #>   <fct>    <int>
-#> 1 VF        1000
-#> 2 F         1000
-#> 3 M          514
+#> 1 VF        1711
+#> 2 F          709
+#> 3 M          225
 #> 4 L          259
 
 # Since `skip` defaults to TRUE, baking the step has no effect
@@ -224,35 +224,33 @@ baked
 #> 3 M       514
 #> 4 L       259
 
-# Note that if the original data contained more rows than the
-# target n (= ratio * majority_n), the data are left alone:
 orig |>
   left_join(training, by = "class") |>
   left_join(baked, by = "class")
 #> # A tibble: 4 × 4
 #>   class  orig training baked
 #>   <fct> <int>    <int> <int>
-#> 1 VF     2211     1000  2211
-#> 2 F      1347     1000  1347
-#> 3 M       514      514   514
+#> 1 VF     2211     1711  2211
+#> 2 F      1347      709  1347
+#> 3 M       514      225   514
 #> 4 L       259      259   259
 
 library(ggplot2)
 
 ggplot(circle_example, aes(x, y, color = class)) +
   geom_point() +
-  labs(title = "Without instance hardness") +
+  labs(title = "Without NCL") +
   xlim(c(1, 15)) +
   ylim(c(1, 15))
 
 
 recipe(class ~ x + y, data = circle_example) |>
-  step_instance_hardness(class) |>
+  step_ncl(class) |>
   prep() |>
   bake(new_data = NULL) |>
   ggplot(aes(x, y, color = class)) +
   geom_point() +
-  labs(title = "With instance hardness") +
+  labs(title = "With NCL") +
   xlim(c(1, 15)) +
   ylim(c(1, 15))
 ```

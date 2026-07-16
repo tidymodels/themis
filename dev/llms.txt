@@ -235,6 +235,8 @@ classes.
   : Edited Nearest Neighbors
 - [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md)
   : Remove hard to classify points
+- [`step_ncl()`](https://themis.tidymodels.org/dev/reference/step_ncl.md)
+  : Neighborhood Cleaning Rule
 - [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md)
   : Remove Points Near Other Classes
 - [`step_tomek()`](https://themis.tidymodels.org/dev/reference/step_tomek.md)
@@ -259,6 +261,8 @@ available as their own functions.
   Nearest Neighbors
 - [`instance_hardness()`](https://themis.tidymodels.org/dev/reference/instance_hardness.md)
   : Remove hard to classify points
+- [`ncl()`](https://themis.tidymodels.org/dev/reference/ncl.md) :
+  Neighborhood Cleaning Rule
 - [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md)
   : Remove Points Near Other Classes
 - [`tomek()`](https://themis.tidymodels.org/dev/reference/tomek.md) :
