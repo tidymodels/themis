@@ -72,6 +72,7 @@ Other Direct Implementations:
 \code{\link[=bsmote]{bsmote()}},
 \code{\link[=enn]{enn()}},
 \code{\link[=instance_hardness]{instance_hardness()}},
+\code{\link[=ncl]{ncl()}},
 \code{\link[=nearmiss]{nearmiss()}},
 \code{\link[=rose]{rose()}},
 \code{\link[=smotenc]{smotenc()}},
