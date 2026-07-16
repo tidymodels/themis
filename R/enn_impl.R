@@ -19,6 +19,10 @@
 #' pass removes nothing (convergence). This corresponds to Repeated Edited
 #' Nearest Neighbors (RENN). Use `times = Inf` to repeat until convergence.
 #'
+#' Setting `all_k = TRUE` applies ENN with increasing numbers of neighbors, from
+#' `1` up to `neighbors`, cleaning the data at each step. This corresponds to
+#' All k-Nearest Neighbors (AllKNN) and takes precedence over `times`.
+#'
 #' @references Wilson, D. L. (1972). Asymptotic properties of nearest neighbor
 #' rules using edited data. IEEE Transactions on Systems, Man, and Cybernetics,
 #' (3), 408-421.
@@ -40,19 +44,31 @@
 #'
 #' # Repeated Edited Nearest Neighbors (RENN)
 #' res <- enn(circle_numeric, var = "class", times = Inf)
-enn <- function(df, var, neighbors = 3, distance = "euclidean", times = 1) {
+#'
+#' # All k-Nearest Neighbors (AllKNN)
+#' res <- enn(circle_numeric, var = "class", all_k = TRUE)
+enn <- function(
+  df,
+  var,
+  neighbors = 3,
+  distance = "euclidean",
+  times = 1,
+  all_k = FALSE
+) {
   check_data_frame(df)
   check_var(var, df)
   check_number_whole(neighbors, min = 1)
   check_distance_arg(distance)
   check_number_whole(times, min = 1, allow_infinite = TRUE)
+  check_bool(all_k)
+  warn_times_all_k(times, all_k)
 
   predictors <- setdiff(colnames(df), var)
 
   check_numeric(df[, predictors])
   check_na(select(df, -all_of(var)))
 
-  remove <- enn_impl(df, var, neighbors, distance, times = times)
+  remove <- enn_impl(df, var, neighbors, distance, times = times, all_k = all_k)
   if (length(remove) > 0) {
     df <- df[-remove, ]
   }
@@ -65,6 +81,7 @@ enn_impl <- function(
   neighbors = 3,
   distance = "euclidean",
   times = 1,
+  all_k = FALSE,
   call = caller_env()
 ) {
   if (nrow(df) <= neighbors) {
@@ -77,28 +94,47 @@ enn_impl <- function(
     )
   }
 
+  # Number of neighbors to use on each pass. AllKNN increases k from 1 up to
+  # `neighbors`; RENN repeats with a fixed k up to `times` passes.
+  if (all_k) {
+    ks <- seq_len(neighbors)
+  } else {
+    ks <- rep(neighbors, min(times, nrow(df)))
+  }
+
   # Row indices (into the original `df`) that are still active
   active <- seq_len(nrow(df))
-  iter <- 0
 
-  while (iter < times) {
-    iter <- iter + 1
-
+  for (k in ks) {
     # Not enough observations left to keep cleaning
-    if (length(active) <= neighbors) {
+    if (length(active) <= k) {
       break
     }
 
-    remove <- enn_single(df[active, , drop = FALSE], var, neighbors, distance)
+    remove <- enn_single(df[active, , drop = FALSE], var, k, distance)
 
     if (length(remove) == 0) {
-      break
+      # RENN stops early at convergence; AllKNN continues with a larger k
+      if (!all_k) {
+        break
+      }
+      next
     }
 
     active <- active[-remove]
   }
 
   setdiff(seq_len(nrow(df)), active)
+}
+
+# Warn when both `times` and `all_k` are set, since `all_k` takes precedence.
+warn_times_all_k <- function(times, all_k, call = caller_env()) {
+  if (all_k && times != 1) {
+    cli::cli_warn(
+      "{.arg times} is ignored when {.arg all_k} is {.code TRUE}.",
+      call = call
+    )
+  }
 }
 
 # A single pass of Edited Nearest Neighbors. Returns the row indices of `df`
