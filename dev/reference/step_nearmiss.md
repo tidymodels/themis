@@ -170,6 +170,7 @@ Proceedings of workshop on learning from imbalanced datasets, 2003.
 for direct implementation
 
 Other Steps for under-sampling:
+[`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md),
 [`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md),
 [`step_enn()`](https://themis.tidymodels.org/dev/reference/step_enn.md),
 [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md),

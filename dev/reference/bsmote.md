@@ -99,6 +99,7 @@ for step function of this method
 
 Other Direct Implementations:
 [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md),
+[`cnn()`](https://themis.tidymodels.org/dev/reference/cnn.md),
 [`enn()`](https://themis.tidymodels.org/dev/reference/enn.md),
 [`instance_hardness()`](https://themis.tidymodels.org/dev/reference/instance_hardness.md),
 [`ncl()`](https://themis.tidymodels.org/dev/reference/ncl.md),

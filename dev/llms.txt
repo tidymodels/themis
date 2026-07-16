@@ -229,6 +229,8 @@ using more advanced methods.
 **Under-sampling** is the act of removing observations from the majority
 classes.
 
+- [`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md)
+  : Condensed Nearest Neighbors
 - [`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md)
   : Down-Sample a Data Set Based on a Factor Variable
 - [`step_enn()`](https://themis.tidymodels.org/dev/reference/step_enn.md)
@@ -257,6 +259,8 @@ available as their own functions.
   Adaptive Synthetic Algorithm
 - [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md) : ROSE
   Algorithm
+- [`cnn()`](https://themis.tidymodels.org/dev/reference/cnn.md) :
+  Condensed Nearest Neighbors
 - [`enn()`](https://themis.tidymodels.org/dev/reference/enn.md) : Edited
   Nearest Neighbors
 - [`instance_hardness()`](https://themis.tidymodels.org/dev/reference/instance_hardness.md)

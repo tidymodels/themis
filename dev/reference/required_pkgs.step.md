@@ -11,6 +11,9 @@ required_pkgs(x, ...)
 # S3 method for class 'step_bsmote'
 required_pkgs(x, ...)
 
+# S3 method for class 'step_cnn'
+required_pkgs(x, ...)
+
 # S3 method for class 'step_downsample'
 required_pkgs(x, ...)
 

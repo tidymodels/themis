@@ -1,26 +1,23 @@
-# Edited Nearest Neighbors
+# Condensed Nearest Neighbors
 
-`step_enn()` creates a *specification* of a recipe step that removes
-observations whose class differs from the majority of their nearest
-neighbors.
+`step_cnn()` creates a *specification* of a recipe step that removes
+redundant majority class observations, keeping only a consistent subset
+that correctly classifies the data using a 1-nearest-neighbor rule.
 
 ## Usage
 
 ``` r
-step_enn(
+step_cnn(
   recipe,
   ...,
   role = NA,
   trained = FALSE,
   column = NULL,
-  neighbors = 3,
   distance = "euclidean",
-  times = 1,
-  all_k = FALSE,
   skip = TRUE,
   seed = sample.int(10^5, 1),
   distance_with = recipes::all_predictors(),
-  id = rand_id("enn")
+  id = rand_id("cnn")
 )
 ```
 
@@ -53,11 +50,6 @@ step_enn(
   A character string of the variable name that will be populated
   (eventually) by the `...` selectors.
 
-- neighbors:
-
-  An integer. Number of nearest neighbor that are used to decide whether
-  an observation is removed.
-
 - distance:
 
   A character string specifying the distance metric used for nearest
@@ -67,20 +59,6 @@ step_enn(
   the RANN package and scale well to large datasets. `"manhattan"` and
   `"chebyshev"` compute an exact O(n^2) distance matrix and may be slow
   for large datasets.
-
-- times:
-
-  A positive integer for the maximum number of times ENN is applied.
-  Defaults to `1` for a single pass. Values greater than `1` repeat the
-  cleaning, stopping early once a pass removes no observations. Use
-  `Inf` to repeat until convergence (Repeated Edited Nearest Neighbors).
-
-- all_k:
-
-  A logical. When `TRUE`, ENN is applied with an increasing number of
-  neighbors, from `1` up to `neighbors`, cleaning the data at each step
-  (All k-Nearest Neighbors). Takes precedence over `times`. Defaults to
-  `FALSE`.
 
 - skip:
 
@@ -117,21 +95,20 @@ of existing steps (if any). For the `tidy` method, a tibble with columns
 
 ## Details
 
-Edited Nearest Neighbors (ENN) is a cleaning method. For each
-observation it finds the `neighbors` nearest neighbors and, if the class
-of the observation does not match the majority class among those
-neighbors, the observation is removed. This tends to remove noisy and
-borderline observations, which can lead to smoother decision boundaries.
+Condensed Nearest Neighbors (CNN) is an under-sampling method that
+reduces the majority classes to a consistent subset: a subset that
+classifies the original data correctly using a 1-nearest-neighbor rule.
+It starts with a "store" containing all minority class observations and
+one randomly chosen majority class observation. It then repeatedly scans
+the remaining majority class observations and moves any that are
+misclassified by a 1-nearest neighbor fit on the current store into the
+store. This continues until a full pass adds no new observations. The
+observations left outside the store are removed.
 
-Setting `times` greater than 1 applies ENN repeatedly, removing more
-noisy and borderline observations on each pass and stopping early once a
-pass removes nothing. This corresponds to Repeated Edited Nearest
-Neighbors (RENN).
-
-Setting `all_k = TRUE` applies ENN with increasing numbers of neighbors,
-from `1` up to `neighbors`, cleaning the data at each step. This
-corresponds to All k-Nearest Neighbors (AllKNN) and takes precedence
-over `times`.
+The smallest class is treated as the minority class and is always kept.
+CNN tends to keep observations near the decision boundary while
+discarding redundant interior observations. Because the seed observation
+and the scan order are random, results depend on the random seed.
 
 All variables selected by `distance_with` must be numeric with no
 missing data.
@@ -159,33 +136,23 @@ this step, a tibble is returned with columns `terms` and `id`:
 
   character, id of this step
 
-## Tuning Parameters
-
-This step has 1 tuning parameters:
-
-- `neighbors`: \# Nearest Neighbors (type: integer, default: 3)
-
 ## Case weights
 
 The underlying operation does not allow for case weights.
 
 ## References
 
-Wilson, D. L. (1972). Asymptotic properties of nearest neighbor rules
-using edited data. IEEE Transactions on Systems, Man, and Cybernetics,
-(3), 408-421.
-
-Tomek, I. (1976). An experiment with the edited nearest-neighbor rule.
-IEEE Transactions on Systems, Man, and Cybernetics, (6), 448-452.
+Hart, P. (1968). The condensed nearest neighbor rule. IEEE Transactions
+on Information Theory, 14(3), 515-516.
 
 ## See also
 
-[`enn()`](https://themis.tidymodels.org/dev/reference/enn.md) for direct
+[`cnn()`](https://themis.tidymodels.org/dev/reference/cnn.md) for direct
 implementation
 
 Other Steps for under-sampling:
-[`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md),
 [`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md),
+[`step_enn()`](https://themis.tidymodels.org/dev/reference/step_enn.md),
 [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md),
 [`step_ncl()`](https://themis.tidymodels.org/dev/reference/step_ncl.md),
 [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),
@@ -212,7 +179,7 @@ orig
 #> 4 L       259
 
 up_rec <- recipe(class ~ ., data = hpc_data0) |>
-  step_enn(class) |>
+  step_cnn(class) |>
   prep()
 
 training <- up_rec |>
@@ -222,10 +189,10 @@ training
 #> # A tibble: 4 × 2
 #>   class training
 #>   <fct>    <int>
-#> 1 VF        1737
-#> 2 F          732
-#> 3 M          262
-#> 4 L          173
+#> 1 VF         942
+#> 2 F          807
+#> 3 M          331
+#> 4 L          259
 
 # Since `skip` defaults to TRUE, baking the step has no effect
 baked <- up_rec |>
@@ -246,27 +213,27 @@ orig |>
 #> # A tibble: 4 × 4
 #>   class  orig training baked
 #>   <fct> <int>    <int> <int>
-#> 1 VF     2211     1737  2211
-#> 2 F      1347      732  1347
-#> 3 M       514      262   514
-#> 4 L       259      173   259
+#> 1 VF     2211      942  2211
+#> 2 F      1347      807  1347
+#> 3 M       514      331   514
+#> 4 L       259      259   259
 
 library(ggplot2)
 
 ggplot(circle_example, aes(x, y, color = class)) +
   geom_point() +
-  labs(title = "Without ENN") +
+  labs(title = "Without CNN") +
   xlim(c(1, 15)) +
   ylim(c(1, 15))
 
 
 recipe(class ~ x + y, data = circle_example) |>
-  step_enn(class) |>
+  step_cnn(class) |>
   prep() |>
   bake(new_data = NULL) |>
   ggplot(aes(x, y, color = class)) +
   geom_point() +
-  labs(title = "With ENN") +
+  labs(title = "With CNN") +
   xlim(c(1, 15)) +
   ylim(c(1, 15))
 ```

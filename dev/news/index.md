@@ -2,6 +2,14 @@
 
 ## themis (development version)
 
+- [`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md)
+  (and its direct-implementation counterpart
+  [`cnn()`](https://themis.tidymodels.org/dev/reference/cnn.md)) was
+  added. It under-samples the majority classes using Condensed Nearest
+  Neighbors, keeping only a consistent subset of observations that
+  correctly classifies the data using a 1-nearest-neighbor rule
+  ([\#113](https://github.com/tidymodels/themis/issues/113)).
+
 - [`step_enn()`](https://themis.tidymodels.org/dev/reference/step_enn.md)
   (and its direct-implementation counterpart
   [`enn()`](https://themis.tidymodels.org/dev/reference/enn.md)) was

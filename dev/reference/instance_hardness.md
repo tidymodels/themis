@@ -72,6 +72,7 @@ for step function of this method
 Other Direct Implementations:
 [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md),
 [`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md),
+[`cnn()`](https://themis.tidymodels.org/dev/reference/cnn.md),
 [`enn()`](https://themis.tidymodels.org/dev/reference/enn.md),
 [`ncl()`](https://themis.tidymodels.org/dev/reference/ncl.md),
 [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md),
