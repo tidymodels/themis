@@ -47,6 +47,7 @@ reference:
   - step_instance_hardness
   - step_ncl
   - step_nearmiss
+  - step_oss
   - step_tomek
 - title: Methods
   desc: >
@@ -63,6 +64,7 @@ reference:
   - instance_hardness
   - ncl
   - nearmiss
+  - oss
   - tomek
 - title: Datasets
   contents:

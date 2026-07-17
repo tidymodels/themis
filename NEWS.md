@@ -12,6 +12,8 @@
 
 * `step_ncl()` (and its direct-implementation counterpart `ncl()`) was added. It cleans the data using the Neighborhood Cleaning Rule, removing majority class observations that are noisy or that pollute the neighborhood of minority class observations (#116).
 
+* `step_oss()` (and its direct-implementation counterpart `oss()`) was added. It under-samples the majority classes using One-Sided Selection, combining Condensed Nearest Neighbors to reduce redundant majority class observations with Tomek's links to remove majority class observations on the decision boundary (#114).
+
 * `step_adasyn()`, `step_bsmote()`, `step_nearmiss()`, `step_smote()`, and `step_tomek()` (and their direct-implementation counterparts `adasyn()`, `bsmote()`, `nearmiss()`, `smote()`, and `tomek()`) gain a `distance` argument to control which distance metric is used for nearest neighbor calculations. Supported metrics are `"euclidean"` (default), `"cosine"`, `"mahalanobis"`, `"manhattan"`, and `"chebyshev"` (#171).
 
 * Added a new article explaining how `over_ratio` and `under_ratio` work (#141).
