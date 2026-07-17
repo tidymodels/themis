@@ -67,6 +67,7 @@ Other Direct Implementations:
 \code{\link[=instance_hardness]{instance_hardness()}},
 \code{\link[=ncl]{ncl()}},
 \code{\link[=nearmiss]{nearmiss()}},
+\code{\link[=oss]{oss()}},
 \code{\link[=rose]{rose()}},
 \code{\link[=smote]{smote()}},
 \code{\link[=smotenc]{smotenc()}},

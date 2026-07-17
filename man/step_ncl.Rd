@@ -192,6 +192,7 @@ Other Steps for under-sampling:
 \code{\link[=step_enn]{step_enn()}},
 \code{\link[=step_instance_hardness]{step_instance_hardness()}},
 \code{\link[=step_nearmiss]{step_nearmiss()}},
+\code{\link[=step_oss]{step_oss()}},
 \code{\link[=step_tomek]{step_tomek()}}
 }
 \concept{Steps for under-sampling}

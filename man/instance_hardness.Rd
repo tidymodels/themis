@@ -74,6 +74,7 @@ Other Direct Implementations:
 \code{\link[=enn]{enn()}},
 \code{\link[=ncl]{ncl()}},
 \code{\link[=nearmiss]{nearmiss()}},
+\code{\link[=oss]{oss()}},
 \code{\link[=rose]{rose()}},
 \code{\link[=smote]{smote()}},
 \code{\link[=smotenc]{smotenc()}},
