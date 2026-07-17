@@ -58,6 +58,14 @@
   class observations on the decision boundary
   ([\#114](https://github.com/tidymodels/themis/issues/114)).
 
+- [`step_smogn()`](https://themis.tidymodels.org/dev/reference/step_smogn.md)
+  (and its direct-implementation counterpart
+  [`smogn()`](https://themis.tidymodels.org/dev/reference/smogn.md)) was
+  added. It over-samples rare regions of a numeric outcome for
+  imbalanced regression using a combination of SMOTE-style interpolation
+  and Gaussian noise, while under-sampling common regions
+  ([\#49](https://github.com/tidymodels/themis/issues/49)).
+
 - [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
   [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md),
   [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),

@@ -35,6 +35,9 @@ required_pkgs(x, ...)
 # S3 method for class 'step_rose'
 required_pkgs(x, ...)
 
+# S3 method for class 'step_smogn'
+required_pkgs(x, ...)
+
 # S3 method for class 'step_smote'
 required_pkgs(x, ...)
 

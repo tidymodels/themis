@@ -153,6 +153,7 @@ Other Steps for over-sampling:
 [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
 [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md),
 [`step_rose()`](https://themis.tidymodels.org/dev/reference/step_rose.md),
+[`step_smogn()`](https://themis.tidymodels.org/dev/reference/step_smogn.md),
 [`step_smote()`](https://themis.tidymodels.org/dev/reference/step_smote.md),
 [`step_smotenc()`](https://themis.tidymodels.org/dev/reference/step_smotenc.md)
 

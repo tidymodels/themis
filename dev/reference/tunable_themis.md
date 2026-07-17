@@ -32,6 +32,9 @@ tunable(x, ...)
 # S3 method for class 'step_rose'
 tunable(x, ...)
 
+# S3 method for class 'step_smogn'
+tunable(x, ...)
+
 # S3 method for class 'step_smote'
 tunable(x, ...)
 

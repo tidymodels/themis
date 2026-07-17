@@ -66,6 +66,7 @@ Other Direct Implementations:
 [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md),
 [`oss()`](https://themis.tidymodels.org/dev/reference/oss.md),
 [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md),
+[`smogn()`](https://themis.tidymodels.org/dev/reference/smogn.md),
 [`smote()`](https://themis.tidymodels.org/dev/reference/smote.md),
 [`smotenc()`](https://themis.tidymodels.org/dev/reference/smotenc.md)
 

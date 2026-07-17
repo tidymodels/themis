@@ -215,6 +215,8 @@ using more advanced methods.
   : Up-Sample a Data Set Based on a Factor Variable
 - [`step_smote()`](https://themis.tidymodels.org/dev/reference/step_smote.md)
   : Apply SMOTE Algorithm
+- [`step_smogn()`](https://themis.tidymodels.org/dev/reference/step_smogn.md)
+  : Apply SMOGN Algorithm
 - [`step_smotenc()`](https://themis.tidymodels.org/dev/reference/step_smotenc.md)
   : Apply SMOTENC algorithm
 - [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md)
@@ -253,6 +255,8 @@ available as their own functions.
 
 - [`smote()`](https://themis.tidymodels.org/dev/reference/smote.md) :
   SMOTE Algorithm
+- [`smogn()`](https://themis.tidymodels.org/dev/reference/smogn.md) :
+  SMOGN Algorithm
 - [`smotenc()`](https://themis.tidymodels.org/dev/reference/smotenc.md)
   : SMOTENC Algorithm
 - [`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md) :

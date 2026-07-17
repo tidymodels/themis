@@ -188,8 +188,8 @@ training
 #> # A tibble: 4 × 2
 #>   class training
 #>   <fct>    <int>
-#> 1 VF         489
-#> 2 F          321
+#> 1 VF         511
+#> 2 F          342
 #> 3 M          143
 #> 4 L          259
 
@@ -212,8 +212,8 @@ orig |>
 #> # A tibble: 4 × 4
 #>   class  orig training baked
 #>   <fct> <int>    <int> <int>
-#> 1 VF     2211      489  2211
-#> 2 F      1347      321  1347
+#> 1 VF     2211      511  2211
+#> 2 F      1347      342  1347
 #> 3 M       514      143   514
 #> 4 L       259      259   259
 

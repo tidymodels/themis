@@ -72,6 +72,7 @@ Other Direct Implementations:
 [`ncl()`](https://themis.tidymodels.org/dev/reference/ncl.md),
 [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md),
 [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md),
+[`smogn()`](https://themis.tidymodels.org/dev/reference/smogn.md),
 [`smote()`](https://themis.tidymodels.org/dev/reference/smote.md),
 [`smotenc()`](https://themis.tidymodels.org/dev/reference/smotenc.md),
 [`tomek()`](https://themis.tidymodels.org/dev/reference/tomek.md)
