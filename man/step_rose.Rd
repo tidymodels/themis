@@ -189,6 +189,7 @@ Discovery, 28:92–122.
 Other Steps for over-sampling:
 \code{\link[=step_adasyn]{step_adasyn()}},
 \code{\link[=step_bsmote]{step_bsmote()}},
+\code{\link[=step_smogn]{step_smogn()}},
 \code{\link[=step_smote]{step_smote()}},
 \code{\link[=step_smotenc]{step_smotenc()}},
 \code{\link[=step_upsample]{step_upsample()}}
