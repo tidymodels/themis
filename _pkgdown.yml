@@ -34,6 +34,7 @@ reference:
   - step_smote
   - step_smogn
   - step_smotenc
+  - step_smoten
   - step_bsmote
   - step_adasyn
   - step_rose
@@ -58,6 +59,7 @@ reference:
   - smote
   - smogn
   - smotenc
+  - smoten
   - bsmote
   - adasyn
   - rose

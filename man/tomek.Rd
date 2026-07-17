@@ -63,6 +63,7 @@ Other Direct Implementations:
 \code{\link[=rose]{rose()}},
 \code{\link[=smogn]{smogn()}},
 \code{\link[=smote]{smote()}},
+\code{\link[=smoten]{smoten()}},
 \code{\link[=smotenc]{smotenc()}}
 }
 \concept{Direct Implementations}

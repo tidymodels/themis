@@ -47,6 +47,25 @@ check_numeric <- function(dat, call = caller_env()) {
   invisible(all_good)
 }
 
+check_all_categorical <- function(dat, call = caller_env()) {
+  all_good <- vapply(
+    dat,
+    function(x) is.factor(x) || is.character(x),
+    logical(1)
+  )
+
+  if (!all(all_good)) {
+    bad_cols <- names(all_good)[!all_good]
+    cli::cli_abort(
+      "All predictor columns for this function should be categorical
+       (factor or character). {cli::qty(length(bad_cols))} Non-categorical
+       column{?s} found: {.var {bad_cols}}.",
+      call = call
+    )
+  }
+  invisible(all_good)
+}
+
 check_column_factor <- function(data, column, call = caller_env()) {
   if (length(column) == 1 && !is.factor(data[[column]])) {
     cli::cli_abort("{.code {column}} should be a factor variable.", call = call)

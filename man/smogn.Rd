@@ -93,6 +93,7 @@ Other Direct Implementations:
 \code{\link[=oss]{oss()}},
 \code{\link[=rose]{rose()}},
 \code{\link[=smote]{smote()}},
+\code{\link[=smoten]{smoten()}},
 \code{\link[=smotenc]{smotenc()}},
 \code{\link[=tomek]{tomek()}}
 }
