@@ -219,6 +219,8 @@ using more advanced methods.
   : Apply SMOGN Algorithm
 - [`step_smotenc()`](https://themis.tidymodels.org/dev/reference/step_smotenc.md)
   : Apply SMOTENC algorithm
+- [`step_smoten()`](https://themis.tidymodels.org/dev/reference/step_smoten.md)
+  : Apply SMOTEN algorithm
 - [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md)
   : Apply borderline-SMOTE Algorithm
 - [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md)
@@ -259,6 +261,8 @@ available as their own functions.
   SMOGN Algorithm
 - [`smotenc()`](https://themis.tidymodels.org/dev/reference/smotenc.md)
   : SMOTENC Algorithm
+- [`smoten()`](https://themis.tidymodels.org/dev/reference/smoten.md) :
+  SMOTEN Algorithm
 - [`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md) :
   borderline-SMOTE Algorithm
 - [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md) :

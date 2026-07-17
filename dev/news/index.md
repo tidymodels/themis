@@ -66,6 +66,14 @@
   and Gaussian noise, while under-sampling common regions
   ([\#49](https://github.com/tidymodels/themis/issues/49)).
 
+- [`step_smoten()`](https://themis.tidymodels.org/dev/reference/step_smoten.md)
+  (and its direct-implementation counterpart
+  [`smoten()`](https://themis.tidymodels.org/dev/reference/smoten.md))
+  was added. It over-samples the minority classes for data sets where
+  all predictors are categorical, using the Value Difference Metric to
+  find nearest neighbors and majority voting to generate new examples
+  ([\#54](https://github.com/tidymodels/themis/issues/54)).
+
 - [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
   [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md),
   [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),

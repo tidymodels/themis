@@ -214,6 +214,7 @@ Discovery, 28:92–122.</p>
 <code><a href="step_bsmote.html">step_bsmote()</a></code>,
 <code><a href="step_smogn.html">step_smogn()</a></code>,
 <code><a href="step_smote.html">step_smote()</a></code>,
+<code><a href="step_smoten.html">step_smoten()</a></code>,
 <code><a href="step_smotenc.html">step_smotenc()</a></code>,
 <code><a href="step_upsample.html">step_upsample()</a></code></p></div>
     </div>
@@ -247,8 +248,8 @@ Discovery, 28:92–122.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 2</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   class  training</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>     <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> not VF     <span style="text-decoration: underline;">2</span>173</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> VF         <span style="text-decoration: underline;">2</span>249</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> not VF     <span style="text-decoration: underline;">2</span>287</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> VF         <span style="text-decoration: underline;">2</span>135</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Since `skip` defaults to TRUE, baking the step has no effect</span></span></span>
 <span class="r-in"><span><span class="va">baked</span> <span class="op">&lt;-</span> <span class="va">up_rec</span> <span class="op">|&gt;</span></span></span>
@@ -267,8 +268,8 @@ Discovery, 28:92–122.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 2 × 4</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   class   orig training baked</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> not VF  <span style="text-decoration: underline;">2</span>120     <span style="text-decoration: underline;">2</span>173  <span style="text-decoration: underline;">2</span>120</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> VF      <span style="text-decoration: underline;">2</span>211     <span style="text-decoration: underline;">2</span>249  <span style="text-decoration: underline;">2</span>211</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> not VF  <span style="text-decoration: underline;">2</span>120     <span style="text-decoration: underline;">2</span>287  <span style="text-decoration: underline;">2</span>120</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> VF      <span style="text-decoration: underline;">2</span>211     <span style="text-decoration: underline;">2</span>135  <span style="text-decoration: underline;">2</span>211</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>

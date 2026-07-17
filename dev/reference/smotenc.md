@@ -73,6 +73,7 @@ Other Direct Implementations:
 [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md),
 [`smogn()`](https://themis.tidymodels.org/dev/reference/smogn.md),
 [`smote()`](https://themis.tidymodels.org/dev/reference/smote.md),
+[`smoten()`](https://themis.tidymodels.org/dev/reference/smoten.md),
 [`tomek()`](https://themis.tidymodels.org/dev/reference/tomek.md)
 
 ## Examples

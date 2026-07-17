@@ -106,6 +106,7 @@ Other Direct Implementations:
 [`oss()`](https://themis.tidymodels.org/dev/reference/oss.md),
 [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md),
 [`smote()`](https://themis.tidymodels.org/dev/reference/smote.md),
+[`smoten()`](https://themis.tidymodels.org/dev/reference/smoten.md),
 [`smotenc()`](https://themis.tidymodels.org/dev/reference/smotenc.md),
 [`tomek()`](https://themis.tidymodels.org/dev/reference/tomek.md)
 
