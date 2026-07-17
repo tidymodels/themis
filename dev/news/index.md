@@ -74,6 +74,15 @@
   find nearest neighbors and majority voting to generate new examples
   ([\#54](https://github.com/tidymodels/themis/issues/54)).
 
+- [`step_svmsmote()`](https://themis.tidymodels.org/dev/reference/step_svmsmote.md)
+  (and its direct-implementation counterpart
+  [`svmsmote()`](https://themis.tidymodels.org/dev/reference/svmsmote.md))
+  was added. It over-samples the minority classes near the decision
+  boundary by fitting a support vector machine and generating new
+  examples around the minority class support vectors, interpolating in
+  dense regions and extrapolating in sparse ones
+  ([\#170](https://github.com/tidymodels/themis/issues/170)).
+
 - [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
   [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md),
   [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),

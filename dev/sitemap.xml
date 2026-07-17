@@ -39,8 +39,10 @@
 <url><loc>https://themis.tidymodels.org/dev/reference/step_smote.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/step_smoten.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/step_smotenc.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/step_svmsmote.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/step_tomek.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/step_upsample.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/svmsmote.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/themis-package.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/tomek.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/tunable_themis.html</loc></url>

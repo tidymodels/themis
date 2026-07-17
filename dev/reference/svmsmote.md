@@ -1,19 +1,13 @@
-# borderline-SMOTE Algorithm
+# SVM-SMOTE Algorithm
 
-BSMOTE generates new examples of the minority class using nearest
-neighbors of these cases in the border region between classes.
+SVM-SMOTE generates new examples of the minority class near the decision
+boundary, using the support vectors of a fitted SVM to decide where to
+place synthetic examples.
 
 ## Usage
 
 ``` r
-bsmote(
-  df,
-  var,
-  k = 5,
-  over_ratio = 1,
-  all_neighbors = FALSE,
-  distance = "euclidean"
-)
+svmsmote(df, var, k = 5, over_ratio = 1, distance = "euclidean")
 ```
 
 ## Arguments
@@ -41,10 +35,6 @@ bsmote(
   (approximately) half as many rows as the majority level. See
   `vignette("ratio", package = "themis")` for more details.
 
-- all_neighbors:
-
-  Type of two borderline-SMOTE method. Defaults to FALSE. See details.
-
 - distance:
 
   A character string specifying the distance metric used for nearest
@@ -61,18 +51,21 @@ A data.frame or tibble, depending on type of `df`.
 
 ## Details
 
-BSMOTE (borderline-SMOTE) works the same way as SMOTE, except that
-instead of generating points around every point of the minority class
-each point is first classified into the boxes "danger" and "not". For
-each point the nearest neighbors are calculated. If all the neighbors
-come from a different class it is labeled noise and put into the "not"
-box. If more than half of the neighbors come from a different class it
-is labeled "danger". Points are generated around points labeled
-"danger".
+SVM-SMOTE (Support Vector Machine SMOTE) works the same way as SMOTE,
+except that instead of generating points around every point of the
+minority class, it focuses generation near the decision boundary. A
+support vector machine is fitted to the data and the support vectors
+that belong to the minority class are used as the base points for
+generating new examples.
 
-If `all_neighbors = FALSE` then points are generated between nearest
-neighbors in its own class. If `all_neighbors = TRUE` then points are
-generated between any nearest neighbors. See examples for visualization.
+For each minority support vector its nearest neighbors among all classes
+are calculated. If all of the neighbors come from a different class the
+support vector is labeled noise and is discarded. If more than half of
+the neighbors come from a different class the support vector is labeled
+"danger" and new points are interpolated between it and its
+minority-class neighbors. The remaining support vectors are considered
+to be in a safe region and new points are extrapolated away from their
+minority-class neighbors.
 
 SMOTE generates new examples of the minority class using nearest
 neighbors of these cases. For each existing minority class example, new
@@ -88,17 +81,18 @@ All columns used in this function must be numeric with no missing data.
 
 ## References
 
-Hui Han, Wen-Yuan Wang, and Bing-Huan Mao. Borderline-smote: a new
-over-sampling method in imbalanced data sets learning. In International
-Conference on Intelligent Computing, pages 878–887. Springer, 2005.
+Nguyen, H. M., Cooper, E. W., and Kamei, K. (2011). Borderline
+over-sampling for imbalanced data classification. International Journal
+of Knowledge Engineering and Soft Data Paradigms, 3(1), 4-21.
 
 ## See also
 
-[`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md)
+[`step_svmsmote()`](https://themis.tidymodels.org/dev/reference/step_svmsmote.md)
 for step function of this method
 
 Other Direct Implementations:
 [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md),
+[`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md),
 [`cnn()`](https://themis.tidymodels.org/dev/reference/cnn.md),
 [`enn()`](https://themis.tidymodels.org/dev/reference/enn.md),
 [`instance_hardness()`](https://themis.tidymodels.org/dev/reference/instance_hardness.md),
@@ -110,7 +104,6 @@ Other Direct Implementations:
 [`smote()`](https://themis.tidymodels.org/dev/reference/smote.md),
 [`smoten()`](https://themis.tidymodels.org/dev/reference/smoten.md),
 [`smotenc()`](https://themis.tidymodels.org/dev/reference/smotenc.md),
-[`svmsmote()`](https://themis.tidymodels.org/dev/reference/svmsmote.md),
 [`tomek()`](https://themis.tidymodels.org/dev/reference/tomek.md)
 
 ## Examples
@@ -118,13 +111,11 @@ Other Direct Implementations:
 ``` r
 circle_numeric <- circle_example[, c("x", "y", "class")]
 
-res <- bsmote(circle_numeric, var = "class")
+res <- svmsmote(circle_numeric, var = "class")
 
-res <- bsmote(circle_numeric, var = "class", k = 10)
+res <- svmsmote(circle_numeric, var = "class", k = 10)
 
-res <- bsmote(circle_numeric, var = "class", over_ratio = 0.8)
+res <- svmsmote(circle_numeric, var = "class", over_ratio = 0.8)
 
-res <- bsmote(circle_numeric, var = "class", all_neighbors = TRUE)
-
-res <- bsmote(circle_numeric, var = "class", distance = "manhattan")
+res <- svmsmote(circle_numeric, var = "class", distance = "manhattan")
 ```

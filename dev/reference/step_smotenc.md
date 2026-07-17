@@ -168,6 +168,7 @@ Other Steps for over-sampling:
 [`step_smogn()`](https://themis.tidymodels.org/dev/reference/step_smogn.md),
 [`step_smote()`](https://themis.tidymodels.org/dev/reference/step_smote.md),
 [`step_smoten()`](https://themis.tidymodels.org/dev/reference/step_smoten.md),
+[`step_svmsmote()`](https://themis.tidymodels.org/dev/reference/step_svmsmote.md),
 [`step_upsample()`](https://themis.tidymodels.org/dev/reference/step_upsample.md)
 
 ## Examples

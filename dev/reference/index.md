@@ -18,6 +18,8 @@ using more advanced methods.
   : Apply SMOTEN algorithm
 - [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md)
   : Apply borderline-SMOTE Algorithm
+- [`step_svmsmote()`](https://themis.tidymodels.org/dev/reference/step_svmsmote.md)
+  : Apply SVM-SMOTE Algorithm
 - [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md)
   : Apply Adaptive Synthetic Algorithm
 - [`step_rose()`](https://themis.tidymodels.org/dev/reference/step_rose.md)
@@ -60,6 +62,8 @@ available as their own functions.
   SMOTEN Algorithm
 - [`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md) :
   borderline-SMOTE Algorithm
+- [`svmsmote()`](https://themis.tidymodels.org/dev/reference/svmsmote.md)
+  : SVM-SMOTE Algorithm
 - [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md) :
   Adaptive Synthetic Algorithm
 - [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md) : ROSE

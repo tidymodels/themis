@@ -84,6 +84,7 @@ Other Direct Implementations:
 [`smogn()`](https://themis.tidymodels.org/dev/reference/smogn.md),
 [`smoten()`](https://themis.tidymodels.org/dev/reference/smoten.md),
 [`smotenc()`](https://themis.tidymodels.org/dev/reference/smotenc.md),
+[`svmsmote()`](https://themis.tidymodels.org/dev/reference/svmsmote.md),
 [`tomek()`](https://themis.tidymodels.org/dev/reference/tomek.md)
 
 ## Examples

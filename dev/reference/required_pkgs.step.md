@@ -47,6 +47,9 @@ required_pkgs(x, ...)
 # S3 method for class 'step_smotenc'
 required_pkgs(x, ...)
 
+# S3 method for class 'step_svmsmote'
+required_pkgs(x, ...)
+
 # S3 method for class 'step_tomek'
 required_pkgs(x, ...)
 

@@ -44,6 +44,9 @@ tunable(x, ...)
 # S3 method for class 'step_smotenc'
 tunable(x, ...)
 
+# S3 method for class 'step_svmsmote'
+tunable(x, ...)
+
 # S3 method for class 'step_upsample'
 tunable(x, ...)
 ```
