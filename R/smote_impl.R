@@ -107,7 +107,8 @@ smote_data <- function(
   k,
   n_samples,
   smote_ids = seq_len(nrow(data)),
-  distance = "euclidean"
+  distance = "euclidean",
+  step_size = 1
 ) {
   ids <- nn_indices(data, k, distance)
   indexes <- rep(sample(smote_ids), length.out = n_samples)
@@ -123,7 +124,7 @@ smote_data <- function(
     id_knn <- ids[row_num, ids[row_num, ] != row_num]
     dif <- data[id_knn[sampleids[index_selection]], ] -
       data[rep(row_num, index_len[row_num]), ]
-    gap <- dif * runif_ids[index_selection]
+    gap <- dif * runif_ids[index_selection] * step_size
     out[index_selection, ] <- data[rep(row_num, index_len[row_num]), ] + gap
     iii <- iii + index_len[row_num]
   }
