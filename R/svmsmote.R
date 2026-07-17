@@ -1,0 +1,300 @@
+#' Apply SVM-SMOTE Algorithm
+#'
+#' `step_svmsmote()` creates a *specification* of a recipe step that generate
+#' new examples of the minority class near the decision boundary using the
+#' support vectors of a fitted support vector machine.
+#'
+#' @inheritParams recipes::step_center
+#' @inheritParams step_upsample
+#' @param ... One or more selector functions to choose which
+#'  variable is used to sample the data. See [recipes::selections]
+#'  for more details. The selection should result in _single
+#'  factor variable_. For the `tidy` method, these are not
+#'  currently used.
+#' @param column A character string of the variable name that will
+#'  be populated (eventually) by the `...` selectors.
+#' @param neighbors An integer. Number of nearest neighbor that are used
+#'  to generate the new examples of the minority class.
+#' @inheritParams step_smote
+#' @param seed An integer that will be used as the seed when
+#' smote-ing.
+#' @return An updated version of `recipe` with the new step
+#'  added to the sequence of existing steps (if any). For the
+#'  `tidy` method, a tibble with columns `terms` which is
+#'  the variable used to sample.
+#'
+#' @template details-svmsmote
+#'
+#' @template details-smote
+#'
+#' @details
+#' All columns in the data are sampled and returned by [recipes::juice()]
+#'  and [recipes::bake()].
+#'
+#' All columns used in this step must be numeric with no missing data.
+#'
+#' When used in modeling, users should strongly consider using the
+#'  option `skip = TRUE` so that the extra sampling is _not_
+#'  conducted outside of the training set.
+#'
+#' # Minimum observations
+#'
+#' Each minority class must have at least `neighbors + 1` observations to
+#' perform the SVM-SMOTE algorithm.
+#'
+#' # Tidying
+#'
+#' When you [`tidy()`][recipes::tidy.recipe()] this step, a tibble is returned with
+#'  columns `terms` and `id`:
+#'
+#' \describe{
+#'   \item{terms}{character, the selectors or variables selected}
+#'   \item{id}{character, id of this step}
+#' }
+#'
+#' ```{r, echo = FALSE, results="asis"}
+#' step <- "step_svmsmote"
+#' result <- knitr::knit_child("man/rmd/tunable-args.Rmd")
+#' cat(result)
+#' ```
+#'
+#' @template case-weights-not-supported
+#'
+#' @references Nguyen, H. M., Cooper, E. W., and Kamei, K. (2011). Borderline
+#'  over-sampling for imbalanced data classification. International Journal of
+#'  Knowledge Engineering and Soft Data Paradigms, 3(1), 4-21.
+#'
+#' @seealso [svmsmote()] for direct implementation
+#' @family Steps for over-sampling
+#'
+#' @export
+#' @examplesIf rlang::is_installed(c("modeldata", "kernlab"))
+#' library(recipes)
+#' library(modeldata)
+#' data(hpc_data)
+#'
+#' hpc_data0 <- hpc_data |>
+#'   select(-protocol, -day)
+#'
+#' orig <- count(hpc_data0, class, name = "orig")
+#' orig
+#'
+#' up_rec <- recipe(class ~ ., data = hpc_data0) |>
+#'   # Bring the minority levels up to about 1000 each
+#'   # 1000/2211 is approx 0.4523
+#'   step_svmsmote(class, over_ratio = 0.4523) |>
+#'   prep()
+#'
+#' training <- up_rec |>
+#'   bake(new_data = NULL) |>
+#'   count(class, name = "training")
+#' training
+#'
+#' # Since `skip` defaults to TRUE, baking the step has no effect
+#' baked <- up_rec |>
+#'   bake(new_data = hpc_data0) |>
+#'   count(class, name = "baked")
+#' baked
+#'
+#' library(ggplot2)
+#'
+#' ggplot(circle_example, aes(x, y, color = class)) +
+#'   geom_point() +
+#'   labs(title = "Without SMOTE")
+#'
+#' recipe(class ~ x + y, data = circle_example) |>
+#'   step_svmsmote(class) |>
+#'   prep() |>
+#'   bake(new_data = NULL) |>
+#'   ggplot(aes(x, y, color = class)) +
+#'   geom_point() +
+#'   labs(title = "With SVM-SMOTE")
+step_svmsmote <-
+  function(
+    recipe,
+    ...,
+    role = NA,
+    trained = FALSE,
+    column = NULL,
+    over_ratio = 1,
+    neighbors = 5,
+    distance = "euclidean",
+    indicator_column = NULL,
+    skip = TRUE,
+    seed = sample.int(10^5, 1),
+    id = rand_id("svmsmote")
+  ) {
+    check_number_whole(seed)
+    check_string(indicator_column, allow_null = TRUE, allow_empty = FALSE)
+    check_distance_arg(distance)
+
+    add_step(
+      recipe,
+      step_svmsmote_new(
+        terms = enquos(...),
+        role = role,
+        trained = trained,
+        column = column,
+        over_ratio = over_ratio,
+        neighbors = neighbors,
+        distance = distance,
+        predictors = NULL,
+        indicator_column = indicator_column,
+        skip = skip,
+        seed = seed,
+        id = id
+      )
+    )
+  }
+
+step_svmsmote_new <-
+  function(
+    terms,
+    role,
+    trained,
+    column,
+    over_ratio,
+    neighbors,
+    distance,
+    predictors,
+    indicator_column,
+    skip,
+    seed,
+    id
+  ) {
+    step(
+      subclass = "svmsmote",
+      terms = terms,
+      role = role,
+      trained = trained,
+      column = column,
+      over_ratio = over_ratio,
+      neighbors = neighbors,
+      distance = distance,
+      predictors = predictors,
+      indicator_column = indicator_column,
+      skip = skip,
+      seed = seed,
+      id = id
+    )
+  }
+
+#' @export
+prep.step_svmsmote <- function(x, training, info = NULL, ...) {
+  col_name <- recipes_eval_select(x$terms, training, info)
+
+  check_number_decimal(x$over_ratio, arg = "over_ratio", min = 0)
+  check_number_whole(x$neighbors, arg = "neighbors", min = 1)
+
+  check_1_selected(col_name)
+  check_column_factor(training, col_name)
+
+  recipes::check_name(
+    tibble(x = logical(0)),
+    training,
+    x,
+    newname = x$indicator_column
+  )
+
+  predictors <- setdiff(recipes::recipes_names_predictors(info), col_name)
+
+  check_type(training[, predictors], types = c("double", "integer"))
+  check_na(select(training, all_of(c(col_name, predictors))))
+
+  step_svmsmote_new(
+    terms = x$terms,
+    role = x$role,
+    trained = TRUE,
+    column = col_name,
+    over_ratio = x$over_ratio,
+    neighbors = x$neighbors,
+    distance = x$distance,
+    predictors = predictors,
+    indicator_column = x$indicator_column,
+    skip = x$skip,
+    seed = x$seed,
+    id = x$id
+  )
+}
+
+#' @export
+bake.step_svmsmote <- function(object, new_data, ...) {
+  col_names <- unique(c(object$predictors, object$column))
+  check_new_data(col_names, object, new_data)
+
+  if (length(object$column) == 0L) {
+    # Empty selection
+    return(new_data)
+  }
+
+  if (nrow(new_data) <= 1) {
+    return(new_data)
+  }
+
+  n_orig <- nrow(new_data)
+  new_data <- as.data.frame(new_data)
+
+  predictor_data <- new_data[, col_names]
+  # svmsmote with seed for reproducibility
+  with_seed(
+    seed = object$seed,
+    code = {
+      synthetic_data <- svmsmote_impl(
+        predictor_data,
+        object$column,
+        k = object$neighbors,
+        over_ratio = object$over_ratio,
+        distance = object$distance
+      )
+      synthetic_data <- as_tibble(synthetic_data)
+    }
+  )
+  new_data <- na_splice(new_data, synthetic_data, object)
+
+  new_data <- add_indicator_column(new_data, n_orig, object$indicator_column)
+
+  new_data
+}
+
+#' @export
+print.step_svmsmote <-
+  function(x, width = max(20, options()$width - 26), ...) {
+    title <- "SVM-SMOTE based on "
+    print_step(x$column, x$terms, x$trained, title, width)
+    invisible(x)
+  }
+
+#' @rdname step_svmsmote
+#' @usage NULL
+#' @export
+tidy.step_svmsmote <- function(x, ...) {
+  if (is_trained(x)) {
+    res <- tibble(terms = unname(x$column))
+  } else {
+    term_names <- sel2char(x$terms)
+    res <- tibble(terms = unname(term_names))
+  }
+  res$id <- x$id
+  res
+}
+
+#' @export
+#' @rdname tunable_themis
+tunable.step_svmsmote <- function(x, ...) {
+  tibble::tibble(
+    name = c("over_ratio", "neighbors"),
+    call_info = list(
+      list(pkg = "dials", fun = "over_ratio"),
+      list(pkg = "dials", fun = "neighbors")
+    ),
+    source = "recipe",
+    component = "step_svmsmote",
+    component_id = x$id
+  )
+}
+
+#' @rdname required_pkgs.step
+#' @export
+required_pkgs.step_svmsmote <- function(x, ...) {
+  c("themis", "kernlab")
+}

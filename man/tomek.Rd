@@ -64,6 +64,7 @@ Other Direct Implementations:
 \code{\link[=smogn]{smogn()}},
 \code{\link[=smote]{smote()}},
 \code{\link[=smoten]{smoten()}},
-\code{\link[=smotenc]{smotenc()}}
+\code{\link[=smotenc]{smotenc()}},
+\code{\link[=svmsmote]{svmsmote()}}
 }
 \concept{Direct Implementations}
