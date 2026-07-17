@@ -176,6 +176,7 @@ Other Steps for over-sampling:
 \code{\link[=step_rose]{step_rose()}},
 \code{\link[=step_smogn]{step_smogn()}},
 \code{\link[=step_smote]{step_smote()}},
+\code{\link[=step_smoten]{step_smoten()}},
 \code{\link[=step_smotenc]{step_smotenc()}}
 }
 \concept{Steps for over-sampling}

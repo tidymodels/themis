@@ -164,6 +164,7 @@ Other Steps for over-sampling:
 \code{\link[=step_bsmote]{step_bsmote()}},
 \code{\link[=step_rose]{step_rose()}},
 \code{\link[=step_smote]{step_smote()}},
+\code{\link[=step_smoten]{step_smoten()}},
 \code{\link[=step_smotenc]{step_smotenc()}},
 \code{\link[=step_upsample]{step_upsample()}}
 }
