@@ -68,6 +68,7 @@ Other Direct Implementations:
 \code{\link[=nearmiss]{nearmiss()}},
 \code{\link[=oss]{oss()}},
 \code{\link[=rose]{rose()}},
+\code{\link[=smogn]{smogn()}},
 \code{\link[=smote]{smote()}},
 \code{\link[=tomek]{tomek()}}
 }

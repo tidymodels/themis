@@ -53,6 +53,15 @@ check_column_factor <- function(data, column, call = caller_env()) {
   }
 }
 
+check_column_numeric <- function(data, column, call = caller_env()) {
+  if (length(column) == 1 && !is.numeric(data[[column]])) {
+    cli::cli_abort(
+      "{.code {column}} should be a numeric variable.",
+      call = call
+    )
+  }
+}
+
 check_var <- function(var, df, call = caller_env()) {
   if (length(var) != 1) {
     cli::cli_abort(

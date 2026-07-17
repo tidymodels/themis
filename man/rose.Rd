@@ -88,6 +88,7 @@ Other Direct Implementations:
 \code{\link[=ncl]{ncl()}},
 \code{\link[=nearmiss]{nearmiss()}},
 \code{\link[=oss]{oss()}},
+\code{\link[=smogn]{smogn()}},
 \code{\link[=smote]{smote()}},
 \code{\link[=smotenc]{smotenc()}},
 \code{\link[=tomek]{tomek()}}
