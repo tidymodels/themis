@@ -156,6 +156,7 @@ Other Steps for under-sampling:
 [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md),
 [`step_ncl()`](https://themis.tidymodels.org/dev/reference/step_ncl.md),
 [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),
+[`step_oss()`](https://themis.tidymodels.org/dev/reference/step_oss.md),
 [`step_tomek()`](https://themis.tidymodels.org/dev/reference/step_tomek.md)
 
 ## Examples
@@ -189,9 +190,9 @@ training
 #> # A tibble: 4 × 2
 #>   class training
 #>   <fct>    <int>
-#> 1 VF         942
-#> 2 F          807
-#> 3 M          331
+#> 1 VF         933
+#> 2 F          791
+#> 3 M          333
 #> 4 L          259
 
 # Since `skip` defaults to TRUE, baking the step has no effect
@@ -213,9 +214,9 @@ orig |>
 #> # A tibble: 4 × 4
 #>   class  orig training baked
 #>   <fct> <int>    <int> <int>
-#> 1 VF     2211      942  2211
-#> 2 F      1347      807  1347
-#> 3 M       514      331   514
+#> 1 VF     2211      933  2211
+#> 2 F      1347      791  1347
+#> 3 M       514      333   514
 #> 4 L       259      259   259
 
 library(ggplot2)

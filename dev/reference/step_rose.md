@@ -210,8 +210,8 @@ training
 #> # A tibble: 2 × 2
 #>   class  training
 #>   <fct>     <int>
-#> 1 not VF     2197
-#> 2 VF         2225
+#> 1 not VF     2165
+#> 2 VF         2257
 
 # Since `skip` defaults to TRUE, baking the step has no effect
 baked <- up_rec |>
@@ -230,8 +230,8 @@ orig |>
 #> # A tibble: 2 × 4
 #>   class   orig training baked
 #>   <fct>  <int>    <int> <int>
-#> 1 not VF  2120     2197  2120
-#> 2 VF      2211     2225  2211
+#> 1 not VF  2120     2165  2120
+#> 2 VF      2211     2257  2211
 
 library(ggplot2)
 

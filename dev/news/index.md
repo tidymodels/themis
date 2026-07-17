@@ -49,6 +49,15 @@
   the neighborhood of minority class observations
   ([\#116](https://github.com/tidymodels/themis/issues/116)).
 
+- [`step_oss()`](https://themis.tidymodels.org/dev/reference/step_oss.md)
+  (and its direct-implementation counterpart
+  [`oss()`](https://themis.tidymodels.org/dev/reference/oss.md)) was
+  added. It under-samples the majority classes using One-Sided
+  Selection, combining Condensed Nearest Neighbors to reduce redundant
+  majority class observations with Tomek’s links to remove majority
+  class observations on the decision boundary
+  ([\#114](https://github.com/tidymodels/themis/issues/114)).
+
 - [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
   [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md),
   [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),

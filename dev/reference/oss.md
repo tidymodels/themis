@@ -1,11 +1,14 @@
-# Remove Tomek's links
+# One-Sided Selection
 
-Removed observations that are part of tomek links.
+Under-samples the majority classes by combining Condensed Nearest
+Neighbors and Tomek's links, first reducing redundant majority class
+observations and then removing majority class observations that form
+Tomek links with minority class observations.
 
 ## Usage
 
 ``` r
-tomek(df, var, distance = "euclidean")
+oss(df, var, distance = "euclidean")
 ```
 
 ## Arguments
@@ -35,25 +38,29 @@ A data.frame or tibble, depending on type of `df`.
 
 ## Details
 
-A Tomek link is a pair of points from different classes that are each
-other's nearest neighbors. Such pairs sit on or very near the decision
-boundary and are considered noise or borderline cases. The algorithm
-identifies all Tomek links and removes the majority class instance from
-each pair, cleaning the class boundary without discarding non-boundary
-majority examples. Because only boundary points are removed, this
-typically discards far fewer observations than other under-sampling
-methods.
+One-Sided Selection (OSS) is an under-sampling method that combines two
+cleaning techniques. It first applies Condensed Nearest Neighbors (CNN)
+to reduce the majority classes to a consistent subset that correctly
+classifies the data using a 1-nearest-neighbor rule, discarding
+redundant interior observations. It then applies Tomek's links to the
+remaining observations, removing the majority class observations that
+form Tomek links with minority class observations, cleaning the decision
+boundary.
+
+The smallest class is treated as the minority class and is always kept.
+Because the CNN step relies on a random seed observation and a random
+scan order, results depend on the random seed.
 
 All columns used in this function must be numeric with no missing data.
 
 ## References
 
-Tomek. Two modifications of cnn. IEEE Trans. Syst. Man Cybern.,
-6:769-772, 1976.
+Kubat, M., & Matwin, S. (1997). Addressing the curse of imbalanced
+training sets: one-sided selection. In ICML (Vol. 97, pp. 179-186).
 
 ## See also
 
-[`step_tomek()`](https://themis.tidymodels.org/dev/reference/step_tomek.md)
+[`step_oss()`](https://themis.tidymodels.org/dev/reference/step_oss.md)
 for step function of this method
 
 Other Direct Implementations:
@@ -64,17 +71,17 @@ Other Direct Implementations:
 [`instance_hardness()`](https://themis.tidymodels.org/dev/reference/instance_hardness.md),
 [`ncl()`](https://themis.tidymodels.org/dev/reference/ncl.md),
 [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md),
-[`oss()`](https://themis.tidymodels.org/dev/reference/oss.md),
 [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md),
 [`smote()`](https://themis.tidymodels.org/dev/reference/smote.md),
-[`smotenc()`](https://themis.tidymodels.org/dev/reference/smotenc.md)
+[`smotenc()`](https://themis.tidymodels.org/dev/reference/smotenc.md),
+[`tomek()`](https://themis.tidymodels.org/dev/reference/tomek.md)
 
 ## Examples
 
 ``` r
 circle_numeric <- circle_example[, c("x", "y", "class")]
 
-res <- tomek(circle_numeric, var = "class")
+res <- oss(circle_numeric, var = "class")
 
-res <- tomek(circle_numeric, var = "class", distance = "manhattan")
+res <- oss(circle_numeric, var = "class", distance = "manhattan")
 ```

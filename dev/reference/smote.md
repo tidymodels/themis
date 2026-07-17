@@ -79,6 +79,7 @@ Other Direct Implementations:
 [`instance_hardness()`](https://themis.tidymodels.org/dev/reference/instance_hardness.md),
 [`ncl()`](https://themis.tidymodels.org/dev/reference/ncl.md),
 [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md),
+[`oss()`](https://themis.tidymodels.org/dev/reference/oss.md),
 [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md),
 [`smotenc()`](https://themis.tidymodels.org/dev/reference/smotenc.md),
 [`tomek()`](https://themis.tidymodels.org/dev/reference/tomek.md)

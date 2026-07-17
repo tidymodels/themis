@@ -152,6 +152,7 @@ Other Steps for under-sampling:
 [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md),
 [`step_ncl()`](https://themis.tidymodels.org/dev/reference/step_ncl.md),
 [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),
+[`step_oss()`](https://themis.tidymodels.org/dev/reference/step_oss.md),
 [`step_tomek()`](https://themis.tidymodels.org/dev/reference/step_tomek.md)
 
 ## Examples

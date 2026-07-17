@@ -1,12 +1,13 @@
-# Remove Tomek’s Links
+# One-Sided Selection
 
-`step_tomek()` creates a *specification* of a recipe step that removes
-majority class instances of tomek links.
+`step_oss()` creates a *specification* of a recipe step that removes
+majority class observations using One-Sided Selection, combining
+Condensed Nearest Neighbors and Tomek's links.
 
 ## Usage
 
 ``` r
-step_tomek(
+step_oss(
   recipe,
   ...,
   role = NA,
@@ -16,7 +17,7 @@ step_tomek(
   skip = TRUE,
   seed = sample.int(10^5, 1),
   distance_with = recipes::all_predictors(),
-  id = rand_id("tomek")
+  id = rand_id("oss")
 )
 ```
 
@@ -94,14 +95,18 @@ of existing steps (if any). For the `tidy` method, a tibble with columns
 
 ## Details
 
-A Tomek link is a pair of points from different classes that are each
-other's nearest neighbors. Such pairs sit on or very near the decision
-boundary and are considered noise or borderline cases. The algorithm
-identifies all Tomek links and removes the majority class instance from
-each pair, cleaning the class boundary without discarding non-boundary
-majority examples. Because only boundary points are removed, this
-typically discards far fewer observations than other under-sampling
-methods.
+One-Sided Selection (OSS) is an under-sampling method that combines two
+cleaning techniques. It first applies Condensed Nearest Neighbors (CNN)
+to reduce the majority classes to a consistent subset that correctly
+classifies the data using a 1-nearest-neighbor rule, discarding
+redundant interior observations. It then applies Tomek's links to the
+remaining observations, removing the majority class observations that
+form Tomek links with minority class observations, cleaning the decision
+boundary.
+
+The smallest class is treated as the minority class and is always kept.
+Because the CNN step relies on a random seed observation and a random
+scan order, results depend on the random seed.
 
 All variables selected by `distance_with` must be numeric with no
 missing data.
@@ -135,13 +140,13 @@ The underlying operation does not allow for case weights.
 
 ## References
 
-Tomek. Two modifications of cnn. IEEE Trans. Syst. Man Cybern.,
-6:769-772, 1976.
+Kubat, M., & Matwin, S. (1997). Addressing the curse of imbalanced
+training sets: one-sided selection. In ICML (Vol. 97, pp. 179-186).
 
 ## See also
 
-[`tomek()`](https://themis.tidymodels.org/dev/reference/tomek.md) for
-direct implementation
+[`oss()`](https://themis.tidymodels.org/dev/reference/oss.md) for direct
+implementation
 
 Other Steps for under-sampling:
 [`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md),
@@ -150,7 +155,7 @@ Other Steps for under-sampling:
 [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md),
 [`step_ncl()`](https://themis.tidymodels.org/dev/reference/step_ncl.md),
 [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),
-[`step_oss()`](https://themis.tidymodels.org/dev/reference/step_oss.md)
+[`step_tomek()`](https://themis.tidymodels.org/dev/reference/step_tomek.md)
 
 ## Examples
 
@@ -173,7 +178,7 @@ orig
 #> 4 L       259
 
 up_rec <- recipe(class ~ ., data = hpc_data0) |>
-  step_tomek(class) |>
+  step_oss(class) |>
   prep()
 
 training <- up_rec |>
@@ -183,10 +188,10 @@ training
 #> # A tibble: 4 × 2
 #>   class training
 #>   <fct>    <int>
-#> 1 VF        1911
-#> 2 F         1011
-#> 3 M          379
-#> 4 L          210
+#> 1 VF         489
+#> 2 F          321
+#> 3 M          143
+#> 4 L          259
 
 # Since `skip` defaults to TRUE, baking the step has no effect
 baked <- up_rec |>
@@ -207,27 +212,27 @@ orig |>
 #> # A tibble: 4 × 4
 #>   class  orig training baked
 #>   <fct> <int>    <int> <int>
-#> 1 VF     2211     1911  2211
-#> 2 F      1347     1011  1347
-#> 3 M       514      379   514
-#> 4 L       259      210   259
+#> 1 VF     2211      489  2211
+#> 2 F      1347      321  1347
+#> 3 M       514      143   514
+#> 4 L       259      259   259
 
 library(ggplot2)
 
 ggplot(circle_example, aes(x, y, color = class)) +
   geom_point() +
-  labs(title = "Without Tomek") +
+  labs(title = "Without OSS") +
   xlim(c(1, 15)) +
   ylim(c(1, 15))
 
 
 recipe(class ~ x + y, data = circle_example) |>
-  step_tomek(class) |>
+  step_oss(class) |>
   prep() |>
   bake(new_data = NULL) |>
   ggplot(aes(x, y, color = class)) +
   geom_point() +
-  labs(title = "With Tomek") +
+  labs(title = "With OSS") +
   xlim(c(1, 15)) +
   ylim(c(1, 15))
 ```

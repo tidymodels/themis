@@ -29,6 +29,9 @@ required_pkgs(x, ...)
 # S3 method for class 'step_nearmiss'
 required_pkgs(x, ...)
 
+# S3 method for class 'step_oss'
+required_pkgs(x, ...)
+
 # S3 method for class 'step_rose'
 required_pkgs(x, ...)
 

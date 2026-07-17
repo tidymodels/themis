@@ -36,6 +36,8 @@ classes.
   : Neighborhood Cleaning Rule
 - [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md)
   : Remove Points Near Other Classes
+- [`step_oss()`](https://themis.tidymodels.org/dev/reference/step_oss.md)
+  : One-Sided Selection
 - [`step_tomek()`](https://themis.tidymodels.org/dev/reference/step_tomek.md)
   : Remove Tomek’s Links
 
@@ -64,6 +66,8 @@ available as their own functions.
   Neighborhood Cleaning Rule
 - [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md)
   : Remove Points Near Other Classes
+- [`oss()`](https://themis.tidymodels.org/dev/reference/oss.md) :
+  One-Sided Selection
 - [`tomek()`](https://themis.tidymodels.org/dev/reference/tomek.md) :
   Remove Tomek's links
 
