@@ -36,6 +36,7 @@ reference:
   - step_smotenc
   - step_smoten
   - step_bsmote
+  - step_svmsmote
   - step_adasyn
   - step_rose
 - title: Under-sampling
@@ -61,6 +62,7 @@ reference:
   - smotenc
   - smoten
   - bsmote
+  - svmsmote
   - adasyn
   - rose
   - cnn

@@ -42,6 +42,7 @@ Suggests:
     covr,
     dials (>= 1.2.0),
     ggplot2,
+    kernlab,
     modeldata,
     testthat (>= 3.0.0)
 Config/Needs/website: tidyverse/tidytemplate

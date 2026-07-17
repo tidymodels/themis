@@ -95,6 +95,7 @@ Other Direct Implementations:
 \code{\link[=smote]{smote()}},
 \code{\link[=smoten]{smoten()}},
 \code{\link[=smotenc]{smotenc()}},
+\code{\link[=svmsmote]{svmsmote()}},
 \code{\link[=tomek]{tomek()}}
 }
 \concept{Direct Implementations}

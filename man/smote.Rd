@@ -80,6 +80,7 @@ Other Direct Implementations:
 \code{\link[=smogn]{smogn()}},
 \code{\link[=smoten]{smoten()}},
 \code{\link[=smotenc]{smotenc()}},
+\code{\link[=svmsmote]{svmsmote()}},
 \code{\link[=tomek]{tomek()}}
 }
 \concept{Direct Implementations}

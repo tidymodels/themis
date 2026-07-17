@@ -18,6 +18,8 @@
 
 * `step_smoten()` (and its direct-implementation counterpart `smoten()`) was added. It over-samples the minority classes for data sets where all predictors are categorical, using the Value Difference Metric to find nearest neighbors and majority voting to generate new examples (#54).
 
+* `step_svmsmote()` (and its direct-implementation counterpart `svmsmote()`) was added. It over-samples the minority classes near the decision boundary by fitting a support vector machine and generating new examples around the minority class support vectors, interpolating in dense regions and extrapolating in sparse ones (#170).
+
 * `step_adasyn()`, `step_bsmote()`, `step_nearmiss()`, `step_smote()`, and `step_tomek()` (and their direct-implementation counterparts `adasyn()`, `bsmote()`, `nearmiss()`, `smote()`, and `tomek()`) gain a `distance` argument to control which distance metric is used for nearest neighbor calculations. Supported metrics are `"euclidean"` (default), `"cosine"`, `"mahalanobis"`, `"manhattan"`, and `"chebyshev"` (#171).
 
 * Added a new article explaining how `over_ratio` and `under_ratio` work (#141).
