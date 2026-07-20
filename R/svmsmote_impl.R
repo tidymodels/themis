@@ -28,7 +28,7 @@
 #' @seealso [step_svmsmote()] for step function of this method
 #' @family Direct Implementations
 #'
-#' @examples
+#' @examplesIf rlang::is_installed("kernlab")
 #' circle_numeric <- circle_example[, c("x", "y", "class")]
 #'
 #' res <- svmsmote(circle_numeric, var = "class")

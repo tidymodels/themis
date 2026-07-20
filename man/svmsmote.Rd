@@ -64,6 +64,7 @@ of new examples generated is controlled by \code{over_ratio}.
 All columns used in this function must be numeric with no missing data.
 }
 \examples{
+\dontshow{if (rlang::is_installed("kernlab")) withAutoprint(\{ # examplesIf}
 circle_numeric <- circle_example[, c("x", "y", "class")]
 
 res <- svmsmote(circle_numeric, var = "class")
@@ -73,6 +74,7 @@ res <- svmsmote(circle_numeric, var = "class", k = 10)
 res <- svmsmote(circle_numeric, var = "class", over_ratio = 0.8)
 
 res <- svmsmote(circle_numeric, var = "class", distance = "manhattan")
+\dontshow{\}) # examplesIf}
 }
 \references{
 Nguyen, H. M., Cooper, E. W., and Kamei, K. (2011). Borderline
