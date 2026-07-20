@@ -2,6 +2,11 @@
 
 ## themis (development version)
 
+- All sampling steps now handle an unused (zero-count) factor level in
+  the outcome gracefully, dropping it with a warning before computing
+  sampling targets instead of deleting all rows or erroring
+  ([\#238](https://github.com/tidymodels/themis/issues/238)).
+
 - [`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md)
   (and its direct-implementation counterpart
   [`cnn()`](https://themis.tidymodels.org/dev/reference/cnn.md)) was
