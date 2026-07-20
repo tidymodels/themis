@@ -72,6 +72,29 @@ check_column_factor <- function(data, column, call = caller_env()) {
   }
 }
 
+warn_unused_levels <- function(data, column, call = caller_env()) {
+  if (length(column) != 1) {
+    return(invisible())
+  }
+
+  counts <- table(data[[column]])
+  empty <- names(counts)[counts == 0]
+
+  if (length(empty) > 0) {
+    cli::cli_warn(
+      c(
+        "{cli::qty(empty)} Unused factor level{?s} {.val {empty}} in \\
+         {.var {column}} {cli::qty(empty)}{?was/were} dropped.",
+        i = "{cli::qty(empty)} Level{?s} with zero observations {?is/are} \\
+             skipped when computing sampling targets."
+      ),
+      call = call
+    )
+  }
+
+  invisible()
+}
+
 check_column_numeric <- function(data, column, call = caller_env()) {
   if (length(column) == 1 && !is.numeric(data[[column]])) {
     cli::cli_abort(
