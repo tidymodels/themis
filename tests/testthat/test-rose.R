@@ -381,6 +381,22 @@ test_that("rose() errors on more than 2 class levels", {
   )
 })
 
+test_that("unused outcome levels are skipped with a warning (#238)", {
+  circle_example$class <- factor(
+    circle_example$class,
+    levels = c(levels(circle_example$class), "unused")
+  )
+
+  expect_snapshot(
+    res <- recipe(class ~ x + y, data = circle_example) |>
+      step_rose(class) |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+
+  expect_gt(nrow(res), 0)
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {
