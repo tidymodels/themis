@@ -144,6 +144,8 @@ test_that("`seed` produces identical sampling", {
 })
 
 test_that("test tidy()", {
+  skip_if_not_installed("kernlab")
+
   rec <- recipe(class ~ x + y, data = circle_example) |>
     step_svmsmote(class, id = "")
 
@@ -395,6 +397,8 @@ test_that("empty selection tidy method works", {
 })
 
 test_that("printing", {
+  skip_if_not_installed("kernlab")
+
   rec <- recipe(class ~ x + y, data = circle_example) |>
     step_svmsmote(class)
 
