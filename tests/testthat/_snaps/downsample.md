@@ -80,6 +80,16 @@
       Error in `step_downsample()`:
       ! `seed` must be a whole number, not `TRUE`.
 
+# unused outcome levels are skipped with a warning (#238)
+
+    Code
+      res <- bake(prep(step_downsample(recipe(class ~ ., data = circle_example),
+      class)), new_data = NULL)
+    Condition
+      Warning in `prep()`:
+      Unused factor level "unused" in `class` was dropped.
+      i  Level with zero observations is skipped when computing sampling targets.
+
 # bake method errors when needed non-standard role columns are missing
 
     Code

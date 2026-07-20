@@ -288,6 +288,23 @@ test_that("NA values in outcome are handled", {
   )
 })
 
+test_that("unused outcome levels are skipped with a warning (#238)", {
+  circle_example <- circle_example[, c("x", "y", "class")]
+  circle_example$class <- factor(
+    circle_example$class,
+    levels = c(levels(circle_example$class), "unused")
+  )
+
+  expect_snapshot(
+    res <- recipe(class ~ ., data = circle_example) |>
+      step_downsample(class) |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+
+  expect_gt(nrow(res), 0)
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {
