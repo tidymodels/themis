@@ -101,7 +101,7 @@ nearmiss_impl <- function(
 }
 
 downsample_count <- function(data, var, ratio) {
-  counts <- table(droplevels(data[[var]]))
+  counts <- table(drop_unused_levels(data[[var]]))
   min_count <- min(counts)
   ratio_target <- min_count * ratio
   which_class <- which(counts > ratio_target)

@@ -188,6 +188,7 @@ prep.step_svmsmote <- function(x, training, info = NULL, ...) {
 
   check_1_selected(col_name)
   check_column_factor(training, col_name)
+  warn_unused_levels(training, col_name)
 
   recipes::check_name(
     tibble(x = logical(0)),
