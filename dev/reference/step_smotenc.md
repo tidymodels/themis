@@ -156,6 +156,9 @@ Chawla, N. V., Bowyer, K. W., Hall, L. O., and Kegelmeyer, W. P. (2002).
 Smote: Synthetic minority over-sampling technique. Journal of Artificial
 Intelligence Research, 16:321-357.
 
+Gower, J. C. (1971). A general coefficient of similarity and some of its
+properties. Biometrics 27(4):857-871. (For the distance metric used)
+
 ## See also
 
 [`smotenc()`](https://themis.tidymodels.org/dev/reference/smotenc.md)
