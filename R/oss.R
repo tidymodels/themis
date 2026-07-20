@@ -169,6 +169,7 @@ prep.step_oss <- function(x, training, info = NULL, ...) {
 
   check_1_selected(col_name)
   check_column_factor(training, col_name)
+  warn_unused_levels(training, col_name)
 
   distance_cols <- recipes_argument_select(
     x$distance_with,

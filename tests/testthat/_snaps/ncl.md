@@ -94,6 +94,16 @@
       Caused by error in `prep()`:
       ! `threshold_clean` must be a number larger than or equal to 0, not the number -1.
 
+# unused outcome levels are skipped with a warning (#238)
+
+    Code
+      res <- bake(prep(step_ncl(recipe(class ~ x + y, data = circle_example), class)),
+      new_data = NULL)
+    Condition
+      Warning in `prep()`:
+      Unused factor level "unused" in `class` was dropped.
+      i  Level with zero observations is skipped when computing sampling targets.
+
 # bake method errors when needed non-standard role columns are missing
 
     Code

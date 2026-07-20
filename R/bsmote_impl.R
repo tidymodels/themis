@@ -74,10 +74,11 @@ bsmote_impl <- function(
   distance = "euclidean",
   call = caller_env()
 ) {
-  majority_count <- max(table(df[[var]]))
+  counts <- table(drop_unused_levels(df[[var]]))
+  majority_count <- max(counts)
   ratio_target <- majority_count * over_ratio
-  which_upsample <- which(table(df[[var]]) < ratio_target)
-  samples_needed <- ratio_target - table(df[[var]])[which_upsample]
+  which_upsample <- which(counts < ratio_target)
+  samples_needed <- ratio_target - counts[which_upsample]
   min_names <- names(samples_needed)
   out_dfs <- list()
   data_mat <- as.matrix(df[names(df) != var])

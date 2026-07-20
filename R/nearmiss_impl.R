@@ -101,10 +101,11 @@ nearmiss_impl <- function(
 }
 
 downsample_count <- function(data, var, ratio) {
-  min_count <- min(table(data[[var]]))
+  counts <- table(drop_unused_levels(data[[var]]))
+  min_count <- min(counts)
   ratio_target <- min_count * ratio
-  which_class <- which(table(data[[var]]) > ratio_target)
-  table(data[[var]])[which_class] - ratio_target
+  which_class <- which(counts > ratio_target)
+  counts[which_class] - ratio_target
 }
 
 subset_to_matrix <- function(data, var, class, equal = TRUE) {

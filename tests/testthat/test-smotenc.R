@@ -354,6 +354,27 @@ test_that("tunable is setup to works with extract_parameter_set_dials", {
   expect_identical(nrow(params), 2L)
 })
 
+test_that("unused outcome levels are skipped with a warning (#238)", {
+  set.seed(1)
+  df <- data.frame(
+    x = factor(sample(letters[1:3], 200, replace = TRUE)),
+    y = rnorm(200),
+    class = factor(
+      sample(c("a", "b"), 200, replace = TRUE, prob = c(0.8, 0.2)),
+      levels = c("a", "b", "unused")
+    )
+  )
+
+  expect_snapshot(
+    res <- recipe(class ~ x + y, data = df) |>
+      step_smotenc(class) |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+
+  expect_gt(nrow(res), 0)
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {

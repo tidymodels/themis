@@ -203,11 +203,15 @@ prep.step_downsample <- function(x, training, info = NULL, ...) {
 
   check_1_selected(col_name)
   check_column_factor(training, col_name)
+  warn_unused_levels(training, col_name)
 
   if (length(col_name) == 0) {
     minority <- 1
   } else {
-    obs_freq <- weighted_table(training[[col_name]], as.integer(wts))
+    obs_freq <- weighted_table(
+      droplevels(training[[col_name]]),
+      as.integer(wts)
+    )
     minority <- min(obs_freq)
   }
 

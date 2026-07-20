@@ -201,6 +201,7 @@ prep.step_rose <- function(x, training, info = NULL, ...) {
 
   check_1_selected(col_name)
   check_column_factor(training, col_name)
+  warn_unused_levels(training, col_name)
   check_2_levels_only(training, col_name)
 
   recipes::check_name(
@@ -370,8 +371,9 @@ rose <- function(
   check_number_decimal(majority_smoothness, min = 0)
   check_2_levels_only(df, var)
 
-  majority_size <- max(table(df[[var]])) * 2
   original_levels <- levels(df[[var]])
+  df[[var]] <- drop_unused_levels(df[[var]])
+  majority_size <- max(table(df[[var]])) * 2
   synthetic_data <- ROSE(
     string2formula(var),
     df,
