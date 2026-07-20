@@ -1,6 +1,6 @@
 # themis (development version)
 
-* `step_downsample()`, `step_nearmiss()`, and `step_instance_hardness()` no longer delete all rows when the outcome has an unused factor level. Zero-count levels are now dropped with a warning before sampling targets are computed (#238).
+* All sampling steps now handle an unused (zero-count) factor level in the outcome gracefully, dropping it with a warning before computing sampling targets instead of deleting all rows or erroring (#238).
 
 * `step_cnn()` (and its direct-implementation counterpart `cnn()`) was added. It under-samples the majority classes using Condensed Nearest Neighbors, keeping only a consistent subset of observations that correctly classifies the data using a 1-nearest-neighbor rule (#113).
 
