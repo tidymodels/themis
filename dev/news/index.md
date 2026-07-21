@@ -54,6 +54,13 @@
   the neighborhood of minority class observations
   ([\#116](https://github.com/tidymodels/themis/issues/116)).
 
+- [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md)
+  (and its direct-implementation counterpart
+  [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md))
+  now keeps the majority observations that are genuinely closest to the
+  minority class, rather than selecting rows by their position in the
+  data ([\#236](https://github.com/tidymodels/themis/issues/236)).
+
 - [`step_oss()`](https://themis.tidymodels.org/dev/reference/step_oss.md)
   (and its direct-implementation counterpart
   [`oss()`](https://themis.tidymodels.org/dev/reference/oss.md)) was
