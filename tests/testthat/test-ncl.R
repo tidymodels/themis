@@ -331,6 +331,17 @@ test_that("unused outcome levels are skipped with a warning (#238)", {
   expect_gt(nrow(res), 0)
 })
 
+test_that("ncl() works with a character `var` (#261)", {
+  df <- circle_example[c("x", "y", "class")]
+  df$class <- as.character(df$class)
+
+  res <- ncl(df, "class")
+
+  expect_type(res$class, "character")
+  expect_identical(sort(unique(res$class)), c("Circle", "Rest"))
+  expect_identical(sum(is.na(res$class)), 0L)
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {
