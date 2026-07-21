@@ -360,6 +360,8 @@ test_that("unused outcome levels are skipped with a warning (#238)", {
 })
 
 test_that("svmsmote() works with a character `var` (#261)", {
+  skip_if_not_installed("kernlab")
+
   df <- circle_example[c("x", "y", "class")]
   df$class <- as.character(df$class)
 
