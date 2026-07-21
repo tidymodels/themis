@@ -7,6 +7,15 @@
   sampling targets instead of deleting all rows or erroring
   ([\#238](https://github.com/tidymodels/themis/issues/238)).
 
+- [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md)
+  (and its direct-implementation counterpart
+  [`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md))
+  now selects the correct “danger” observations on the class border. The
+  danger criterion had inverted the roles of minority and majority
+  neighbors, causing it to oversample safe interior points instead of
+  borderline ones
+  ([\#235](https://github.com/tidymodels/themis/issues/235)).
+
 - [`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md)
   (and its direct-implementation counterpart
   [`cnn()`](https://themis.tidymodels.org/dev/reference/cnn.md)) was
