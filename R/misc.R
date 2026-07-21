@@ -203,7 +203,7 @@ nn_indices <- function(data, k, distance) {
       )
     }
     S <- stats::cov(data)
-    data_w <- data %*% solve(t(chol(S)))
+    data_w <- data %*% solve(chol(S))
     return(RANN::nn2(data_w, k = k + 1, searchtype = "priority")$nn.idx)
   }
   dist_method <- switch(
@@ -237,7 +237,7 @@ nn_dists_cross <- function(query, reference, k, distance) {
       )
     }
     S <- stats::cov(reference)
-    L_inv <- solve(t(chol(S)))
+    L_inv <- solve(chol(S))
     reference_w <- reference %*% L_inv
     query_w <- query %*% L_inv
     return(RANN::nn2(reference_w, query_w, k = k)$nn.dists)
@@ -276,7 +276,7 @@ nn_indices_cross <- function(query, reference, k, distance) {
       )
     }
     S <- stats::cov(reference)
-    L_inv <- solve(t(chol(S)))
+    L_inv <- solve(chol(S))
     reference_w <- reference %*% L_inv
     query_w <- query %*% L_inv
     return(RANN::nn2(reference_w, query_w, k = k)$nn.idx)
