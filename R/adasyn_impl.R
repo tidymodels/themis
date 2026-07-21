@@ -73,18 +73,6 @@ adasyn_impl <- function(
   for (i in seq_along(min_names)) {
     min_class_in <- df[[var]] != min_names[i]
 
-    r_value <- pmax(
-      0,
-      rowSums(matrix((min_class_in)[ids_full], ncol = ncol(ids_full))) - 1
-    )
-    r_value <- r_value[!min_class_in]
-    danger_ids <- sample(
-      seq_along(r_value),
-      samples_needed[i],
-      TRUE,
-      prob = r_value
-    )
-
     minority <- data_mat[!min_class_in, , drop = FALSE]
 
     if (nrow(minority) <= k) {
@@ -96,6 +84,23 @@ adasyn_impl <- function(
         call = call
       )
     }
+
+    r_value <- pmax(
+      0,
+      rowSums(matrix((min_class_in)[ids_full], ncol = ncol(ids_full))) - 1
+    )
+    r_value <- r_value[!min_class_in]
+    # When the minority class is well separated from the majority classes all
+    # weights are 0, which `sample()` cannot use. Fall back to uniform sampling.
+    if (all(r_value == 0)) {
+      r_value <- NULL
+    }
+    danger_ids <- sample(
+      seq_along(minority[, 1]),
+      samples_needed[i],
+      TRUE,
+      prob = r_value
+    )
 
     tmp_df <- as.data.frame(
       adasyn_sampler(
