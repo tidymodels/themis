@@ -57,11 +57,15 @@ test_that("danger() classifies minority points correctly by neighbor composition
   min_class_in <- df$class == "min"
   same_class_count <- rowSums(matrix(min_class_in[ids], ncol = ncol(ids))) - 1
   danger_flags <- themis:::danger(same_class_count, k)
-  # Row 1 (min@0): 2 same-class neighbors → danger (k/2=1.5 ≤ 2 < 3)
-  # Row 2 (min@0.1): 2 same-class neighbors → danger
-  # Row 3 (min@2.0): 1 same-class neighbor → noise (1 < k/2=1.5)
-  # Rows 4-6 (majority): not danger
-  expect_equal(danger_flags, c(TRUE, TRUE, FALSE, FALSE, FALSE, FALSE))
+  # Han (2005): a point is in danger when k/2 <= (majority neighbors) < k, i.e.
+  # 0 < (minority neighbors) <= k/2. `same_class_count` here is 2,2,1,1,1,0.
+  # Row 1 (min@0): 2 minority neighbors, 1 majority → safe (1 < k/2=1.5)
+  # Row 2 (min@0.1): 2 minority neighbors, 1 majority → safe
+  # Row 3 (min@2.0): 1 minority neighbor, 2 majority → danger (1.5 <= 2 < 3)
+  # Rows 4-5 (majority): 1 minority neighbor → danger flag set, but these are
+  #   majority rows and are filtered out downstream
+  # Row 6 (majority@10): 0 minority neighbors → noise
+  expect_equal(danger_flags, c(FALSE, FALSE, TRUE, TRUE, TRUE, FALSE))
 })
 
 test_that("bsmote all_neighbors=FALSE keeps synthetic points within minority x-range", {
@@ -89,29 +93,24 @@ test_that("bsmote all_neighbors=FALSE keeps synthetic points within minority x-r
 })
 
 test_that("bsmote all_neighbors=TRUE can produce synthetic points outside minority bounding box", {
-  # Minority: 4 points in a diamond at radius 1 — bounding box [-1,1] x [-1,1]
-  # Majority: 36 points, all strictly outside the minority bounding box
+  # Minority: 5 points on the x-axis at x = 0, 2, 4, 6, 8 (bounding box y = 0)
+  # Majority: a pair at (x, ±0.5) hugging each minority point
   #
   # With k=3, the 3 nearest non-self neighbors of each minority point in the
-  # full matrix are: the 2 adjacent minority points (dist √2 ≈ 1.41) and the
-  # nearest majority point at radius 2.5 (dist 1.5). The majority neighbor lies
-  # outside [-1,1] x [-1,1], so any synthetic interpolated toward it breaches
-  # the minority bounding box.
+  # full matrix are its 2 flanking majority points (dist 0.5) and the closest
+  # other minority point (dist 2). That is 2 majority neighbors, so every
+  # minority point is "in danger" (k/2 = 1.5 <= 2 < 3). The majority neighbors
+  # sit at y = ±0.5, off the y = 0 minority line, so any synthetic interpolated
+  # toward one breaches the minority bounding box.
   #
   # With all_neighbors=FALSE the kNN is restricted to the minority-only matrix,
-  # so no majority point can ever be an interpolation target, and synthetics
-  # are guaranteed to stay within the minority convex hull.
-  #
-  # over_ratio=1 → 32 synthetic minority samples (≈8 per danger point), making
-  # it near-certain that the 3rd neighbor (majority) is drawn at least once.
-  maj <- expand.grid(
-    x = c(-3, -2.5, -1.5, 1.5, 2.5, 3),
-    y = c(-3, -2, 0, 1.5, 2, 3)
-  )
+  # so synthetics are convex combinations of the on-axis minority points and
+  # stay on y = 0 within x in [0, 8].
+  min_x <- c(0, 2, 4, 6, 8)
   df <- data.frame(
-    x = c(1, 0, -1, 0, maj$x),
-    y = c(0, 1, 0, -1, maj$y),
-    class = factor(c(rep("min", 4), rep("maj", nrow(maj))))
+    x = c(min_x, rep(min_x, each = 2)),
+    y = c(rep(0, 5), rep(c(0.5, -0.5), times = 5)),
+    class = factor(c(rep("min", 5), rep("maj", 10)))
   )
   set.seed(42)
   result_true <- bsmote(
@@ -122,12 +121,7 @@ test_that("bsmote all_neighbors=TRUE can produce synthetic points outside minori
     all_neighbors = TRUE
   )
   synthetic_true <- tail(result_true, nrow(result_true) - nrow(df))
-  expect_true(any(
-    synthetic_true$x < -1 |
-      synthetic_true$x > 1 |
-      synthetic_true$y < -1 |
-      synthetic_true$y > 1
-  ))
+  expect_true(any(synthetic_true$y > 0 | synthetic_true$y < 0))
 
   set.seed(42)
   result_false <- bsmote(
@@ -139,10 +133,9 @@ test_that("bsmote all_neighbors=TRUE can produce synthetic points outside minori
   )
   synthetic_false <- tail(result_false, nrow(result_false) - nrow(df))
   expect_true(all(
-    synthetic_false$x >= -1 &
-      synthetic_false$x <= 1 &
-      synthetic_false$y >= -1 &
-      synthetic_false$y <= 1
+    synthetic_false$y == 0 &
+      synthetic_false$x >= 0 &
+      synthetic_false$x <= 8
   ))
 })
 

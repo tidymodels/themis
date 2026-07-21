@@ -129,5 +129,12 @@ bsmote_impl <- function(
 }
 
 danger <- function(x, k) {
-  (x != k) & (k / 2 <= x)
+  # `x` is the number of minority-class neighbors (self excluded), so there are
+  # `k - x` majority-class neighbors. Han (2005) puts a point in danger when
+  #
+  #   k / 2 <= (majority neighbors) < k
+  #
+  # which, substituting `k - x`, is equivalent to `0 < x <= k / 2`. A point with
+  # `x == 0` (all majority neighbors) is noise and is excluded.
+  x > 0 & x <= k / 2
 }
