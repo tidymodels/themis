@@ -43,3 +43,18 @@ test_that("nn_indices() uses the correct distance metric", {
   expect_equal(nn1(nn_indices(data_mahal, 1, "euclidean"), 1), 2L)
   expect_equal(nn1(nn_indices(data_mahal, 1, "mahalanobis"), 1), 3L)
 })
+
+test_that("mahalanobis whitening reproduces stats::mahalanobis distances (#237)", {
+  set.seed(1)
+  n <- 200
+  x1 <- rnorm(n)
+  data <- cbind(x1, 2 * x1 + rnorm(n, sd = 0.3), rnorm(n), x1 - rnorm(n))
+  S <- stats::cov(data)
+
+  whitened <- data %*% solve(chol(S))
+  center <- whitened[1, ]
+  themis_d2 <- rowSums(sweep(whitened, 2, center)^2)
+  true_d2 <- stats::mahalanobis(data, data[1, ], S)
+
+  expect_equal(themis_d2, unname(true_d2))
+})

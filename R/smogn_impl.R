@@ -217,7 +217,7 @@ smogn_distmat <- function(data, distance) {
   }
   if (distance == "mahalanobis") {
     S <- stats::cov(data)
-    data <- data %*% solve(t(chol(S)))
+    data <- data %*% solve(chol(S))
     return(as.matrix(stats::dist(data)))
   }
   method <- switch(
