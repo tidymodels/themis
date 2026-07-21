@@ -401,6 +401,19 @@ test_that("adasyn() works with a character `var` (#261)", {
   expect_identical(sum(is.na(res$class)), 0L)
 })
 
+test_that("adasyn() works with well-separated classes (#240)", {
+  set.seed(1)
+  df <- data.frame(
+    x = c(rnorm(50, 0), rnorm(20, 100)),
+    y = c(rnorm(50, 0), rnorm(20, 100)),
+    class = factor(c(rep("a", 50), rep("b", 20)))
+  )
+
+  res <- adasyn(df, "class")
+
+  expect_identical(as.numeric(table(res$class)), c(50, 50))
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {
