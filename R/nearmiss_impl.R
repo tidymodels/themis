@@ -87,7 +87,8 @@ nearmiss_impl <- function(
 
     dists <- nn_dists_cross(class, not_class, k, distance)
 
-    selected_ind <- order(rowMeans(dists)) <= (nrow(class) - classes[i])
+    selected_ind <- rank(rowMeans(dists), ties.method = "first") <=
+      (nrow(class) - classes[i])
     deleted_rows <- c(
       deleted_rows,
       which(df[[var]] %in% names(classes)[i])[!selected_ind]

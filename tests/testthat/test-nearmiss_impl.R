@@ -60,6 +60,18 @@ test_that("nearmiss with k=2 uses mean distance to keep closest majority points"
   expect_equal(sort(result$x[result$class == "maj"]), c(4, 9, 20))
 })
 
+test_that("nearmiss keeps the closest rows regardless of row order (#236)", {
+  df <- data.frame(
+    x = c(0, -100, 10, 1, 11, 2, 3),
+    y = rep(0, 7),
+    class = factor(c("min", "min", "maj", "maj", "maj", "maj", "maj"))
+  )
+  result <- nearmiss(df, var = "class", k = 1, under_ratio = 1)
+  # Nearest minority point is x=0, so distance is |x|. under_ratio=1 keeps the
+  # 2 closest majority points {1, 2}, not the positionally-selected rows.
+  expect_equal(sort(result$x[result$class == "maj"]), c(1, 2))
+})
+
 test_that("bad args", {
   expect_snapshot(
     error = TRUE,
