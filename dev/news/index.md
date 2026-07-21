@@ -170,6 +170,17 @@
 
 - [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md),
   [`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md),
+  [`smote()`](https://themis.tidymodels.org/dev/reference/smote.md),
+  [`smoten()`](https://themis.tidymodels.org/dev/reference/smoten.md),
+  [`smotenc()`](https://themis.tidymodels.org/dev/reference/smotenc.md),
+  and
+  [`svmsmote()`](https://themis.tidymodels.org/dev/reference/svmsmote.md)
+  now return a proper factor outcome when called with a character `var`,
+  instead of an all-`NA`, zero-level factor
+  ([\#261](https://github.com/tidymodels/themis/issues/261)).
+
+- [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md),
+  [`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md),
   [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md),
   [`smote()`](https://themis.tidymodels.org/dev/reference/smote.md), and
   [`tomek()`](https://themis.tidymodels.org/dev/reference/tomek.md) now
