@@ -52,6 +52,7 @@ smoten <- function(df, var, k = 5, over_ratio = 1) {
 
 # Splits data and appends new minority instances
 smoten_impl <- function(df, var, k, over_ratio, call = caller_env()) {
+  df[[var]] <- as.factor(df[[var]])
   predictors <- setdiff(names(df), var)
   # per-feature Value Difference Metric between category levels
   deltas <- vdm_deltas(df, var, predictors)

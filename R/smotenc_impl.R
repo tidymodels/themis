@@ -50,6 +50,7 @@ smotenc <- function(df, var, k = 5, over_ratio = 1) {
 
 # Splits data and appends new minority instances
 smotenc_impl <- function(df, var, k, over_ratio, call = caller_env()) {
+  df[[var]] <- as.factor(df[[var]])
   # split data into list names by classes
   data <- split(df, df[[var]])
   # Number of majority instances
