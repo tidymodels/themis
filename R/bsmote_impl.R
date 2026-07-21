@@ -74,6 +74,7 @@ bsmote_impl <- function(
   distance = "euclidean",
   call = caller_env()
 ) {
+  df[[var]] <- as.factor(df[[var]])
   counts <- table(drop_unused_levels(df[[var]]))
   majority_count <- max(counts)
   ratio_target <- majority_count * over_ratio

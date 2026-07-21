@@ -58,6 +58,7 @@ smote_impl <- function(
   distance = "euclidean",
   call = caller_env()
 ) {
+  df[[var]] <- as.factor(df[[var]])
   data <- split(df, df[[var]])
   counts <- table(drop_unused_levels(df[[var]]))
   majority_count <- max(counts)

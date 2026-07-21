@@ -61,6 +61,7 @@ svmsmote_impl <- function(
   distance = "euclidean",
   call = caller_env()
 ) {
+  df[[var]] <- as.factor(df[[var]])
   # `m` neighbors are used to classify support vectors as noise, danger, or
   # safety; `out_step` controls how far extrapolated examples are placed.
   m <- 2 * k

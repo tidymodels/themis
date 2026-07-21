@@ -375,6 +375,20 @@ test_that("unused outcome levels are skipped with a warning (#238)", {
   expect_gt(nrow(res), 0)
 })
 
+test_that("smotenc() works with a character `var` (#261)", {
+  df <- data.frame(
+    x = rnorm(60),
+    y = factor(sample(letters[1:3], 60, replace = TRUE)),
+    class = c(rep("min", 20), rep("maj", 40))
+  )
+
+  res <- smotenc(df, "class")
+
+  expect_s3_class(res$class, "factor")
+  expect_identical(sort(levels(res$class)), c("maj", "min"))
+  expect_identical(sum(is.na(res$class)), 0L)
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {
