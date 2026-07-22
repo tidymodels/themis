@@ -285,9 +285,9 @@ smogn_generate <- function(
     } else {
       # Unsafe: perturb the seed with Gaussian noise
       new_x[i, ] <- x[s, ] +
-        stats::rnorm(ncol(x), 0, perturbation * pmin(sd_x, maxD))
+        stats::rnorm(ncol(x), 0, sd_x * min(perturbation, maxD))
       new_y[i] <- y[s] +
-        stats::rnorm(1, 0, perturbation * min(sd_y, maxD))
+        stats::rnorm(1, 0, sd_y * min(perturbation, maxD))
     }
   }
 

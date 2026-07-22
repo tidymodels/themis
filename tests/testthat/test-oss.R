@@ -39,6 +39,25 @@ test_that("removes the union of CNN and majority Tomek links", {
   expect_all_true(as.character(df$class[removed]) != minority)
 })
 
+test_that("condensation is a single pass, not iterated to convergence", {
+  df <- circle_example[, c("x", "y", "class")]
+
+  oss_rm <- withr::with_seed(1, themis:::oss_condense(df, var = "class"))
+  cnn_rm <- withr::with_seed(1, themis:::cnn_impl(df, var = "class"))
+
+  # A single pass keeps a store no larger than the converged CNN, so it removes
+  # a superset of the CNN store.
+  expect_all_true(cnn_rm %in% oss_rm)
+  expect_gte(length(oss_rm), length(cnn_rm))
+
+  # OSS condenses with a single pass and no longer defers to the fully
+  # converged CNN of cnn_impl().
+  local_mocked_bindings(
+    cnn_impl = function(...) cli::cli_abort("cnn_impl should not be called")
+  )
+  expect_no_error(withr::with_seed(1, themis:::oss_impl(df, var = "class")))
+})
+
 test_that("seed makes step reproducible", {
   baked <- function() {
     recipe(class ~ x + y, data = circle_example) |>

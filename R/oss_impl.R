@@ -54,8 +54,9 @@ oss_impl <- function(df, var, distance = "euclidean", call = caller_env()) {
   counts <- table(outcome)
   minority <- names(counts)[which.min(counts)]
 
-  # Step 1: CNN condensing removes redundant majority class observations.
-  cnn_removed <- cnn_impl(df, var, distance = distance, call = call)
+  # Step 1: a single condensation pass removes redundant majority class
+  # observations, following Kubat & Matwin (1997).
+  cnn_removed <- oss_condense(df, var, distance = distance)
 
   keep <- setdiff(seq_len(nrow(df)), cnn_removed)
   kept_df <- df[keep, , drop = FALSE]
@@ -66,4 +67,45 @@ oss_impl <- function(df, var, distance = "euclidean", call = caller_env()) {
   tomek_removed <- tomek_removed[outcome[tomek_removed] != minority]
 
   sort(unique(c(cnn_removed, tomek_removed)))
+}
+
+# One-sided selection uses a single condensation pass rather than iterating to
+# consistency like Hart's CNN (Kubat & Matwin, 1997).
+oss_condense <- function(df, var, distance = "euclidean") {
+  outcome <- as.character(df[[var]])
+  predictors <- as.matrix(df[names(df) != var])
+
+  counts <- table(outcome)
+  minority <- names(counts)[which.min(counts)]
+
+  minority_idx <- which(outcome == minority)
+  majority_idx <- which(outcome != minority)
+
+  if (length(majority_idx) == 0) {
+    return(integer(0))
+  }
+
+  # Seed the store with all minority observations and one random majority one.
+  in_store <- logical(nrow(df))
+  in_store[minority_idx] <- TRUE
+  in_store[majority_idx[sample.int(length(majority_idx), 1)]] <- TRUE
+
+  # Single pass: scan order is randomized; condensation is order-dependent.
+  candidates <- sample(majority_idx[!in_store[majority_idx]])
+
+  for (i in candidates) {
+    store_idx <- which(in_store)
+    nn <- nn_indices_cross(
+      predictors[i, , drop = FALSE],
+      predictors[store_idx, , drop = FALSE],
+      k = 1,
+      distance = distance
+    )
+    if (outcome[store_idx[nn[1, 1]]] != outcome[i]) {
+      in_store[i] <- TRUE
+    }
+  }
+
+  # Majority observations left outside the store are removed.
+  which(!in_store)
 }

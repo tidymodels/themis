@@ -28,15 +28,21 @@
 
 * `step_ncl()` (and its direct-implementation counterpart `ncl()`) was added. It cleans the data using the Neighborhood Cleaning Rule, removing majority class observations that are noisy or that pollute the neighborhood of minority class observations (#116).
 
+* `step_ncl()` (and its direct-implementation counterpart `ncl()`) now treats a majority class whose size is exactly `threshold_clean` times the minority size as eligible for cleaning, using the `>=` comparison from Laurikkala (2001) instead of a strict `>` (#250).
+
 * `step_nearmiss()` (and its direct-implementation counterpart `nearmiss()`) now keeps the majority observations that are genuinely closest to the minority class, rather than selecting rows by their position in the data (#236).
 
 * `step_nearmiss()` and `step_smogn()` (and their direct-implementation counterparts `nearmiss()` and `smogn()`) now return true cosine-distance magnitudes with `distance = "cosine"`. Previously the cosine branch L2-normalized and took Euclidean distances, returning `sqrt(2 - 2 * cos_sim)` instead of `1 - cos_sim`. Neighbor ordering was unaffected, but NearMiss neighbor-distance averages and SMOGN's interpolate-vs-noise threshold used the wrong magnitudes (#244).
 
 * `step_oss()` (and its direct-implementation counterpart `oss()`) was added. It under-samples the majority classes using One-Sided Selection, combining Condensed Nearest Neighbors to reduce redundant majority class observations with Tomek's links to remove majority class observations on the decision boundary (#114).
 
+* `step_oss()` (and its direct-implementation counterpart `oss()`) now condenses the majority classes with a single pass, matching Kubat & Matwin (1997), instead of iterating Condensed Nearest Neighbors to convergence, which removed more observations than the reference (#250).
+
 * `step_smogn()` (and its direct-implementation counterpart `smogn()`) was added. It over-samples rare regions of a numeric outcome for imbalanced regression using a combination of SMOTE-style interpolation and Gaussian noise, while under-sampling common regions (#49).
 
 * `step_smogn()` (and its direct-implementation counterpart `smogn()`) now emits a clear early error when automatic relevance is requested for a degenerate outcome (zero interquartile range or heavily tied values), pointing users to the `relevance` argument instead of aborting deep inside the boxplot-based computation (#264).
+
+* `step_smogn()` (and its direct-implementation counterpart `smogn()`) now scales the Gaussian perturbation of unsafe cases by each feature's standard deviation and caps the perturbation amount at the safe distance, using `sd * min(perturbation, maxD)` as in the reference, instead of scaling by a distance-capped standard deviation (#250).
 
 * `step_smoten()` (and its direct-implementation counterpart `smoten()`) was added. It over-samples the minority classes for data sets where all predictors are categorical, using the Value Difference Metric to find nearest neighbors and majority voting to generate new examples (#54).
 
