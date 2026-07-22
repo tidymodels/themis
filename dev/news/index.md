@@ -7,6 +7,14 @@
   sampling targets instead of deleting all rows or erroring
   ([\#238](https://github.com/tidymodels/themis/issues/238)).
 
+- [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md)
+  (and its direct-implementation counterpart
+  [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md))
+  no longer errors with a cryptic message when a minority class is well
+  separated from the majority classes; it now falls back to uniform
+  sampling and checks the minority class size before sampling
+  ([\#240](https://github.com/tidymodels/themis/issues/240)).
+
 - [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md)
   (and its direct-implementation counterpart
   [`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md))
