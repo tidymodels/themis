@@ -83,6 +83,44 @@ test_that("adasyn generates synthetic points only near minority-majority boundar
   expect_equal(sum(synthetic$x <= 10), 0L)
 })
 
+test_that("adasyn weights border points with a single majority neighbor", {
+  # Border minority points near a majority point each have exactly one majority
+  # neighbor. The `- 1` off-by-one used to zero out their weight (#239), so
+  # synthetic points should be seeded from the border cluster, not the isolated
+  # minority cluster that has no majority neighbors.
+  df <- data.frame(
+    x = c(
+      10,
+      10.1,
+      10.2,
+      10.3,
+      10.4, # border minority cluster
+      200,
+      200.1,
+      200.2,
+      200.3, # isolated minority (no majority neighbors)
+      10.5, # majority next to the border cluster
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111 # far majority cluster
+    ),
+    class = factor(c(rep("min", 9), rep("maj", 13)))
+  )
+  set.seed(1)
+  result <- adasyn(df, var = "class", k = 3, over_ratio = 1)
+  synthetic <- tail(result, nrow(result) - nrow(df))
+  expect_equal(sum(synthetic$x > 30), 0L)
+})
+
 test_that("adasyn() interfaces correctly", {
   expect_no_error(adasyn(circle_example_num, var = "class"))
 

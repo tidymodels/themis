@@ -85,10 +85,7 @@ adasyn_impl <- function(
       )
     }
 
-    r_value <- pmax(
-      0,
-      rowSums(matrix((min_class_in)[ids_full], ncol = ncol(ids_full))) - 1
-    )
+    r_value <- rowSums(matrix((min_class_in)[ids_full], ncol = ncol(ids_full)))
     r_value <- r_value[!min_class_in]
     # When the minority class is well separated from the majority classes all
     # weights are 0, which `sample()` cannot use. Fall back to uniform sampling.
