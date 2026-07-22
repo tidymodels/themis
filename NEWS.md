@@ -24,6 +24,8 @@
 
 * `step_nearmiss()` (and its direct-implementation counterpart `nearmiss()`) now keeps the majority observations that are genuinely closest to the minority class, rather than selecting rows by their position in the data (#236).
 
+* `step_nearmiss()` and `step_smogn()` (and their direct-implementation counterparts `nearmiss()` and `smogn()`) now return true cosine-distance magnitudes with `distance = "cosine"`. Previously the cosine branch L2-normalized and took Euclidean distances, returning `sqrt(2 - 2 * cos_sim)` instead of `1 - cos_sim`. Neighbor ordering was unaffected, but NearMiss neighbor-distance averages and SMOGN's interpolate-vs-noise threshold used the wrong magnitudes (#244).
+
 * `step_oss()` (and its direct-implementation counterpart `oss()`) was added. It under-samples the majority classes using One-Sided Selection, combining Condensed Nearest Neighbors to reduce redundant majority class observations with Tomek's links to remove majority class observations on the decision boundary (#114).
 
 * `step_smogn()` (and its direct-implementation counterpart `smogn()`) was added. It over-samples rare regions of a numeric outcome for imbalanced regression using a combination of SMOTE-style interpolation and Gaussian noise, while under-sampling common regions (#49).

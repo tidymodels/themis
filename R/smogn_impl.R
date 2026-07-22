@@ -213,7 +213,11 @@ smogn_distmat <- function(data, distance) {
   if (distance == "cosine") {
     norms <- sqrt(rowSums(data^2))
     norms[norms == 0] <- 1
-    return(as.matrix(stats::dist(data / norms)))
+    # Euclidean distance between unit vectors is sqrt(2 - 2*cos); convert to
+    # cosine distance (1 - cos_sim = d^2 / 2) so the interpolate-vs-noise test
+    # compares true cosine-distance magnitudes.
+    d <- as.matrix(stats::dist(data / norms))
+    return(d^2 / 2)
   }
   if (distance == "mahalanobis") {
     S <- stats::cov(data)
