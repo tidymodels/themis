@@ -212,7 +212,9 @@ prep.step_rose <- function(x, training, info = NULL, ...) {
   )
 
   predictors <- setdiff(recipes::recipes_names_predictors(info), col_name)
-  check_na(select(training, all_of(col_name)))
+
+  check_type(training[, predictors], types = c("double", "integer", "nominal"))
+  check_na(select(training, all_of(c(col_name, predictors))))
 
   step_rose_new(
     terms = x$terms,

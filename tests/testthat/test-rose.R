@@ -82,6 +82,20 @@ test_that("bad data", {
   )
 })
 
+test_that("errors on unsupported predictor types", {
+  df_date <- data.frame(
+    x = factor(rep(c("a", "b"), c(2, 8))),
+    y = as.Date("2020-01-01") + 1:10
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    recipe(x ~ y, data = df_date) |>
+      step_rose(x) |>
+      prep()
+  )
+})
+
 test_that("NA in response", {
   skip_if_not_installed("modeldata")
 

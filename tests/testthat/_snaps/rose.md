@@ -16,6 +16,16 @@
       Caused by error in `prep()`:
       ! The selector should select at most a single variable.
 
+# errors on unsupported predictor types
+
+    Code
+      prep(step_rose(recipe(x ~ y, data = df_date), x))
+    Condition
+      Error in `step_rose()`:
+      Caused by error in `prep()`:
+      x All columns selected for the step should be double, integer, or nominal.
+      * 1 date variable found: `y`
+
 # NA in response
 
     Code
