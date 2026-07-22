@@ -103,8 +103,17 @@ bsmote_impl <- function(
     }
 
     if (all_neighbors) {
+      # borderline-SMOTE2 seeds from minority danger points but interpolates
+      # toward all neighbors, taking a reduced step toward majority neighbors.
       tmp_df <- as.data.frame(
-        smote_data(data_mat, k, samples_needed[i], which(danger_ids), distance)
+        smote_data(
+          data = data_mat,
+          k = k,
+          n_samples = samples_needed[i],
+          smote_ids = which(danger_ids & min_class_in),
+          distance = distance,
+          majority_neighbors = !min_class_in
+        )
       )
     } else {
       tmp_df <- as.data.frame(
