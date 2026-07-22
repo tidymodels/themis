@@ -135,8 +135,8 @@ step_upsample <-
     if (lifecycle::is_present(ratio)) {
       lifecycle::deprecate_stop(
         "0.2.0",
-        "step_downsample(ratio = )",
-        "step_downsample(over_ratio = )"
+        "step_upsample(ratio = )",
+        "step_upsample(over_ratio = )"
       )
     }
 
