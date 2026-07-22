@@ -336,6 +336,17 @@ test_that("unused outcome levels are skipped with a warning (#238)", {
   expect_gt(nrow(res), 0)
 })
 
+test_that("baking works on new_data (keys off column value)", {
+  rec <- recipe(~., data = circle_example) |>
+    step_upsample(class) |>
+    prep()
+
+  res <- bake(rec, new_data = circle_example)
+
+  expect_gt(nrow(res), 0)
+  expect_true("class" %in% names(res))
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {
