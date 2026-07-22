@@ -180,6 +180,16 @@ test_that("Doesn't error if no upsampling is done (#119)", {
   )
 })
 
+test_that("fractional over_ratio target is rounded (#248)", {
+  df <- data.frame(
+    x = rnorm(90),
+    class = factor(rep(c("min", "maj"), c(10, 80)))
+  )
+  # round(80 * 0.383) == 31, truncation would give 30
+  result <- smote_impl(df, "class", 5, over_ratio = 0.383)
+  expect_equal(sum(result$class == "min"), 31)
+})
+
 test_that("bad args", {
   expect_snapshot(
     error = TRUE,

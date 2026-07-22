@@ -61,7 +61,7 @@ adasyn_impl <- function(
   df[[var]] <- as.factor(df[[var]])
   counts <- table(drop_unused_levels(df[[var]]))
   majority_count <- max(counts)
-  ratio_target <- majority_count * over_ratio
+  ratio_target <- round(majority_count * over_ratio)
   which_upsample <- which(counts < ratio_target)
   samples_needed <- ratio_target - counts[which_upsample]
   min_names <- names(samples_needed)

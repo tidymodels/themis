@@ -57,7 +57,7 @@ smotenc_impl <- function(df, var, k, over_ratio, call = caller_env()) {
   counts <- table(drop_unused_levels(df[[var]]))
   majority_count <- max(counts)
   # How many minority samples do we want in total?
-  ratio_target <- majority_count * over_ratio
+  ratio_target <- round(majority_count * over_ratio)
   # How many classes do we need to upsample (account for 2+ classes!)
   # Get the indices of those classes
   which_upsample <- which(counts < ratio_target)
