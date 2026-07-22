@@ -7,6 +7,18 @@
   sampling targets instead of deleting all rows or erroring
   ([\#238](https://github.com/tidymodels/themis/issues/238)).
 
+- [`step_smote()`](https://themis.tidymodels.org/dev/reference/step_smote.md),
+  [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
+  [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md),
+  [`step_svmsmote()`](https://themis.tidymodels.org/dev/reference/step_svmsmote.md),
+  [`step_smoten()`](https://themis.tidymodels.org/dev/reference/step_smoten.md),
+  and
+  [`step_smotenc()`](https://themis.tidymodels.org/dev/reference/step_smotenc.md)
+  (and their direct-implementation counterparts) now round the
+  fractional oversampling target instead of truncating it, so a
+  fractional `over_ratio` lands on the nearest integer count
+  ([\#248](https://github.com/tidymodels/themis/issues/248)).
+
 - [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md)
   (and its direct-implementation counterpart
   [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md))
@@ -50,6 +62,20 @@
   Neighbors, keeping only a consistent subset of observations that
   correctly classifies the data using a 1-nearest-neighbor rule
   ([\#113](https://github.com/tidymodels/themis/issues/113)).
+
+- [`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md),
+  [`step_oss()`](https://themis.tidymodels.org/dev/reference/step_oss.md),
+  and
+  [`step_smogn()`](https://themis.tidymodels.org/dev/reference/step_smogn.md)
+  (and their direct-implementation counterparts
+  [`cnn()`](https://themis.tidymodels.org/dev/reference/cnn.md),
+  [`oss()`](https://themis.tidymodels.org/dev/reference/oss.md), and
+  [`smogn()`](https://themis.tidymodels.org/dev/reference/smogn.md)) now
+  sample correctly when only one candidate remains. A length-1 vector
+  passed to [`sample()`](https://rdrr.io/r/base/sample.html) was
+  interpreted as a count and sampled from `1:n`, which could select the
+  wrong observations
+  ([\#245](https://github.com/tidymodels/themis/issues/245)).
 
 - [`step_enn()`](https://themis.tidymodels.org/dev/reference/step_enn.md)
   (and its direct-implementation counterpart
@@ -180,6 +206,14 @@
   [`step_rose()`](https://themis.tidymodels.org/dev/reference/step_rose.md),
   all rows are `TRUE` since ROSE generates a fully synthetic dataset
   ([\#58](https://github.com/tidymodels/themis/issues/58)).
+
+- [`step_rose()`](https://themis.tidymodels.org/dev/reference/step_rose.md)
+  now validates predictor types during
+  [`prep()`](https://recipes.tidymodels.org/reference/prep.html), giving
+  a clear error for unsupported types consistent with the other sampling
+  steps instead of relying on
+  [`ROSE::ROSE()`](https://rdrr.io/pkg/ROSE/man/ROSE.html) to fail
+  downstream ([\#265](https://github.com/tidymodels/themis/issues/265)).
 
 - [`step_rose()`](https://themis.tidymodels.org/dev/reference/step_rose.md)
   and [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md)
