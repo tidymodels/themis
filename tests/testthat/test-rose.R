@@ -276,6 +276,11 @@ test_that("bad args", {
   expect_snapshot(
     error = TRUE,
     recipe(~., data = mtcars) |>
+      step_rose(minority_prop = 1.5)
+  )
+  expect_snapshot(
+    error = TRUE,
+    recipe(~., data = mtcars) |>
       step_rose(minority_smoothness = TRUE)
   )
   expect_snapshot(
