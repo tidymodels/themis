@@ -139,6 +139,12 @@
   dense regions and extrapolating in sparse ones
   ([\#170](https://github.com/tidymodels/themis/issues/170)).
 
+- [`step_upsample()`](https://themis.tidymodels.org/dev/reference/step_upsample.md)
+  now names itself, rather than
+  [`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md),
+  in the deprecation message shown when the defunct `ratio` argument is
+  supplied ([\#252](https://github.com/tidymodels/themis/issues/252)).
+
 - [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
   [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md),
   [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),
