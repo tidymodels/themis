@@ -13,6 +13,32 @@ test_that("smotenc assigns categorical column by majority vote of minority neigh
   expect_true(all(as.character(synthetic$cat) == "a"))
 })
 
+test_that("categorical vote uses all k neighbors, not the chosen partner", {
+  # Minority points sit close together; the many numeric columns dilute the
+  # categorical weight in the gower distance so the "b" point stays a genuine
+  # nearest neighbor. Every minority point's 3 nearest neighbors then hold a
+  # strict "a" majority, so the k-neighbor mode is always "a". Copying a single
+  # random partner's category would instead emit "b" whenever the "b" point is
+  # picked as an interpolation partner.
+  x1 <- c(0, 1, 2, 3, 4, 100 + seq_len(10))
+  df <- data.frame(
+    x1 = x1,
+    x2 = x1,
+    x3 = x1,
+    x4 = x1,
+    x5 = x1,
+    x6 = x1,
+    x7 = x1,
+    x8 = x1,
+    cat = factor(c("a", "a", "b", "a", "a", rep("x", 10))),
+    class = factor(c(rep("min", 5), rep("maj", 10)))
+  )
+  set.seed(1)
+  result <- smotenc(df, var = "class", k = 3, over_ratio = 1)
+  synthetic <- tail(result, nrow(result) - nrow(df))
+  expect_all_equal(as.character(synthetic$cat), "a")
+})
+
 test_that("bad args", {
   expect_snapshot(
     error = TRUE,
