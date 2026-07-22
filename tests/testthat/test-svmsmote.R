@@ -178,6 +178,18 @@ test_that("ratio value works when oversampling", {
   )
 })
 
+test_that("fractional over_ratio target is rounded (#248)", {
+  skip_if_not_installed("kernlab")
+
+  # round(342 * 0.502) == 172, truncation would give 171
+  res <- recipe(class ~ x + y, data = circle_example) |>
+    step_svmsmote(class, over_ratio = 0.502) |>
+    prep() |>
+    bake(new_data = NULL)
+
+  expect_equal(sum(res$class == "Circle"), 172)
+})
+
 test_that("factor levels are not affected by alphabet ordering or class sizes", {
   skip_if_not_installed("kernlab")
 

@@ -181,6 +181,12 @@ test_that("bsmote() interfaces correctly", {
   )
 })
 
+test_that("fractional over_ratio target is rounded (#248)", {
+  # round(342 * 0.502) == 172, truncation would give 171
+  result <- bsmote(circle_example_num, var = "class", over_ratio = 0.502)
+  expect_equal(sum(result$class == "Circle"), 172)
+})
+
 test_that("bad args", {
   expect_snapshot(
     error = TRUE,

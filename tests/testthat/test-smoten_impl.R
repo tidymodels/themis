@@ -21,6 +21,16 @@ test_that("generated values only use existing category levels", {
   expect_true(all(as.character(result$x) %in% letters[1:3]))
 })
 
+test_that("fractional over_ratio target is rounded (#248)", {
+  df <- data.frame(
+    x = factor(sample(letters[1:3], 95, replace = TRUE)),
+    class = factor(rep(c("min", "maj"), c(15, 80)))
+  )
+  # round(80 * 0.383) == 31, truncation would give 30
+  result <- smoten(df, var = "class", k = 5, over_ratio = 0.383)
+  expect_equal(sum(result$class == "min"), 31)
+})
+
 test_that("bad args", {
   expect_snapshot(
     error = TRUE,

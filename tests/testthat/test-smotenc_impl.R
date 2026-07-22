@@ -39,6 +39,17 @@ test_that("categorical vote uses all k neighbors, not the chosen partner", {
   expect_all_equal(as.character(synthetic$cat), "a")
 })
 
+test_that("fractional over_ratio target is rounded (#248)", {
+  df <- data.frame(
+    x = rnorm(95),
+    cat = factor(sample(letters[1:3], 95, replace = TRUE)),
+    class = factor(rep(c("min", "maj"), c(15, 80)))
+  )
+  # round(80 * 0.383) == 31, truncation would give 30
+  result <- smotenc(df, var = "class", k = 5, over_ratio = 0.383)
+  expect_equal(sum(result$class == "min"), 31)
+})
+
 test_that("bad args", {
   expect_snapshot(
     error = TRUE,
