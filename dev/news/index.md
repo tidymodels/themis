@@ -33,6 +33,16 @@
   borderline ones
   ([\#235](https://github.com/tidymodels/themis/issues/235)).
 
+- [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md)
+  (and its direct-implementation counterpart
+  [`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md))
+  with `all_neighbors = TRUE` now seeds synthetic points only from
+  minority-class danger observations and takes a reduced step toward
+  majority-class neighbors, matching borderline-SMOTE2. Previously it
+  could seed from border-adjacent majority rows, generating
+  minority-labeled points around majority centers
+  ([\#242](https://github.com/tidymodels/themis/issues/242)).
+
 - [`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md)
   (and its direct-implementation counterpart
   [`cnn()`](https://themis.tidymodels.org/dev/reference/cnn.md)) was
