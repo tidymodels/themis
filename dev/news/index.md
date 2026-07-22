@@ -180,6 +180,12 @@
   class, and how it differs from `over_ratio`
   ([\#144](https://github.com/tidymodels/themis/issues/144)).
 
+- [`step_rose()`](https://themis.tidymodels.org/dev/reference/step_rose.md)
+  (and its direct-implementation counterpart
+  [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md)) now
+  validate that `minority_prop` is at most 1, since it is a proportion
+  ([\#269](https://github.com/tidymodels/themis/issues/269)).
+
 - Added standalone
   [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md)
   function as a thin wrapper around
