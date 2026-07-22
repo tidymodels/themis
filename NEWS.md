@@ -1,5 +1,7 @@
 # themis (development version)
 
+* Over-sampling steps (`step_smote()`, `step_adasyn()`, `step_bsmote()`, `step_svmsmote()`, `step_smoten()`, `step_smotenc()`, `step_rose()`, and `step_smogn()`) now error when supplied a case weights column instead of silently filling synthetic rows' weights with `NA`. These steps have never supported case weights (#243).
+
 * All sampling steps now handle an unused (zero-count) factor level in the outcome gracefully, dropping it with a warning before computing sampling targets instead of deleting all rows or erroring (#238).
 
 * `step_adasyn()` (and its direct-implementation counterpart `adasyn()`) now weights minority observations by their exact majority-neighbor count. An off-by-one subtraction previously undercounted majority neighbors, zeroing out the weight of border points with a single majority neighbor and biasing sampling away from the class boundary (#239).

@@ -119,6 +119,17 @@
       Unused factor level "unused" in `class` was dropped.
       i  Level with zero observations is skipped when computing sampling targets.
 
+# step_smote() errors with case weights (#243)
+
+    Code
+      bake(prep(step_smote(recipe(class ~ ., data = df), class, skip = FALSE)),
+      new_data = NULL)
+    Condition
+      Error in `step_smote()`:
+      Caused by error in `bake()`:
+      ! This step does not support case weights.
+      i The case weights column `wts` must be removed before this step.
+
 # bake method errors when needed non-standard role columns are missing
 
     Code

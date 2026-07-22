@@ -141,7 +141,25 @@ add_indicator_column <- function(new_data, n_orig, indicator_column) {
   new_data
 }
 
-na_splice <- function(new_data, synthetic_data, object) {
+check_case_weights_not_supported <- function(data, call = caller_env()) {
+  has_weights <- vapply(data, hardhat::is_case_weights, logical(1))
+  if (any(has_weights)) {
+    cols <- names(has_weights)[has_weights]
+    cli::cli_abort(
+      c(
+        "This step does not support case weights.",
+        i = "The case weights column{?s} {.var {cols}} must be removed \\
+             before this step."
+      ),
+      call = call
+    )
+  }
+  invisible()
+}
+
+na_splice <- function(new_data, synthetic_data, object, call = caller_env()) {
+  check_case_weights_not_supported(new_data, call = call)
+
   non_predictor <- setdiff(names(new_data), c(object$column, object$predictors))
 
   if (length(non_predictor) == 0) {

@@ -397,6 +397,19 @@ test_that("smote() works with a character `var` (#261)", {
   expect_identical(sum(is.na(res$class)), 0L)
 })
 
+test_that("step_smote() errors with case weights (#243)", {
+  df <- circle_example[c("x", "y", "class")]
+  df$wts <- hardhat::frequency_weights(rep(1L, nrow(df)))
+
+  expect_snapshot(
+    error = TRUE,
+    recipe(class ~ ., data = df) |>
+      step_smote(class, skip = FALSE) |>
+      prep() |>
+      bake(new_data = NULL)
+  )
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {
