@@ -169,12 +169,8 @@ smotenc_data <- function(
     ] +
       gap
 
-    # Replace categories with most frequent among nearest neighbors
-    cat_to_upgrade <- data_factors[
-      id_knn[sampleids[index_selection]],
-      ,
-      drop = FALSE
-    ]
+    # Replace categories with the most frequent among the seed's k neighbors
+    cat_to_upgrade <- data_factors[id_knn, , drop = FALSE]
 
     cat_modes <- apply(cat_to_upgrade, 2, Mode)
 
