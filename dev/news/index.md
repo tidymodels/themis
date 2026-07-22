@@ -130,6 +130,14 @@
   rather than voting over the randomly chosen interpolation partners
   ([\#241](https://github.com/tidymodels/themis/issues/241)).
 
+- [`step_tomek()`](https://themis.tidymodels.org/dev/reference/step_tomek.md)
+  (and its direct-implementation counterpart
+  [`tomek()`](https://themis.tidymodels.org/dev/reference/tomek.md)) now
+  removes only the majority-class member of each Tomek link, retaining
+  the minority-class member, matching the documented behavior.
+  Previously it removed both members of the pair
+  ([\#262](https://github.com/tidymodels/themis/issues/262)).
+
 - [`step_svmsmote()`](https://themis.tidymodels.org/dev/reference/step_svmsmote.md)
   (and its direct-implementation counterpart
   [`svmsmote()`](https://themis.tidymodels.org/dev/reference/svmsmote.md))

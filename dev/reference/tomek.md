@@ -1,6 +1,7 @@
 # Remove Tomek's links
 
-Removed observations that are part of tomek links.
+Removes the majority class member of each pair of observations that form
+a Tomek link.
 
 ## Usage
 

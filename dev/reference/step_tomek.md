@@ -184,9 +184,9 @@ training
 #>   class training
 #>   <fct>    <int>
 #> 1 VF        1911
-#> 2 F         1011
-#> 3 M          379
-#> 4 L          210
+#> 2 F         1264
+#> 3 M          487
+#> 4 L          259
 
 # Since `skip` defaults to TRUE, baking the step has no effect
 baked <- up_rec |>
@@ -208,9 +208,9 @@ orig |>
 #>   class  orig training baked
 #>   <fct> <int>    <int> <int>
 #> 1 VF     2211     1911  2211
-#> 2 F      1347     1011  1347
-#> 3 M       514      379   514
-#> 4 L       259      210   259
+#> 2 F      1347     1264  1347
+#> 3 M       514      487   514
+#> 4 L       259      259   259
 
 library(ggplot2)
 
