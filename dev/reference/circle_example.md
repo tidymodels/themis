@@ -11,7 +11,7 @@ circle_example
 
 ## Format
 
-A data frame with 200 rows and 4 variables:
+A data frame with 400 rows and 4 variables:
 
 - x:
 
@@ -28,3 +28,7 @@ A data frame with 200 rows and 4 variables:
 - id:
 
   character, ID variable.
+
+## Source
+
+Synthetic data, simulated in `data-raw/circle_example.R`.
