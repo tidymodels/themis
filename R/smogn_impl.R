@@ -169,6 +169,19 @@ smogn_impl <- function(
 # monotone piecewise-cubic interpolation is used between them.
 smogn_relevance <- function(y, relevance = NULL, call = caller_env()) {
   if (is.null(relevance)) {
+    finite_y <- y[is.finite(y)]
+    if (length(unique(finite_y)) < 3 || stats::IQR(finite_y) == 0) {
+      cli::cli_abort(
+        c(
+          "Unable to determine rare values automatically for the outcome.",
+          i = "The outcome distribution is degenerate (zero \\
+          interquartile range or heavily tied values), so relevance \\
+          control points cannot be derived from its boxplot extremes.",
+          i = "Supply relevance control points via the {.arg relevance} argument."
+        ),
+        call = call
+      )
+    }
     stats <- grDevices::boxplot.stats(y)$stats
     med <- stats[3]
     cx <- med

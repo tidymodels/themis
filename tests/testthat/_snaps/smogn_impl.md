@@ -6,6 +6,26 @@
       Error in `smogn()`:
       ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", or "chebyshev", not "minkowski".
 
+# degenerate outcome errors during automatic relevance
+
+    Code
+      themis:::smogn_relevance(rep(0, 100))
+    Condition
+      Error:
+      ! Unable to determine rare values automatically for the outcome.
+      i The outcome distribution is degenerate (zero interquartile range or heavily tied values), so relevance control points cannot be derived from its boxplot extremes.
+      i Supply relevance control points via the `relevance` argument.
+
+---
+
+    Code
+      themis:::smogn_relevance(c(rep(0, 95), 1, 2, 3, 4, 5))
+    Condition
+      Error:
+      ! Unable to determine rare values automatically for the outcome.
+      i The outcome distribution is degenerate (zero interquartile range or heavily tied values), so relevance control points cannot be derived from its boxplot extremes.
+      i Supply relevance control points via the `relevance` argument.
+
 # smogn() interfaces correctly
 
     Code
