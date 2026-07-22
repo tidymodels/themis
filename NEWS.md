@@ -28,6 +28,8 @@
 
 * `step_smogn()` (and its direct-implementation counterpart `smogn()`) was added. It over-samples rare regions of a numeric outcome for imbalanced regression using a combination of SMOTE-style interpolation and Gaussian noise, while under-sampling common regions (#49).
 
+* `step_smogn()` (and its direct-implementation counterpart `smogn()`) now emits a clear early error when automatic relevance is requested for a degenerate outcome (zero interquartile range or heavily tied values), pointing users to the `relevance` argument instead of aborting deep inside the boxplot-based computation (#264).
+
 * `step_smoten()` (and its direct-implementation counterpart `smoten()`) was added. It over-samples the minority classes for data sets where all predictors are categorical, using the Value Difference Metric to find nearest neighbors and majority voting to generate new examples (#54).
 
 * `step_smotenc()` (and its direct-implementation counterpart `smotenc()`) now sets each synthetic sample's nominal features to the majority vote across the seed's k nearest neighbors, matching the SMOTENC algorithm, rather than voting over the randomly chosen interpolation partners (#241).

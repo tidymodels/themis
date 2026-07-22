@@ -57,6 +57,15 @@ test_that("automatic relevance detects extremes", {
   expect_equal(phi[length(y)], 1)
 })
 
+test_that("degenerate outcome errors during automatic relevance", {
+  expect_snapshot(error = TRUE, {
+    themis:::smogn_relevance(rep(0, 100))
+  })
+  expect_snapshot(error = TRUE, {
+    themis:::smogn_relevance(c(rep(0, 95), 1, 2, 3, 4, 5))
+  })
+})
+
 test_that("smogn() interfaces correctly", {
   circle_numeric <- circle_example[, c("x", "y")]
 
