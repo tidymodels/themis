@@ -177,7 +177,7 @@ recipe(class ~ x + y, data = circle_example) |>
 }
 \references{
 Lunardon, N., Menardi, G., and Torelli, N. (2014). ROSE: a
-Package for Binary Imbalanced Learning. R Journal, 6:82–92.
+Package for Binary Imbalanced Learning. R Journal, 6:79–89.
 
 Menardi, G. and Torelli, N. (2014). Training and assessing
 classification rules with imbalanced data. Data Mining and Knowledge
