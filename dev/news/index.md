@@ -112,6 +112,14 @@
   find nearest neighbors and majority voting to generate new examples
   ([\#54](https://github.com/tidymodels/themis/issues/54)).
 
+- [`step_smotenc()`](https://themis.tidymodels.org/dev/reference/step_smotenc.md)
+  (and its direct-implementation counterpart
+  [`smotenc()`](https://themis.tidymodels.org/dev/reference/smotenc.md))
+  now sets each synthetic sample’s nominal features to the majority vote
+  across the seed’s k nearest neighbors, matching the SMOTENC algorithm,
+  rather than voting over the randomly chosen interpolation partners
+  ([\#241](https://github.com/tidymodels/themis/issues/241)).
+
 - [`step_svmsmote()`](https://themis.tidymodels.org/dev/reference/step_svmsmote.md)
   (and its direct-implementation counterpart
   [`svmsmote()`](https://themis.tidymodels.org/dev/reference/svmsmote.md))
