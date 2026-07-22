@@ -96,6 +96,19 @@ test_that("smogn() interfaces correctly", {
   )
 })
 
+test_that("single-element bins keep their own observation (#245)", {
+  # Each value forms its own bin with target 1, so the keep branch subsets a
+  # length-1 index that must not be treated as a `sample()` count.
+  df <- data.frame(x = c(1, 2), y = c(0, 100))
+  rel <- matrix(c(0, 50, 100, 0, 0, 1), ncol = 2)
+
+  for (seed in 1:20) {
+    set.seed(seed)
+    res <- smogn(df, var = "y", relevance = rel, perturbation = 0)
+    expect_equal(sort(res$y), c(0, 100))
+  }
+})
+
 test_that("bad args", {
   circle_numeric <- circle_example[, c("x", "y")]
 

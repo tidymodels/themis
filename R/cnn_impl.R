@@ -68,7 +68,8 @@ cnn_impl <- function(df, var, distance = "euclidean", call = caller_env()) {
   repeat {
     added <- FALSE
     # Scan order is randomized; CNN is order-dependent.
-    candidates <- sample(majority_idx[!in_store[majority_idx]])
+    remaining <- majority_idx[!in_store[majority_idx]]
+    candidates <- remaining[sample.int(length(remaining))]
 
     for (i in candidates) {
       store_idx <- which(in_store)
