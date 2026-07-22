@@ -40,6 +40,8 @@
 
 * All upsampling steps gain an `indicator_column` argument. When set, a logical column is added to the baked data marking rows added by the step (`TRUE`) vs rows from the original data (`FALSE`). For `step_rose()`, all rows are `TRUE` since ROSE generates a fully synthetic dataset (#58).
 
+* `step_rose()` now validates predictor types during `prep()`, giving a clear error for unsupported types consistent with the other sampling steps instead of relying on `ROSE::ROSE()` to fail downstream (#265).
+
 * `step_rose()` and `rose()` now have improved documentation for `minority_prop`, clarifying that it controls the proportion of synthetic observations from the minority class, and how it differs from `over_ratio` (#144).
 
 * Added standalone `rose()` function as a thin wrapper around `ROSE::ROSE()`, making it consistent with the other algorithms in the package that expose a direct implementation alongside their recipe step (#195).
