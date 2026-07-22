@@ -8,6 +8,8 @@
 
 * `step_bsmote()` (and its direct-implementation counterpart `bsmote()`) now selects the correct "danger" observations on the class border. The danger criterion had inverted the roles of minority and majority neighbors, causing it to oversample safe interior points instead of borderline ones (#235).
 
+* `step_bsmote()` (and its direct-implementation counterpart `bsmote()`) with `all_neighbors = TRUE` now seeds synthetic points only from minority-class danger observations and takes a reduced step toward majority-class neighbors, matching borderline-SMOTE2. Previously it could seed from border-adjacent majority rows, generating minority-labeled points around majority centers (#242).
+
 * `step_cnn()` (and its direct-implementation counterpart `cnn()`) was added. It under-samples the majority classes using Condensed Nearest Neighbors, keeping only a consistent subset of observations that correctly classifies the data using a 1-nearest-neighbor rule (#113).
 
 * `step_enn()` (and its direct-implementation counterpart `enn()`) was added. It cleans the data using the Edited Nearest Neighbors rule, removing observations whose class differs from the majority of their nearest neighbors (#115).
