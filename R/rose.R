@@ -64,7 +64,7 @@
 #' @template case-weights-not-supported
 #'
 #' @references Lunardon, N., Menardi, G., and Torelli, N. (2014). ROSE: a
-#'  Package for Binary Imbalanced Learning. R Journal, 6:82–92.
+#'  Package for Binary Imbalanced Learning. R Journal, 6:79–89.
 #' @references Menardi, G. and Torelli, N. (2014). Training and assessing
 #'  classification rules with imbalanced data. Data Mining and Knowledge
 #'  Discovery, 28:92–122.
@@ -343,7 +343,7 @@ required_pkgs.step_rose <- function(x, ...) {
 #' the underlying implementation, see that function's documentation.
 #'
 #' @references Lunardon, N., Menardi, G., and Torelli, N. (2014). ROSE: a
-#'  Package for Binary Imbalanced Learning. R Journal, 6:82–92.
+#'  Package for Binary Imbalanced Learning. R Journal, 6:79–89.
 #' @references Menardi, G. and Torelli, N. (2014). Training and assessing
 #'  classification rules with imbalanced data. Data Mining and Knowledge
 #'  Discovery, 28:92–122.
