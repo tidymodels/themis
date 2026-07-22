@@ -126,7 +126,7 @@ adasyn_sampler <- function(
   smote_ids,
   distance = "euclidean"
 ) {
-  ids <- nn_indices(data, k, distance)
+  ids <- drop_self_neighbor(nn_indices(data, k, distance))
   index_len <- tabulate(smote_ids, NROW(data))
   out <- matrix(0, nrow = n_samples, ncol = ncol(data))
   sampleids <- sample.int(k, n_samples, TRUE)
@@ -135,8 +135,8 @@ adasyn_sampler <- function(
   iii <- 0
   for (row_num in which(index_len != 0)) {
     index_selection <- iii + seq_len(index_len[row_num])
-    # removes itself as nearest neighbour
-    id_knn <- ids[row_num, ids[row_num, ] != row_num]
+    # self already removed by drop_self_neighbor()
+    id_knn <- ids[row_num, ]
     dif <- data[id_knn[sampleids[index_selection]], ] -
       data[rep(row_num, index_len[row_num]), ]
     gap <- dif * runif_ids[index_selection]

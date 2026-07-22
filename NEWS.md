@@ -6,6 +6,8 @@
 
 * `step_smote()`, `step_adasyn()`, `step_bsmote()`, `step_svmsmote()`, `step_smoten()`, and `step_smotenc()` (and their direct-implementation counterparts) now round the fractional oversampling target instead of truncating it, so a fractional `over_ratio` lands on the nearest integer count (#248).
 
+* Nearest-neighbor computations in `step_adasyn()`, `step_enn()`, `step_ncl()`, `step_smote()`, `step_smotenc()`, and `step_tomek()` (and their direct-implementation counterparts) now exclude each observation from its own neighbor list by row index rather than assuming it is always the first neighbor returned. Exact-duplicate coordinates could previously leave a point as its own neighbor or make the farthest candidate unreachable (#247).
+
 * `step_adasyn()` (and its direct-implementation counterpart `adasyn()`) now weights minority observations by their exact majority-neighbor count. An off-by-one subtraction previously undercounted majority neighbors, zeroing out the weight of border points with a single majority neighbor and biasing sampling away from the class boundary (#239).
 
 * `step_adasyn()` (and its direct-implementation counterpart `adasyn()`) no longer errors with a cryptic message when a minority class is well separated from the majority classes; it now falls back to uniform sampling and checks the minority class size before sampling (#240).

@@ -43,8 +43,9 @@ tomek <- function(df, var, distance = "euclidean") {
 
 tomek_impl <- function(df, var, distance = "euclidean") {
   res <- nn_indices(as.matrix(df[names(df) != var]), k = 1, distance)
-  # Make sure itself isn't counted as nearest neighbor for overlaps
-  res <- dplyr::if_else(seq_len(nrow(res)) == res[, 2], res[, 1], res[, 2])
+  # Drop each observation from its own neighbor list (by row index, so exact
+  # duplicates are handled correctly) and keep the single nearest neighbor
+  res <- drop_self_neighbor(res)[, 1]
 
   remove <- logical(nrow(df))
   outcome <- df[[var]]

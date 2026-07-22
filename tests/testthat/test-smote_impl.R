@@ -37,6 +37,19 @@ test_that("distance argument accepted by smote()", {
   )
 })
 
+test_that("smote() handles exact-duplicate minority coordinates (#247)", {
+  df <- data.frame(
+    x = c(0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8),
+    y = c(0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8),
+    class = factor(rep(c("min", "maj"), each = 8))
+  )
+
+  res <- smote(df, var = "class", k = 3)
+
+  expect_identical(as.integer(table(res$class)), c(8L, 8L))
+  expect_identical(sum(is.na(res)), 0L)
+})
+
 
 test_that("distance variants produce valid synthetic data", {
   circle_numeric <- circle_example[, c("x", "y", "class")]

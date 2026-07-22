@@ -113,7 +113,7 @@ smote_data <- function(
   step_size = 1,
   majority_neighbors = NULL
 ) {
-  ids <- nn_indices(data, k, distance)
+  ids <- drop_self_neighbor(nn_indices(data, k, distance))
   indexes <- rep(sample(smote_ids), length.out = n_samples)
   index_len <- tabulate(indexes, NROW(data))
   out <- matrix(0, nrow = n_samples, ncol = ncol(data))
@@ -123,8 +123,8 @@ smote_data <- function(
   iii <- 0
   for (row_num in smote_ids) {
     index_selection <- iii + seq_len(index_len[row_num])
-    # removes itself as nearest neighbour
-    id_knn <- ids[row_num, ids[row_num, ] != row_num]
+    # self already removed by drop_self_neighbor()
+    id_knn <- ids[row_num, ]
     selected <- id_knn[sampleids[index_selection]]
     dif <- data[selected, ] - data[rep(row_num, index_len[row_num]), ]
     step <- rep(step_size, length(index_selection))

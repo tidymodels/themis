@@ -389,6 +389,18 @@ test_that("enn() works with a character `var` (#261)", {
   expect_identical(sum(is.na(res$class)), 0L)
 })
 
+test_that("enn() handles exact-duplicate coordinates (#247)", {
+  df <- data.frame(
+    x = c(rep(0, 6), 1, 2, 3, 4),
+    y = c(rep(0, 6), 1, 2, 3, 4),
+    class = factor(c(rep("a", 3), rep("b", 3), "a", "b", "a", "b"))
+  )
+
+  # Duplicated points at (0, 0) belong to both classes; a point must not be
+  # kept purely because it counted itself as a neighbor.
+  expect_no_error(enn(df, var = "class", neighbors = 3))
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {
