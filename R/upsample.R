@@ -273,7 +273,7 @@ supsamp_with_indicator <- function(x, wts, num) {
 
 #' @export
 bake.step_upsample <- function(object, new_data, ...) {
-  col_names <- names(object$column)
+  col_names <- object$column
   check_new_data(col_names, object, new_data)
 
   if (length(col_names) == 0L) {

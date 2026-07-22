@@ -60,6 +60,8 @@
 
 * `step_bsmote()` now works correctly when there is only a single predictor (#151).
 
+* `step_downsample()` and `step_upsample()` now key baking off the selected column value rather than its name, matching the other steps (#272).
+
 * `step_downsample()` and `step_upsample()` now correctly handle `NA` values in the outcome variable instead of erroring (#177).
 
 # themis 1.0.3
