@@ -103,6 +103,34 @@ test_that("basic usage (all_neighbors = TRUE)", {
   expect_no_warning(prep(rec1))
 })
 
+test_that("all_neighbors = TRUE seeds only from minority rows (#242)", {
+  # A lone majority "bridge" point at x = 100 is a danger point (one minority
+  # neighbor), so the buggy code would seed synthetic minority points near it.
+  min_border <- data.frame(
+    x = c(0, 0.2, 0.4, 0.6, 0.8, 1),
+    y = 0,
+    class = "min"
+  )
+  maj_border <- data.frame(
+    x = c(0.1, 0.3, 0.5, 0.7, 0.9, 1.1),
+    y = 0,
+    class = "maj"
+  )
+  bridge_maj <- data.frame(x = 100, y = 0, class = "maj")
+  lone_min <- data.frame(x = 101, y = 0, class = "min")
+  maj_far <- data.frame(x = seq(200, 260, by = 3), y = 0, class = "maj")
+  df <- rbind(min_border, maj_border, bridge_maj, lone_min, maj_far)
+  df$class <- factor(df$class)
+
+  set.seed(42)
+  res <- bsmote(df, var = "class", k = 3, all_neighbors = TRUE)
+  new <- res[-seq_len(nrow(df)), ]
+
+  # With the bug the bridge point seeds synthetic points near x = 100; with the
+  # fix every point stays in the minority border region.
+  expect_lt(max(new$x), 2)
+})
+
 test_that("works with a single predictor (#151)", {
   skip_if_not_installed("modeldata")
 

@@ -110,7 +110,8 @@ smote_data <- function(
   n_samples,
   smote_ids = seq_len(nrow(data)),
   distance = "euclidean",
-  step_size = 1
+  step_size = 1,
+  majority_neighbors = NULL
 ) {
   ids <- nn_indices(data, k, distance)
   indexes <- rep(sample(smote_ids), length.out = n_samples)
@@ -124,9 +125,16 @@ smote_data <- function(
     index_selection <- iii + seq_len(index_len[row_num])
     # removes itself as nearest neighbour
     id_knn <- ids[row_num, ids[row_num, ] != row_num]
-    dif <- data[id_knn[sampleids[index_selection]], ] -
-      data[rep(row_num, index_len[row_num]), ]
-    gap <- dif * runif_ids[index_selection] * step_size
+    selected <- id_knn[sampleids[index_selection]]
+    dif <- data[selected, ] - data[rep(row_num, index_len[row_num]), ]
+    step <- rep(step_size, length(index_selection))
+    if (!is.null(majority_neighbors)) {
+      # borderline-SMOTE2 halves the step toward majority-class neighbors so
+      # synthetic points stay closer to the minority seed.
+      step[majority_neighbors[selected]] <- step[majority_neighbors[selected]] *
+        0.5
+    }
+    gap <- dif * runif_ids[index_selection] * step
     out[index_selection, ] <- data[rep(row_num, index_len[row_num]), ] + gap
     iii <- iii + index_len[row_num]
   }
