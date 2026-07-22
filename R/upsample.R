@@ -247,13 +247,12 @@ supsamp <- function(x, wts, num) {
   if (n == 0) {
     return(x)
   }
-  if (nrow(x) == num) {
-    out <- x
-  } else {
-    # upsampling is done with replacement
-    out <- x[sample(seq_len(n), max(num, n), replace = TRUE, prob = wts), ]
+  if (n >= num) {
+    return(x)
   }
-  out
+  # upsampling keeps all originals and appends duplicates drawn with replacement
+  extra_idx <- sample(seq_len(n), num - n, replace = TRUE, prob = wts)
+  rbind(x, x[extra_idx, ])
 }
 
 supsamp_with_indicator <- function(x, wts, num) {
