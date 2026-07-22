@@ -140,6 +140,15 @@
   and Gaussian noise, while under-sampling common regions
   ([\#49](https://github.com/tidymodels/themis/issues/49)).
 
+- [`step_smogn()`](https://themis.tidymodels.org/dev/reference/step_smogn.md)
+  (and its direct-implementation counterpart
+  [`smogn()`](https://themis.tidymodels.org/dev/reference/smogn.md)) now
+  emits a clear early error when automatic relevance is requested for a
+  degenerate outcome (zero interquartile range or heavily tied values),
+  pointing users to the `relevance` argument instead of aborting deep
+  inside the boxplot-based computation
+  ([\#264](https://github.com/tidymodels/themis/issues/264)).
+
 - [`step_smoten()`](https://themis.tidymodels.org/dev/reference/step_smoten.md)
   (and its direct-implementation counterpart
   [`smoten()`](https://themis.tidymodels.org/dev/reference/smoten.md))
