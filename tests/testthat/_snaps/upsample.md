@@ -4,7 +4,7 @@
       new_rec <- step_upsample(recipe(~., data = circle_example), class, ratio = 2)
     Condition
       Error:
-      ! The `ratio` argument of `step_downsample()` was deprecated in themis 0.2.0 and is now defunct.
+      ! The `ratio` argument of `step_upsample()` was deprecated in themis 0.2.0 and is now defunct.
       i Please use the `over_ratio` argument instead.
 
 # bad data
