@@ -24,7 +24,8 @@ large datasets.}
 A data.frame or tibble, depending on type of \code{df}.
 }
 \description{
-Removed observations that are part of tomek links.
+Removes the majority class member of each pair of observations that form a
+Tomek link.
 }
 \details{
 A Tomek link is a pair of points from different classes that are each

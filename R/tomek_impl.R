@@ -1,6 +1,7 @@
 #' Remove Tomek's links
 #'
-#' Removed observations that are part of tomek links.
+#' Removes the majority class member of each pair of observations that form a
+#' Tomek link.
 #'
 #' @param df data.frame or tibble. Must have 1 factor variable and remaining
 #'  numeric variables.
@@ -47,6 +48,7 @@ tomek_impl <- function(df, var, distance = "euclidean") {
 
   remove <- logical(nrow(df))
   outcome <- df[[var]]
+  class_sizes <- table(outcome)
 
   for (class in unique(outcome)) {
     target <- which(outcome == class)
@@ -55,8 +57,15 @@ tomek_impl <- function(df, var, distance = "euclidean") {
 
     tomek <- target == neighbor_neighbor & outcome[target] != outcome[neighbor]
 
-    tomek_links <- c(target[tomek], neighbor[tomek])
-    remove[tomek_links] <- TRUE
+    target_link <- target[tomek]
+    neighbor_link <- neighbor[tomek]
+
+    # Remove only the majority-class member of each Tomek link
+    target_is_majority <-
+      class_sizes[as.character(outcome[target_link])] >=
+        class_sizes[as.character(outcome[neighbor_link])]
+
+    remove[ifelse(target_is_majority, target_link, neighbor_link)] <- TRUE
   }
 
   which(remove)
