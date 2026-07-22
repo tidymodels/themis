@@ -25,11 +25,12 @@ test_that("tomek removes exactly the points forming Tomek links", {
     class = factor(c("min", "maj", "min", "maj", "maj"))
   )
   result <- tomek(df, var = "class")
-  # Pair {1, 2}: mutual NN, different class → Tomek link, both removed
-  # Point 3: NN is point 2, but point 2's NN is point 1 → not a link
-  # Pair {4, 5}: mutual NN, same class → not a link
-  expect_equal(result$x, c(3, 10, 11))
-  expect_equal(as.character(result$class), c("min", "maj", "maj"))
+  # Pair {1, 2}: mutual NN, different class -> Tomek link, majority (maj)
+  #   member (point 2) removed, minority (min) member (point 1) retained
+  # Point 3: NN is point 2, but point 2's NN is point 1 -> not a link
+  # Pair {4, 5}: mutual NN, same class -> not a link
+  expect_equal(result$x, c(0, 3, 10, 11))
+  expect_equal(as.character(result$class), c("min", "min", "maj", "maj"))
 })
 
 test_that("order doesn't matter", {
@@ -37,13 +38,13 @@ test_that("order doesn't matter", {
     target = rep(c("Yes", "No"), c(10, 50)),
     x = rep(c(1, 2, 3), c(9, 2, 49))
   )
-  expect_equal(c(10, 11), themis:::tomek_impl(df, "target"))
+  expect_equal(11, themis:::tomek_impl(df, "target"))
 
   df <- data.frame(
     target = rep(c("Yes", "No"), c(50, 10)),
     x = rep(c(1, 2, 3), c(49, 2, 9))
   )
-  expect_equal(c(50, 51), themis:::tomek_impl(df, "target"))
+  expect_equal(50, themis:::tomek_impl(df, "target"))
 })
 
 

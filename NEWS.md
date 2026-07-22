@@ -32,6 +32,8 @@
 
 * `step_smotenc()` (and its direct-implementation counterpart `smotenc()`) now sets each synthetic sample's nominal features to the majority vote across the seed's k nearest neighbors, matching the SMOTENC algorithm, rather than voting over the randomly chosen interpolation partners (#241).
 
+* `step_tomek()` (and its direct-implementation counterpart `tomek()`) now removes only the majority-class member of each Tomek link, retaining the minority-class member, matching the documented behavior. Previously it removed both members of the pair (#262).
+
 * `step_svmsmote()` (and its direct-implementation counterpart `svmsmote()`) was added. It over-samples the minority classes near the decision boundary by fitting a support vector machine and generating new examples around the minority class support vectors, interpolating in dense regions and extrapolating in sparse ones (#170).
 
 * `step_adasyn()`, `step_bsmote()`, `step_nearmiss()`, `step_smote()`, and `step_tomek()` (and their direct-implementation counterparts `adasyn()`, `bsmote()`, `nearmiss()`, `smote()`, and `tomek()`) gain a `distance` argument to control which distance metric is used for nearest neighbor calculations. Supported metrics are `"euclidean"` (default), `"cosine"`, `"mahalanobis"`, `"manhattan"`, and `"chebyshev"` (#171).
