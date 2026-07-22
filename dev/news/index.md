@@ -10,6 +10,15 @@
 - [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md)
   (and its direct-implementation counterpart
   [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md))
+  now weights minority observations by their exact majority-neighbor
+  count. An off-by-one subtraction previously undercounted majority
+  neighbors, zeroing out the weight of border points with a single
+  majority neighbor and biasing sampling away from the class boundary
+  ([\#239](https://github.com/tidymodels/themis/issues/239)).
+
+- [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md)
+  (and its direct-implementation counterpart
+  [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md))
   no longer errors with a cryptic message when a minority class is well
   separated from the majority classes; it now falls back to uniform
   sampling and checks the minority class size before sampling
