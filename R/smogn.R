@@ -188,7 +188,7 @@ prep.step_smogn <- function(x, training, info = NULL, ...) {
 
   step_smogn_new(
     terms = x$terms,
-    role = x$role,
+    role = indicator_role(x$role, x$indicator_column),
     trained = TRUE,
     column = col_name,
     threshold = x$threshold,

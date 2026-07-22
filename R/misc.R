@@ -131,6 +131,13 @@ check_var <- function(var, df, call = caller_env()) {
   }
 }
 
+indicator_role <- function(role, indicator_column) {
+  if (is.null(indicator_column) || !is.na(role)) {
+    return(role)
+  }
+  "indicator variable"
+}
+
 add_indicator_column <- function(new_data, n_orig, indicator_column) {
   if (!is.null(indicator_column)) {
     new_data[[indicator_column]] <- c(

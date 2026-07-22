@@ -253,6 +253,16 @@ test_that("indicator_column adds logical column marking upsampled rows", {
   expect_gt(sum(res$.new_row), 0L)
 })
 
+test_that("indicator_column is given an explicit role", {
+  rec <- recipe(class ~ x + y, data = circle_example) |>
+    step_upsample(class, indicator_column = ".new_row") |>
+    prep()
+
+  info <- summary(rec)
+  expect_equal(info$role[info$variable == ".new_row"], "indicator variable")
+  expect_equal(info$source[info$variable == ".new_row"], "derived")
+})
+
 test_that("indicator_column bad args", {
   expect_snapshot(
     error = TRUE,

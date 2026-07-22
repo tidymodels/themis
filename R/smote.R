@@ -213,7 +213,7 @@ prep.step_smote <- function(x, training, info = NULL, ...) {
 
   step_smote_new(
     terms = x$terms,
-    role = x$role,
+    role = indicator_role(x$role, x$indicator_column),
     trained = TRUE,
     column = col_name,
     over_ratio = x$over_ratio,

@@ -226,7 +226,7 @@ prep.step_bsmote <- function(x, training, info = NULL, ...) {
 
   step_bsmote_new(
     terms = x$terms,
-    role = x$role,
+    role = indicator_role(x$role, x$indicator_column),
     trained = TRUE,
     column = col_name,
     over_ratio = x$over_ratio,

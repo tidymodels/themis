@@ -2,6 +2,8 @@
 
 * All sampling steps now handle an unused (zero-count) factor level in the outcome gracefully, dropping it with a warning before computing sampling targets instead of deleting all rows or erroring (#238).
 
+* The `indicator_column` created by the over-sampling steps is now assigned the "indicator variable" role during `prep()` instead of being left with a missing role, so it is no longer mistaken for a predictor if it reaches a model (#249).
+
 * `step_adasyn()` (and its direct-implementation counterpart `adasyn()`) now weights minority observations by their exact majority-neighbor count. An off-by-one subtraction previously undercounted majority neighbors, zeroing out the weight of border points with a single majority neighbor and biasing sampling away from the class boundary (#239).
 
 * `step_adasyn()` (and its direct-implementation counterpart `adasyn()`) no longer errors with a cryptic message when a minority class is well separated from the majority classes; it now falls back to uniform sampling and checks the minority class size before sampling (#240).
