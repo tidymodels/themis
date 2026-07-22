@@ -83,6 +83,14 @@
 ---
 
     Code
+      step_rose(recipe(~., data = mtcars), minority_prop = 1.5)
+    Condition
+      Error in `step_rose()`:
+      ! `minority_prop` must be a number between 0 and 1, not the number 1.5.
+
+---
+
+    Code
       step_rose(recipe(~., data = mtcars), minority_smoothness = TRUE)
     Condition
       Error in `step_rose()`:

@@ -133,7 +133,7 @@ step_rose <-
     seed = sample.int(10^5, 1),
     id = rand_id("rose")
   ) {
-    check_number_decimal(minority_prop, min = 0)
+    check_number_decimal(minority_prop, min = 0, max = 1)
     check_number_decimal(minority_smoothness, min = 0)
     check_number_decimal(majority_smoothness, min = 0)
     check_number_whole(seed)
@@ -366,7 +366,7 @@ rose <- function(
   check_data_frame(df)
   check_var(var, df)
   check_number_decimal(over_ratio, min = 0)
-  check_number_decimal(minority_prop, min = 0)
+  check_number_decimal(minority_prop, min = 0, max = 1)
   check_number_decimal(minority_smoothness, min = 0)
   check_number_decimal(majority_smoothness, min = 0)
   check_2_levels_only(df, var)
