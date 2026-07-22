@@ -5,13 +5,16 @@
 \alias{circle_example}
 \title{Synthetic Dataset With a Circle}
 \format{
-A data frame with 200 rows and 4 variables:
+A data frame with 400 rows and 4 variables:
 \describe{
 \item{x}{Numeric.}
 \item{y}{Numeric.}
 \item{class}{Factor, values "Circle" and "Rest".}
 \item{id}{character, ID variable.}
 }
+}
+\source{
+Synthetic data, simulated in \code{data-raw/circle_example.R}.
 }
 \usage{
 circle_example
