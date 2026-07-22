@@ -122,7 +122,7 @@ smogn_impl <- function(
     bin_df <- df[idx, , drop = FALSE]
 
     if (n_i >= target) {
-      keep_dfs[[b]] <- df[sample(idx, target), , drop = FALSE]
+      keep_dfs[[b]] <- df[idx[sample.int(length(idx), target)], , drop = FALSE]
       next
     }
 

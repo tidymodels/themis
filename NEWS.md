@@ -14,6 +14,8 @@
 
 * `step_cnn()` (and its direct-implementation counterpart `cnn()`) was added. It under-samples the majority classes using Condensed Nearest Neighbors, keeping only a consistent subset of observations that correctly classifies the data using a 1-nearest-neighbor rule (#113).
 
+* `step_cnn()`, `step_oss()`, and `step_smogn()` (and their direct-implementation counterparts `cnn()`, `oss()`, and `smogn()`) now sample correctly when only one candidate remains. A length-1 vector passed to `sample()` was interpreted as a count and sampled from `1:n`, which could select the wrong observations (#245).
+
 * `step_enn()` (and its direct-implementation counterpart `enn()`) was added. It cleans the data using the Edited Nearest Neighbors rule, removing observations whose class differs from the majority of their nearest neighbors (#115).
 
 * `step_enn()` (and its direct-implementation counterpart `enn()`) gain a `times` argument to apply the cleaning repeatedly, stopping early on convergence, which corresponds to Repeated Edited Nearest Neighbors (RENN) (#173).

@@ -301,6 +301,25 @@ test_that("oss() works with a character `var` (#261)", {
   expect_identical(sum(is.na(res$class)), 0L)
 })
 
+test_that("cnn scan handles a single remaining majority candidate (#245)", {
+  # Two majority points seed the store with one, leaving a length-1 candidate
+  # vector that must not be treated as a `sample()` count.
+  df <- data.frame(
+    x = c(rnorm(10, 0), 5, 5.1),
+    y = c(rnorm(10, 0), 5, 4.9),
+    class = c(rep("a", 10), "b", "b")
+  )
+
+  set.seed(42)
+  res1 <- oss(df, "class")
+  set.seed(42)
+  res2 <- oss(df, "class")
+
+  expect_identical(res1, res2)
+  expect_identical(sort(unique(res1$class)), c("a", "b"))
+  expect_all_true(do.call(paste, res1) %in% do.call(paste, df))
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {
