@@ -218,6 +218,8 @@ bake.step_smogn <- function(object, new_data, ...) {
     return(new_data)
   }
 
+  check_case_weights_not_supported(new_data)
+
   ignore_vars <- setdiff(names(new_data), col_names)
   new_data <- as.data.frame(new_data)
 
