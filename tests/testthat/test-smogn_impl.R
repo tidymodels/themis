@@ -118,6 +118,28 @@ test_that("single-element bins keep their own observation (#245)", {
   }
 })
 
+test_that("unsafe noise is scaled by sd and capped at maxD, not perturbation", {
+  set.seed(1)
+  # Equidistant points force every draw to be unsafe (d = sqrt(2) > maxD),
+  # so the Gaussian noise sd is sd_x * min(perturbation, maxD).
+  x <- diag(6)
+  y <- seq_len(6)
+
+  res <- themis:::smogn_generate(
+    x,
+    y,
+    n_generate = 2000,
+    k = 3,
+    perturbation = 1e6,
+    distance = "euclidean"
+  )
+
+  # With the reference formula the noise stays bounded by sd_x * maxD; the old
+  # formula (perturbation * pmin(sd_x, maxD)) would blow up with perturbation.
+  # Seeds are 0/1 vectors, so bounded noise keeps every value near [0, 1].
+  expect_lt(max(abs(res$x)), 5)
+})
+
 test_that("bad args", {
   circle_numeric <- circle_example[, c("x", "y")]
 

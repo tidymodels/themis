@@ -41,6 +41,27 @@ test_that("neighbors argument changes result", {
   expect_false(identical(nrow(baked1), nrow(baked5)))
 })
 
+test_that("class exactly at the cleaning threshold is eligible (>=)", {
+  # A minority "A" point is surrounded by "B" points, so B pollutes its
+  # neighborhood. With counts A = B = 3 and threshold_clean = 1, class B sits
+  # exactly at the boundary: Laurikkala's >= cleans it, the old > did not.
+  df <- data.frame(
+    x = c(0, 10, 11, 0.1, 0.2, 0.3),
+    y = 0,
+    class = factor(c("A", "A", "A", "B", "B", "B"))
+  )
+
+  removed <- themis:::ncl_impl(
+    df,
+    var = "class",
+    neighbors = 3,
+    threshold_clean = 1
+  )
+
+  expect_setequal(as.character(df$class[removed]), "B")
+  expect_gt(length(removed), 0)
+})
+
 test_that("threshold_clean argument changes result", {
   circle_numeric <- circle_example[, c("x", "y", "class")]
 

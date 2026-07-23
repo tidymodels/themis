@@ -88,7 +88,7 @@ ncl_impl <- function(
 
   # Majority classes large enough to be cleaned around minority observations.
   classes_to_clean <- setdiff(
-    names(counts)[counts > minority_count * threshold_clean],
+    names(counts)[counts >= minority_count * threshold_clean],
     minority
   )
 
