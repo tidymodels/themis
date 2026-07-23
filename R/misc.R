@@ -200,6 +200,26 @@ check_distance_arg <- function(distance, call = caller_env()) {
   )
 }
 
+# Drop the query point from each row of a neighbor-index matrix. `idx` has one
+# row per query point and `k + 1` columns (the self-match plus `k` neighbors).
+# The self-match is normally in the first column, but with exact-duplicate
+# coordinates it can appear in any column or be missing entirely. Remove the
+# column whose index equals the query row; if self is not present, drop the
+# farthest (last) neighbor instead. Returns a matrix with `k` columns.
+drop_self_neighbor <- function(idx) {
+  n <- nrow(idx)
+  out <- matrix(0L, nrow = n, ncol = ncol(idx) - 1L)
+  for (i in seq_len(n)) {
+    row <- idx[i, ]
+    pos <- which(row == i)[1]
+    if (is.na(pos)) {
+      pos <- length(row)
+    }
+    out[i, ] <- row[-pos]
+  }
+  out
+}
+
 nn_indices <- function(data, k, distance) {
   if (distance == "euclidean") {
     return(RANN::nn2(data, k = k + 1, searchtype = "priority")$nn.idx)

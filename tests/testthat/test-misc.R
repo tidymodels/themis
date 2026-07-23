@@ -70,3 +70,20 @@ test_that("mahalanobis whitening reproduces stats::mahalanobis distances (#237)"
 
   expect_equal(themis_d2, unname(true_d2))
 })
+
+test_that("drop_self_neighbor() removes self by row index for duplicates (#247)", {
+  # Self in the first column (typical, non-duplicate case)
+  idx <- rbind(c(1L, 2L, 3L), c(2L, 1L, 3L), c(3L, 1L, 2L))
+  expect_identical(
+    drop_self_neighbor(idx),
+    rbind(c(2L, 3L), c(1L, 3L), c(1L, 2L))
+  )
+
+  # Self not in the first column (duplicate coordinates)
+  idx <- rbind(c(2L, 1L, 3L), c(1L, 2L, 3L))
+  expect_identical(drop_self_neighbor(idx), rbind(c(2L, 3L), c(1L, 3L)))
+
+  # Self missing entirely: drop the farthest (last) neighbor
+  idx <- rbind(c(2L, 3L, 4L), c(3L, 4L, 1L))
+  expect_identical(drop_self_neighbor(idx), rbind(c(2L, 3L), c(3L, 4L)))
+})

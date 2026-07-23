@@ -131,6 +131,9 @@ smotenc_data <- function(
       }
     }
   )
+  # Drop each observation from its own neighbor list (by row index, so exact
+  # duplicates are handled correctly)
+  ids <- drop_self_neighbor(ids)
 
   # shuffles minority indicies and repeats that shuffling until the desired number of samples is reached
   indexes <- rep(sample(smotenc_ids), length.out = n_samples)
@@ -156,8 +159,8 @@ smotenc_data <- function(
     # List indices from 1:n where n is the number of times that sample is used to generate a new sample
     # iii shifts 1:n to fill in the rows of out (e.g. 1:3, 4:6, 7:8, etc.)
     index_selection <- iii + seq_len(index_len[row_num])
-    # removes itself as nearest neighbour
-    id_knn <- ids[row_num, ids[row_num, ] != row_num]
+    # self already removed by drop_self_neighbor()
+    id_knn <- ids[row_num, ]
 
     # need a total of index_len[row_num] new samples
     # calculates Xnew = X1 + t*(X1-Xnn)

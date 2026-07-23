@@ -93,8 +93,9 @@ ncl_impl <- function(
   )
 
   idx <- nn_indices(as.matrix(df[names(df) != var]), k = neighbors, distance)
-  # First column is the observation itself; drop it
-  idx <- idx[, -1, drop = FALSE]
+  # Drop each observation from its own neighbor list (by row index, so exact
+  # duplicates are handled correctly)
+  idx <- drop_self_neighbor(idx)
 
   neighbor_classes <- matrix(
     outcome[idx],
