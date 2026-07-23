@@ -334,6 +334,12 @@
   now correctly handle `NA` values in the outcome variable instead of
   erroring ([\#177](https://github.com/tidymodels/themis/issues/177)).
 
+- [`step_upsample()`](https://themis.tidymodels.org/dev/reference/step_upsample.md)
+  now leaves classes that already meet or exceed the target size
+  untouched instead of resampling them with replacement, and produces
+  the same rows whether or not `indicator_column` is set
+  ([\#263](https://github.com/tidymodels/themis/issues/263)).
+
 ## themis 1.0.3
 
 CRAN release: 2025-01-22
