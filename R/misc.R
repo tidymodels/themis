@@ -224,7 +224,11 @@ nn_dists_cross <- function(query, reference, k, distance) {
     norms_ref[norms_ref == 0] <- 1
     norms_qry <- sqrt(rowSums(query^2))
     norms_qry[norms_qry == 0] <- 1
-    return(RANN::nn2(reference / norms_ref, query / norms_qry, k = k)$nn.dists)
+    # RANN returns Euclidean distances between unit vectors, sqrt(2 - 2*cos).
+    # Convert to cosine distance (1 - cos_sim = d^2 / 2) so magnitudes are
+    # correct for consumers such as NearMiss that average per-neighbor values.
+    d <- RANN::nn2(reference / norms_ref, query / norms_qry, k = k)$nn.dists
+    return(d^2 / 2)
   }
   if (distance == "mahalanobis") {
     if (nrow(reference) <= ncol(reference)) {

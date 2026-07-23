@@ -44,6 +44,18 @@ test_that("nn_indices() uses the correct distance metric", {
   expect_equal(nn1(nn_indices(data_mahal, 1, "mahalanobis"), 1), 3L)
 })
 
+test_that("nn_dists_cross() returns cosine-distance magnitudes 1 - cos_sim (#244)", {
+  query <- matrix(c(1, 0, 1, 1), ncol = 2, byrow = TRUE)
+  reference <- matrix(c(0, 1, 2, 0, 3, 3), ncol = 2, byrow = TRUE)
+
+  cos_sim <- (query / sqrt(rowSums(query^2))) %*%
+    t(reference / sqrt(rowSums(reference^2)))
+  expected <- t(apply(1 - cos_sim, 1, sort))
+
+  d <- nn_dists_cross(query, reference, k = 3, distance = "cosine")
+  expect_equal(d, expected)
+})
+
 test_that("mahalanobis whitening reproduces stats::mahalanobis distances (#237)", {
   set.seed(1)
   n <- 200
