@@ -347,6 +347,43 @@ test_that("baking works on new_data (keys off column value)", {
   expect_true("class" %in% names(res))
 })
 
+test_that("classes above target are left unchanged when over_ratio < 1 (#263)", {
+  res <- recipe(class ~ x + y, data = circle_example) |>
+    step_upsample(class, over_ratio = 0.5) |>
+    prep() |>
+    bake(new_data = NULL)
+
+  majority <- names(which.max(table(circle_example$class)))
+  orig <- circle_example[circle_example$class == majority, c("x", "y")]
+  kept <- as.data.frame(res[res$class == majority, c("x", "y")])
+
+  expect_equal(nrow(kept), nrow(orig))
+  expect_equal(
+    kept[order(kept$x, kept$y), ],
+    orig[order(orig$x, orig$y), ],
+    ignore_attr = TRUE
+  )
+})
+
+test_that("indicator and non-indicator paths keep the same originals (#263)", {
+  set.seed(1)
+  res_plain <- recipe(class ~ x + y, data = circle_example) |>
+    step_upsample(class, over_ratio = 0.5) |>
+    prep() |>
+    bake(new_data = NULL)
+
+  set.seed(1)
+  res_ind <- recipe(class ~ x + y, data = circle_example) |>
+    step_upsample(class, over_ratio = 0.5, indicator_column = ".new_row") |>
+    prep() |>
+    bake(new_data = NULL)
+
+  expect_equal(
+    as.data.frame(res_plain),
+    as.data.frame(res_ind[, c("x", "y", "class")])
+  )
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {

@@ -80,6 +80,8 @@
 
 * `step_downsample()` and `step_upsample()` now correctly handle `NA` values in the outcome variable instead of erroring (#177).
 
+* `step_upsample()` now leaves classes that already meet or exceed the target size untouched instead of resampling them with replacement, and produces the same rows whether or not `indicator_column` is set (#263).
+
 # themis 1.0.3
 
 ## Improvements
