@@ -2,6 +2,21 @@
 
 ## themis (development version)
 
+- Over-sampling steps
+  ([`step_smote()`](https://themis.tidymodels.org/dev/reference/step_smote.md),
+  [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
+  [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md),
+  [`step_svmsmote()`](https://themis.tidymodels.org/dev/reference/step_svmsmote.md),
+  [`step_smoten()`](https://themis.tidymodels.org/dev/reference/step_smoten.md),
+  [`step_smotenc()`](https://themis.tidymodels.org/dev/reference/step_smotenc.md),
+  [`step_rose()`](https://themis.tidymodels.org/dev/reference/step_rose.md),
+  and
+  [`step_smogn()`](https://themis.tidymodels.org/dev/reference/step_smogn.md))
+  now error when supplied a case weights column instead of silently
+  filling synthetic rows’ weights with `NA`. These steps have never
+  supported case weights
+  ([\#243](https://github.com/tidymodels/themis/issues/243)).
+
 - All sampling steps now handle an unused (zero-count) factor level in
   the outcome gracefully, dropping it with a warning before computing
   sampling targets instead of deleting all rows or erroring
