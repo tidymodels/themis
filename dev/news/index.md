@@ -123,6 +123,19 @@
   minority class, rather than selecting rows by their position in the
   data ([\#236](https://github.com/tidymodels/themis/issues/236)).
 
+- [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md)
+  and
+  [`step_smogn()`](https://themis.tidymodels.org/dev/reference/step_smogn.md)
+  (and their direct-implementation counterparts
+  [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md)
+  and [`smogn()`](https://themis.tidymodels.org/dev/reference/smogn.md))
+  now return true cosine-distance magnitudes with `distance = "cosine"`.
+  Previously the cosine branch L2-normalized and took Euclidean
+  distances, returning `sqrt(2 - 2 * cos_sim)` instead of `1 - cos_sim`.
+  Neighbor ordering was unaffected, but NearMiss neighbor-distance
+  averages and SMOGN’s interpolate-vs-noise threshold used the wrong
+  magnitudes ([\#244](https://github.com/tidymodels/themis/issues/244)).
+
 - [`step_oss()`](https://themis.tidymodels.org/dev/reference/step_oss.md)
   (and its direct-implementation counterpart
   [`oss()`](https://themis.tidymodels.org/dev/reference/oss.md)) was
