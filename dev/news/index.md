@@ -131,6 +131,14 @@
   the neighborhood of minority class observations
   ([\#116](https://github.com/tidymodels/themis/issues/116)).
 
+- [`step_ncl()`](https://themis.tidymodels.org/dev/reference/step_ncl.md)
+  (and its direct-implementation counterpart
+  [`ncl()`](https://themis.tidymodels.org/dev/reference/ncl.md)) now
+  treats a majority class whose size is exactly `threshold_clean` times
+  the minority size as eligible for cleaning, using the `>=` comparison
+  from Laurikkala (2001) instead of a strict `>`
+  ([\#250](https://github.com/tidymodels/themis/issues/250)).
+
 - [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md)
   (and its direct-implementation counterpart
   [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md))
@@ -160,6 +168,14 @@
   class observations on the decision boundary
   ([\#114](https://github.com/tidymodels/themis/issues/114)).
 
+- [`step_oss()`](https://themis.tidymodels.org/dev/reference/step_oss.md)
+  (and its direct-implementation counterpart
+  [`oss()`](https://themis.tidymodels.org/dev/reference/oss.md)) now
+  condenses the majority classes with a single pass, matching Kubat &
+  Matwin (1997), instead of iterating Condensed Nearest Neighbors to
+  convergence, which removed more observations than the reference
+  ([\#250](https://github.com/tidymodels/themis/issues/250)).
+
 - [`step_smogn()`](https://themis.tidymodels.org/dev/reference/step_smogn.md)
   (and its direct-implementation counterpart
   [`smogn()`](https://themis.tidymodels.org/dev/reference/smogn.md)) was
@@ -176,6 +192,15 @@
   pointing users to the `relevance` argument instead of aborting deep
   inside the boxplot-based computation
   ([\#264](https://github.com/tidymodels/themis/issues/264)).
+
+- [`step_smogn()`](https://themis.tidymodels.org/dev/reference/step_smogn.md)
+  (and its direct-implementation counterpart
+  [`smogn()`](https://themis.tidymodels.org/dev/reference/smogn.md)) now
+  scales the Gaussian perturbation of unsafe cases by each feature’s
+  standard deviation and caps the perturbation amount at the safe
+  distance, using `sd * min(perturbation, maxD)` as in the reference,
+  instead of scaling by a distance-capped standard deviation
+  ([\#250](https://github.com/tidymodels/themis/issues/250)).
 
 - [`step_smoten()`](https://themis.tidymodels.org/dev/reference/step_smoten.md)
   (and its direct-implementation counterpart
