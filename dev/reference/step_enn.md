@@ -225,7 +225,7 @@ training
 #>   class training
 #>   <fct>    <int>
 #> 1 VF        1737
-#> 2 F          732
+#> 2 F          731
 #> 3 M          262
 #> 4 L          173
 
@@ -249,7 +249,7 @@ orig |>
 #>   class  orig training baked
 #>   <fct> <int>    <int> <int>
 #> 1 VF     2211     1737  2211
-#> 2 F      1347      732  1347
+#> 2 F      1347      731  1347
 #> 3 M       514      262   514
 #> 4 L       259      173   259
 

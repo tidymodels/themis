@@ -34,6 +34,21 @@
   fractional `over_ratio` lands on the nearest integer count
   ([\#248](https://github.com/tidymodels/themis/issues/248)).
 
+- Nearest-neighbor computations in
+  [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
+  [`step_enn()`](https://themis.tidymodels.org/dev/reference/step_enn.md),
+  [`step_ncl()`](https://themis.tidymodels.org/dev/reference/step_ncl.md),
+  [`step_smote()`](https://themis.tidymodels.org/dev/reference/step_smote.md),
+  [`step_smotenc()`](https://themis.tidymodels.org/dev/reference/step_smotenc.md),
+  and
+  [`step_tomek()`](https://themis.tidymodels.org/dev/reference/step_tomek.md)
+  (and their direct-implementation counterparts) now exclude each
+  observation from its own neighbor list by row index rather than
+  assuming it is always the first neighbor returned. Exact-duplicate
+  coordinates could previously leave a point as its own neighbor or make
+  the farthest candidate unreachable
+  ([\#247](https://github.com/tidymodels/themis/issues/247)).
+
 - [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md)
   (and its direct-implementation counterpart
   [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md))
