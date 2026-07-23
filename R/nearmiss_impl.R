@@ -67,8 +67,6 @@ nearmiss_impl <- function(
 ) {
   classes <- downsample_count(df, var, under_ratio)
 
-  out_dfs <- list()
-
   deleted_rows <- integer()
   for (i in seq_along(classes)) {
     df_only <- df[, !names(df) %in% ignore_vars]

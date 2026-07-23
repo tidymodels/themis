@@ -146,7 +146,6 @@ step_downsample <-
       step_downsample_new(
         terms = enquos(...),
         under_ratio = under_ratio,
-        ratio = NULL,
         role = role,
         trained = trained,
         column = column,
@@ -163,7 +162,6 @@ step_downsample_new <-
   function(
     terms,
     under_ratio,
-    ratio,
     role,
     trained,
     column,
@@ -177,7 +175,6 @@ step_downsample_new <-
       subclass = "downsample",
       terms = terms,
       under_ratio = under_ratio,
-      ratio = ratio,
       role = role,
       trained = trained,
       column = column,
@@ -218,7 +215,6 @@ prep.step_downsample <- function(x, training, info = NULL, ...) {
   step_downsample_new(
     terms = x$terms,
     under_ratio = x$under_ratio,
-    ratio = x$ratio,
     role = x$role,
     trained = TRUE,
     column = col_name,
