@@ -225,6 +225,12 @@
   find nearest neighbors and majority voting to generate new examples
   ([\#54](https://github.com/tidymodels/themis/issues/54)).
 
+- [`step_smoten()`](https://themis.tidymodels.org/dev/reference/step_smoten.md)
+  now gains an `indicator_column` argument for parity with the other
+  over-sampling steps. When set, a logical column is added to the baked
+  data marking synthetic rows
+  ([\#253](https://github.com/tidymodels/themis/issues/253)).
+
 - [`step_smotenc()`](https://themis.tidymodels.org/dev/reference/step_smotenc.md)
   (and its direct-implementation counterpart
   [`smotenc()`](https://themis.tidymodels.org/dev/reference/smotenc.md))
