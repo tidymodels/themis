@@ -48,6 +48,8 @@
 
 * `step_smoten()` (and its direct-implementation counterpart `smoten()`) was added. It over-samples the minority classes for data sets where all predictors are categorical, using the Value Difference Metric to find nearest neighbors and majority voting to generate new examples (#54).
 
+* `step_smoten()` now gains an `indicator_column` argument for parity with the other over-sampling steps. When set, a logical column is added to the baked data marking synthetic rows (#253).
+
 * `step_smotenc()` (and its direct-implementation counterpart `smotenc()`) now sets each synthetic sample's nominal features to the majority vote across the seed's k nearest neighbors, matching the SMOTENC algorithm, rather than voting over the randomly chosen interpolation partners (#241).
 
 * `step_tomek()` (and its direct-implementation counterpart `tomek()`) now removes only the majority-class member of each Tomek link, retaining the minority-class member, matching the documented behavior. Previously it removed both members of the pair (#262).
