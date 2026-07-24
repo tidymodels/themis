@@ -16,7 +16,8 @@
 #' @param column A character string of the variable name that will
 #'  be populated (eventually) by the `...` selectors.
 #' @param neighbors An integer. Number of nearest neighbor that are used to
-#'  decide whether an observation is removed.
+#'  decide whether an observation is removed. Defaults to `3`, unlike the
+#'  over-sampling steps which default to `5`.
 #' @param times A positive integer for the maximum number of times ENN is
 #'  applied. Defaults to `1` for a single pass. Values greater than `1` repeat
 #'  the cleaning, stopping early once a pass removes no observations. Use
@@ -139,7 +140,6 @@ step_enn <-
   ) {
     check_number_whole(seed)
     check_distance_arg(distance)
-    check_bool(all_k)
 
     add_step(
       recipe,
@@ -201,6 +201,7 @@ prep.step_enn <- function(x, training, info = NULL, ...) {
 
   check_number_whole(x$neighbors, arg = "neighbors", min = 1)
   check_number_whole(x$times, arg = "times", min = 1, allow_infinite = TRUE)
+  check_bool(x$all_k, arg = "all_k")
   warn_times_all_k(x$times, x$all_k)
 
   check_1_selected(col_name)
@@ -300,9 +301,10 @@ tidy.step_enn <- function(x, ...) {
 #' @rdname tunable_themis
 tunable.step_enn <- function(x, ...) {
   tibble::tibble(
-    name = c("neighbors"),
+    name = c("neighbors", "all_k"),
     call_info = list(
-      list(pkg = "dials", fun = "neighbors", range = c(1, 10))
+      list(pkg = "dials", fun = "neighbors", range = c(1, 10)),
+      list(pkg = "dials", fun = "prune")
     ),
     source = "recipe",
     component = "step_enn",

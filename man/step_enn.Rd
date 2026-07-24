@@ -41,7 +41,8 @@ been estimated.}
 be populated (eventually) by the \code{...} selectors.}
 
 \item{neighbors}{An integer. Number of nearest neighbor that are used to
-decide whether an observation is removed.}
+decide whether an observation is removed. Defaults to \code{3}, unlike the
+over-sampling steps which default to \code{5}.}
 
 \item{distance}{A character string specifying the distance metric used for
 nearest neighbor calculations. One of \code{"euclidean"} (default), \code{"cosine"},
@@ -125,9 +126,10 @@ columns \code{terms} and \code{id}:
 }
 
 \section{Tuning Parameters}{
-This step has 1 tuning parameters:
+This step has 2 tuning parameters:
 \itemize{
 \item \code{neighbors}: # Nearest Neighbors (type: integer, default: 3)
+\item \code{all_k}: Pruning (type: logical, default: FALSE)
 }
 }
 

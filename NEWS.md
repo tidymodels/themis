@@ -16,6 +16,8 @@
 
 * `step_bsmote()` (and its direct-implementation counterpart `bsmote()`) with `all_neighbors = TRUE` now seeds synthetic points only from minority-class danger observations and takes a reduced step toward majority-class neighbors, matching borderline-SMOTE2. Previously it could seed from border-adjacent majority rows, generating minority-labeled points around majority centers (#242).
 
+* `step_bsmote()` now sets the tuning range of its `neighbors` parameter to `c(1, 10)`, matching the other steps that tune `neighbors` (#254).
+
 * `step_cnn()` (and its direct-implementation counterpart `cnn()`) was added. It under-samples the majority classes using Condensed Nearest Neighbors, keeping only a consistent subset of observations that correctly classifies the data using a 1-nearest-neighbor rule (#113).
 
 * `step_cnn()`, `step_oss()`, and `step_smogn()` (and their direct-implementation counterparts `cnn()`, `oss()`, and `smogn()`) now sample correctly when only one candidate remains. A length-1 vector passed to `sample()` was interpreted as a count and sampled from `1:n`, which could select the wrong observations (#245).
@@ -26,11 +28,15 @@
 
 * `step_enn()` (and its direct-implementation counterpart `enn()`) gain an `all_k` argument to apply the cleaning with an increasing number of neighbors, from 1 up to `neighbors`, which corresponds to All k-Nearest Neighbors (AllKNN) (#174).
 
+* `step_enn()` now documents that `neighbors` defaults to `3` (rather than `5` as in the over-sampling steps) and exposes `all_k` as a tunable parameter (#254).
+
 * `step_instance_hardness()` (and its direct-implementation counterpart `instance_hardness()`) was added. It under-samples the majority classes by removing the observations that are hardest to classify, estimated using the k-Disagreeing Neighbors measure (#172).
 
 * `step_ncl()` (and its direct-implementation counterpart `ncl()`) was added. It cleans the data using the Neighborhood Cleaning Rule, removing majority class observations that are noisy or that pollute the neighborhood of minority class observations (#116).
 
 * `step_ncl()` (and its direct-implementation counterpart `ncl()`) now treats a majority class whose size is exactly `threshold_clean` times the minority size as eligible for cleaning, using the `>=` comparison from Laurikkala (2001) instead of a strict `>` (#250).
+
+* `step_ncl()` now documents that `neighbors` defaults to `3` (rather than `5` as in the over-sampling steps) and exposes `threshold_clean` as a tunable parameter (#254).
 
 * `step_nearmiss()` (and its direct-implementation counterpart `nearmiss()`) now keeps the majority observations that are genuinely closest to the minority class, rather than selecting rows by their position in the data (#236).
 
@@ -46,11 +52,17 @@
 
 * `step_smogn()` (and its direct-implementation counterpart `smogn()`) now scales the Gaussian perturbation of unsafe cases by each feature's standard deviation and caps the perturbation amount at the safe distance, using `sd * min(perturbation, maxD)` as in the reference, instead of scaling by a distance-capped standard deviation (#250).
 
+* `step_smogn()` now exposes `threshold` as a tunable parameter (#254).
+
 * `step_smoten()` (and its direct-implementation counterpart `smoten()`) was added. It over-samples the minority classes for data sets where all predictors are categorical, using the Value Difference Metric to find nearest neighbors and majority voting to generate new examples (#54).
 
 * `step_smoten()` now gains an `indicator_column` argument for parity with the other over-sampling steps. When set, a logical column is added to the baked data marking synthetic rows (#253).
 
 * `step_smotenc()` (and its direct-implementation counterpart `smotenc()`) now sets each synthetic sample's nominal features to the majority vote across the seed's k nearest neighbors, matching the SMOTENC algorithm, rather than voting over the randomly chosen interpolation partners (#241).
+
+* `step_smotenc()` now validates that all predictors are numeric or nominal, erroring on unsupported column types such as dates instead of failing later (#254).
+
+* `step_svmsmote()` now sets the tuning range of its `neighbors` parameter to `c(1, 10)`, matching the other steps that tune `neighbors` (#254).
 
 * `step_tomek()` (and its direct-implementation counterpart `tomek()`) now removes only the majority-class member of each Tomek link, retaining the minority-class member, matching the documented behavior. Previously it removed both members of the pair (#262).
 
