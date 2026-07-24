@@ -4,7 +4,7 @@ string2formula <- function(x) {
   out
 }
 
-check_na <- function(data, step, call = caller_env()) {
+check_na <- function(data, call = caller_env()) {
   na_cols <- vapply(data, function(x) any(is.na(x)), FUN.VALUE = logical(1))
   if (any(na_cols)) {
     cols <- paste(names(na_cols)[na_cols], collapse = ", ")
@@ -165,8 +165,6 @@ na_splice <- function(new_data, synthetic_data, object, call = caller_env()) {
   if (length(non_predictor) == 0) {
     return(synthetic_data)
   }
-
-  new_data[, non_predictor, drop = FALSE]
 
   na_data <- matrix(
     nrow = nrow(synthetic_data) - nrow(new_data),

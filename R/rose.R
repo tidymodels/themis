@@ -248,12 +248,6 @@ bake.step_rose <- function(object, new_data, ...) {
     return(new_data)
   }
 
-  if (any(is.na(new_data[[object$column]]))) {
-    missing <- new_data[is.na(new_data[[object$column]]), ]
-  } else {
-    missing <- NULL
-  }
-
   new_data <- as.data.frame(new_data)
 
   predictor_data <- new_data[, col_names]
