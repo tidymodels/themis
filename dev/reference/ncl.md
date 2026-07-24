@@ -24,7 +24,8 @@ ncl(df, var, neighbors = 3, distance = "euclidean", threshold_clean = 0.5)
 - neighbors:
 
   An integer. Number of nearest neighbor that are used to decide whether
-  an observation is removed.
+  an observation is removed. Defaults to `3`, unlike the over-sampling
+  steps which default to `5`.
 
 - distance:
 

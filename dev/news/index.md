@@ -85,6 +85,11 @@
   minority-labeled points around majority centers
   ([\#242](https://github.com/tidymodels/themis/issues/242)).
 
+- [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md)
+  now sets the tuning range of its `neighbors` parameter to `c(1, 10)`,
+  matching the other steps that tune `neighbors`
+  ([\#254](https://github.com/tidymodels/themis/issues/254)).
+
 - [`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md)
   (and its direct-implementation counterpart
   [`cnn()`](https://themis.tidymodels.org/dev/reference/cnn.md)) was
@@ -130,6 +135,11 @@
   k-Nearest Neighbors (AllKNN)
   ([\#174](https://github.com/tidymodels/themis/issues/174)).
 
+- [`step_enn()`](https://themis.tidymodels.org/dev/reference/step_enn.md)
+  now documents that `neighbors` defaults to `3` (rather than `5` as in
+  the over-sampling steps) and exposes `all_k` as a tunable parameter
+  ([\#254](https://github.com/tidymodels/themis/issues/254)).
+
 - [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md)
   (and its direct-implementation counterpart
   [`instance_hardness()`](https://themis.tidymodels.org/dev/reference/instance_hardness.md))
@@ -153,6 +163,11 @@
   the minority size as eligible for cleaning, using the `>=` comparison
   from Laurikkala (2001) instead of a strict `>`
   ([\#250](https://github.com/tidymodels/themis/issues/250)).
+
+- [`step_ncl()`](https://themis.tidymodels.org/dev/reference/step_ncl.md)
+  now documents that `neighbors` defaults to `3` (rather than `5` as in
+  the over-sampling steps) and exposes `threshold_clean` as a tunable
+  parameter ([\#254](https://github.com/tidymodels/themis/issues/254)).
 
 - [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md)
   (and its direct-implementation counterpart
@@ -217,6 +232,10 @@
   instead of scaling by a distance-capped standard deviation
   ([\#250](https://github.com/tidymodels/themis/issues/250)).
 
+- [`step_smogn()`](https://themis.tidymodels.org/dev/reference/step_smogn.md)
+  now exposes `threshold` as a tunable parameter
+  ([\#254](https://github.com/tidymodels/themis/issues/254)).
+
 - [`step_smoten()`](https://themis.tidymodels.org/dev/reference/step_smoten.md)
   (and its direct-implementation counterpart
   [`smoten()`](https://themis.tidymodels.org/dev/reference/smoten.md))
@@ -238,6 +257,16 @@
   across the seed’s k nearest neighbors, matching the SMOTENC algorithm,
   rather than voting over the randomly chosen interpolation partners
   ([\#241](https://github.com/tidymodels/themis/issues/241)).
+
+- [`step_smotenc()`](https://themis.tidymodels.org/dev/reference/step_smotenc.md)
+  now validates that all predictors are numeric or nominal, erroring on
+  unsupported column types such as dates instead of failing later
+  ([\#254](https://github.com/tidymodels/themis/issues/254)).
+
+- [`step_svmsmote()`](https://themis.tidymodels.org/dev/reference/step_svmsmote.md)
+  now sets the tuning range of its `neighbors` parameter to `c(1, 10)`,
+  matching the other steps that tune `neighbors`
+  ([\#254](https://github.com/tidymodels/themis/issues/254)).
 
 - [`step_tomek()`](https://themis.tidymodels.org/dev/reference/step_tomek.md)
   (and its direct-implementation counterpart

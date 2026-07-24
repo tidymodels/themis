@@ -55,7 +55,8 @@ step_ncl(
 - neighbors:
 
   An integer. Number of nearest neighbor that are used to decide whether
-  an observation is removed.
+  an observation is removed. Defaults to `3`, unlike the over-sampling
+  steps which default to `5`.
 
 - distance:
 
@@ -149,9 +150,11 @@ this step, a tibble is returned with columns `terms` and `id`:
 
 ## Tuning Parameters
 
-This step has 1 tuning parameters:
+This step has 2 tuning parameters:
 
 - `neighbors`: \# Nearest Neighbors (type: integer, default: 3)
+
+- `threshold_clean`: Threshold (type: double, default: 0.5)
 
 ## Case weights
 

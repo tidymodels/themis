@@ -102,7 +102,8 @@ be populated (eventually) by the <code>...</code> selectors.</p></dd>
 
 <dt id="arg-neighbors">neighbors<a class="anchor" aria-label="anchor" href="#arg-neighbors"></a></dt>
 <dd><p>An integer. Number of nearest neighbor that are used to
-decide whether an observation is removed.</p></dd>
+decide whether an observation is removed. Defaults to <code>3</code>, unlike the
+over-sampling steps which default to <code>5</code>.</p></dd>
 
 
 <dt id="arg-distance">distance<a class="anchor" aria-label="anchor" href="#arg-distance"></a></dt>
@@ -196,7 +197,8 @@ columns <code>terms</code> and <code>id</code>:</p>
 </dl></div>
     <div class="section level2">
     <h2 id="tuning-parameters">Tuning Parameters<a class="anchor" aria-label="anchor" href="#tuning-parameters"></a></h2>
-    <p>This step has 1 tuning parameters:</p><ul><li><p><code>neighbors</code>: # Nearest Neighbors (type: integer, default: 3)</p></li>
+    <p>This step has 2 tuning parameters:</p><ul><li><p><code>neighbors</code>: # Nearest Neighbors (type: integer, default: 3)</p></li>
+<li><p><code>all_k</code>: Pruning (type: logical, default: FALSE)</p></li>
 </ul></div>
     <div class="section level2">
     <h2 id="case-weights">Case weights<a class="anchor" aria-label="anchor" href="#case-weights"></a></h2>

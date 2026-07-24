@@ -158,9 +158,11 @@ this step, a tibble is returned with columns `terms` and `id`:
 
 ## Tuning Parameters
 
-This step has 1 tuning parameters:
+This step has 2 tuning parameters:
 
 - `neighbors`: \# Nearest Neighbors (type: integer, default: 5)
+
+- `threshold`: Threshold (type: double, default: 0.5)
 
 ## Case weights
 
