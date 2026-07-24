@@ -223,23 +223,21 @@ smogn_relevance <- function(y, relevance = NULL, call = caller_env()) {
 # Distance matrix within a bin, honoring the chosen metric by transforming the
 # data (cosine, mahalanobis) or using the appropriate `stats::dist` method.
 smogn_distmat <- function(data, distance) {
-  if (distance == "cosine") {
-    norms <- sqrt(rowSums(data^2))
-    norms[norms == 0] <- 1
-    # Euclidean distance between unit vectors is sqrt(2 - 2*cos); convert to
-    # cosine distance (1 - cos_sim = d^2 / 2) so the interpolate-vs-noise test
-    # compares true cosine-distance magnitudes.
-    d <- as.matrix(stats::dist(data / norms))
-    return(d^2 / 2)
-  }
-  if (distance == "mahalanobis") {
-    S <- stats::cov(data)
-    data <- data %*% solve(chol(S))
-    return(as.matrix(stats::dist(data)))
+  if (metric_is_transformable(distance)) {
+    # `check_singular = FALSE` preserves the historical behavior of relying on
+    # `chol()` to error on a singular covariance rather than the friendly guard.
+    data <- metric_transform(data, distance, check_singular = FALSE)
+    d <- as.matrix(stats::dist(data))
+    if (distance == "cosine") {
+      # Euclidean distance between unit vectors is sqrt(2 - 2*cos); convert to
+      # cosine distance (1 - cos_sim = d^2 / 2) so the interpolate-vs-noise test
+      # compares true cosine-distance magnitudes.
+      return(d^2 / 2)
+    }
+    return(d)
   }
   method <- switch(
     distance,
-    "euclidean" = "euclidean",
     "manhattan" = "manhattan",
     "chebyshev" = "maximum"
   )

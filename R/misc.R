@@ -218,29 +218,55 @@ drop_self_neighbor <- function(idx) {
   out
 }
 
-nn_indices <- function(data, k, distance) {
-  if (distance == "euclidean") {
-    return(RANN::nn2(data, k = k + 1, searchtype = "priority")$nn.idx)
-  }
+# Metrics whose distance equals ordinary Euclidean distance after a per-row or
+# linear transform of the data, so the neighbor search can run on the transformed
+# coordinates. manhattan and chebyshev are not in this set and must be computed
+# with `stats::dist()` directly.
+metric_is_transformable <- function(distance) {
+  distance %in% c("euclidean", "cosine", "mahalanobis")
+}
+
+# Transform `data` so that Euclidean distance on the result equals the requested
+# metric. For mahalanobis the whitening transform is derived from `cov_data`
+# (the reference set in cross-distance calls) so a query and reference set can
+# share one transform. `check_singular` toggles the guard for a covariance that
+# cannot be inverted (more predictors than observations). Cosine-distance
+# consumers that need true magnitudes must still convert the resulting Euclidean
+# distance `d` via `d^2 / 2`; only the coordinate transform lives here.
+metric_transform <- function(
+  data,
+  distance,
+  cov_data = data,
+  check_singular = TRUE,
+  call = caller_env()
+) {
   if (distance == "cosine") {
     norms <- sqrt(rowSums(data^2))
     norms[norms == 0] <- 1
-    data_norm <- data / norms
-    return(RANN::nn2(data_norm, k = k + 1, searchtype = "priority")$nn.idx)
+    return(data / norms)
   }
   if (distance == "mahalanobis") {
-    if (nrow(data) <= ncol(data)) {
+    if (check_singular && nrow(cov_data) <= ncol(cov_data)) {
       cli::cli_abort(
         c(
           "{.code distance = \"mahalanobis\"} requires more observations than predictors in each class.",
-          i = "{nrow(data)} observation{?s} {?was/were} found but {ncol(data)} predictor{?s} {?is/are} present.",
+          i = "{nrow(cov_data)} observation{?s} {?was/were} found but {ncol(cov_data)} predictor{?s} {?is/are} present.",
           i = "Try a different {.arg distance} metric or reduce the number of predictors."
-        )
+        ),
+        call = call
       )
     }
-    S <- stats::cov(data)
-    data_w <- data %*% solve(chol(S))
-    return(RANN::nn2(data_w, k = k + 1, searchtype = "priority")$nn.idx)
+    S <- stats::cov(cov_data)
+    return(data %*% solve(chol(S)))
+  }
+  # euclidean: no transform needed
+  data
+}
+
+nn_indices <- function(data, k, distance) {
+  if (metric_is_transformable(distance)) {
+    data <- metric_transform(data, distance)
+    return(RANN::nn2(data, k = k + 1, searchtype = "priority")$nn.idx)
   }
   dist_method <- switch(
     distance,
@@ -252,35 +278,17 @@ nn_indices <- function(data, k, distance) {
 }
 
 nn_dists_cross <- function(query, reference, k, distance) {
-  if (distance == "euclidean") {
-    return(RANN::nn2(reference, query, k = k)$nn.dists)
-  }
-  if (distance == "cosine") {
-    norms_ref <- sqrt(rowSums(reference^2))
-    norms_ref[norms_ref == 0] <- 1
-    norms_qry <- sqrt(rowSums(query^2))
-    norms_qry[norms_qry == 0] <- 1
-    # RANN returns Euclidean distances between unit vectors, sqrt(2 - 2*cos).
-    # Convert to cosine distance (1 - cos_sim = d^2 / 2) so magnitudes are
-    # correct for consumers such as NearMiss that average per-neighbor values.
-    d <- RANN::nn2(reference / norms_ref, query / norms_qry, k = k)$nn.dists
-    return(d^2 / 2)
-  }
-  if (distance == "mahalanobis") {
-    if (nrow(reference) <= ncol(reference)) {
-      cli::cli_abort(
-        c(
-          "{.code distance = \"mahalanobis\"} requires more observations than predictors in each class.",
-          i = "{nrow(reference)} observation{?s} {?was/were} found but {ncol(reference)} predictor{?s} {?is/are} present.",
-          i = "Try a different {.arg distance} metric or reduce the number of predictors."
-        )
-      )
+  if (metric_is_transformable(distance)) {
+    query_t <- metric_transform(query, distance, cov_data = reference)
+    reference_t <- metric_transform(reference, distance, cov_data = reference)
+    d <- RANN::nn2(reference_t, query_t, k = k)$nn.dists
+    if (distance == "cosine") {
+      # RANN returns Euclidean distances between unit vectors, sqrt(2 - 2*cos).
+      # Convert to cosine distance (1 - cos_sim = d^2 / 2) so magnitudes are
+      # correct for consumers such as NearMiss that average per-neighbor values.
+      return(d^2 / 2)
     }
-    S <- stats::cov(reference)
-    L_inv <- solve(chol(S))
-    reference_w <- reference %*% L_inv
-    query_w <- query %*% L_inv
-    return(RANN::nn2(reference_w, query_w, k = k)$nn.dists)
+    return(d)
   }
   dist_method <- switch(
     distance,
@@ -295,31 +303,10 @@ nn_dists_cross <- function(query, reference, k, distance) {
 }
 
 nn_indices_cross <- function(query, reference, k, distance) {
-  if (distance == "euclidean") {
-    return(RANN::nn2(reference, query, k = k)$nn.idx)
-  }
-  if (distance == "cosine") {
-    norms_ref <- sqrt(rowSums(reference^2))
-    norms_ref[norms_ref == 0] <- 1
-    norms_qry <- sqrt(rowSums(query^2))
-    norms_qry[norms_qry == 0] <- 1
-    return(RANN::nn2(reference / norms_ref, query / norms_qry, k = k)$nn.idx)
-  }
-  if (distance == "mahalanobis") {
-    if (nrow(reference) <= ncol(reference)) {
-      cli::cli_abort(
-        c(
-          "{.code distance = \"mahalanobis\"} requires more observations than predictors in each class.",
-          i = "{nrow(reference)} observation{?s} {?was/were} found but {ncol(reference)} predictor{?s} {?is/are} present.",
-          i = "Try a different {.arg distance} metric or reduce the number of predictors."
-        )
-      )
-    }
-    S <- stats::cov(reference)
-    L_inv <- solve(chol(S))
-    reference_w <- reference %*% L_inv
-    query_w <- query %*% L_inv
-    return(RANN::nn2(reference_w, query_w, k = k)$nn.idx)
+  if (metric_is_transformable(distance)) {
+    query_t <- metric_transform(query, distance, cov_data = reference)
+    reference_t <- metric_transform(reference, distance, cov_data = reference)
+    return(RANN::nn2(reference_t, query_t, k = k)$nn.idx)
   }
   dist_method <- switch(
     distance,

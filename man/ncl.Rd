@@ -13,7 +13,8 @@ numeric variables.}
 \item{var}{Character, name of variable containing factor variable.}
 
 \item{neighbors}{An integer. Number of nearest neighbor that are used to
-decide whether an observation is removed.}
+decide whether an observation is removed. Defaults to \code{3}, unlike the
+over-sampling steps which default to \code{5}.}
 
 \item{distance}{A character string specifying the distance metric used for
 nearest neighbor calculations. One of \code{"euclidean"} (default), \code{"cosine"},
