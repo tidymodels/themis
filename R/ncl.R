@@ -16,7 +16,8 @@
 #' @param column A character string of the variable name that will
 #'  be populated (eventually) by the `...` selectors.
 #' @param neighbors An integer. Number of nearest neighbor that are used to
-#'  decide whether an observation is removed.
+#'  decide whether an observation is removed. Defaults to `3`, unlike the
+#'  over-sampling steps which default to `5`.
 #' @param threshold_clean A numeric. Majority classes are only cleaned around
 #'  minority class observations when their size is greater than
 #'  `threshold_clean` times the size of the minority class. Defaults to `0.5`.
@@ -289,9 +290,10 @@ tidy.step_ncl <- function(x, ...) {
 #' @rdname tunable_themis
 tunable.step_ncl <- function(x, ...) {
   tibble::tibble(
-    name = c("neighbors"),
+    name = c("neighbors", "threshold_clean"),
     call_info = list(
-      list(pkg = "dials", fun = "neighbors", range = c(1, 10))
+      list(pkg = "dials", fun = "neighbors", range = c(1, 10)),
+      list(pkg = "dials", fun = "threshold")
     ),
     source = "recipe",
     component = "step_ncl",

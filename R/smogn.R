@@ -278,9 +278,10 @@ tidy.step_smogn <- function(x, ...) {
 #' @rdname tunable_themis
 tunable.step_smogn <- function(x, ...) {
   tibble::tibble(
-    name = c("neighbors"),
+    name = c("neighbors", "threshold"),
     call_info = list(
-      list(pkg = "dials", fun = "neighbors", range = c(1, 10))
+      list(pkg = "dials", fun = "neighbors", range = c(1, 10)),
+      list(pkg = "dials", fun = "threshold")
     ),
     source = "recipe",
     component = "step_smogn",

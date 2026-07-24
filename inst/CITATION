@@ -1,0 +1,10 @@
+citHeader("To cite themis in publications use:")
+
+bibentry(
+  bibtype = "Manual",
+  title   = "{themis}: Extra Recipes Steps for Dealing with Unbalanced Data",
+  author  = person("Emil", "Hvitfeldt"),
+  year    = "2026",
+  note    = sprintf("R package version %s", meta$Version),
+  url     = "https://github.com/tidymodels/themis"
+)
