@@ -188,8 +188,8 @@ step_upsample_new <-
       target = target,
       indicator_column = indicator_column,
       skip = skip,
-      id = id,
       seed = seed,
+      id = id,
       case_weights = case_weights
     )
   }
