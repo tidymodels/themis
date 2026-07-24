@@ -90,6 +90,16 @@
       Error in `step_smotenc()`:
       ! `seed` must be a whole number, not `TRUE`.
 
+# errors on unsupported predictor types
+
+    Code
+      prep(step_smotenc(recipe(class ~ ., data = df), class))
+    Condition
+      Error in `step_smotenc()`:
+      Caused by error in `prep()`:
+      x All columns selected for the step should be double, integer, or nominal.
+      * 1 date variable found: `y`
+
 # unused outcome levels are skipped with a warning (#238)
 
     Code
