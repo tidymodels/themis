@@ -24,7 +24,10 @@ test_that("tunable.step_bsmote", {
   res <- tune_tbl(step_bsmote)
   expect_equal(res$name, c("over_ratio", "neighbors", "all_neighbors"))
   expect_equal(res$call_info[[1]], list(pkg = "dials", fun = "over_ratio"))
-  expect_equal(res$call_info[[2]], list(pkg = "dials", fun = "neighbors"))
+  expect_equal(
+    res$call_info[[2]],
+    list(pkg = "dials", fun = "neighbors", range = c(1, 10))
+  )
   expect_equal(res$call_info[[3]], list(pkg = "dials", fun = "all_neighbors"))
   expect_all_equal(res$component, "step_bsmote")
 })
@@ -38,11 +41,12 @@ test_that("tunable.step_downsample", {
 
 test_that("tunable.step_enn", {
   res <- tune_tbl(step_enn)
-  expect_equal(res$name, "neighbors")
+  expect_equal(res$name, c("neighbors", "all_k"))
   expect_equal(
     res$call_info[[1]],
     list(pkg = "dials", fun = "neighbors", range = c(1, 10))
   )
+  expect_equal(res$call_info[[2]], list(pkg = "dials", fun = "prune"))
   expect_all_equal(res$component, "step_enn")
 })
 
@@ -59,11 +63,12 @@ test_that("tunable.step_instance_hardness", {
 
 test_that("tunable.step_ncl", {
   res <- tune_tbl(step_ncl)
-  expect_equal(res$name, "neighbors")
+  expect_equal(res$name, c("neighbors", "threshold_clean"))
   expect_equal(
     res$call_info[[1]],
     list(pkg = "dials", fun = "neighbors", range = c(1, 10))
   )
+  expect_equal(res$call_info[[2]], list(pkg = "dials", fun = "threshold"))
   expect_all_equal(res$component, "step_ncl")
 })
 
@@ -87,11 +92,12 @@ test_that("tunable.step_rose", {
 
 test_that("tunable.step_smogn", {
   res <- tune_tbl(step_smogn)
-  expect_equal(res$name, "neighbors")
+  expect_equal(res$name, c("neighbors", "threshold"))
   expect_equal(
     res$call_info[[1]],
     list(pkg = "dials", fun = "neighbors", range = c(1, 10))
   )
+  expect_equal(res$call_info[[2]], list(pkg = "dials", fun = "threshold"))
   expect_all_equal(res$component, "step_smogn")
 })
 
@@ -132,7 +138,10 @@ test_that("tunable.step_svmsmote", {
   res <- tune_tbl(step_svmsmote)
   expect_equal(res$name, c("over_ratio", "neighbors"))
   expect_equal(res$call_info[[1]], list(pkg = "dials", fun = "over_ratio"))
-  expect_equal(res$call_info[[2]], list(pkg = "dials", fun = "neighbors"))
+  expect_equal(
+    res$call_info[[2]],
+    list(pkg = "dials", fun = "neighbors", range = c(1, 10))
+  )
   expect_all_equal(res$component, "step_svmsmote")
 })
 
