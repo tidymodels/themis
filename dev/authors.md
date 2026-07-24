@@ -12,14 +12,14 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/tidymodels/themis/blob/main/DESCRIPTION)
+[`inst/CITATION`](https://github.com/tidymodels/themis/blob/main/inst/CITATION)
 
 Hvitfeldt E (2026). *themis: Extra Recipes Steps for Dealing with
 Unbalanced Data*. R package version 1.0.3.9000,
 <https://github.com/tidymodels/themis>.
 
     @Manual{,
-      title = {themis: Extra Recipes Steps for Dealing with Unbalanced Data},
+      title = {{themis}: Extra Recipes Steps for Dealing with Unbalanced Data},
       author = {Emil Hvitfeldt},
       year = {2026},
       note = {R package version 1.0.3.9000},
