@@ -22,4 +22,5 @@
 ^\.vscode$
 ^\.claude$
 ^vignettes/articles$
+^tests/testthat/testthat-problems\.rds$
 ^codemeta\.json$

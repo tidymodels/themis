@@ -180,7 +180,10 @@ test_that("ratio value works when oversampling", {
     prep() |>
     bake(new_data = NULL)
 
-  expect_true(all(table(res1$class) == max(table(circle_example$class))))
+  expect_equal(
+    as.vector(table(res1$class)),
+    rep(max(table(circle_example$class)), length(table(res1$class)))
+  )
   expect_equal(
     sort(as.numeric(table(res1.5$class))),
     max(table(circle_example$class)) * c(0.5, 1)
