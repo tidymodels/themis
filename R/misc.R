@@ -220,8 +220,12 @@ drop_self_neighbor <- function(idx) {
 
 # Metrics whose distance equals ordinary Euclidean distance after a per-row or
 # linear transform of the data, so the neighbor search can run on the transformed
-# coordinates. manhattan and chebyshev are not in this set and must be computed
-# with `stats::dist()` directly.
+# coordinates via RANN. manhattan and chebyshev are not in this set: RANN only
+# supports Euclidean distance and there is no distance-preserving transform for
+# them, so they fall back to a dense `stats::dist()` matrix. Replacing that with a
+# lighter k-NN search would require either a new dependency or a hand-rolled
+# routine whose tie-breaking could differ from `order()`/`sort()` and change
+# results, so the dense path is kept for these two metrics.
 metric_is_transformable <- function(distance) {
   distance %in% c("euclidean", "cosine", "mahalanobis")
 }
@@ -299,7 +303,8 @@ nn_dists_cross <- function(query, reference, k, distance) {
   d_full <- as.matrix(stats::dist(combined, method = dist_method))
   nq <- nrow(query)
   d_cross <- d_full[seq_len(nq), nq + seq_len(nrow(reference)), drop = FALSE]
-  t(apply(d_cross, 1, \(x) sort(x)[seq_len(k)]))
+  res <- apply(d_cross, 1, \(x) sort(x)[seq_len(k)])
+  matrix(res, nrow = nq, ncol = k, byrow = TRUE)
 }
 
 nn_indices_cross <- function(query, reference, k, distance) {
@@ -317,7 +322,47 @@ nn_indices_cross <- function(query, reference, k, distance) {
   d_full <- as.matrix(stats::dist(combined, method = dist_method))
   nq <- nrow(query)
   d_cross <- d_full[seq_len(nq), nq + seq_len(nrow(reference)), drop = FALSE]
-  t(apply(d_cross, 1, \(x) order(x)[seq_len(k)]))
+  res <- apply(d_cross, 1, \(x) order(x)[seq_len(k)])
+  matrix(res, nrow = nq, ncol = k, byrow = TRUE)
+}
+
+# Shared condensation scan for CNN and one-sided selection. Walks `candidates`
+# in order and, using a 1-nearest-neighbor rule against the current store, adds
+# any candidate whose nearest stored neighbor has a different class. The store is
+# unchanged between additions, so the cross-NN is computed in one batch for all
+# not-yet-processed candidates and only recomputed after the store actually
+# changes, rather than rebuilding the neighbor search for every single candidate.
+# Results are identical to the per-candidate scan. Returns the updated `in_store`
+# and whether anything was added.
+condense_scan <- function(candidates, in_store, predictors, outcome, distance) {
+  added <- FALSE
+  batch <- NULL
+  store_idx <- NULL
+  base <- 0L
+  dirty <- TRUE
+  n <- length(candidates)
+  for (idx in seq_len(n)) {
+    i <- candidates[idx]
+    if (dirty) {
+      store_idx <- which(in_store)
+      remaining <- candidates[idx:n]
+      batch <- nn_indices_cross(
+        predictors[remaining, , drop = FALSE],
+        predictors[store_idx, , drop = FALSE],
+        k = 1,
+        distance = distance
+      )
+      base <- idx - 1L
+      dirty <- FALSE
+    }
+    nn1 <- batch[idx - base, 1]
+    if (outcome[store_idx[nn1]] != outcome[i]) {
+      in_store[i] <- TRUE
+      added <- TRUE
+      dirty <- TRUE
+    }
+  }
+  list(in_store = in_store, added = added)
 }
 
 weighted_table <- function(x, wts = NULL) {
