@@ -66,6 +66,23 @@
   sampling and checks the minority class size before sampling
   ([\#240](https://github.com/tidymodels/themis/issues/240)).
 
+- [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
+  [`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md),
+  and
+  [`step_oss()`](https://themis.tidymodels.org/dev/reference/step_oss.md)
+  (and their direct-implementation counterparts
+  [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md),
+  [`cnn()`](https://themis.tidymodels.org/dev/reference/cnn.md), and
+  [`oss()`](https://themis.tidymodels.org/dev/reference/oss.md)) are now
+  faster on large data.
+  [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md)
+  computes the full-data nearest neighbors only for the minority
+  observations it needs, and
+  [`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md)/[`step_oss()`](https://themis.tidymodels.org/dev/reference/step_oss.md)
+  compute the condensation nearest neighbors for all candidates in one
+  batch per store change instead of once per candidate. Results are
+  unchanged ([\#257](https://github.com/tidymodels/themis/issues/257)).
+
 - [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md)
   (and its direct-implementation counterpart
   [`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md))
