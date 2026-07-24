@@ -101,11 +101,13 @@ step_smoten <-
     column = NULL,
     over_ratio = 1,
     neighbors = 5,
+    indicator_column = NULL,
     skip = TRUE,
     seed = sample.int(10^5, 1),
     id = rand_id("smoten")
   ) {
     check_number_whole(seed)
+    check_string(indicator_column, allow_null = TRUE, allow_empty = FALSE)
 
     add_step(
       recipe,
@@ -117,6 +119,7 @@ step_smoten <-
         over_ratio = over_ratio,
         neighbors = neighbors,
         predictors = NULL,
+        indicator_column = indicator_column,
         skip = skip,
         seed = seed,
         id = id
@@ -133,6 +136,7 @@ step_smoten_new <-
     over_ratio,
     neighbors,
     predictors,
+    indicator_column,
     skip,
     seed,
     id
@@ -146,6 +150,7 @@ step_smoten_new <-
       over_ratio = over_ratio,
       neighbors = neighbors,
       predictors = predictors,
+      indicator_column = indicator_column,
       skip = skip,
       seed = seed,
       id = id
@@ -163,6 +168,13 @@ prep.step_smoten <- function(x, training, info = NULL, ...) {
   check_column_factor(training, col_name)
   warn_unused_levels(training, col_name)
 
+  recipes::check_name(
+    tibble(x = logical(0)),
+    training,
+    x,
+    newname = x$indicator_column
+  )
+
   predictors <- setdiff(recipes::recipes_names_predictors(info), col_name)
   check_na(select(training, all_of(c(col_name, predictors))))
   check_all_categorical(select(training, all_of(predictors)))
@@ -175,6 +187,7 @@ prep.step_smoten <- function(x, training, info = NULL, ...) {
     over_ratio = x$over_ratio,
     neighbors = x$neighbors,
     predictors = predictors,
+    indicator_column = x$indicator_column,
     skip = x$skip,
     seed = x$seed,
     id = x$id
@@ -194,6 +207,7 @@ bake.step_smoten <- function(object, new_data, ...) {
     return(new_data)
   }
 
+  n_orig <- nrow(new_data)
   new_data <- as.data.frame(new_data)
 
   predictor_data <- new_data[, col_names]
@@ -212,6 +226,8 @@ bake.step_smoten <- function(object, new_data, ...) {
     }
   )
   new_data <- na_splice(new_data, synthetic_data, object)
+
+  new_data <- add_indicator_column(new_data, n_orig, object$indicator_column)
 
   new_data
 }

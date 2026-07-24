@@ -310,7 +310,7 @@ tunable.step_bsmote <- function(x, ...) {
     name = c("over_ratio", "neighbors", "all_neighbors"),
     call_info = list(
       list(pkg = "dials", fun = "over_ratio"),
-      list(pkg = "dials", fun = "neighbors"),
+      list(pkg = "dials", fun = "neighbors", range = c(1, 10)),
       list(pkg = "dials", fun = "all_neighbors")
     ),
     source = "recipe",

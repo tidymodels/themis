@@ -286,7 +286,7 @@ tunable.step_svmsmote <- function(x, ...) {
     name = c("over_ratio", "neighbors"),
     call_info = list(
       list(pkg = "dials", fun = "over_ratio"),
-      list(pkg = "dials", fun = "neighbors")
+      list(pkg = "dials", fun = "neighbors", range = c(1, 10))
     ),
     source = "recipe",
     component = "step_svmsmote",

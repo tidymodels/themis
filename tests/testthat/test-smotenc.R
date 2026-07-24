@@ -342,6 +342,20 @@ test_that("bad args", {
   )
 })
 
+test_that("errors on unsupported predictor types", {
+  df <- data.frame(
+    class = factor(rep(c("a", "b"), c(20, 5))),
+    x = rnorm(25),
+    y = as.Date("2020-01-01") + 1:25
+  )
+  expect_snapshot(
+    error = TRUE,
+    recipe(class ~ ., data = df) |>
+      step_smotenc(class) |>
+      prep()
+  )
+})
+
 test_that("tunable is setup to works with extract_parameter_set_dials", {
   skip_if_not_installed("dials")
   rec <- recipe(~., data = mtcars) |>

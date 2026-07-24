@@ -333,8 +333,9 @@ test_that("tunable", {
     step_enn(class)
 
   tune_args <- tunable(rec$steps[[1]])
-  expect_equal(tune_args$name, "neighbors")
-  expect_equal(nrow(tune_args), 1L)
+  expect_equal(tune_args$name, c("neighbors", "all_k"))
+  expect_equal(nrow(tune_args), 2L)
+  expect_equal(tune_args$call_info[[1]]$range, c(1, 10))
 })
 
 test_that("tunable is setup to works with extract_parameter_set_dials", {
@@ -369,7 +370,8 @@ test_that("bad args", {
   expect_snapshot(
     error = TRUE,
     recipe(class ~ x + y, data = circle_example) |>
-      step_enn(class, all_k = 1)
+      step_enn(class, all_k = 1) |>
+      prep()
   )
 })
 

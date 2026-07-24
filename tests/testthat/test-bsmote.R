@@ -431,6 +431,7 @@ test_that("tunable", {
     step_bsmote(all_predictors())
   rec_param <- tunable.step_bsmote(rec$steps[[1]])
   expect_equal(rec_param$name, c("over_ratio", "neighbors", "all_neighbors"))
+  expect_equal(rec_param$call_info[[2]]$range, c(1, 10))
   expect_true(all(rec_param$source == "recipe"))
   expect_true(is.list(rec_param$call_info))
   expect_equal(nrow(rec_param), 3)

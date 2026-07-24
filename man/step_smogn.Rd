@@ -121,9 +121,10 @@ columns \code{terms} and \code{id}:
 }
 
 \section{Tuning Parameters}{
-This step has 1 tuning parameters:
+This step has 2 tuning parameters:
 \itemize{
 \item \code{neighbors}: # Nearest Neighbors (type: integer, default: 5)
+\item \code{threshold}: Threshold (type: double, default: 0.5)
 }
 }
 

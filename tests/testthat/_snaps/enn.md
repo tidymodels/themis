@@ -128,9 +128,10 @@
 ---
 
     Code
-      step_enn(recipe(class ~ x + y, data = circle_example), class, all_k = 1)
+      prep(step_enn(recipe(class ~ x + y, data = circle_example), class, all_k = 1))
     Condition
       Error in `step_enn()`:
+      Caused by error in `prep()`:
       ! `all_k` must be `TRUE` or `FALSE`, not the number 1.
 
 # unused outcome levels are skipped with a warning (#238)
