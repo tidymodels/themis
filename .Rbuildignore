@@ -22,3 +22,4 @@
 ^\.vscode$
 ^\.claude$
 ^vignettes/articles$
+^codemeta\.json$
