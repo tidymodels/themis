@@ -93,18 +93,8 @@ oss_condense <- function(df, var, distance = "euclidean") {
   # Single pass: scan order is randomized; condensation is order-dependent.
   candidates <- sample(majority_idx[!in_store[majority_idx]])
 
-  for (i in candidates) {
-    store_idx <- which(in_store)
-    nn <- nn_indices_cross(
-      predictors[i, , drop = FALSE],
-      predictors[store_idx, , drop = FALSE],
-      k = 1,
-      distance = distance
-    )
-    if (outcome[store_idx[nn[1, 1]]] != outcome[i]) {
-      in_store[i] <- TRUE
-    }
-  }
+  res <- condense_scan(candidates, in_store, predictors, outcome, distance)
+  in_store <- res$in_store
 
   # Majority observations left outside the store are removed.
   which(!in_store)

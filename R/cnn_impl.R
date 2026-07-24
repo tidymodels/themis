@@ -66,26 +66,14 @@ cnn_impl <- function(df, var, distance = "euclidean", call = caller_env()) {
   in_store[majority_idx[sample.int(length(majority_idx), 1)]] <- TRUE
 
   repeat {
-    added <- FALSE
     # Scan order is randomized; CNN is order-dependent.
     remaining <- majority_idx[!in_store[majority_idx]]
     candidates <- remaining[sample.int(length(remaining))]
 
-    for (i in candidates) {
-      store_idx <- which(in_store)
-      nn <- nn_indices_cross(
-        predictors[i, , drop = FALSE],
-        predictors[store_idx, , drop = FALSE],
-        k = 1,
-        distance = distance
-      )
-      if (outcome[store_idx[nn[1, 1]]] != outcome[i]) {
-        in_store[i] <- TRUE
-        added <- TRUE
-      }
-    }
+    res <- condense_scan(candidates, in_store, predictors, outcome, distance)
+    in_store <- res$in_store
 
-    if (!added) {
+    if (!res$added) {
       break
     }
   }

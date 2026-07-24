@@ -12,6 +12,8 @@
 
 * `step_adasyn()` (and its direct-implementation counterpart `adasyn()`) no longer errors with a cryptic message when a minority class is well separated from the majority classes; it now falls back to uniform sampling and checks the minority class size before sampling (#240).
 
+* `step_adasyn()`, `step_cnn()`, and `step_oss()` (and their direct-implementation counterparts `adasyn()`, `cnn()`, and `oss()`) are now faster on large data. `step_adasyn()` computes the full-data nearest neighbors only for the minority observations it needs, and `step_cnn()`/`step_oss()` compute the condensation nearest neighbors for all candidates in one batch per store change instead of once per candidate. Results are unchanged (#257).
+
 * `step_bsmote()` (and its direct-implementation counterpart `bsmote()`) now selects the correct "danger" observations on the class border. The danger criterion had inverted the roles of minority and majority neighbors, causing it to oversample safe interior points instead of borderline ones (#235).
 
 * `step_bsmote()` (and its direct-implementation counterpart `bsmote()`) with `all_neighbors = TRUE` now seeds synthetic points only from minority-class danger observations and takes a reduced step toward majority-class neighbors, matching borderline-SMOTE2. Previously it could seed from border-adjacent majority rows, generating minority-labeled points around majority centers (#242).

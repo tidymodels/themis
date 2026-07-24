@@ -68,7 +68,6 @@ adasyn_impl <- function(
   out_dfs <- list()
 
   data_mat <- as.matrix(df[names(df) != var])
-  ids_full <- nn_indices(data_mat, k, distance)
 
   for (i in seq_along(min_names)) {
     min_class_in <- df[[var]] != min_names[i]
@@ -85,8 +84,13 @@ adasyn_impl <- function(
       )
     }
 
-    r_value <- rowSums(matrix((min_class_in)[ids_full], ncol = ncol(ids_full)))
-    r_value <- r_value[!min_class_in]
+    # r_value counts the majority-class neighbors among each minority point's
+    # k + 1 nearest neighbors in the full data. Query only the minority rows
+    # against the full data instead of computing neighbors for every row and
+    # discarding the majority ones; the neighbor sets (and thus r_value) are
+    # identical.
+    ids <- nn_indices_cross(minority, data_mat, k + 1, distance)
+    r_value <- rowSums(matrix((min_class_in)[ids], ncol = ncol(ids)))
     # When the minority class is well separated from the majority classes all
     # weights are 0, which `sample()` cannot use. Fall back to uniform sampling.
     if (all(r_value == 0)) {
