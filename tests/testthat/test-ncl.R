@@ -316,6 +316,17 @@ test_that("tunable", {
   expect_equal(nrow(tune_args), 1L)
 })
 
+test_that("tunable is setup to works with extract_parameter_set_dials", {
+  skip_if_not_installed("dials")
+  rec <- recipe(class ~ x + y, data = circle_example) |>
+    step_ncl(class, neighbors = hardhat::tune())
+
+  params <- extract_parameter_set_dials(rec)
+
+  expect_s3_class(params, "parameters")
+  expect_identical(nrow(params), 1L)
+})
+
 test_that("bad args", {
   expect_snapshot(
     error = TRUE,

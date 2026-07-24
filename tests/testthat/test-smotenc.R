@@ -153,7 +153,10 @@ test_that("ratio value works when oversampling", {
     prep() |>
     bake(new_data = NULL)
 
-  expect_true(all(table(res1$Alley) == max(table(ames$Alley))))
+  expect_equal(
+    as.vector(table(res1$Alley)),
+    rep(max(table(ames$Alley)), length(table(res1$Alley)))
+  )
   expect_equal(
     sort(as.numeric(table(res1.5$Alley))),
     max(table(ames$Alley)) * c(0.5, 0.5, 1)
