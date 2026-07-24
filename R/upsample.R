@@ -148,6 +148,7 @@ step_upsample <-
       step_upsample_new(
         terms = enquos(...),
         over_ratio = over_ratio,
+        ratio = NULL,
         role = role,
         trained = trained,
         column = column,
@@ -165,6 +166,7 @@ step_upsample_new <-
   function(
     terms,
     over_ratio,
+    ratio,
     role,
     trained,
     column,
@@ -179,6 +181,7 @@ step_upsample_new <-
       subclass = "upsample",
       terms = terms,
       over_ratio = over_ratio,
+      ratio = ratio,
       role = role,
       trained = trained,
       column = column,
@@ -224,6 +227,7 @@ prep.step_upsample <- function(x, training, info = NULL, ...) {
 
   step_upsample_new(
     terms = x$terms,
+    ratio = x$ratio,
     over_ratio = x$over_ratio,
     role = x$role,
     trained = TRUE,
