@@ -2,7 +2,7 @@
 % Please edit documentation in R/tomek_impl.R
 \name{tomek}
 \alias{tomek}
-\title{Remove Tomek's links}
+\title{Remove Tomek's Links}
 \usage{
 tomek(df, var, distance = "euclidean")
 }

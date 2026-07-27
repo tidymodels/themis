@@ -40,6 +40,11 @@
 #'  option `skip = TRUE` so that the extra sampling is _not_
 #'  conducted outside of the training set.
 #'
+#' # Minimum observations
+#'
+#' The data must have at least `neighbors + 1` observations for the nearest
+#' neighbors to be computed.
+#'
 #' # Tidying
 #'
 #' When you [`tidy()`][recipes::tidy.recipe()] this step, a tibble is returned with
@@ -94,8 +99,8 @@
 #'   count(class, name = "baked")
 #' baked
 #'
-#' # Note that if the original data contained more rows than the
-#' # target n (= ratio * majority_n), the data are left alone:
+#' # Note that if the original data contained fewer rows than the
+#' # target n (= ratio * minority_n), the data are left alone:
 #' orig |>
 #'   left_join(training, by = "class") |>
 #'   left_join(baked, by = "class")

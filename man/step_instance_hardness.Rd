@@ -103,6 +103,11 @@ When used in modeling, users should strongly consider using the
 option \code{skip = TRUE} so that the extra sampling is \emph{not}
 conducted outside of the training set.
 }
+\section{Minimum observations}{
+The data must have at least \code{neighbors + 1} observations for the nearest
+neighbors to be computed.
+}
+
 \section{Tidying}{
 When you \code{\link[recipes:tidy.recipe]{tidy()}} this step, a tibble is returned with
 columns \code{terms} and \code{id}:
@@ -157,8 +162,8 @@ baked <- up_rec |>
   count(class, name = "baked")
 baked
 
-# Note that if the original data contained more rows than the
-# target n (= ratio * majority_n), the data are left alone:
+# Note that if the original data contained fewer rows than the
+# target n (= ratio * minority_n), the data are left alone:
 orig |>
   left_join(training, by = "class") |>
   left_join(baked, by = "class")

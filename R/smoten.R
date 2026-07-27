@@ -1,4 +1,4 @@
-#' Apply SMOTEN algorithm
+#' Apply SMOTEN Algorithm
 #'
 #' `step_smoten()` creates a *specification* of a recipe step that generate new
 #' examples of the minority class using nearest neighbors of these cases, for
@@ -17,8 +17,7 @@
 #'  be populated (eventually) by the `...` selectors.
 #' @param neighbors An integer. Number of nearest neighbor that are used
 #'  to generate the new examples of the minority class.
-#' @param seed An integer that will be used as the seed when
-#' smote-ing.
+#' @param seed An integer that will be used as the seed when applied.
 #' @return An updated version of `recipe` with the new step
 #'  added to the sequence of existing steps (if any). For the
 #'  `tidy` method, a tibble with columns `terms` which is
@@ -41,6 +40,16 @@
 #'
 #' Each minority class must have at least `neighbors + 1` observations to
 #' perform the SMOTEN algorithm.
+#'
+#' # Value Difference Metric
+#'
+#' The Value Difference Metric (VDM) used here deviates from Chawla's stated
+#' form in two ways. The per-feature deltas are aggregated by summing them
+#' (`r = 1`) rather than by taking their Euclidean norm (`r = 2`), and when a
+#' synthetic value is chosen by majority vote of the nearest neighbors the seed
+#' observation itself is excluded from the vote. The metric is internally
+#' consistent and is a valid VDM variant, but be aware of these choices when
+#' comparing results with other implementations.
 #'
 #' # Tidying
 #'

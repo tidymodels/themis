@@ -28,7 +28,7 @@
 #'  string is given, a logical column with that name is added to the output,
 #'  marking rows added by the step (`TRUE`) vs rows from the original data
 #'  (`FALSE`).
-#' @param seed An integer that will be used as the seed when upsampling.
+#' @param seed An integer that will be used as the seed when applied.
 #' @return An updated version of `recipe` with the new step
 #'  added to the sequence of existing steps (if any). For the
 #'  `tidy` method, a tibble with columns `terms` which is

@@ -56,7 +56,11 @@ generating synthetic examples in unsafe regions. Defaults to \code{0.02}.}
 
 \item{distance}{A character string specifying the distance metric used for
 nearest neighbor calculations. One of \code{"euclidean"} (default), \code{"cosine"},
-\code{"mahalanobis"}, \code{"manhattan"}, or \code{"chebyshev"}.}
+\code{"mahalanobis"}, \code{"manhattan"}, or \code{"chebyshev"}. \code{"euclidean"},
+\code{"cosine"}, and \code{"mahalanobis"} use approximate nearest neighbors via
+the RANN package and scale well to large datasets. \code{"manhattan"} and
+\code{"chebyshev"} compute an exact O(n^2) distance matrix and may be slow for
+large datasets.}
 
 \item{indicator_column}{A single string or \code{NULL} (the default). If a
 string is given, a logical column with that name is added to the output,
@@ -69,8 +73,7 @@ operations may not be able to be conducted on new data (e.g. processing the
 outcome variable(s)). Care should be taken when using \code{skip = TRUE} as it
 may affect the computations for subsequent operations.}
 
-\item{seed}{An integer that will be used as the seed when
-applying SMOGN.}
+\item{seed}{An integer that will be used as the seed when applied.}
 
 \item{id}{A character string that is unique to this step to identify it.}
 }

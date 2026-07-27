@@ -42,6 +42,10 @@ The smallest class is treated as the minority class and is always kept.
 Because the CNN step relies on a random seed observation and a random scan
 order, results depend on the random seed.
 
+With more than two classes, the Tomek's links step removes both members of a
+majority-majority link, not only links between a majority and the minority
+class. The binary case, the primary intended use, is unaffected.
+
 All columns used in this function must be numeric with no missing data.
 }
 \examples{

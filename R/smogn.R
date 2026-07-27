@@ -22,11 +22,8 @@
 #'  to generate the new examples of the rare values.
 #' @param perturbation A number. The magnitude of the Gaussian noise added when
 #'  generating synthetic examples in unsafe regions. Defaults to `0.02`.
-#' @param distance A character string specifying the distance metric used for
-#'  nearest neighbor calculations. One of `"euclidean"` (default), `"cosine"`,
-#'  `"mahalanobis"`, `"manhattan"`, or `"chebyshev"`.
-#' @param seed An integer that will be used as the seed when
-#' applying SMOGN.
+#' @inheritParams step_smote
+#' @param seed An integer that will be used as the seed when applied.
 #' @return An updated version of `recipe` with the new step
 #'  added to the sequence of existing steps (if any). For the
 #'  `tidy` method, a tibble with columns `terms` which is

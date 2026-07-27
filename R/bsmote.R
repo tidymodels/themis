@@ -1,4 +1,4 @@
-#' Apply borderline-SMOTE Algorithm
+#' Apply Borderline-SMOTE Algorithm
 #'
 #' `step_bsmote()` creates a *specification* of a recipe step that generate new
 #' examples of the minority class using nearest neighbors of these cases in the
@@ -18,8 +18,7 @@
 #' @param all_neighbors Type of two borderline-SMOTE method. Defaults to FALSE.
 #'  See details.
 #' @inheritParams step_smote
-#' @param seed An integer that will be used as the seed when
-#' smote-ing.
+#' @param seed An integer that will be used as the seed when applied.
 #' @return An updated version of `recipe` with the new step
 #'  added to the sequence of existing steps (if any). For the
 #'  `tidy` method, a tibble with columns `terms` which is
