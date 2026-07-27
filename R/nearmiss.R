@@ -99,8 +99,8 @@
 #'   count(class, name = "baked")
 #' baked
 #'
-#' # Note that if the original data contained more rows than the
-#' # target n (= ratio * majority_n), the data are left alone:
+#' # Note that if the original data contained fewer rows than the
+#' # target n (= ratio * minority_n), the data are left alone:
 #' orig |>
 #'   left_join(training, by = "class") |>
 #'   left_join(baked, by = "class")
