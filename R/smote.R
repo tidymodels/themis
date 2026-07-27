@@ -67,6 +67,11 @@
 #'  Journal of Artificial Intelligence Research, 16:321-357.
 #'
 #' @seealso [smote()] for direct implementation
+#'
+#'  [step_enn()] and [step_tomek()], which are commonly composed after
+#'  `step_smote()` to clean the ambiguous points that over-sampling creates
+#'  near the class boundary (the equivalent of imbalanced-learn's `SMOTEENN`
+#'  and `SMOTETomek`).
 #' @family Steps for over-sampling
 #'
 #' @export

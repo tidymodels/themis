@@ -206,6 +206,10 @@ Transactions on Systems, Man, and Cybernetics, (6), 448-452.
 \seealso{
 \code{\link[=enn]{enn()}} for direct implementation
 
+\code{\link[=step_smote]{step_smote()}}, which is commonly composed before \code{step_enn()} to clean the
+ambiguous points that over-sampling creates near the class boundary (the
+equivalent of imbalanced-learn's \code{SMOTEENN}).
+
 Other Steps for under-sampling:
 \code{\link[=step_cnn]{step_cnn()}},
 \code{\link[=step_downsample]{step_downsample()}},

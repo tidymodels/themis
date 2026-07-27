@@ -164,6 +164,10 @@ Tomek. Two modifications of cnn. IEEE Trans. Syst. Man Cybern.,
 \seealso{
 \code{\link[=tomek]{tomek()}} for direct implementation
 
+\code{\link[=step_smote]{step_smote()}}, which is commonly composed before \code{step_tomek()} to clean
+the ambiguous points that over-sampling creates near the class boundary
+(the equivalent of imbalanced-learn's \code{SMOTETomek}).
+
 Other Steps for under-sampling:
 \code{\link[=step_cnn]{step_cnn()}},
 \code{\link[=step_downsample]{step_downsample()}},
