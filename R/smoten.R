@@ -42,6 +42,16 @@
 #' Each minority class must have at least `neighbors + 1` observations to
 #' perform the SMOTEN algorithm.
 #'
+#' # Value Difference Metric
+#'
+#' The Value Difference Metric (VDM) used here deviates from Chawla's stated
+#' form in two ways. The per-feature deltas are aggregated by summing them
+#' (`r = 1`) rather than by taking their Euclidean norm (`r = 2`), and when a
+#' synthetic value is chosen by majority vote of the nearest neighbors the seed
+#' observation itself is excluded from the vote. The metric is internally
+#' consistent and is a valid VDM variant, but be aware of these choices when
+#' comparing results with other implementations.
+#'
 #' # Tidying
 #'
 #' When you [`tidy()`][recipes::tidy.recipe()] this step, a tibble is returned with

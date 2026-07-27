@@ -102,6 +102,16 @@ Each minority class must have at least \code{neighbors + 1} observations to
 perform the SMOTEN algorithm.
 }
 
+\section{Value Difference Metric}{
+The Value Difference Metric (VDM) used here deviates from Chawla's stated
+form in two ways. The per-feature deltas are aggregated by summing them
+(\code{r = 1}) rather than by taking their Euclidean norm (\code{r = 2}), and when a
+synthetic value is chosen by majority vote of the nearest neighbors the seed
+observation itself is excluded from the vote. The metric is internally
+consistent and is a valid VDM variant, but be aware of these choices when
+comparing results with other implementations.
+}
+
 \section{Tidying}{
 When you \code{\link[recipes:tidy.recipe]{tidy()}} this step, a tibble is returned with
 columns \code{terms} and \code{id}:
@@ -110,14 +120,11 @@ columns \code{terms} and \code{id}:
 \item{terms}{character, the selectors or variables selected}
 \item{id}{character, id of this step}
 }
-}
 
-\section{Tuning Parameters}{
-This step has 2 tuning parameters:
-\itemize{
-\item \code{over_ratio}: Over-Sampling Ratio (type: double, default: 1)
-\item \code{neighbors}: # Nearest Neighbors (type: integer, default: 5)
-}
+\if{html}{\out{<div class="sourceCode {r, echo = FALSE, results="asis"}">}}\preformatted{step <- "step_smoten"
+result <- knitr::knit_child("man/rmd/tunable-args.Rmd")
+cat(result)
+}\if{html}{\out{</div>}}
 }
 
 \section{Case weights}{
