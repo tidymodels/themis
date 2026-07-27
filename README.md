@@ -22,6 +22,12 @@ dealing with unbalanced data. The name **themis** is that of the
 god](https://thishollowearth.wordpress.com/2012/07/02/god-of-the-week-themis/)
 who is typically depicted with a balance.
 
+themis handles imbalance in both classification and regression problems:
+alongside the many classification samplers, `step_smogn()` resamples an
+imbalanced numeric outcome. Its nearest-neighbor-based steps are also
+not limited to Euclidean distance, the `distance` argument supports
+euclidean, cosine, mahalanobis, manhattan, and chebyshev metrics.
+
 ## Installation
 
 You can install the released version of themis from
