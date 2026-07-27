@@ -3,7 +3,7 @@
 \name{step_tomek}
 \alias{step_tomek}
 \alias{tidy.step_tomek}
-\title{Remove Tomek’s Links}
+\title{Remove Tomek's Links}
 \usage{
 step_tomek(
   recipe,

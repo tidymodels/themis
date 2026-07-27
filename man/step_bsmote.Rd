@@ -3,7 +3,7 @@
 \name{step_bsmote}
 \alias{step_bsmote}
 \alias{tidy.step_bsmote}
-\title{Apply borderline-SMOTE Algorithm}
+\title{Apply Borderline-SMOTE Algorithm}
 \usage{
 step_bsmote(
   recipe,
@@ -72,8 +72,7 @@ operations may not be able to be conducted on new data (e.g. processing the
 outcome variable(s)). Care should be taken when using \code{skip = TRUE} as it
 may affect the computations for subsequent operations.}
 
-\item{seed}{An integer that will be used as the seed when
-smote-ing.}
+\item{seed}{An integer that will be used as the seed when applied.}
 
 \item{id}{A character string that is unique to this step to identify it.}
 }

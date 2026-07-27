@@ -21,8 +21,7 @@
 #'  the RANN package and scale well to large datasets. `"manhattan"` and
 #'  `"chebyshev"` compute an exact O(n^2) distance matrix and may be slow for
 #'  large datasets.
-#' @param seed An integer that will be used as the seed when
-#' smote-ing.
+#' @param seed An integer that will be used as the seed when applied.
 #' @return An updated version of `recipe` with the new step
 #'  added to the sequence of existing steps (if any). For the
 #'  `tidy` method, a tibble with columns `terms` which is

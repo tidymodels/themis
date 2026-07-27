@@ -24,7 +24,7 @@
 #' @param ratio Deprecated argument; same as `under_ratio`
 #' @param target An integer that will be used to subsample. This
 #'  should not be set by the user and will be populated by `prep`.
-#' @param seed An integer that will be used as the seed when downsampling.
+#' @param seed An integer that will be used as the seed when applied.
 #' @return An updated version of `recipe` with the new step
 #'  added to the sequence of existing steps (if any). For the
 #'  `tidy` method, a tibble with columns `terms` which is

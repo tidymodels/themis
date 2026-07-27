@@ -46,6 +46,11 @@
 #'  option `skip = TRUE` so that the extra sampling is _not_
 #'  conducted outside of the training set.
 #'
+#' # Minimum observations
+#'
+#' The data must have at least `neighbors + 1` observations for the nearest
+#' neighbors to be computed.
+#'
 #' # Tidying
 #'
 #' When you [`tidy()`][recipes::tidy.recipe()] this step, a tibble is returned with

@@ -28,8 +28,7 @@
 #'  string is given, a logical column with that name is added to the output.
 #'  Because ROSE generates a fully synthetic dataset, all rows are marked
 #'  `TRUE`.
-#' @param seed An integer that will be used as the seed when
-#' rose-ing.
+#' @param seed An integer that will be used as the seed when applied.
 #' @return An updated version of `recipe` with the new step
 #'  added to the sequence of existing steps (if any). For the
 #'  `tidy` method, a tibble with columns `terms` which is

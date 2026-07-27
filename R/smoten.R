@@ -1,4 +1,4 @@
-#' Apply SMOTEN algorithm
+#' Apply SMOTEN Algorithm
 #'
 #' `step_smoten()` creates a *specification* of a recipe step that generate new
 #' examples of the minority class using nearest neighbors of these cases, for
@@ -17,8 +17,7 @@
 #'  be populated (eventually) by the `...` selectors.
 #' @param neighbors An integer. Number of nearest neighbor that are used
 #'  to generate the new examples of the minority class.
-#' @param seed An integer that will be used as the seed when
-#' smote-ing.
+#' @param seed An integer that will be used as the seed when applied.
 #' @return An updated version of `recipe` with the new step
 #'  added to the sequence of existing steps (if any). For the
 #'  `tidy` method, a tibble with columns `terms` which is
