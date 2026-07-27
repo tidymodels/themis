@@ -224,6 +224,9 @@ Transactions on Systems, Man, and Cybernetics, (6), 448-452.</p>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
     <div class="dont-index"><p><code><a href="enn.html">enn()</a></code> for direct implementation</p>
+<p><code><a href="step_smote.html">step_smote()</a></code>, which is commonly composed before <code>step_enn()</code> to clean the
+ambiguous points that over-sampling creates near the class boundary (the
+equivalent of imbalanced-learn's <code>SMOTEENN</code>).</p>
 <p>Other Steps for under-sampling:
 <code><a href="step_cnn.html">step_cnn()</a></code>,
 <code><a href="step_downsample.html">step_downsample()</a></code>,

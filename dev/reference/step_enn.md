@@ -192,6 +192,11 @@ IEEE Transactions on Systems, Man, and Cybernetics, (6), 448-452.
 [`enn()`](https://themis.tidymodels.org/dev/reference/enn.md) for direct
 implementation
 
+[`step_smote()`](https://themis.tidymodels.org/dev/reference/step_smote.md),
+which is commonly composed before `step_enn()` to clean the ambiguous
+points that over-sampling creates near the class boundary (the
+equivalent of imbalanced-learn's `SMOTEENN`).
+
 Other Steps for under-sampling:
 [`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md),
 [`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md),

@@ -229,49 +229,78 @@ By contributing to this project, you agree to abide by its terms.
 ## Over-sampling
 
 **Over-sampling** is the act of synthetically generating observations
-for the minority classes. This is done either by random sampling or
-using more advanced methods.
+for the minority classes, either by random replication or by more
+advanced methods that synthesize new observations.
+
+### Random replication
 
 - [`step_upsample()`](https://themis.tidymodels.org/dev/reference/step_upsample.md)
   : Up-Sample a Data Set Based on a Factor Variable
+
+### SMOTE family
+
 - [`step_smote()`](https://themis.tidymodels.org/dev/reference/step_smote.md)
   : Apply SMOTE Algorithm
-- [`step_smogn()`](https://themis.tidymodels.org/dev/reference/step_smogn.md)
-  : Apply SMOGN Algorithm
-- [`step_smotenc()`](https://themis.tidymodels.org/dev/reference/step_smotenc.md)
-  : Apply SMOTENC Algorithm
-- [`step_smoten()`](https://themis.tidymodels.org/dev/reference/step_smoten.md)
-  : Apply SMOTEN Algorithm
 - [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md)
   : Apply Borderline-SMOTE Algorithm
 - [`step_svmsmote()`](https://themis.tidymodels.org/dev/reference/step_svmsmote.md)
   : Apply SVM-SMOTE Algorithm
+- [`step_smotenc()`](https://themis.tidymodels.org/dev/reference/step_smotenc.md)
+  : Apply SMOTENC Algorithm
+- [`step_smoten()`](https://themis.tidymodels.org/dev/reference/step_smoten.md)
+  : Apply SMOTEN Algorithm
+
+### Adaptive
+
 - [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md)
   : Apply Adaptive Synthetic Algorithm
+
+### Smoothed bootstrap
+
 - [`step_rose()`](https://themis.tidymodels.org/dev/reference/step_rose.md)
   : Apply ROSE Algorithm
 
 ## Under-sampling
 
 **Under-sampling** is the act of removing observations from the majority
-classes.
+classes. Every under-sampler here uses *prototype selection*, keeping a
+subset of the real rows, rather than *prototype generation*, which would
+create new representative rows.
 
-- [`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md)
-  : Condensed Nearest Neighbors
+### Random
+
 - [`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md)
   : Down-Sample a Data Set Based on a Factor Variable
-- [`step_enn()`](https://themis.tidymodels.org/dev/reference/step_enn.md)
-  : Edited Nearest Neighbors
-- [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md)
-  : Remove hard to classify points
-- [`step_ncl()`](https://themis.tidymodels.org/dev/reference/step_ncl.md)
-  : Neighborhood Cleaning Rule
+
+### Distance / near-boundary
+
 - [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md)
   : Remove Points Near Other Classes
-- [`step_oss()`](https://themis.tidymodels.org/dev/reference/step_oss.md)
-  : One-Sided Selection
 - [`step_tomek()`](https://themis.tidymodels.org/dev/reference/step_tomek.md)
   : Remove Tomek's Links
+- [`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md)
+  : Condensed Nearest Neighbors
+- [`step_oss()`](https://themis.tidymodels.org/dev/reference/step_oss.md)
+  : One-Sided Selection
+
+### Neighborhood cleaning
+
+- [`step_enn()`](https://themis.tidymodels.org/dev/reference/step_enn.md)
+  : Edited Nearest Neighbors
+- [`step_ncl()`](https://themis.tidymodels.org/dev/reference/step_ncl.md)
+  : Neighborhood Cleaning Rule
+
+### Hardness
+
+- [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md)
+  : Remove hard to classify points
+
+## Regression
+
+Resampling an imbalanced numeric outcome rather than a class.
+
+- [`step_smogn()`](https://themis.tidymodels.org/dev/reference/step_smogn.md)
+  : Apply SMOGN Algorithm
 
 ## Methods
 

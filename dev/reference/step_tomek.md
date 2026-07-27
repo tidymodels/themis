@@ -144,6 +144,11 @@ Tomek. Two modifications of cnn. IEEE Trans. Syst. Man Cybern.,
 [`tomek()`](https://themis.tidymodels.org/dev/reference/tomek.md) for
 direct implementation
 
+[`step_smote()`](https://themis.tidymodels.org/dev/reference/step_smote.md),
+which is commonly composed before `step_tomek()` to clean the ambiguous
+points that over-sampling creates near the class boundary (the
+equivalent of imbalanced-learn's `SMOTETomek`).
+
 Other Steps for under-sampling:
 [`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md),
 [`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md),

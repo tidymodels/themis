@@ -172,6 +172,13 @@ Intelligence Research, 16:321-357.
 [`smote()`](https://themis.tidymodels.org/dev/reference/smote.md) for
 direct implementation
 
+[`step_enn()`](https://themis.tidymodels.org/dev/reference/step_enn.md)
+and
+[`step_tomek()`](https://themis.tidymodels.org/dev/reference/step_tomek.md),
+which are commonly composed after `step_smote()` to clean the ambiguous
+points that over-sampling creates near the class boundary (the
+equivalent of imbalanced-learn's `SMOTEENN` and `SMOTETomek`).
+
 Other Steps for over-sampling:
 [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
 [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md),
