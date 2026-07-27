@@ -22,6 +22,7 @@ articles:
   navbar: ~
   contents:
   - articles/ratio
+  - articles/common-pitfalls
 
 reference:
 - title: Over-sampling
