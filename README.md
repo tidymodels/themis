@@ -112,8 +112,8 @@ is the ratio of the minority-to-majority frequencies.
 | Synthetic Minority Over-sampling Technique | `step_smote()` | :heavy_check_mark: |
 | SMOTE for datasets with continuous and nominal features | `step_smotenc()` | :heavy_check_mark: |
 | SMOTE for nominal features only | `step_smoten()` | :heavy_check_mark: |
-| Borderline SMOTE-1 | `step_bsmote(method = 1)` | :heavy_check_mark: |
-| Borderline SMOTE-2 | `step_bsmote(method = 2)` | :heavy_check_mark: |
+| Borderline SMOTE-1 | `step_bsmote(all_neighbors = FALSE)` | :heavy_check_mark: |
+| Borderline SMOTE-2 | `step_bsmote(all_neighbors = TRUE)` | :heavy_check_mark: |
 | Support-vector SMOTE | `step_svmsmote()` | :heavy_check_mark: |
 | Adaptive synthetic sampling approach for imbalanced learning | `step_adasyn()` | :heavy_check_mark: |
 | Generation of synthetic data by Randomly Over Sampling Examples | `step_rose()` |  |
