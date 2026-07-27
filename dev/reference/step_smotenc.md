@@ -1,4 +1,4 @@
-# Apply SMOTENC algorithm
+# Apply SMOTENC Algorithm
 
 `step_smotenc()` creates a *specification* of a recipe step that
 generate new examples of the minority class using nearest neighbors of
@@ -86,7 +86,7 @@ step_smotenc(
 
 - seed:
 
-  An integer that will be used as the seed when smote-ing.
+  An integer that will be used as the seed when applied.
 
 - id:
 

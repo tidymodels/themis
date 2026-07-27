@@ -150,6 +150,9 @@ class observations, cleaning the decision boundary.</p>
 <p>The smallest class is treated as the minority class and is always kept.
 Because the CNN step relies on a random seed observation and a random scan
 order, results depend on the random seed.</p>
+<p>With more than two classes, the Tomek's links step removes both members of a
+majority-majority link, not only links between a majority and the minority
+class. The binary case, the primary intended use, is unaffected.</p>
 <p>All variables selected by <code>distance_with</code> must be numeric with no missing
 data.</p>
 <p>All columns in the data are sampled and returned by <code><a href="https://recipes.tidymodels.org/reference/juice.html" class="external-link">recipes::juice()</a></code>

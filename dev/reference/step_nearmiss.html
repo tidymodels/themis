@@ -160,6 +160,10 @@ the variable used to sample.</p>
     <p>This implements the NearMiss-1 algorithm. It retains the points from the
 majority class which have the smallest mean distance to the nearest points
 in the minority class.</p>
+<p>With more than two classes, the mean distance is computed to the nearest
+points across all other classes, not only the minority class. This differs
+from imbalanced-learn, which measures distance to the minority class only.
+The binary case, the primary intended use, is unaffected.</p>
 <p>All columns in the data are sampled and returned by <code><a href="https://recipes.tidymodels.org/reference/juice.html" class="external-link">recipes::juice()</a></code>
 and <code><a href="https://recipes.tidymodels.org/reference/bake.html" class="external-link">recipes::bake()</a></code>.</p>
 <p>All columns selected by <code>distance_with</code> must be numeric with no missing
@@ -267,8 +271,8 @@ of workshop on learning from imbalanced datasets, 2003.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> M       514</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> L       259</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># Note that if the original data contained more rows than the</span></span></span>
-<span class="r-in"><span><span class="co"># target n (= ratio * majority_n), the data are left alone:</span></span></span>
+<span class="r-in"><span><span class="co"># Note that if the original data contained fewer rows than the</span></span></span>
+<span class="r-in"><span><span class="co"># target n (= ratio * minority_n), the data are left alone:</span></span></span>
 <span class="r-in"><span><span class="va">orig</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">training</span>, by <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html" class="external-link">left_join</a></span><span class="op">(</span><span class="va">baked</span>, by <span class="op">=</span> <span class="st">"class"</span><span class="op">)</span></span></span>

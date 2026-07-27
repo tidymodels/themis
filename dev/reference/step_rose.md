@@ -102,7 +102,7 @@ step_rose(
 
 - seed:
 
-  An integer that will be used as the seed when rose-ing.
+  An integer that will be used as the seed when applied.
 
 - id:
 

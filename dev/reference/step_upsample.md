@@ -90,7 +90,7 @@ step_upsample(
 
 - seed:
 
-  An integer that will be used as the seed when upsampling.
+  An integer that will be used as the seed when applied.
 
 - id:
 

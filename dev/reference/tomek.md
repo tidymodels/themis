@@ -1,4 +1,4 @@
-# Remove Tomek's links
+# Remove Tomek's Links
 
 Removes the majority class member of each pair of observations that form
 a Tomek link.

@@ -95,7 +95,7 @@ step_svmsmote(
 
 - seed:
 
-  An integer that will be used as the seed when smote-ing.
+  An integer that will be used as the seed when applied.
 
 - id:
 

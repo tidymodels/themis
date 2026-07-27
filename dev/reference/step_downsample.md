@@ -82,7 +82,7 @@ step_downsample(
 
 - seed:
 
-  An integer that will be used as the seed when downsampling.
+  An integer that will be used as the seed when applied.
 
 - id:
 

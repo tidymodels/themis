@@ -1,4 +1,4 @@
-# Remove Tomek’s Links
+# Remove Tomek's Links
 
 `step_tomek()` creates a *specification* of a recipe step that removes
 majority class instances of tomek links.

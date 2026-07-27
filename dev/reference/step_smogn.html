@@ -122,7 +122,11 @@ generating synthetic examples in unsafe regions. Defaults to <code>0.02</code>.<
 <dt id="arg-distance">distance<a class="anchor" aria-label="anchor" href="#arg-distance"></a></dt>
 <dd><p>A character string specifying the distance metric used for
 nearest neighbor calculations. One of <code>"euclidean"</code> (default), <code>"cosine"</code>,
-<code>"mahalanobis"</code>, <code>"manhattan"</code>, or <code>"chebyshev"</code>.</p></dd>
+<code>"mahalanobis"</code>, <code>"manhattan"</code>, or <code>"chebyshev"</code>. <code>"euclidean"</code>,
+<code>"cosine"</code>, and <code>"mahalanobis"</code> use approximate nearest neighbors via
+the RANN package and scale well to large datasets. <code>"manhattan"</code> and
+<code>"chebyshev"</code> compute an exact O(n^2) distance matrix and may be slow for
+large datasets.</p></dd>
 
 
 <dt id="arg-indicator-column">indicator_column<a class="anchor" aria-label="anchor" href="#arg-indicator-column"></a></dt>
@@ -141,8 +145,7 @@ may affect the computations for subsequent operations.</p></dd>
 
 
 <dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
-<dd><p>An integer that will be used as the seed when
-applying SMOGN.</p></dd>
+<dd><p>An integer that will be used as the seed when applied.</p></dd>
 
 
 <dt id="arg-id">id<a class="anchor" aria-label="anchor" href="#arg-id"></a></dt>
