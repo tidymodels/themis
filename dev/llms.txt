@@ -7,6 +7,14 @@ dealing with unbalanced data. The name **themis** is that of the
 god](https://thishollowearth.wordpress.com/2012/07/02/god-of-the-week-themis/)
 who is typically depicted with a balance.
 
+themis handles imbalance in both classification and regression problems:
+alongside the many classification samplers,
+[`step_smogn()`](https://themis.tidymodels.org/dev/reference/step_smogn.md)
+resamples an imbalanced numeric outcome. Its nearest-neighbor-based
+steps are also not limited to Euclidean distance, the `distance`
+argument supports euclidean, cosine, mahalanobis, manhattan, and
+chebyshev metrics.
+
 ## Installation
 
 You can install the released version of themis from
@@ -27,7 +35,7 @@ pak::pak("tidymodels/themis")
 
 ## Example
 
-Following is a example of using the
+Following is an example of using the
 [SMOTE](https://jair.org/index.php/jair/article/view/10302/24590)
 algorithm to deal with unbalanced data
 
@@ -68,7 +76,7 @@ ds_rec |>
 
 ## Methods
 
-Below is some unbalanced data. Used for examples latter.
+Below is some unbalanced data. Used for examples later.
 
 ``` r
 
@@ -95,10 +103,18 @@ is the ratio of the minority-to-majority frequencies.
 |----|----|----|
 | Random minority over-sampling with replacement | [`step_upsample()`](https://themis.tidymodels.org/dev/reference/step_upsample.md) | ✔️ |
 | Synthetic Minority Over-sampling Technique | [`step_smote()`](https://themis.tidymodels.org/dev/reference/step_smote.md) | ✔️ |
-| Borderline SMOTE-1 | `step_bsmote(method = 1)` | ✔️ |
-| Borderline SMOTE-2 | `step_bsmote(method = 2)` | ✔️ |
+| SMOTE for datasets with continuous and nominal features | [`step_smotenc()`](https://themis.tidymodels.org/dev/reference/step_smotenc.md) | ✔️ |
+| SMOTE for nominal features only | [`step_smoten()`](https://themis.tidymodels.org/dev/reference/step_smoten.md) | ✔️ |
+| Borderline SMOTE-1 | `step_bsmote(all_neighbors = FALSE)` | ✔️ |
+| Borderline SMOTE-2 | `step_bsmote(all_neighbors = TRUE)` | ✔️ |
+| Support-vector SMOTE | [`step_svmsmote()`](https://themis.tidymodels.org/dev/reference/step_svmsmote.md) | ✔️ |
 | Adaptive synthetic sampling approach for imbalanced learning | [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md) | ✔️ |
 | Generation of synthetic data by Randomly Over Sampling Examples | [`step_rose()`](https://themis.tidymodels.org/dev/reference/step_rose.md) |  |
+
+[`step_smogn()`](https://themis.tidymodels.org/dev/reference/step_smogn.md)
+also over-samples, but for imbalanced regression rather than
+classification: it resamples a numeric outcome instead of a class, so it
+does not use `over_ratio` and is not shown in the table above.
 
 By setting `over_ratio = 1` you bring the number of samples of all
 minority classes equal to 100% of the majority class.
@@ -118,7 +134,7 @@ class a, b, c, d, and e all have a height of
 50.](reference/figures/README-unnamed-chunk-3-1.png)
 
 and by setting `over_ratio = 0.5` we upsample any minority class with
-less samples then 50% of the majority up to have 50% of the majority.
+fewer samples than 50% of the majority up to have 50% of the majority.
 
 ``` r
 
@@ -136,7 +152,7 @@ Class a has height 25, b has 25, c has 30, d has 40, and e has
 
 ### Downsample / Under-sampling
 
-Most of the the following methods all share the tuning parameter
+Most of the following methods all share the tuning parameter
 `under_ratio`, which is the ratio of the majority-to-minority
 frequencies.
 
@@ -144,6 +160,11 @@ frequencies.
 |----|----|----|----|
 | Random majority under-sampling with replacement | [`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md) | ✔️ | ✔️ |
 | NearMiss-1 | [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md) | ✔️ | ✔️ |
+| Instance hardness threshold | [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md) | ✔️ | ✔️ |
+| Condensed nearest neighbors | [`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md) | ✔️ |  |
+| Edited nearest neighbors | [`step_enn()`](https://themis.tidymodels.org/dev/reference/step_enn.md) | ✔️ |  |
+| Neighborhood cleaning rule | [`step_ncl()`](https://themis.tidymodels.org/dev/reference/step_ncl.md) | ✔️ |  |
+| One-sided selection | [`step_oss()`](https://themis.tidymodels.org/dev/reference/step_oss.md) | ✔️ |  |
 | Extraction of majority-minority Tomek links | [`step_tomek()`](https://themis.tidymodels.org/dev/reference/step_tomek.md) |  |  |
 
 By setting `under_ratio = 1` you bring the number of samples of all
@@ -164,8 +185,8 @@ Class a, b, c, d, and e all have a height of
 10.](reference/figures/README-unnamed-chunk-5-1.png)
 
 and by setting `under_ratio = 2` we downsample any majority class with
-more then 200% samples of the minority class down to have to 200%
-samples of the minority.
+more than 200% samples of the minority class down to have 200% samples
+of the minority.
 
 ``` r
 
