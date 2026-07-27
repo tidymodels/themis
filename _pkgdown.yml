@@ -27,31 +27,51 @@ reference:
 - title: Over-sampling
   desc: >
     **Over-sampling** is the act of synthetically generating observations for
-    the minority classes. This is done either by random sampling or using
-    more advanced methods.
+    the minority classes, either by random replication or by more advanced
+    methods that synthesize new observations.
+- subtitle: Random replication
   contents:
   - step_upsample
+- subtitle: SMOTE family
+  contents:
   - step_smote
-  - step_smogn
-  - step_smotenc
-  - step_smoten
   - step_bsmote
   - step_svmsmote
+  - step_smotenc
+  - step_smoten
+- subtitle: Adaptive
+  contents:
   - step_adasyn
+- subtitle: Smoothed bootstrap
+  contents:
   - step_rose
 - title: Under-sampling
   desc: >
     **Under-sampling** is the act of removing observations from the majority
-    classes.
+    classes. Every under-sampler here uses *prototype selection*, keeping a
+    subset of the real rows, rather than *prototype generation*, which would
+    create new representative rows.
+- subtitle: Random
   contents:
-  - step_cnn
   - step_downsample
-  - step_enn
-  - step_instance_hardness
-  - step_ncl
+- subtitle: Distance / near-boundary
+  contents:
   - step_nearmiss
-  - step_oss
   - step_tomek
+  - step_cnn
+  - step_oss
+- subtitle: Neighborhood cleaning
+  contents:
+  - step_enn
+  - step_ncl
+- subtitle: Hardness
+  contents:
+  - step_instance_hardness
+- title: Regression
+  desc: >
+    Resampling an imbalanced numeric outcome rather than a class.
+  contents:
+  - step_smogn
 - title: Methods
   desc: >
     Some of the methods implemented in this package as steps are also

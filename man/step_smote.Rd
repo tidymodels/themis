@@ -187,6 +187,11 @@ Journal of Artificial Intelligence Research, 16:321-357.
 \seealso{
 \code{\link[=smote]{smote()}} for direct implementation
 
+\code{\link[=step_enn]{step_enn()}} and \code{\link[=step_tomek]{step_tomek()}}, which are commonly composed after
+\code{step_smote()} to clean the ambiguous points that over-sampling creates
+near the class boundary (the equivalent of imbalanced-learn's \code{SMOTEENN}
+and \code{SMOTETomek}).
+
 Other Steps for over-sampling:
 \code{\link[=step_adasyn]{step_adasyn()}},
 \code{\link[=step_bsmote]{step_bsmote()}},

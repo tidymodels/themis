@@ -50,6 +50,10 @@
 #'  6:769-772, 1976.
 #'
 #' @seealso [tomek()] for direct implementation
+#'
+#'  [step_smote()], which is commonly composed before `step_tomek()` to clean
+#'  the ambiguous points that over-sampling creates near the class boundary
+#'  (the equivalent of imbalanced-learn's `SMOTETomek`).
 #' @family Steps for under-sampling
 #'
 #' @export
