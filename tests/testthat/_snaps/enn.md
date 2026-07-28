@@ -96,7 +96,7 @@
       distance = "L2")), new_data = NULL)
     Condition
       Error in `step_enn()`:
-      ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", or "chebyshev", not "L2".
+      ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", "chebyshev", "squared_chord", "matusita", "hellinger", or "bhattacharyya", not "L2".
 
 # bad args
 
