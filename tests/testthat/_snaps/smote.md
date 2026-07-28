@@ -5,7 +5,7 @@
       distance = "L2")), new_data = NULL)
     Condition
       Error in `step_smote()`:
-      ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", "chebyshev", "squared_chord", "matusita", "hellinger", or "bhattacharyya", not "L2".
+      ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", "chebyshev", "squared_chord", "matusita", "hellinger", "bhattacharyya", "canberra", "soergel", "lorentzian", "jeffreys", "topsoe", "jensen-shannon", "jensen_difference", "taneja", or "kumar-johnson", not "L2".
 
 # errors if there isn't enough data
 

@@ -4,7 +4,7 @@
       bsmote(circle_example_num, var = "class", distance = "minkowski")
     Condition
       Error in `bsmote()`:
-      ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", "chebyshev", "squared_chord", "matusita", "hellinger", or "bhattacharyya", not "minkowski".
+      ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", "chebyshev", "squared_chord", "matusita", "hellinger", "bhattacharyya", "canberra", "soergel", "lorentzian", "jeffreys", "topsoe", "jensen-shannon", "jensen_difference", "taneja", or "kumar-johnson", not "minkowski".
 
 # bsmote() interfaces correctly
 
