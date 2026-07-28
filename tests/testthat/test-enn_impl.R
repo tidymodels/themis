@@ -30,6 +30,21 @@ test_that("all_k removes at least as much as a single pass", {
   expect_all_true(single %in% allk)
 })
 
+test_that("kind_sel = 'all' removes borderline points that 'mode' keeps", {
+  df <- data.frame(
+    x = c(0, 0.1, 0.2, 0.3, 0.4, 10, 10.1, 10.2),
+    y = rep(0, 8),
+    class = factor(c("a", "a", "a", "a", "b", "b", "b", "b"))
+  )
+  # Point 4 (x = 0.3, class a) has one "b" among its 3 neighbors, so it
+  # survives the mode rule but not the all rule.
+  expect_identical(enn_impl(df, var = "class", neighbors = 3), 5L)
+  expect_identical(
+    enn_impl(df, var = "class", neighbors = 3, kind_sel = "all"),
+    c(4L, 5L)
+  )
+})
+
 test_that("enn_impl() errors when too few observations for neighbors", {
   df <- data.frame(
     x = c(0, 1, 2),

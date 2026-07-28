@@ -26,6 +26,10 @@
 #'  of neighbors, from `1` up to `neighbors`, cleaning the data at each step
 #'  (All k-Nearest Neighbors). Takes precedence over `times`. Defaults to
 #'  `FALSE`.
+#' @param kind_sel A character string. The rule used to decide whether an
+#'  observation is removed. `"mode"` (the default) removes an observation when
+#'  the majority of its neighbors disagree with its class. `"all"` is stricter
+#'  and removes an observation unless all of its neighbors share its class.
 #' @param seed An integer that will be used as the seed when
 #' applied.
 #' @return An updated version of `recipe` with the new step
@@ -142,6 +146,7 @@ step_enn <-
     distance = "euclidean",
     times = 1,
     all_k = FALSE,
+    kind_sel = "mode",
     skip = TRUE,
     seed = sample.int(10^5, 1),
     distance_with = recipes::all_predictors(),
@@ -149,6 +154,7 @@ step_enn <-
   ) {
     check_number_whole(seed)
     check_distance_arg(distance)
+    kind_sel <- rlang::arg_match(kind_sel, c("mode", "all"))
 
     add_step(
       recipe,
@@ -161,6 +167,7 @@ step_enn <-
         distance = distance,
         times = times,
         all_k = all_k,
+        kind_sel = kind_sel,
         predictors = NULL,
         skip = skip,
         seed = seed,
@@ -180,6 +187,7 @@ step_enn_new <-
     distance,
     times,
     all_k,
+    kind_sel,
     predictors,
     skip,
     seed,
@@ -196,6 +204,7 @@ step_enn_new <-
       distance = distance,
       times = times,
       all_k = all_k,
+      kind_sel = kind_sel,
       predictors = predictors,
       skip = skip,
       seed = seed,
@@ -238,6 +247,7 @@ prep.step_enn <- function(x, training, info = NULL, ...) {
     distance = x$distance,
     times = x$times,
     all_k = x$all_k,
+    kind_sel = x$kind_sel,
     predictors = predictors,
     skip = x$skip,
     seed = x$seed,
@@ -272,7 +282,8 @@ bake.step_enn <- function(object, new_data, ...) {
         neighbors = object$neighbors,
         distance = object$distance,
         times = object$times,
-        all_k = object$all_k
+        all_k = object$all_k,
+        kind_sel = object$kind_sel
       )
     }
   )

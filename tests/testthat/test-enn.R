@@ -84,6 +84,50 @@ test_that("all_k argument accepted by step_enn()", {
   )
 })
 
+test_that("kind_sel = 'all' removes at least as much as 'mode'", {
+  circle_numeric <- circle_example[, c("x", "y", "class")]
+
+  n_mode <- nrow(enn(circle_numeric, var = "class", kind_sel = "mode"))
+  n_all <- nrow(enn(circle_numeric, var = "class", kind_sel = "all"))
+
+  expect_lt(n_all, n_mode)
+})
+
+test_that("kind_sel = 'all' removes a superset of what 'mode' removes", {
+  circle_numeric <- circle_example[, c("x", "y", "class")]
+
+  mode_removed <- enn_impl(circle_numeric, var = "class", kind_sel = "mode")
+  all_removed <- enn_impl(circle_numeric, var = "class", kind_sel = "all")
+
+  expect_all_true(mode_removed %in% all_removed)
+})
+
+test_that("kind_sel argument accepted by step_enn()", {
+  baked <- recipe(class ~ x + y, data = circle_example) |>
+    step_enn(class, kind_sel = "all") |>
+    prep() |>
+    bake(new_data = NULL)
+
+  expect_identical(
+    baked,
+    tibble::as_tibble(
+      enn(circle_example[, c("x", "y", "class")], "class", kind_sel = "all")
+    )[, c("x", "y", "class")]
+  )
+})
+
+test_that("kind_sel is validated", {
+  expect_snapshot(
+    error = TRUE,
+    enn(circle_example[, c("x", "y", "class")], "class", kind_sel = "most")
+  )
+  expect_snapshot(
+    error = TRUE,
+    recipe(class ~ x + y, data = circle_example) |>
+      step_enn(class, kind_sel = "most")
+  )
+})
+
 test_that("warns when both times and all_k are set", {
   expect_snapshot(
     tmp <- enn(
