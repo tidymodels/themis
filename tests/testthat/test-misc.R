@@ -4,6 +4,20 @@ test_that("nn_indices() errors informatively for singular mahalanobis covariance
   expect_snapshot(error = TRUE, nn_indices(data, 1, "mahalanobis"))
 })
 
+test_that("mahalanobis errors informatively for collinear predictors (#246)", {
+  # Enough observations to pass the nrow/ncol guard, but x2 = 2 * x1
+  data <- cbind(x1 = c(1, 2, 3, 4, 5), x2 = c(2, 4, 6, 8, 10))
+  expect_snapshot(error = TRUE, nn_indices(data, 1, "mahalanobis"))
+
+  # Constant column
+  data <- cbind(x1 = c(1, 2, 3, 4, 5), x2 = rep(1, 5))
+  expect_snapshot(error = TRUE, nn_indices(data, 1, "mahalanobis"))
+
+  # Duplicated rows leave too few distinct observations
+  data <- matrix(rep(c(1, 2, 3), each = 5), nrow = 5)
+  expect_snapshot(error = TRUE, nn_indices(data, 1, "mahalanobis"))
+})
+
 test_that("nn_indices() uses the correct distance metric", {
   # Each case is constructed so the nearest neighbor differs by metric.
   # Row 1 is the query point; we check which of rows 2/3 it picks as neighbor.

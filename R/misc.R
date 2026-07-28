@@ -392,10 +392,44 @@ metric_transform <- function(
       )
     }
     S <- stats::cov(cov_data)
-    return(data %*% solve(chol(S)))
+    return(data %*% solve(chol_cov(S, call = call)))
   }
   # euclidean: no transform needed
   data
+}
+
+# Cholesky factor of a covariance matrix, replacing the raw "the leading minor
+# of order k is not positive definite" error from `chol()` with a message that
+# points at the `distance` argument. A covariance matrix is singular when
+# predictors are collinear (including constant columns) or when duplicate rows
+# leave fewer distinct observations than predictors.
+#
+# Exactly collinear predictors do not always trip `chol()`: rounding can leave
+# the offending pivot a tiny positive number instead of zero, in which case
+# `chol()` succeeds and `solve()` returns an inverse of astronomical magnitude,
+# silently poisoning every distance. A rank check on the covariance catches those
+# cases before the factorization, using the same relative tolerance as `lm()`.
+chol_cov <- function(S, call = caller_env()) {
+  singular <- function(cnd = NULL) {
+    cli::cli_abort(
+      c(
+        "{.code distance = \"mahalanobis\"} requires an invertible covariance
+         matrix, but the covariance of the predictors is singular.",
+        i = "This happens when predictors are collinear or constant, or when
+             duplicated rows leave too few distinct observations.",
+        i = "Try a different {.arg distance} metric or remove the redundant
+             predictors."
+      ),
+      call = call,
+      parent = cnd
+    )
+  }
+
+  if (qr(S)$rank < ncol(S)) {
+    singular()
+  }
+
+  rlang::try_fetch(chol(S), error = function(cnd) singular(cnd))
 }
 
 # Convert Euclidean distances computed on `metric_transform()`ed coordinates into
