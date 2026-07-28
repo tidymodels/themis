@@ -152,6 +152,126 @@ test_that("sqrt-embedded metrics reject non-distribution predictors", {
   expect_no_error(nn_indices(unnormalized, 1, "matusita"))
 })
 
+test_that("metric_backend() routes each metric to one engine", {
+  expect_equal(metric_backend("euclidean"), "rann")
+  expect_equal(metric_backend("mahalanobis"), "rann")
+  expect_equal(metric_backend("hellinger"), "rann")
+  expect_equal(metric_backend("manhattan"), "dist")
+  expect_equal(metric_backend("chebyshev"), "dist")
+  expect_equal(metric_backend("canberra"), "philentropy")
+  expect_equal(metric_backend("jensen-shannon"), "philentropy")
+})
+
+test_that("philentropy metrics exclude similarity measures and asymmetric ones", {
+  # Similarity measures rank closer pairs *higher*, so the ascending neighbor
+  # sort would return the farthest rows. philentropy also mirrors one triangle of
+  # the matrix, which silently symmetrizes asymmetric measures like KL.
+  similarities <- c(
+    "intersection",
+    "cosine",
+    "fidelity",
+    "inner_product",
+    "harmonic_mean",
+    "hassebrook",
+    "kulczynski_s",
+    "ruzicka"
+  )
+  expect_equal(intersect(philentropy_metrics(), similarities), character(0))
+  expect_equal(
+    intersect(philentropy_metrics(), "kullback-leibler"),
+    character(0)
+  )
+
+  expect_snapshot(error = TRUE, check_distance_arg("intersection"))
+  expect_snapshot(error = TRUE, check_distance_arg("kullback-leibler"))
+})
+
+test_that("nn_indices() matches philentropy distances for divergence metrics", {
+  skip_if_not_installed("philentropy")
+  data <- simplex_fixture()
+
+  expect_nn <- function(distance) {
+    d <- suppressMessages(philentropy::distance(
+      data,
+      method = distance,
+      test.na = FALSE,
+      mute.message = TRUE
+    ))
+    expected <- t(apply(unname(d), 1, \(x) order(x)[seq_len(3)]))
+    expect_equal(nn_indices(data, k = 2, distance), expected)
+  }
+
+  expect_nn("canberra")
+  expect_nn("soergel")
+  expect_nn("lorentzian")
+  expect_nn("jeffreys")
+  expect_nn("topsoe")
+  expect_nn("jensen-shannon")
+  expect_nn("jensen_difference")
+  expect_nn("taneja")
+  expect_nn("kumar-johnson")
+})
+
+test_that("nn_dists_cross() returns philentropy magnitudes for divergence metrics", {
+  skip_if_not_installed("philentropy")
+  data <- simplex_fixture()
+  query <- data[1:2, ]
+  reference <- data[3:5, ]
+
+  expect_dists <- function(distance) {
+    d <- outer(
+      seq_len(nrow(query)),
+      seq_len(nrow(reference)),
+      Vectorize(function(i, j) {
+        suppressMessages(philentropy::distance(
+          rbind(query[i, ], reference[j, ]),
+          method = distance,
+          test.na = FALSE,
+          mute.message = TRUE
+        ))
+      })
+    )
+    expected <- t(apply(d, 1, \(x) sort(x)[seq_len(2)]))
+    expect_equal(nn_dists_cross(query, reference, k = 2, distance), expected)
+  }
+
+  expect_dists("canberra")
+  expect_dists("jensen-shannon")
+  expect_dists("taneja")
+})
+
+test_that("dense_dist_matrix() handles philentropy's scalar return for 2 rows", {
+  skip_if_not_installed("philentropy")
+  data <- simplex_fixture()[1:2, ]
+  d <- dense_dist_matrix(data, "canberra")
+
+  expect_equal(dim(d), c(2L, 2L))
+  expect_equal(diag(d), c(0, 0))
+  expect_equal(d[1, 2], d[2, 1])
+  expect_equal(nn_indices(data, k = 1, "canberra"), rbind(c(1L, 2L), c(2L, 1L)))
+})
+
+test_that("philentropy metrics that divide by values reject zeros", {
+  skip_if_not_installed("philentropy")
+  # philentropy returns a finite but meaningless number here rather than Inf,
+  # so the zero has to be caught before the distance is computed.
+  with_zero <- rbind(c(0.5, 0.5, 0.0), c(0.2, 0.3, 0.5), c(0.4, 0.4, 0.2))
+  expect_snapshot(error = TRUE, nn_indices(with_zero, 1, "jeffreys"))
+  expect_snapshot(error = TRUE, nn_indices(with_zero, 1, "taneja"))
+  expect_snapshot(error = TRUE, nn_indices(with_zero, 1, "kumar-johnson"))
+
+  # zero-safe divergences accept the same data
+  expect_no_error(nn_indices(with_zero, 1, "jensen-shannon"))
+  expect_no_error(nn_indices(with_zero, 1, "canberra"))
+  expect_no_error(nn_indices(with_zero, 1, "topsoe"))
+})
+
+test_that("philentropy metrics reject negative predictors", {
+  skip_if_not_installed("philentropy")
+  negative <- rbind(c(0.5, -0.5, 1), c(0.2, 0.3, 0.5), c(0.4, 0.4, 0.2))
+  expect_snapshot(error = TRUE, nn_indices(negative, 1, "canberra"))
+})
+
 test_that("mahalanobis whitening reproduces stats::mahalanobis distances (#237)", {
   set.seed(1)
   n <- 200

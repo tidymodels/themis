@@ -55,6 +55,30 @@ test_that("sqrt-embedded distance metrics accepted by step_smote()", {
   expect_no_error(bake_with("bhattacharyya"))
 })
 
+test_that("philentropy distance metrics accepted by step_smote()", {
+  skip_if_not_installed("philentropy")
+  set.seed(1)
+  raw <- matrix(runif(60 * 3), ncol = 3)
+  props <- raw / rowSums(raw)
+  compositional <- data.frame(
+    x = props[, 1],
+    y = props[, 2],
+    z = props[, 3],
+    class = factor(rep(c("a", "b"), times = c(50, 10)))
+  )
+
+  bake_with <- function(distance) {
+    recipe(class ~ ., data = compositional) |>
+      step_smote(class, distance = distance) |>
+      prep() |>
+      bake(new_data = NULL)
+  }
+
+  expect_no_error(bake_with("canberra"))
+  expect_no_error(bake_with("jensen-shannon"))
+  expect_no_error(bake_with("kumar-johnson"))
+})
+
 test_that("bad distance arg for step_smote()", {
   expect_snapshot(
     error = TRUE,
