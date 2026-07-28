@@ -29,21 +29,34 @@ enn(df, var, neighbors = 3, distance = "euclidean", times = 1, all_k = FALSE)
 - distance:
 
   A character string specifying the distance metric used for nearest
-  neighbor calculations. One of `"euclidean"` (default), `"cosine"`,
-  `"mahalanobis"`, `"manhattan"`, `"chebyshev"`, `"squared_chord"`,
-  `"matusita"`, `"hellinger"`, or `"bhattacharyya"`. All except
-  `"manhattan"` and `"chebyshev"` use approximate nearest neighbors via
-  the RANN package and scale well to large datasets. `"manhattan"` and
-  `"chebyshev"` compute an exact O(n^2) distance matrix and may be slow
-  for large datasets.
+  neighbor calculations, defaulting to `"euclidean"`. The available
+  metrics fall into three groups.
+
+  `"euclidean"`, `"cosine"`, and `"mahalanobis"` use approximate nearest
+  neighbors via the RANN package and scale well to large datasets.
 
   `"squared_chord"`, `"matusita"`, `"hellinger"`, and `"bhattacharyya"`
   are probability-divergence measures that treat each row as a
   distribution over the predictors, so they require non-negative values.
   `"hellinger"` and `"bhattacharyya"` further require each row to sum
-  to 1. These metrics are meaningful for compositional predictors such
-  as proportions or counts normalized per observation, and are generally
-  not appropriate for standardized predictors.
+  to 1. All four also use the RANN package and scale well to large
+  datasets.
+
+  `"manhattan"`, `"chebyshev"`, `"canberra"`, `"soergel"`,
+  `"lorentzian"`, `"jeffreys"`, `"topsoe"`, `"jensen-shannon"`,
+  `"jensen_difference"`, `"taneja"`, and `"kumar-johnson"` compute an
+  exact all-pairs distance matrix. This takes time and memory
+  proportional to the square of the number of observations in a class,
+  so these are best suited to smaller datasets. Everything from
+  `"canberra"` onwards is a probability divergence requiring
+  non-negative values, is provided by the philentropy package (which
+  must be installed separately), and in the case of `"jeffreys"`,
+  `"taneja"`, and `"kumar-johnson"` requires strictly positive values,
+  since those divide by individual predictor values.
+
+  The probability divergences are meaningful for compositional
+  predictors such as proportions or counts normalized per observation,
+  and are generally not appropriate for standardized predictors.
 
 - times:
 

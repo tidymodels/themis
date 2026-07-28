@@ -145,6 +145,15 @@
   approximate nearest neighbor path and scale to large data
   ([\#234](https://github.com/tidymodels/themis/issues/234)).
 
+- The `distance` argument of every step that performs nearest neighbor
+  calculations gains nine further probability-divergence metrics,
+  provided by the philentropy package: `"canberra"`, `"soergel"`,
+  `"lorentzian"`, `"jeffreys"`, `"topsoe"`, `"jensen-shannon"`,
+  `"jensen_difference"`, `"taneja"`, and `"kumar-johnson"`. philentropy
+  is an optional dependency, and since these metrics compute an exact
+  all-pairs distance matrix they are best suited to smaller datasets
+  ([\#234](https://github.com/tidymodels/themis/issues/234)).
+
 - [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
   [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md),
   [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),

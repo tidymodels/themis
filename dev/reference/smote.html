@@ -83,20 +83,28 @@ half as many rows as the majority level. See
 
 <dt id="arg-distance">distance<a class="anchor" aria-label="anchor" href="#arg-distance"></a></dt>
 <dd><p>A character string specifying the distance metric used for
-nearest neighbor calculations. One of <code>"euclidean"</code> (default), <code>"cosine"</code>,
-<code>"mahalanobis"</code>, <code>"manhattan"</code>, <code>"chebyshev"</code>, <code>"squared_chord"</code>,
-<code>"matusita"</code>, <code>"hellinger"</code>, or <code>"bhattacharyya"</code>. All except
-<code>"manhattan"</code> and <code>"chebyshev"</code> use approximate nearest neighbors via the
-RANN package and scale well to large datasets. <code>"manhattan"</code> and
-<code>"chebyshev"</code> compute an exact O(n^2) distance matrix and may be slow for
-large datasets.</p>
+nearest neighbor calculations, defaulting to <code>"euclidean"</code>. The available
+metrics fall into three groups.</p>
+<p><code>"euclidean"</code>, <code>"cosine"</code>, and <code>"mahalanobis"</code> use approximate nearest
+neighbors via the RANN package and scale well to large datasets.</p>
 <p><code>"squared_chord"</code>, <code>"matusita"</code>, <code>"hellinger"</code>, and <code>"bhattacharyya"</code> are
 probability-divergence measures that treat each row as a distribution over
 the predictors, so they require non-negative values. <code>"hellinger"</code> and
-<code>"bhattacharyya"</code> further require each row to sum to 1. These metrics are
-meaningful for compositional predictors such as proportions or counts
-normalized per observation, and are generally not appropriate for
-standardized predictors.</p></dd>
+<code>"bhattacharyya"</code> further require each row to sum to 1. All four also use
+the RANN package and scale well to large datasets.</p>
+<p><code>"manhattan"</code>, <code>"chebyshev"</code>, <code>"canberra"</code>, <code>"soergel"</code>, <code>"lorentzian"</code>,
+<code>"jeffreys"</code>, <code>"topsoe"</code>, <code>"jensen-shannon"</code>, <code>"jensen_difference"</code>,
+<code>"taneja"</code>, and <code>"kumar-johnson"</code> compute an exact all-pairs distance
+matrix. This takes time and memory proportional to the square of the number
+of observations in a class, so these are best suited to smaller datasets.
+Everything from <code>"canberra"</code> onwards is a probability divergence requiring
+non-negative values, is provided by the philentropy package (which must be
+installed separately), and in the case of <code>"jeffreys"</code>, <code>"taneja"</code>, and
+<code>"kumar-johnson"</code> requires strictly positive values, since those divide by
+individual predictor values.</p>
+<p>The probability divergences are meaningful for compositional predictors such
+as proportions or counts normalized per observation, and are generally not
+appropriate for standardized predictors.</p></dd>
 
 </dl></div>
     <div class="section level2">
