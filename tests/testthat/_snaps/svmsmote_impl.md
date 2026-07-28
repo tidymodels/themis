@@ -13,5 +13,5 @@
       svmsmote(circle_numeric, var = "class", distance = "minkowski")
     Condition
       Error in `svmsmote()`:
-      ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", or "chebyshev", not "minkowski".
+      ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", "chebyshev", "squared_chord", "matusita", "hellinger", or "bhattacharyya", not "minkowski".
 

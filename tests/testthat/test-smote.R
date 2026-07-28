@@ -31,6 +31,30 @@ test_that("distance argument accepted by step_smote()", {
   )
 })
 
+test_that("sqrt-embedded distance metrics accepted by step_smote()", {
+  set.seed(1)
+  raw <- matrix(runif(60 * 3), ncol = 3)
+  props <- raw / rowSums(raw)
+  compositional <- data.frame(
+    x = props[, 1],
+    y = props[, 2],
+    z = props[, 3],
+    class = factor(rep(c("a", "b"), times = c(50, 10)))
+  )
+
+  bake_with <- function(distance) {
+    recipe(class ~ ., data = compositional) |>
+      step_smote(class, distance = distance) |>
+      prep() |>
+      bake(new_data = NULL)
+  }
+
+  expect_no_error(bake_with("squared_chord"))
+  expect_no_error(bake_with("matusita"))
+  expect_no_error(bake_with("hellinger"))
+  expect_no_error(bake_with("bhattacharyya"))
+})
+
 test_that("bad distance arg for step_smote()", {
   expect_snapshot(
     error = TRUE,

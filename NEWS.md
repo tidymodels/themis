@@ -34,6 +34,8 @@
 
 * `step_adasyn()`, `step_bsmote()`, `step_nearmiss()`, `step_smote()`, and `step_tomek()` (and their direct-implementation counterparts `adasyn()`, `bsmote()`, `nearmiss()`, `smote()`, and `tomek()`) gain a `distance` argument to control which distance metric is used for nearest neighbor calculations. Supported metrics are `"euclidean"` (default), `"cosine"`, `"mahalanobis"`, `"manhattan"`, and `"chebyshev"` (#171).
 
+* The `distance` argument of every step that performs nearest neighbor calculations gains four probability-divergence metrics: `"squared_chord"`, `"matusita"`, `"hellinger"`, and `"bhattacharyya"`. These treat each row as a distribution over the predictors and so require non-negative values, with `"hellinger"` and `"bhattacharyya"` further requiring each row to sum to 1. All four run on the fast approximate nearest neighbor path and scale to large data (#234).
+
 * `step_adasyn()`, `step_bsmote()`, `step_nearmiss()`, `step_smote()`, and `step_smotenc()` now document the minimum number of observations needed to perform the algorithm (#104).
 
 * `step_bsmote()` now sets the tuning range of its `neighbors` parameter to `c(1, 10)`, matching the other steps that tune `neighbors` (#254).
