@@ -74,6 +74,10 @@
 
 ### Improvements
 
+- Added a new “Common pitfalls” article on resampling only the training
+  set (`skip = TRUE`) and avoiding cross-validation leakage
+  ([\#320](https://github.com/tidymodels/themis/issues/320)).
+
 - Added a new article explaining how `over_ratio` and `under_ratio` work
   ([\#141](https://github.com/tidymodels/themis/issues/141)).
 
