@@ -77,6 +77,10 @@
 #' Transactions on Systems, Man, and Cybernetics, (6), 448-452.
 #'
 #' @seealso [enn()] for direct implementation
+#'
+#'  [step_smote()], which is commonly composed before `step_enn()` to clean the
+#'  ambiguous points that over-sampling creates near the class boundary (the
+#'  equivalent of imbalanced-learn's `SMOTEENN`).
 #' @family Steps for under-sampling
 #'
 #' @export
