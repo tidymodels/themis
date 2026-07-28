@@ -69,11 +69,20 @@ step_adasyn(
 
   A character string specifying the distance metric used for nearest
   neighbor calculations. One of `"euclidean"` (default), `"cosine"`,
-  `"mahalanobis"`, `"manhattan"`, or `"chebyshev"`. `"euclidean"`,
-  `"cosine"`, and `"mahalanobis"` use approximate nearest neighbors via
+  `"mahalanobis"`, `"manhattan"`, `"chebyshev"`, `"squared_chord"`,
+  `"matusita"`, `"hellinger"`, or `"bhattacharyya"`. All except
+  `"manhattan"` and `"chebyshev"` use approximate nearest neighbors via
   the RANN package and scale well to large datasets. `"manhattan"` and
   `"chebyshev"` compute an exact O(n^2) distance matrix and may be slow
   for large datasets.
+
+  `"squared_chord"`, `"matusita"`, `"hellinger"`, and `"bhattacharyya"`
+  are probability-divergence measures that treat each row as a
+  distribution over the predictors, so they require non-negative values.
+  `"hellinger"` and `"bhattacharyya"` further require each row to sum
+  to 1. These metrics are meaningful for compositional predictors such
+  as proportions or counts normalized per observation, and are generally
+  not appropriate for standardized predictors.
 
 - indicator_column:
 

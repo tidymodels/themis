@@ -136,6 +136,15 @@
   `"chebyshev"`
   ([\#171](https://github.com/tidymodels/themis/issues/171)).
 
+- The `distance` argument of every step that performs nearest neighbor
+  calculations gains four probability-divergence metrics:
+  `"squared_chord"`, `"matusita"`, `"hellinger"`, and `"bhattacharyya"`.
+  These treat each row as a distribution over the predictors and so
+  require non-negative values, with `"hellinger"` and `"bhattacharyya"`
+  further requiring each row to sum to 1. All four run on the fast
+  approximate nearest neighbor path and scale to large data
+  ([\#234](https://github.com/tidymodels/themis/issues/234)).
+
 - [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
   [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md),
   [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),
