@@ -41,3 +41,63 @@
       i Each row is treated as a probability distribution by this metric.
       i Try `distance = "matusita"` or `distance = "squared_chord"`, which do not require this.
 
+# philentropy metrics exclude similarity measures and asymmetric ones
+
+    Code
+      check_distance_arg("intersection")
+    Condition
+      Error:
+      ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", "chebyshev", "squared_chord", "matusita", "hellinger", "bhattacharyya", "canberra", "soergel", "lorentzian", "jeffreys", "topsoe", "jensen-shannon", "jensen_difference", "taneja", or "kumar-johnson", not "intersection".
+
+---
+
+    Code
+      check_distance_arg("kullback-leibler")
+    Condition
+      Error:
+      ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", "chebyshev", "squared_chord", "matusita", "hellinger", "bhattacharyya", "canberra", "soergel", "lorentzian", "jeffreys", "topsoe", "jensen-shannon", "jensen_difference", "taneja", or "kumar-johnson", not "kullback-leibler".
+
+# philentropy metrics that divide by values reject zeros
+
+    Code
+      nn_indices(with_zero, 1, "jeffreys")
+    Condition
+      Error in `nn_indices()`:
+      ! `distance = "jeffreys"` requires strictly positive predictor values.
+      i Zero or negative values were found in the columns used to compute distances.
+      i This metric divides by individual values, so a zero makes the distance infinite.
+      i Try `distance = "jensen-shannon"` or `distance = "canberra"`, which allow zeros.
+
+---
+
+    Code
+      nn_indices(with_zero, 1, "taneja")
+    Condition
+      Error in `nn_indices()`:
+      ! `distance = "taneja"` requires strictly positive predictor values.
+      i Zero or negative values were found in the columns used to compute distances.
+      i This metric divides by individual values, so a zero makes the distance infinite.
+      i Try `distance = "jensen-shannon"` or `distance = "canberra"`, which allow zeros.
+
+---
+
+    Code
+      nn_indices(with_zero, 1, "kumar-johnson")
+    Condition
+      Error in `nn_indices()`:
+      ! `distance = "kumar-johnson"` requires strictly positive predictor values.
+      i Zero or negative values were found in the columns used to compute distances.
+      i This metric divides by individual values, so a zero makes the distance infinite.
+      i Try `distance = "jensen-shannon"` or `distance = "canberra"`, which allow zeros.
+
+# philentropy metrics reject negative predictors
+
+    Code
+      nn_indices(negative, 1, "canberra")
+    Condition
+      Error in `nn_indices()`:
+      ! `distance = "canberra"` requires non-negative predictor values.
+      i Negative values were found in the columns used to compute distances.
+      i Each row is treated as a probability distribution by this metric.
+      i Try a different `distance` metric or rescale the predictors.
+

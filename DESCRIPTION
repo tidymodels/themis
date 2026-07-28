@@ -44,6 +44,7 @@ Suggests:
     ggplot2,
     kernlab,
     modeldata,
+    philentropy,
     testthat (>= 3.0.0)
 Config/Needs/website: tidyverse/tidytemplate
 Config/testthat/edition: 3

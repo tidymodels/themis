@@ -199,7 +199,8 @@ check_distance_arg <- function(distance, call = caller_env()) {
       "mahalanobis",
       "manhattan",
       "chebyshev",
-      sqrt_embedded_metrics()
+      sqrt_embedded_metrics(),
+      philentropy_metrics()
     ),
     error_call = call
   )
@@ -256,6 +257,53 @@ metric_is_transformable <- function(distance) {
     c("euclidean", "cosine", "mahalanobis", sqrt_embedded_metrics())
 }
 
+# Divergence measures computed by philentropy. Deliberately a curated allowlist
+# rather than `philentropy::getDistMethods()`:
+#
+# * That list mixes distances with similarity measures (intersection, cosine,
+#   fidelity, inner_product, harmonic_mean, hassebrook, kulczynski_s, ruzicka),
+#   where a *larger* value means a *closer* pair. The neighbor search sorts
+#   ascending, so those would silently return the farthest neighbors.
+# * philentropy computes one triangle of the distance matrix and mirrors it, so
+#   asymmetric measures such as kullback-leibler come back symmetrized rather
+#   than as the requested divergence. Only symmetric measures are listed here.
+# * Names already handled by a faster path (euclidean, manhattan, chebyshev,
+#   cosine, and the sqrt-embedded metrics) are excluded so each metric has
+#   exactly one spelling and one backend.
+philentropy_metrics <- function() {
+  c(
+    "canberra",
+    "soergel",
+    "lorentzian",
+    "jeffreys",
+    "topsoe",
+    "jensen-shannon",
+    "jensen_difference",
+    "taneja",
+    "kumar-johnson"
+  )
+}
+
+# philentropy metrics that divide by, or take the log of, individual values, so a
+# zero anywhere makes the true distance infinite. philentropy returns a finite
+# but meaningless number in that case rather than `Inf`, so the input has to be
+# checked up front; there is no non-finite result to detect afterwards.
+philentropy_positive_metrics <- function() {
+  c("jeffreys", "taneja", "kumar-johnson")
+}
+
+# Which engine computes distances for `distance`. "rann" is the fast approximate
+# path, "dist" and "philentropy" both build a dense O(n^2) matrix.
+metric_backend <- function(distance) {
+  if (metric_is_transformable(distance)) {
+    "rann"
+  } else if (distance %in% philentropy_metrics()) {
+    "philentropy"
+  } else {
+    "dist"
+  }
+}
+
 check_metric_nonnegative <- function(data, distance, call = caller_env()) {
   if (any(data < 0)) {
     cli::cli_abort(
@@ -264,6 +312,24 @@ check_metric_nonnegative <- function(data, distance, call = caller_env()) {
         i = "Negative values were found in the columns used to compute distances.",
         i = "Each row is treated as a probability distribution by this metric.",
         i = "Try a different {.arg distance} metric or rescale the predictors."
+      ),
+      call = call
+    )
+  }
+  invisible()
+}
+
+check_metric_positive <- function(data, distance, call = caller_env()) {
+  if (any(data <= 0)) {
+    cli::cli_abort(
+      c(
+        "{.code distance = \"{distance}\"} requires strictly positive predictor values.",
+        i = "Zero or negative values were found in the columns used to compute \\
+             distances.",
+        i = "This metric divides by individual values, so a zero makes the \\
+             distance infinite.",
+        i = "Try {.code distance = \"jensen-shannon\"} or \\
+             {.code distance = \"canberra\"}, which allow zeros."
       ),
       call = call
     )
@@ -353,17 +419,57 @@ metric_rescale_dists <- function(d, distance) {
   )
 }
 
-nn_indices <- function(data, k, distance) {
-  if (metric_is_transformable(distance)) {
-    data <- metric_transform(data, distance)
-    return(RANN::nn2(data, k = k + 1, searchtype = "priority")$nn.idx)
+# Dense all-pairs distance matrix for the metrics that have no fast path. Both
+# backends here are O(n^2) in time and memory.
+dense_dist_matrix <- function(data, distance, call = caller_env()) {
+  if (metric_backend(distance) == "philentropy") {
+    rlang::check_installed(
+      "philentropy",
+      sprintf("for `distance = \"%s\"`.", distance),
+      call = call
+    )
+    check_metric_nonnegative(data, distance, call = call)
+    if (distance %in% philentropy_positive_metrics()) {
+      check_metric_positive(data, distance, call = call)
+    }
+    # `mute.message` silences some but not all of philentropy's chatter, so the
+    # remaining messages are suppressed here to keep step output clean.
+    res <- suppressMessages(philentropy::distance(
+      as.matrix(data),
+      method = distance,
+      test.na = FALSE,
+      mute.message = TRUE
+    ))
+    # With exactly two rows philentropy returns a bare scalar rather than a
+    # 2x2 matrix, so the callers' `apply()` over rows would fail.
+    if (!is.matrix(res)) {
+      res <- rbind(c(0, res), c(res, 0))
+    }
+    return(unname(res))
   }
   dist_method <- switch(
     distance,
     "manhattan" = "manhattan",
     "chebyshev" = "maximum"
   )
-  dist_mat <- as.matrix(stats::dist(data, method = dist_method))
+  as.matrix(stats::dist(data, method = dist_method))
+}
+
+# Dense query-by-reference distance block for the metrics with no fast path.
+# Neither backend computes a rectangular block directly, so both sets are stacked
+# and the query-vs-reference corner is cut out of the full matrix.
+dense_dist_cross <- function(query, reference, distance, call = caller_env()) {
+  d_full <- dense_dist_matrix(rbind(query, reference), distance, call = call)
+  nq <- nrow(query)
+  d_full[seq_len(nq), nq + seq_len(nrow(reference)), drop = FALSE]
+}
+
+nn_indices <- function(data, k, distance) {
+  if (metric_is_transformable(distance)) {
+    data <- metric_transform(data, distance)
+    return(RANN::nn2(data, k = k + 1, searchtype = "priority")$nn.idx)
+  }
+  dist_mat <- dense_dist_matrix(data, distance)
   t(apply(dist_mat, 1, \(x) order(x)[seq_len(k + 1)]))
 }
 
@@ -374,17 +480,9 @@ nn_dists_cross <- function(query, reference, k, distance) {
     d <- RANN::nn2(reference_t, query_t, k = k)$nn.dists
     return(metric_rescale_dists(d, distance))
   }
-  dist_method <- switch(
-    distance,
-    "manhattan" = "manhattan",
-    "chebyshev" = "maximum"
-  )
-  combined <- rbind(query, reference)
-  d_full <- as.matrix(stats::dist(combined, method = dist_method))
-  nq <- nrow(query)
-  d_cross <- d_full[seq_len(nq), nq + seq_len(nrow(reference)), drop = FALSE]
+  d_cross <- dense_dist_cross(query, reference, distance)
   res <- apply(d_cross, 1, \(x) sort(x)[seq_len(k)])
-  matrix(res, nrow = nq, ncol = k, byrow = TRUE)
+  matrix(res, nrow = nrow(query), ncol = k, byrow = TRUE)
 }
 
 nn_indices_cross <- function(query, reference, k, distance) {
@@ -393,17 +491,9 @@ nn_indices_cross <- function(query, reference, k, distance) {
     reference_t <- metric_transform(reference, distance, cov_data = reference)
     return(RANN::nn2(reference_t, query_t, k = k)$nn.idx)
   }
-  dist_method <- switch(
-    distance,
-    "manhattan" = "manhattan",
-    "chebyshev" = "maximum"
-  )
-  combined <- rbind(query, reference)
-  d_full <- as.matrix(stats::dist(combined, method = dist_method))
-  nq <- nrow(query)
-  d_cross <- d_full[seq_len(nq), nq + seq_len(nrow(reference)), drop = FALSE]
+  d_cross <- dense_dist_cross(query, reference, distance)
   res <- apply(d_cross, 1, \(x) order(x)[seq_len(k)])
-  matrix(res, nrow = nq, ncol = k, byrow = TRUE)
+  matrix(res, nrow = nrow(query), ncol = k, byrow = TRUE)
 }
 
 # Shared condensation scan for CNN and one-sided selection. Walks `candidates`
