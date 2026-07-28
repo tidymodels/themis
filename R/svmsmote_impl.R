@@ -10,6 +10,11 @@
 #' @param var Character, name of variable containing factor variable.
 #' @param k An integer. Number of nearest neighbor that are used
 #'  to generate the new examples of the minority class.
+#' @param m_neighbors An integer or `NULL`. Number of nearest neighbors, among
+#'  all classes, that are used to label each minority support vector as noise,
+#'  danger, or safe. Defaults to `NULL`, which means `2 * k`.
+#' @param out_step A number. Step size used when extrapolating new examples
+#'  away from safe support vectors. Defaults to 0.5.
 #'
 #' @return A data.frame or tibble, depending on type of `df`.
 #' @export
@@ -38,19 +43,39 @@
 #' res <- svmsmote(circle_numeric, var = "class", over_ratio = 0.8)
 #'
 #' res <- svmsmote(circle_numeric, var = "class", distance = "manhattan")
-svmsmote <- function(df, var, k = 5, over_ratio = 1, distance = "euclidean") {
+#'
+#' res <- svmsmote(circle_numeric, var = "class", m_neighbors = 20)
+svmsmote <- function(
+  df,
+  var,
+  k = 5,
+  over_ratio = 1,
+  distance = "euclidean",
+  m_neighbors = NULL,
+  out_step = 0.5
+) {
   check_data_frame(df)
   check_var(var, df)
   check_number_whole(k, min = 1)
   check_number_decimal(over_ratio)
   check_distance_arg(distance)
+  check_number_whole(m_neighbors, min = 1, allow_null = TRUE)
+  check_number_decimal(out_step, min = 0)
 
   predictors <- setdiff(colnames(df), var)
 
   check_numeric(df[, predictors])
   check_na(select(df, -all_of(var)))
 
-  svmsmote_impl(df, var, k, over_ratio, distance)
+  svmsmote_impl(
+    df,
+    var,
+    k,
+    over_ratio,
+    distance,
+    m_neighbors = m_neighbors,
+    out_step = out_step
+  )
 }
 
 svmsmote_impl <- function(
@@ -59,13 +84,27 @@ svmsmote_impl <- function(
   k = 5,
   over_ratio = 1,
   distance = "euclidean",
+  m_neighbors = NULL,
+  out_step = 0.5,
   call = caller_env()
 ) {
   df[[var]] <- as.factor(df[[var]])
   # `m` neighbors are used to classify support vectors as noise, danger, or
   # safety; `out_step` controls how far extrapolated examples are placed.
-  m <- 2 * k
-  out_step <- 0.5
+  if (is.null(m_neighbors)) {
+    m <- min(2 * k, nrow(df) - 1)
+  } else {
+    m <- m_neighbors
+    if (m >= nrow(df)) {
+      cli::cli_abort(
+        c(
+          "{.arg m_neighbors} must be less than the number of observations.",
+          i = "{m} neighbor{?s} {?was/were} requested, but only {nrow(df)} observation{?s} {?is/are} available."
+        ),
+        call = call
+      )
+    }
+  }
 
   counts <- table(drop_unused_levels(df[[var]]))
   majority_count <- max(counts)
