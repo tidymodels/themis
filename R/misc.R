@@ -193,7 +193,14 @@ Mode <- function(x) {
 check_distance_arg <- function(distance, call = caller_env()) {
   rlang::arg_match(
     distance,
-    c("euclidean", "cosine", "mahalanobis", "manhattan", "chebyshev"),
+    c(
+      "euclidean",
+      "cosine",
+      "mahalanobis",
+      "manhattan",
+      "chebyshev",
+      sqrt_embedded_metrics()
+    ),
     error_call = call
   )
 }
@@ -218,6 +225,24 @@ drop_self_neighbor <- function(idx) {
   out
 }
 
+# Probability-divergence metrics that equal Euclidean distance on the elementwise
+# square root of the data, either exactly or after a monotone transform of the
+# resulting distance (see `metric_rescale_dists()`). Because the transform is
+# monotone, a RANN search on the square-rooted coordinates returns exactly the
+# right neighbor *indices*; only distance magnitudes need converting.
+#
+# squared_chord and matusita hold for any non-negative rows. hellinger and
+# bhattacharyya are derived from the fidelity `1 - d^2 / 2`, an identity that
+# only holds when each row sums to one, so they additionally require rows to be
+# probability distributions.
+sqrt_embedded_metrics <- function() {
+  c("squared_chord", "matusita", "hellinger", "bhattacharyya")
+}
+
+simplex_metrics <- function() {
+  c("hellinger", "bhattacharyya")
+}
+
 # Metrics whose distance equals ordinary Euclidean distance after a per-row or
 # linear transform of the data, so the neighbor search can run on the transformed
 # coordinates via RANN. manhattan and chebyshev are not in this set: RANN only
@@ -227,7 +252,40 @@ drop_self_neighbor <- function(idx) {
 # routine whose tie-breaking could differ from `order()`/`sort()` and change
 # results, so the dense path is kept for these two metrics.
 metric_is_transformable <- function(distance) {
-  distance %in% c("euclidean", "cosine", "mahalanobis")
+  distance %in%
+    c("euclidean", "cosine", "mahalanobis", sqrt_embedded_metrics())
+}
+
+check_metric_nonnegative <- function(data, distance, call = caller_env()) {
+  if (any(data < 0)) {
+    cli::cli_abort(
+      c(
+        "{.code distance = \"{distance}\"} requires non-negative predictor values.",
+        i = "Negative values were found in the columns used to compute distances.",
+        i = "Each row is treated as a probability distribution by this metric.",
+        i = "Try a different {.arg distance} metric or rescale the predictors."
+      ),
+      call = call
+    )
+  }
+  invisible()
+}
+
+check_metric_simplex <- function(data, distance, call = caller_env()) {
+  bad <- abs(rowSums(data) - 1) > 1e-6
+  if (any(bad)) {
+    cli::cli_abort(
+      c(
+        "{.code distance = \"{distance}\"} requires each row to sum to 1.",
+        i = "{sum(bad)} row{?s} do{?es/} not sum to 1.",
+        i = "Each row is treated as a probability distribution by this metric.",
+        i = "Try {.code distance = \"matusita\"} or \\
+             {.code distance = \"squared_chord\"}, which do not require this."
+      ),
+      call = call
+    )
+  }
+  invisible()
 }
 
 # Transform `data` so that Euclidean distance on the result equals the requested
@@ -249,6 +307,13 @@ metric_transform <- function(
     norms[norms == 0] <- 1
     return(data / norms)
   }
+  if (distance %in% sqrt_embedded_metrics()) {
+    check_metric_nonnegative(data, distance, call = call)
+    if (distance %in% simplex_metrics()) {
+      check_metric_simplex(data, distance, call = call)
+    }
+    return(sqrt(data))
+  }
   if (distance == "mahalanobis") {
     if (check_singular && nrow(cov_data) <= ncol(cov_data)) {
       cli::cli_abort(
@@ -265,6 +330,27 @@ metric_transform <- function(
   }
   # euclidean: no transform needed
   data
+}
+
+# Convert Euclidean distances computed on `metric_transform()`ed coordinates into
+# the magnitudes of the requested metric. Each conversion is monotone increasing
+# in `d`, so this never reorders neighbors; it only matters for consumers such as
+# NearMiss that average per-neighbor distance values. Metrics whose transform is
+# already distance-preserving (euclidean, mahalanobis, matusita) fall through.
+metric_rescale_dists <- function(d, distance) {
+  switch(
+    distance,
+    # RANN returns Euclidean distances between unit vectors, sqrt(2 - 2*cos).
+    # Cosine distance is 1 - cos_sim = d^2 / 2.
+    "cosine" = d^2 / 2,
+    "squared_chord" = d^2,
+    "hellinger" = sqrt(2) * d,
+    # -log(fidelity), where fidelity = 1 - d^2 / 2. Rows with disjoint support
+    # give fidelity 0 and an infinite distance, which is correct; the `pmax()`
+    # only keeps floating-point error from pushing fidelity below 0 into NaN.
+    "bhattacharyya" = -log(pmax(1 - d^2 / 2, 0)),
+    d
+  )
 }
 
 nn_indices <- function(data, k, distance) {
@@ -286,13 +372,7 @@ nn_dists_cross <- function(query, reference, k, distance) {
     query_t <- metric_transform(query, distance, cov_data = reference)
     reference_t <- metric_transform(reference, distance, cov_data = reference)
     d <- RANN::nn2(reference_t, query_t, k = k)$nn.dists
-    if (distance == "cosine") {
-      # RANN returns Euclidean distances between unit vectors, sqrt(2 - 2*cos).
-      # Convert to cosine distance (1 - cos_sim = d^2 / 2) so magnitudes are
-      # correct for consumers such as NearMiss that average per-neighbor values.
-      return(d^2 / 2)
-    }
-    return(d)
+    return(metric_rescale_dists(d, distance))
   }
   dist_method <- switch(
     distance,
