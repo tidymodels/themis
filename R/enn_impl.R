@@ -42,13 +42,17 @@
 #'
 #' # All k-Nearest Neighbors (AllKNN)
 #' res <- enn(circle_numeric, var = "class", all_k = TRUE)
+#'
+#' # Stricter cleaning: remove unless all neighbors agree
+#' res <- enn(circle_numeric, var = "class", kind_sel = "all")
 enn <- function(
   df,
   var,
   neighbors = 3,
   distance = "euclidean",
   times = 1,
-  all_k = FALSE
+  all_k = FALSE,
+  kind_sel = "mode"
 ) {
   check_data_frame(df)
   check_var(var, df)
@@ -57,13 +61,22 @@ enn <- function(
   check_number_whole(times, min = 1, allow_infinite = TRUE)
   check_bool(all_k)
   warn_times_all_k(times, all_k)
+  kind_sel <- rlang::arg_match(kind_sel, c("mode", "all"))
 
   predictors <- setdiff(colnames(df), var)
 
   check_numeric(df[, predictors])
   check_na(select(df, -all_of(var)))
 
-  remove <- enn_impl(df, var, neighbors, distance, times = times, all_k = all_k)
+  remove <- enn_impl(
+    df,
+    var,
+    neighbors,
+    distance,
+    times = times,
+    all_k = all_k,
+    kind_sel = kind_sel
+  )
   if (length(remove) > 0) {
     df <- df[-remove, ]
   }
@@ -77,6 +90,7 @@ enn_impl <- function(
   distance = "euclidean",
   times = 1,
   all_k = FALSE,
+  kind_sel = "mode",
   call = caller_env()
 ) {
   if (nrow(df) <= neighbors) {
@@ -106,7 +120,13 @@ enn_impl <- function(
       break
     }
 
-    remove <- enn_single(df[active, , drop = FALSE], var, k, distance)
+    remove <- enn_single(
+      df[active, , drop = FALSE],
+      var,
+      k,
+      distance,
+      kind_sel = kind_sel
+    )
 
     if (length(remove) == 0) {
       # RENN stops early at convergence; AllKNN continues with a larger k
@@ -134,7 +154,7 @@ warn_times_all_k <- function(times, all_k, call = caller_env()) {
 
 # A single pass of Edited Nearest Neighbors. Returns the row indices of `df`
 # that should be removed.
-enn_single <- function(df, var, neighbors, distance) {
+enn_single <- function(df, var, neighbors, distance, kind_sel = "mode") {
   outcome <- df[[var]]
 
   idx <- nn_indices(as.matrix(df[names(df) != var]), k = neighbors, distance)
@@ -148,7 +168,15 @@ enn_single <- function(df, var, neighbors, distance) {
     ncol = ncol(idx)
   )
 
-  neighbor_mode <- apply(neighbor_classes, 1, Mode)
+  outcome <- as.character(outcome)
 
-  which(as.character(outcome) != as.character(neighbor_mode))
+  if (kind_sel == "all") {
+    # Stricter rule: keep an observation only when all neighbors agree with it
+    disagrees <- rowSums(neighbor_classes != outcome) > 0
+  } else {
+    neighbor_mode <- apply(neighbor_classes, 1, Mode)
+    disagrees <- outcome != as.character(neighbor_mode)
+  }
+
+  which(disagrees)
 }
