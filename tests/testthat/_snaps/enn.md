@@ -1,3 +1,21 @@
+# kind_sel is validated
+
+    Code
+      enn(circle_example[, c("x", "y", "class")], "class", kind_sel = "most")
+    Condition
+      Error in `enn()`:
+      ! `kind_sel` must be one of "mode" or "all", not "most".
+      i Did you mean "mode"?
+
+---
+
+    Code
+      step_enn(recipe(class ~ x + y, data = circle_example), class, kind_sel = "most")
+    Condition
+      Error in `step_enn()`:
+      ! `kind_sel` must be one of "mode" or "all", not "most".
+      i Did you mean "mode"?
+
 # warns when both times and all_k are set
 
     Code
