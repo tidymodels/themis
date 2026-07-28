@@ -276,11 +276,12 @@ test_that("tunable", {
   rec <- recipe(~., data = mtcars) |>
     step_svmsmote(all_predictors())
   rec_param <- tunable.step_svmsmote(rec$steps[[1]])
-  expect_equal(rec_param$name, c("over_ratio", "neighbors"))
+  expect_equal(rec_param$name, c("over_ratio", "neighbors", "m_neighbors"))
   expect_equal(rec_param$call_info[[2]]$range, c(1, 10))
+  expect_equal(rec_param$call_info[[3]]$range, c(1, 20))
   expect_true(all(rec_param$source == "recipe"))
   expect_true(is.list(rec_param$call_info))
-  expect_equal(nrow(rec_param), 2)
+  expect_equal(nrow(rec_param), 3)
   expect_equal(
     names(rec_param),
     c("name", "call_info", "source", "component", "component_id")
@@ -340,6 +341,59 @@ test_that("bad args", {
     recipe(~., data = mtcars) |>
       step_svmsmote(seed = TRUE)
   )
+  expect_snapshot(
+    error = TRUE,
+    recipe(~., data = mtcars) |>
+      step_svmsmote(m_neighbors = 0) |>
+      prep()
+  )
+  expect_snapshot(
+    error = TRUE,
+    recipe(~., data = mtcars) |>
+      step_svmsmote(out_step = "yes") |>
+      prep()
+  )
+})
+
+test_that("m_neighbors and out_step affect generated points (#270)", {
+  skip_if_not_installed("kernlab")
+
+  df <- circle_example[c("x", "y", "class")]
+
+  withr::with_seed(1, default <- svmsmote(df, "class"))
+  withr::with_seed(1, res_m <- svmsmote(df, "class", m_neighbors = 40))
+  withr::with_seed(1, res_step <- svmsmote(df, "class", out_step = 2))
+
+  expect_equal(nrow(res_m), nrow(default))
+  expect_false(isTRUE(all.equal(res_m$x, default$x)))
+
+  expect_equal(nrow(res_step), nrow(default))
+  expect_false(isTRUE(all.equal(res_step$x, default$x)))
+})
+
+test_that("m_neighbors defaults to 2 * neighbors (#270)", {
+  skip_if_not_installed("kernlab")
+
+  df <- circle_example[c("x", "y", "class")]
+
+  withr::with_seed(1, res_default <- svmsmote(df, "class", k = 5))
+  withr::with_seed(
+    1,
+    res_explicit <- svmsmote(df, "class", k = 5, m_neighbors = 10)
+  )
+
+  expect_equal(res_default, res_explicit)
+})
+
+test_that("m_neighbors larger than the data errors", {
+  skip_if_not_installed("kernlab")
+
+  df <- circle_example[c("x", "y", "class")]
+
+  expect_snapshot(
+    error = TRUE,
+    svmsmote(df, "class", m_neighbors = nrow(df))
+  )
 })
 
 test_that("tunable is setup to works with extract_parameter_set_dials", {
@@ -348,13 +402,14 @@ test_that("tunable is setup to works with extract_parameter_set_dials", {
     step_svmsmote(
       all_predictors(),
       over_ratio = hardhat::tune(),
-      neighbors = hardhat::tune()
+      neighbors = hardhat::tune(),
+      m_neighbors = hardhat::tune()
     )
 
   params <- extract_parameter_set_dials(rec)
 
   expect_s3_class(params, "parameters")
-  expect_identical(nrow(params), 2L)
+  expect_identical(nrow(params), 3L)
 })
 
 test_that("unused outcome levels are skipped with a warning (#238)", {

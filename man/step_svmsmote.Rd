@@ -14,6 +14,8 @@ step_svmsmote(
   over_ratio = 1,
   neighbors = 5,
   distance = "euclidean",
+  m_neighbors = NULL,
+  out_step = 0.5,
   indicator_column = NULL,
   skip = TRUE,
   seed = sample.int(10^5, 1),
@@ -77,6 +79,13 @@ The probability divergences are meaningful for compositional predictors such
 as proportions or counts normalized per observation, and are generally not
 appropriate for standardized predictors.}
 
+\item{m_neighbors}{An integer or \code{NULL}. Number of nearest neighbors, among
+all classes, that are used to label each minority support vector as noise,
+danger, or safe. Defaults to \code{NULL}, which means \code{2 * neighbors}.}
+
+\item{out_step}{A number. Step size used when extrapolating new examples
+away from safe support vectors. Defaults to 0.5.}
+
 \item{indicator_column}{A single string or \code{NULL} (the default). If a
 string is given, a logical column with that name is added to the output,
 marking rows added by the step (\code{TRUE}) vs rows from the original data
@@ -118,6 +127,17 @@ points are interpolated between it and its minority-class neighbors. The
 remaining support vectors are considered to be in a safe region and new points
 are extrapolated away from their minority-class neighbors.
 
+The number of neighbors used for this labeling is controlled by
+\code{m_neighbors}, and how far the extrapolated points are placed is controlled by
+\code{out_step}.
+
+The support vector machine is always fitted with \code{\link[kernlab:ksvm]{kernlab::ksvm()}} using a
+radial basis function kernel (\code{kernel = "rbfdot"}) and a cost of \code{C = 1},
+matching the reference implementations of the method. These are not exposed
+as arguments because the fitted model is only used to identify which minority
+observations are support vectors, and not for prediction, so the sampling
+results are relatively insensitive to them.
+
 SMOTE generates new examples of the minority class using nearest neighbors
 of these cases. For each existing minority class example, new examples are
 created by interpolating between the example and its nearest neighbors. The
@@ -150,10 +170,11 @@ columns \code{terms} and \code{id}:
 }
 
 \section{Tuning Parameters}{
-This step has 2 tuning parameters:
+This step has 3 tuning parameters:
 \itemize{
 \item \code{over_ratio}: Over-Sampling Ratio (type: double, default: 1)
 \item \code{neighbors}: # Nearest Neighbors (type: integer, default: 5)
+\item \code{m_neighbors}: # Nearest Neighbors (type: integer, default: NULL)
 }
 }
 

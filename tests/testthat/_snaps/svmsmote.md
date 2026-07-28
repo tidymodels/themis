@@ -109,6 +109,33 @@
       Error in `step_svmsmote()`:
       ! `seed` must be a whole number, not `TRUE`.
 
+---
+
+    Code
+      prep(step_svmsmote(recipe(~., data = mtcars), m_neighbors = 0))
+    Condition
+      Error in `step_svmsmote()`:
+      Caused by error in `prep()`:
+      ! `m_neighbors` must be a whole number larger than or equal to 1 or `NULL`, not the number 0.
+
+---
+
+    Code
+      prep(step_svmsmote(recipe(~., data = mtcars), out_step = "yes"))
+    Condition
+      Error in `step_svmsmote()`:
+      Caused by error in `prep()`:
+      ! `out_step` must be a number, not the string "yes".
+
+# m_neighbors larger than the data errors
+
+    Code
+      svmsmote(df, "class", m_neighbors = nrow(df))
+    Condition
+      Error in `svmsmote()`:
+      ! `m_neighbors` must be less than the number of observations.
+      i 400 neighbors were requested, but only 400 observations are available.
+
 # unused outcome levels are skipped with a warning (#238)
 
     Code

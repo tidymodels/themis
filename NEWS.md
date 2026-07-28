@@ -66,6 +66,8 @@
 
 * `step_smotenc()` now validates that all predictors are numeric or nominal, erroring on unsupported column types such as dates instead of failing later (#254).
 
+* `step_svmsmote()` (and its direct-implementation counterpart `svmsmote()`) gains `m_neighbors` and `out_step` arguments, which were previously hard-coded, controlling how many neighbors are used to label support vectors as noise, danger, or safe and how far new examples are extrapolated from safe support vectors. `m_neighbors` is also tunable, and the fixed choices made when fitting the support vector machine are now documented (#270).
+
 * `step_svmsmote()` now sets the tuning range of its `neighbors` parameter to `c(1, 10)`, matching the other steps that tune `neighbors` (#254).
 
 ## Bug fixes
