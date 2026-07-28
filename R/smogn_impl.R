@@ -224,8 +224,9 @@ smogn_relevance <- function(y, relevance = NULL, call = caller_env()) {
 # data (cosine, mahalanobis) or using the appropriate `stats::dist` method.
 smogn_distmat <- function(data, distance) {
   if (metric_is_transformable(distance)) {
-    # `check_singular = FALSE` preserves the historical behavior of relying on
-    # `chol()` to error on a singular covariance rather than the friendly guard.
+    # `check_singular = FALSE` preserves the historical behavior of letting the
+    # factorization catch a singular covariance rather than the up-front
+    # observations-vs-predictors guard.
     data <- metric_transform(data, distance, check_singular = FALSE)
     d <- as.matrix(stats::dist(data))
     if (distance == "cosine") {
