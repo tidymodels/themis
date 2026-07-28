@@ -36,6 +36,8 @@
 
 * The `distance` argument of every step that performs nearest neighbor calculations gains four probability-divergence metrics: `"squared_chord"`, `"matusita"`, `"hellinger"`, and `"bhattacharyya"`. These treat each row as a distribution over the predictors and so require non-negative values, with `"hellinger"` and `"bhattacharyya"` further requiring each row to sum to 1. All four run on the fast approximate nearest neighbor path and scale to large data (#234).
 
+* The `distance` argument of every step that performs nearest neighbor calculations gains nine further probability-divergence metrics, provided by the philentropy package: `"canberra"`, `"soergel"`, `"lorentzian"`, `"jeffreys"`, `"topsoe"`, `"jensen-shannon"`, `"jensen_difference"`, `"taneja"`, and `"kumar-johnson"`. philentropy is an optional dependency, and since these metrics compute an exact all-pairs distance matrix they are best suited to smaller datasets (#234).
+
 * `step_adasyn()`, `step_bsmote()`, `step_nearmiss()`, `step_smote()`, and `step_smotenc()` now document the minimum number of observations needed to perform the algorithm (#104).
 
 * `step_bsmote()` now sets the tuning range of its `neighbors` parameter to `c(1, 10)`, matching the other steps that tune `neighbors` (#254).

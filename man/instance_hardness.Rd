@@ -24,21 +24,32 @@ twice as many rows than the minority level. See
 \code{vignette("ratio", package = "themis")} for more details.}
 
 \item{distance}{A character string specifying the distance metric used for
-nearest neighbor calculations. One of \code{"euclidean"} (default), \code{"cosine"},
-\code{"mahalanobis"}, \code{"manhattan"}, \code{"chebyshev"}, \code{"squared_chord"},
-\code{"matusita"}, \code{"hellinger"}, or \code{"bhattacharyya"}. All except
-\code{"manhattan"} and \code{"chebyshev"} use approximate nearest neighbors via the
-RANN package and scale well to large datasets. \code{"manhattan"} and
-\code{"chebyshev"} compute an exact O(n^2) distance matrix and may be slow for
-large datasets.
+nearest neighbor calculations, defaulting to \code{"euclidean"}. The available
+metrics fall into three groups.
+
+\code{"euclidean"}, \code{"cosine"}, and \code{"mahalanobis"} use approximate nearest
+neighbors via the RANN package and scale well to large datasets.
 
 \code{"squared_chord"}, \code{"matusita"}, \code{"hellinger"}, and \code{"bhattacharyya"} are
 probability-divergence measures that treat each row as a distribution over
 the predictors, so they require non-negative values. \code{"hellinger"} and
-\code{"bhattacharyya"} further require each row to sum to 1. These metrics are
-meaningful for compositional predictors such as proportions or counts
-normalized per observation, and are generally not appropriate for
-standardized predictors.}
+\code{"bhattacharyya"} further require each row to sum to 1. All four also use
+the RANN package and scale well to large datasets.
+
+\code{"manhattan"}, \code{"chebyshev"}, \code{"canberra"}, \code{"soergel"}, \code{"lorentzian"},
+\code{"jeffreys"}, \code{"topsoe"}, \code{"jensen-shannon"}, \code{"jensen_difference"},
+\code{"taneja"}, and \code{"kumar-johnson"} compute an exact all-pairs distance
+matrix. This takes time and memory proportional to the square of the number
+of observations in a class, so these are best suited to smaller datasets.
+Everything from \code{"canberra"} onwards is a probability divergence requiring
+non-negative values, is provided by the philentropy package (which must be
+installed separately), and in the case of \code{"jeffreys"}, \code{"taneja"}, and
+\code{"kumar-johnson"} requires strictly positive values, since those divide by
+individual predictor values.
+
+The probability divergences are meaningful for compositional predictors such
+as proportions or counts normalized per observation, and are generally not
+appropriate for standardized predictors.}
 }
 \value{
 A data.frame or tibble, depending on type of \code{df}.
