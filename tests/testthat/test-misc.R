@@ -56,6 +56,102 @@ test_that("nn_dists_cross() returns cosine-distance magnitudes 1 - cos_sim (#244
   expect_equal(d, expected)
 })
 
+# Rows on the probability simplex, chosen so no two pairwise distances tie.
+simplex_fixture <- function() {
+  rbind(
+    c(0.60, 0.30, 0.10),
+    c(0.50, 0.42, 0.08),
+    c(0.10, 0.21, 0.69),
+    c(0.22, 0.18, 0.60),
+    c(0.34, 0.33, 0.33)
+  )
+}
+
+# Direct formulas for the sqrt-embedded metrics, used to check that the RANN
+# search on square-rooted coordinates agrees with the definitions.
+divergence_matrix <- function(x, y, distance) {
+  f <- switch(
+    distance,
+    "squared_chord" = \(a, b) sum((sqrt(a) - sqrt(b))^2),
+    "matusita" = \(a, b) sqrt(sum((sqrt(a) - sqrt(b))^2)),
+    "hellinger" = \(a, b) 2 * sqrt(1 - sum(sqrt(a * b))),
+    "bhattacharyya" = \(a, b) -log(sum(sqrt(a * b)))
+  )
+  outer(
+    seq_len(nrow(x)),
+    seq_len(nrow(y)),
+    Vectorize(function(i, j) f(x[i, ], y[j, ]))
+  )
+}
+
+test_that("nn_indices() matches brute-force sqrt-embedded divergence neighbors", {
+  data <- simplex_fixture()
+  expect_nn <- function(distance) {
+    d <- divergence_matrix(data, data, distance)
+    expected <- t(apply(d, 1, \(x) order(x)[seq_len(3)]))
+    expect_equal(nn_indices(data, k = 2, distance), expected)
+  }
+
+  expect_nn("squared_chord")
+  expect_nn("matusita")
+  expect_nn("hellinger")
+  expect_nn("bhattacharyya")
+})
+
+test_that("nn_indices_cross() matches brute-force sqrt-embedded neighbors", {
+  data <- simplex_fixture()
+  query <- data[1:2, ]
+  reference <- data[3:5, ]
+  expect_nn <- function(distance) {
+    d <- divergence_matrix(query, reference, distance)
+    expected <- t(apply(d, 1, \(x) order(x)[seq_len(2)]))
+    expect_equal(nn_indices_cross(query, reference, k = 2, distance), expected)
+  }
+
+  expect_nn("squared_chord")
+  expect_nn("matusita")
+  expect_nn("hellinger")
+  expect_nn("bhattacharyya")
+})
+
+test_that("nn_dists_cross() returns true divergence magnitudes, not euclidean", {
+  data <- simplex_fixture()
+  query <- data[1:2, ]
+  reference <- data[3:5, ]
+  expect_dists <- function(distance) {
+    d <- divergence_matrix(query, reference, distance)
+    expected <- t(apply(d, 1, \(x) sort(x)[seq_len(2)]))
+    expect_equal(nn_dists_cross(query, reference, k = 2, distance), expected)
+  }
+
+  expect_dists("squared_chord")
+  expect_dists("matusita")
+  expect_dists("hellinger")
+  expect_dists("bhattacharyya")
+})
+
+test_that("bhattacharyya distance is infinite for disjoint support", {
+  query <- matrix(c(1, 0, 0, 0), ncol = 2, byrow = TRUE)
+  reference <- matrix(c(0, 1), ncol = 2)
+  expect_equal(
+    nn_dists_cross(query[1, , drop = FALSE], reference, 1, "bhattacharyya"),
+    matrix(Inf)
+  )
+})
+
+test_that("sqrt-embedded metrics reject non-distribution predictors", {
+  negative <- rbind(c(0.5, -0.5, 1), c(0.2, 0.3, 0.5))
+  expect_snapshot(error = TRUE, nn_indices(negative, 1, "matusita"))
+
+  unnormalized <- rbind(c(1, 2, 3), c(3, 2, 1), c(1, 1, 4))
+  expect_snapshot(error = TRUE, nn_indices(unnormalized, 1, "hellinger"))
+  expect_snapshot(error = TRUE, nn_indices(unnormalized, 1, "bhattacharyya"))
+
+  # squared_chord and matusita hold off the simplex, so they are allowed
+  expect_no_error(nn_indices(unnormalized, 1, "squared_chord"))
+  expect_no_error(nn_indices(unnormalized, 1, "matusita"))
+})
+
 test_that("mahalanobis whitening reproduces stats::mahalanobis distances (#237)", {
   set.seed(1)
   n <- 200
