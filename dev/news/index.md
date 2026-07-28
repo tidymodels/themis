@@ -154,6 +154,14 @@
   all-pairs distance matrix they are best suited to smaller datasets
   ([\#234](https://github.com/tidymodels/themis/issues/234)).
 
+- `distance = "mahalanobis"` now fails with an informative error when
+  the predictors have a singular covariance matrix, instead of a
+  low-level message from [`chol()`](https://rdrr.io/r/base/chol.html) or
+  silently returning distances computed from a numerically unusable
+  inverse. This covers collinear and constant predictors as well as
+  duplicated rows
+  ([\#246](https://github.com/tidymodels/themis/issues/246)).
+
 - [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
   [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md),
   [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),
