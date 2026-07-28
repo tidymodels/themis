@@ -12,3 +12,14 @@
 #' points are interpolated between it and its minority-class neighbors. The
 #' remaining support vectors are considered to be in a safe region and new points
 #' are extrapolated away from their minority-class neighbors.
+#'
+#' The number of neighbors used for this labeling is controlled by
+#' `m_neighbors`, and how far the extrapolated points are placed is controlled by
+#' `out_step`.
+#'
+#' The support vector machine is always fitted with [kernlab::ksvm()] using a
+#' radial basis function kernel (`kernel = "rbfdot"`) and a cost of `C = 1`,
+#' matching the reference implementations of the method. These are not exposed
+#' as arguments because the fitted model is only used to identify which minority
+#' observations are support vectors, and not for prediction, so the sampling
+#' results are relatively insensitive to them.
