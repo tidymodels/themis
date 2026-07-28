@@ -15,6 +15,11 @@
 #'  be populated (eventually) by the `...` selectors.
 #' @param neighbors An integer. Number of nearest neighbor that are used
 #'  to generate the new examples of the minority class.
+#' @param m_neighbors An integer or `NULL`. Number of nearest neighbors, among
+#'  all classes, that are used to label each minority support vector as noise,
+#'  danger, or safe. Defaults to `NULL`, which means `2 * neighbors`.
+#' @param out_step A number. Step size used when extrapolating new examples
+#'  away from safe support vectors. Defaults to 0.5.
 #' @inheritParams step_smote
 #' @param seed An integer that will be used as the seed when applied.
 #' @return An updated version of `recipe` with the new step
@@ -118,6 +123,8 @@ step_svmsmote <-
     over_ratio = 1,
     neighbors = 5,
     distance = "euclidean",
+    m_neighbors = NULL,
+    out_step = 0.5,
     indicator_column = NULL,
     skip = TRUE,
     seed = sample.int(10^5, 1),
@@ -137,6 +144,8 @@ step_svmsmote <-
         over_ratio = over_ratio,
         neighbors = neighbors,
         distance = distance,
+        m_neighbors = m_neighbors,
+        out_step = out_step,
         predictors = NULL,
         indicator_column = indicator_column,
         skip = skip,
@@ -155,6 +164,8 @@ step_svmsmote_new <-
     over_ratio,
     neighbors,
     distance,
+    m_neighbors,
+    out_step,
     predictors,
     indicator_column,
     skip,
@@ -170,6 +181,8 @@ step_svmsmote_new <-
       over_ratio = over_ratio,
       neighbors = neighbors,
       distance = distance,
+      m_neighbors = m_neighbors,
+      out_step = out_step,
       predictors = predictors,
       indicator_column = indicator_column,
       skip = skip,
@@ -184,6 +197,13 @@ prep.step_svmsmote <- function(x, training, info = NULL, ...) {
 
   check_number_decimal(x$over_ratio, arg = "over_ratio", min = 0)
   check_number_whole(x$neighbors, arg = "neighbors", min = 1)
+  check_number_whole(
+    x$m_neighbors,
+    arg = "m_neighbors",
+    min = 1,
+    allow_null = TRUE
+  )
+  check_number_decimal(x$out_step, arg = "out_step", min = 0)
 
   check_1_selected(col_name)
   check_column_factor(training, col_name)
@@ -209,6 +229,8 @@ prep.step_svmsmote <- function(x, training, info = NULL, ...) {
     over_ratio = x$over_ratio,
     neighbors = x$neighbors,
     distance = x$distance,
+    m_neighbors = x$m_neighbors,
+    out_step = x$out_step,
     predictors = predictors,
     indicator_column = x$indicator_column,
     skip = x$skip,
@@ -244,7 +266,9 @@ bake.step_svmsmote <- function(object, new_data, ...) {
         object$column,
         k = object$neighbors,
         over_ratio = object$over_ratio,
-        distance = object$distance
+        distance = object$distance,
+        m_neighbors = object$m_neighbors,
+        out_step = object$out_step
       )
       synthetic_data <- as_tibble(synthetic_data)
     }
@@ -282,10 +306,11 @@ tidy.step_svmsmote <- function(x, ...) {
 #' @rdname tunable_themis
 tunable.step_svmsmote <- function(x, ...) {
   tibble::tibble(
-    name = c("over_ratio", "neighbors"),
+    name = c("over_ratio", "neighbors", "m_neighbors"),
     call_info = list(
       list(pkg = "dials", fun = "over_ratio"),
-      list(pkg = "dials", fun = "neighbors", range = c(1, 10))
+      list(pkg = "dials", fun = "neighbors", range = c(1, 10)),
+      list(pkg = "dials", fun = "neighbors", range = c(1, 20))
     ),
     source = "recipe",
     component = "step_svmsmote",
