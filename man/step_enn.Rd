@@ -15,6 +15,7 @@ step_enn(
   distance = "euclidean",
   times = 1,
   all_k = FALSE,
+  kind_sel = "mode",
   skip = TRUE,
   seed = sample.int(10^5, 1),
   distance_with = recipes::all_predictors(),
@@ -82,6 +83,11 @@ of neighbors, from \code{1} up to \code{neighbors}, cleaning the data at each st
 (All k-Nearest Neighbors). Takes precedence over \code{times}. Defaults to
 \code{FALSE}.}
 
+\item{kind_sel}{A character string. The rule used to decide whether an
+observation is removed. \code{"mode"} (the default) removes an observation when
+the majority of its neighbors disagree with its class. \code{"all"} is stricter
+and removes an observation unless all of its neighbors share its class.}
+
 \item{skip}{A logical. Should the step be skipped when the recipe is baked by
 \code{\link[recipes:bake]{bake()}}? While all operations are baked when \code{\link[recipes:prep]{prep()}} is run, some
 operations may not be able to be conducted on new data (e.g. processing the
@@ -124,6 +130,11 @@ removes nothing. This corresponds to Repeated Edited Nearest Neighbors
 Setting \code{all_k = TRUE} applies ENN with increasing numbers of neighbors, from
 \code{1} up to \code{neighbors}, cleaning the data at each step. This corresponds to
 All k-Nearest Neighbors (AllKNN) and takes precedence over \code{times}.
+
+Setting \code{kind_sel = "all"} uses a stricter cleaning rule: instead of removing
+an observation when the majority of its neighbors disagree, it is removed
+unless every one of its neighbors shares its class. This removes more
+observations than the default \code{kind_sel = "mode"}.
 
 All variables selected by \code{distance_with} must be numeric with no missing
 data.

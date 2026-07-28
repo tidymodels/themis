@@ -13,3 +13,8 @@
 #' Setting `all_k = TRUE` applies ENN with increasing numbers of neighbors, from
 #' `1` up to `neighbors`, cleaning the data at each step. This corresponds to
 #' All k-Nearest Neighbors (AllKNN) and takes precedence over `times`.
+#'
+#' Setting `kind_sel = "all"` uses a stricter cleaning rule: instead of removing
+#' an observation when the majority of its neighbors disagree, it is removed
+#' unless every one of its neighbors shares its class. This removes more
+#' observations than the default `kind_sel = "mode"`.
