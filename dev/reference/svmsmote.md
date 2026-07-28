@@ -7,7 +7,15 @@ place synthetic examples.
 ## Usage
 
 ``` r
-svmsmote(df, var, k = 5, over_ratio = 1, distance = "euclidean")
+svmsmote(
+  df,
+  var,
+  k = 5,
+  over_ratio = 1,
+  distance = "euclidean",
+  m_neighbors = NULL,
+  out_step = 0.5
+)
 ```
 
 ## Arguments
@@ -67,6 +75,17 @@ svmsmote(df, var, k = 5, over_ratio = 1, distance = "euclidean")
   predictors such as proportions or counts normalized per observation,
   and are generally not appropriate for standardized predictors.
 
+- m_neighbors:
+
+  An integer or `NULL`. Number of nearest neighbors, among all classes,
+  that are used to label each minority support vector as noise, danger,
+  or safe. Defaults to `NULL`, which means `2 * k`.
+
+- out_step:
+
+  A number. Step size used when extrapolating new examples away from
+  safe support vectors. Defaults to 0.5.
+
 ## Value
 
 A data.frame or tibble, depending on type of `df`.
@@ -88,6 +107,18 @@ the neighbors come from a different class the support vector is labeled
 minority-class neighbors. The remaining support vectors are considered
 to be in a safe region and new points are extrapolated away from their
 minority-class neighbors.
+
+The number of neighbors used for this labeling is controlled by
+`m_neighbors`, and how far the extrapolated points are placed is
+controlled by `out_step`.
+
+The support vector machine is always fitted with
+[`kernlab::ksvm()`](https://rdrr.io/pkg/kernlab/man/ksvm.html) using a
+radial basis function kernel (`kernel = "rbfdot"`) and a cost of
+`C = 1`, matching the reference implementations of the method. These are
+not exposed as arguments because the fitted model is only used to
+identify which minority observations are support vectors, and not for
+prediction, so the sampling results are relatively insensitive to them.
 
 SMOTE generates new examples of the minority class using nearest
 neighbors of these cases. For each existing minority class example, new
@@ -140,4 +171,6 @@ res <- svmsmote(circle_numeric, var = "class", k = 10)
 res <- svmsmote(circle_numeric, var = "class", over_ratio = 0.8)
 
 res <- svmsmote(circle_numeric, var = "class", distance = "manhattan")
+
+res <- svmsmote(circle_numeric, var = "class", m_neighbors = 20)
 ```

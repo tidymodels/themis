@@ -246,6 +246,17 @@
   ([\#254](https://github.com/tidymodels/themis/issues/254)).
 
 - [`step_svmsmote()`](https://themis.tidymodels.org/dev/reference/step_svmsmote.md)
+  (and its direct-implementation counterpart
+  [`svmsmote()`](https://themis.tidymodels.org/dev/reference/svmsmote.md))
+  gains `m_neighbors` and `out_step` arguments, which were previously
+  hard-coded, controlling how many neighbors are used to label support
+  vectors as noise, danger, or safe and how far new examples are
+  extrapolated from safe support vectors. `m_neighbors` is also tunable,
+  and the fixed choices made when fitting the support vector machine are
+  now documented
+  ([\#270](https://github.com/tidymodels/themis/issues/270)).
+
+- [`step_svmsmote()`](https://themis.tidymodels.org/dev/reference/step_svmsmote.md)
   now sets the tuning range of its `neighbors` parameter to `c(1, 10)`,
   matching the other steps that tune `neighbors`
   ([\#254](https://github.com/tidymodels/themis/issues/254)).
