@@ -78,6 +78,11 @@
   set (`skip = TRUE`) and avoiding cross-validation leakage
   ([\#320](https://github.com/tidymodels/themis/issues/320)).
 
+- Added a new “Methods overview” article organizing the sampling steps
+  into a taxonomy and documenting the SMOTE + ENN / SMOTE + Tomek
+  composition ([\#321](https://github.com/tidymodels/themis/issues/321),
+  [\#319](https://github.com/tidymodels/themis/issues/319)).
+
 - Added a new article explaining how `over_ratio` and `under_ratio` work
   ([\#141](https://github.com/tidymodels/themis/issues/141)).
 
