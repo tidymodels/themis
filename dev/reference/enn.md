@@ -6,7 +6,15 @@ nearest neighbors.
 ## Usage
 
 ``` r
-enn(df, var, neighbors = 3, distance = "euclidean", times = 1, all_k = FALSE)
+enn(
+  df,
+  var,
+  neighbors = 3,
+  distance = "euclidean",
+  times = 1,
+  all_k = FALSE,
+  kind_sel = "mode"
+)
 ```
 
 ## Arguments
@@ -72,6 +80,14 @@ enn(df, var, neighbors = 3, distance = "euclidean", times = 1, all_k = FALSE)
   (All k-Nearest Neighbors). Takes precedence over `times`. Defaults to
   `FALSE`.
 
+- kind_sel:
+
+  A character string. The rule used to decide whether an observation is
+  removed. `"mode"` (the default) removes an observation when the
+  majority of its neighbors disagree with its class. `"all"` is stricter
+  and removes an observation unless all of its neighbors share its
+  class.
+
 ## Value
 
 A data.frame or tibble, depending on type of `df`.
@@ -93,6 +109,11 @@ Setting `all_k = TRUE` applies ENN with increasing numbers of neighbors,
 from `1` up to `neighbors`, cleaning the data at each step. This
 corresponds to All k-Nearest Neighbors (AllKNN) and takes precedence
 over `times`.
+
+Setting `kind_sel = "all"` uses a stricter cleaning rule: instead of
+removing an observation when the majority of its neighbors disagree, it
+is removed unless every one of its neighbors shares its class. This
+removes more observations than the default `kind_sel = "mode"`.
 
 All columns used in this function must be numeric with no missing data.
 
@@ -144,4 +165,7 @@ res <- enn(circle_numeric, var = "class", times = Inf)
 
 # All k-Nearest Neighbors (AllKNN)
 res <- enn(circle_numeric, var = "class", all_k = TRUE)
+
+# Stricter cleaning: remove unless all neighbors agree
+res <- enn(circle_numeric, var = "class", kind_sel = "all")
 ```

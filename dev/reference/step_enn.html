@@ -63,6 +63,7 @@ neighbors.</p>
 <span>  distance <span class="op">=</span> <span class="st">"euclidean"</span>,</span>
 <span>  times <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  all_k <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  kind_sel <span class="op">=</span> <span class="st">"mode"</span>,</span>
 <span>  skip <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample.int</a></span><span class="op">(</span><span class="fl">10</span><span class="op">^</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  distance_with <span class="op">=</span> <span class="fu">recipes</span><span class="fu">::</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -148,6 +149,13 @@ of neighbors, from <code>1</code> up to <code>neighbors</code>, cleaning the dat
 <code>FALSE</code>.</p></dd>
 
 
+<dt id="arg-kind-sel">kind_sel<a class="anchor" aria-label="anchor" href="#arg-kind-sel"></a></dt>
+<dd><p>A character string. The rule used to decide whether an
+observation is removed. <code>"mode"</code> (the default) removes an observation when
+the majority of its neighbors disagree with its class. <code>"all"</code> is stricter
+and removes an observation unless all of its neighbors share its class.</p></dd>
+
+
 <dt id="arg-skip">skip<a class="anchor" aria-label="anchor" href="#arg-skip"></a></dt>
 <dd><p>A logical. Should the step be skipped when the recipe is baked by
 <code><a href="https://recipes.tidymodels.org/reference/bake.html" class="external-link">bake()</a></code>? While all operations are baked when <code><a href="https://recipes.tidymodels.org/reference/prep.html" class="external-link">prep()</a></code> is run, some
@@ -193,6 +201,10 @@ removes nothing. This corresponds to Repeated Edited Nearest Neighbors
 <p>Setting <code>all_k = TRUE</code> applies ENN with increasing numbers of neighbors, from
 <code>1</code> up to <code>neighbors</code>, cleaning the data at each step. This corresponds to
 All k-Nearest Neighbors (AllKNN) and takes precedence over <code>times</code>.</p>
+<p>Setting <code>kind_sel = "all"</code> uses a stricter cleaning rule: instead of removing
+an observation when the majority of its neighbors disagree, it is removed
+unless every one of its neighbors shares its class. This removes more
+observations than the default <code>kind_sel = "mode"</code>.</p>
 <p>All variables selected by <code>distance_with</code> must be numeric with no missing
 data.</p>
 <p>All columns in the data are sampled and returned by <code><a href="https://recipes.tidymodels.org/reference/juice.html" class="external-link">recipes::juice()</a></code>

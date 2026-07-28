@@ -17,6 +17,7 @@ step_enn(
   distance = "euclidean",
   times = 1,
   all_k = FALSE,
+  kind_sel = "mode",
   skip = TRUE,
   seed = sample.int(10^5, 1),
   distance_with = recipes::all_predictors(),
@@ -105,6 +106,14 @@ step_enn(
   (All k-Nearest Neighbors). Takes precedence over `times`. Defaults to
   `FALSE`.
 
+- kind_sel:
+
+  A character string. The rule used to decide whether an observation is
+  removed. `"mode"` (the default) removes an observation when the
+  majority of its neighbors disagree with its class. `"all"` is stricter
+  and removes an observation unless all of its neighbors share its
+  class.
+
 - skip:
 
   A logical. Should the step be skipped when the recipe is baked by
@@ -155,6 +164,11 @@ Setting `all_k = TRUE` applies ENN with increasing numbers of neighbors,
 from `1` up to `neighbors`, cleaning the data at each step. This
 corresponds to All k-Nearest Neighbors (AllKNN) and takes precedence
 over `times`.
+
+Setting `kind_sel = "all"` uses a stricter cleaning rule: instead of
+removing an observation when the majority of its neighbors disagree, it
+is removed unless every one of its neighbors shares its class. This
+removes more observations than the default `kind_sel = "mode"`.
 
 All variables selected by `distance_with` must be numeric with no
 missing data.
