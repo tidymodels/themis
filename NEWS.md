@@ -20,6 +20,8 @@
 
 ## Improvements
 
+* Added a new "Common pitfalls" article on resampling only the training set (`skip = TRUE`) and avoiding cross-validation leakage (#320).
+
 * Added a new article explaining how `over_ratio` and `under_ratio` work (#141).
 
 * Added standalone `rose()` function as a thin wrapper around `ROSE::ROSE()`, making it consistent with the other algorithms in the package that expose a direct implementation alongside their recipe step (#195).
