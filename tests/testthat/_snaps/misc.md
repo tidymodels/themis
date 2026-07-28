@@ -8,6 +8,36 @@
       i 4 observations were found but 5 predictors are present.
       i Try a different `distance` metric or reduce the number of predictors.
 
+# mahalanobis errors informatively for collinear predictors (#246)
+
+    Code
+      nn_indices(data, 1, "mahalanobis")
+    Condition
+      Error in `nn_indices()`:
+      ! `distance = "mahalanobis"` requires an invertible covariance matrix, but the covariance of the predictors is singular.
+      i This happens when predictors are collinear or constant, or when duplicated rows leave too few distinct observations.
+      i Try a different `distance` metric or remove the redundant predictors.
+
+---
+
+    Code
+      nn_indices(data, 1, "mahalanobis")
+    Condition
+      Error in `nn_indices()`:
+      ! `distance = "mahalanobis"` requires an invertible covariance matrix, but the covariance of the predictors is singular.
+      i This happens when predictors are collinear or constant, or when duplicated rows leave too few distinct observations.
+      i Try a different `distance` metric or remove the redundant predictors.
+
+---
+
+    Code
+      nn_indices(data, 1, "mahalanobis")
+    Condition
+      Error in `nn_indices()`:
+      ! `distance = "mahalanobis"` requires an invertible covariance matrix, but the covariance of the predictors is singular.
+      i This happens when predictors are collinear or constant, or when duplicated rows leave too few distinct observations.
+      i Try a different `distance` metric or remove the redundant predictors.
+
 # sqrt-embedded metrics reject non-distribution predictors
 
     Code
