@@ -114,6 +114,7 @@ International Conference on Intelligent Computing, pages 878–887. Springer,
 
 Other Direct Implementations:
 \code{\link[=adasyn]{adasyn()}},
+\code{\link[=cluster_centroids]{cluster_centroids()}},
 \code{\link[=cnn]{cnn()}},
 \code{\link[=enn]{enn()}},
 \code{\link[=instance_hardness]{instance_hardness()}},

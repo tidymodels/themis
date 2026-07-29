@@ -34,7 +34,7 @@ Over-sampling grows the minority classes, either by replicating existing observa
 
 ## Under-sampling
 
-Under-sampling shrinks the majority classes. Every under-sampler in themis performs *prototype selection*, keeping a subset of the real rows. None currently performs *prototype generation* (creating new representative rows), so that category is deliberately empty.
+Under-sampling shrinks the majority classes. Most under-samplers in themis perform *prototype selection*, keeping a subset of the real rows. One, `step_cluster_centroids()`, performs *prototype generation*, creating new representative rows instead.
 
 - **Random.** `step_downsample()` drops majority observations at random.
 - **Distance / near-boundary.** These target observations by their position relative to the class boundary.
@@ -46,6 +46,7 @@ Under-sampling shrinks the majority classes. Every under-sampler in themis perfo
   - `step_enn()` (edited nearest neighbors) removes observations whose class differs from the majority of their neighbors. With `times` or `all_k` it becomes RENN or AllKNN.
   - `step_ncl()` (neighborhood cleaning rule) is a variant focused on cleaning the neighborhoods of minority observations.
 - **Hardness.** `step_instance_hardness()` removes the majority observations that are hardest to classify, measured by how often their neighbors disagree.
+- **Prototype generation.** `step_cluster_centroids()` summarizes each majority class with k-means cluster representatives: the centroids themselves with `voting = "soft"`, or the observation nearest each centroid with `voting = "hard"`.
 
 ## Combination
 

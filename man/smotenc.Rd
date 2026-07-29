@@ -64,6 +64,7 @@ its properties. Biometrics 27(4):857-871. (For the distance metric used)
 Other Direct Implementations:
 \code{\link[=adasyn]{adasyn()}},
 \code{\link[=bsmote]{bsmote()}},
+\code{\link[=cluster_centroids]{cluster_centroids()}},
 \code{\link[=cnn]{cnn()}},
 \code{\link[=enn]{enn()}},
 \code{\link[=instance_hardness]{instance_hardness()}},
