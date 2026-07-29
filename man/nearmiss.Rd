@@ -4,7 +4,15 @@
 \alias{nearmiss}
 \title{Remove Points Near Other Classes}
 \usage{
-nearmiss(df, var, k = 5, under_ratio = 1, distance = "euclidean")
+nearmiss(
+  df,
+  var,
+  k = 5,
+  under_ratio = 1,
+  distance = "euclidean",
+  version = 1,
+  n_neighbors_ver3 = 3
+)
 }
 \arguments{
 \item{df}{data.frame or tibble. Must have 1 factor variable and remaining
@@ -50,6 +58,13 @@ individual predictor values.
 The probability divergences are meaningful for compositional predictors such
 as proportions or counts normalized per observation, and are generally not
 appropriate for standardized predictors.}
+
+\item{version}{An integer. Which of the three NearMiss variants to use,
+\code{1}, \code{2}, or \code{3}. Defaults to \code{1}. See the details section.}
+
+\item{n_neighbors_ver3}{An integer. The number of nearest neighbors used
+to build the candidate pool of the NearMiss-3 variant. Only used when
+\code{version = 3}. Defaults to \code{3}.}
 }
 \value{
 A data.frame or tibble, depending on type of \code{df}.
@@ -58,9 +73,26 @@ A data.frame or tibble, depending on type of \code{df}.
 Generates synthetic positive instances using nearmiss algorithm.
 }
 \details{
-This implements the NearMiss-1 algorithm. It retains the points from the
-majority class which have the smallest mean distance to the nearest points
-in the minority class.
+The \code{version} argument selects between the three NearMiss variants:
+
+\describe{
+\item{\code{version = 1}}{Retains the points from the majority class which
+have the smallest mean distance to their nearest points in the minority
+class.}
+\item{\code{version = 2}}{Retains the points from the majority class which
+have the smallest mean distance to their farthest points in the minority
+class.}
+\item{\code{version = 3}}{Works in two stages. First, the \code{n_neighbors_ver3}
+nearest majority class neighbors of each minority class point form a
+candidate pool, and all other majority class points are removed. Then the
+points of that pool which have the largest mean distance to their nearest
+minority class points are retained.}
+}
+
+Since the size of the NearMiss-3 candidate pool is governed by
+\code{n_neighbors_ver3} rather than by \code{under_ratio}, the pool can be smaller
+than the target set by \code{under_ratio}. The whole pool is then retained and
+the target is not reached.
 
 With more than two classes, the mean distance is computed to the nearest
 points across all other classes, not only the minority class. This differs
@@ -79,6 +111,17 @@ res <- nearmiss(circle_numeric, var = "class", k = 10)
 res <- nearmiss(circle_numeric, var = "class", under_ratio = 1.5)
 
 res <- nearmiss(circle_numeric, var = "class", distance = "manhattan")
+
+res <- nearmiss(circle_numeric, var = "class", version = 2)
+
+res <- nearmiss(circle_numeric, var = "class", version = 3)
+
+res <- nearmiss(
+  circle_numeric,
+  var = "class",
+  version = 3,
+  n_neighbors_ver3 = 10
+)
 }
 \references{
 Inderjeet Mani and I Zhang. knn approach to unbalanced data
