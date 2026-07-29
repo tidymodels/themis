@@ -80,6 +80,14 @@
       Error in `step_downsample()`:
       ! `seed` must be a whole number, not `TRUE`.
 
+---
+
+    Code
+      step_downsample(recipe(~., data = mtcars), replacement = "yes")
+    Condition
+      Error in `step_downsample()`:
+      ! `replacement` must be `TRUE` or `FALSE`, not the string "yes".
+
 # unused outcome levels are skipped with a warning (#238)
 
     Code
