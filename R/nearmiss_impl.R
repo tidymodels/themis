@@ -34,12 +34,33 @@
 #' res <- nearmiss(circle_numeric, var = "class", under_ratio = 1.5)
 #'
 #' res <- nearmiss(circle_numeric, var = "class", distance = "manhattan")
-nearmiss <- function(df, var, k = 5, under_ratio = 1, distance = "euclidean") {
+#'
+#' res <- nearmiss(circle_numeric, var = "class", version = 2)
+#'
+#' res <- nearmiss(circle_numeric, var = "class", version = 3)
+#'
+#' res <- nearmiss(
+#'   circle_numeric,
+#'   var = "class",
+#'   version = 3,
+#'   n_neighbors_ver3 = 10
+#' )
+nearmiss <- function(
+  df,
+  var,
+  k = 5,
+  under_ratio = 1,
+  distance = "euclidean",
+  version = 1,
+  n_neighbors_ver3 = 3
+) {
   check_data_frame(df)
   check_var(var, df)
   check_number_whole(k, min = 1)
   check_number_decimal(under_ratio)
   check_distance_arg(distance)
+  check_number_whole(version, min = 1, max = 3)
+  check_number_whole(n_neighbors_ver3, min = 1)
 
   predictors <- setdiff(colnames(df), var)
 
@@ -52,7 +73,9 @@ nearmiss <- function(df, var, k = 5, under_ratio = 1, distance = "euclidean") {
     ignore_vars = character(),
     k,
     under_ratio,
-    distance = distance
+    distance = distance,
+    version = version,
+    n_neighbors_ver3 = n_neighbors_ver3
   )
 }
 
@@ -63,6 +86,8 @@ nearmiss_impl <- function(
   k = 5,
   under_ratio = 1,
   distance = "euclidean",
+  version = 1,
+  n_neighbors_ver3 = 3,
   call = caller_env()
 ) {
   classes <- downsample_count(df, var, under_ratio)
@@ -83,10 +108,54 @@ nearmiss_impl <- function(
       )
     }
 
-    dists <- nn_dists_cross(class, not_class, k, distance)
+    n_keep <- nrow(class) - classes[i]
 
-    selected_ind <- rank(rowMeans(dists), ties.method = "first") <=
-      (nrow(class) - classes[i])
+    if (version == 1) {
+      dists <- nn_dists_cross(class, not_class, k, distance)
+      selected_ind <- rank(rowMeans(dists), ties.method = "first") <= n_keep
+    } else if (version == 2) {
+      # The k farthest neighbors instead of the k nearest ones. The distances
+      # returned by `nn_dists_cross()` are sorted increasingly, so requesting
+      # all of them and taking the last k columns gives the farthest ones.
+      dists <- nn_dists_cross(class, not_class, nrow(not_class), distance)
+      dists <- dists[, seq(ncol(dists) - k + 1, ncol(dists)), drop = FALSE]
+      selected_ind <- rank(rowMeans(dists), ties.method = "first") <= n_keep
+    } else {
+      if (n_neighbors_ver3 > nrow(class)) {
+        cli::cli_abort(
+          c(
+            "Not enough observations in {.val {names(classes)[i]}} to compute {n_neighbors_ver3} nearest neighbors for the NearMiss-3 candidate pool.",
+            i = "{nrow(class)} observation{?s} {?was/were} found, but {n_neighbors_ver3} {?is/are} needed.",
+            i = "Lower {.arg n_neighbors_ver3}."
+          ),
+          call = call
+        )
+      }
+
+      # First stage: for each observation of the other classes, keep its
+      # `n_neighbors_ver3` nearest neighbors within this class as candidates.
+      # Everything outside of that pool is removed.
+      pool_ind <- nn_indices_cross(
+        not_class,
+        class,
+        n_neighbors_ver3,
+        distance
+      )
+      pool <- sort(unique(as.vector(pool_ind)))
+
+      # Second stage: within the pool, keep the observations that are the
+      # farthest away from their k nearest neighbors in the other classes.
+      dists <- nn_dists_cross(
+        class[pool, , drop = FALSE],
+        not_class,
+        k,
+        distance
+      )
+      selected_ind <- rep(FALSE, nrow(class))
+      selected_ind[pool] <- rank(-rowMeans(dists), ties.method = "first") <=
+        n_keep
+    }
+
     deleted_rows <- c(
       deleted_rows,
       which(df[[var]] %in% names(classes)[i])[!selected_ind]
