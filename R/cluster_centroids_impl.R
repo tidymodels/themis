@@ -127,10 +127,14 @@ kmeans_centers <- function(data, n_clusters, class, call = caller_env()) {
     )
   }
 
-  # Hartigan-Wong reports a warning when it hits an internal iteration limit but
-  # still returns usable centers, so those warnings are muffled rather than
-  # passed on to the user.
-  res <- withCallingHandlers(
+  kmeans_fit(data, n_clusters)$centers
+}
+
+# Hartigan-Wong reports a warning when it hits an internal iteration limit but
+# still returns usable results, so those warnings are muffled rather than passed
+# on to the user.
+kmeans_fit <- function(data, n_clusters) {
+  withCallingHandlers(
     stats::kmeans(data, centers = n_clusters, iter.max = 100),
     warning = function(cnd) {
       if (grepl("converge|Quick-TRANSfer", conditionMessage(cnd))) {
@@ -138,6 +142,4 @@ kmeans_centers <- function(data, n_clusters, class, call = caller_env()) {
       }
     }
   )
-
-  res$centers
 }

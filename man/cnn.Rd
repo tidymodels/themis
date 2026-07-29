@@ -86,6 +86,7 @@ Other Direct Implementations:
 \code{\link[=cluster_centroids]{cluster_centroids()}},
 \code{\link[=enn]{enn()}},
 \code{\link[=instance_hardness]{instance_hardness()}},
+\code{\link[=kmeans_smote]{kmeans_smote()}},
 \code{\link[=ncl]{ncl()}},
 \code{\link[=nearmiss]{nearmiss()}},
 \code{\link[=oss]{oss()}},

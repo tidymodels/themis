@@ -10,6 +10,8 @@
 
 * `step_instance_hardness()` (and its direct-implementation counterpart `instance_hardness()`) was added. It under-samples the majority classes by removing the observations that are hardest to classify, estimated using the k-Disagreeing Neighbors measure (#172).
 
+* `step_kmeans_smote()` (and its direct-implementation counterpart `kmeans_smote()`) was added. It over-samples the minority classes with KMeans-SMOTE, which clusters the predictor space, generates new examples only inside the clusters where the minority class is dominant, and gives sparser clusters more of the new examples (#317).
+
 * `step_ncl()` (and its direct-implementation counterpart `ncl()`) was added. It cleans the data using the Neighborhood Cleaning Rule, removing majority class observations that are noisy or that pollute the neighborhood of minority class observations (#116).
 
 * `step_oss()` (and its direct-implementation counterpart `oss()`) was added. It under-samples the majority classes using One-Sided Selection, combining Condensed Nearest Neighbors to reduce redundant majority class observations with Tomek's links to remove majority class observations on the decision boundary (#114).

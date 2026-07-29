@@ -68,6 +68,21 @@ test_that("tunable.step_instance_hardness", {
   expect_all_equal(res$component, "step_instance_hardness")
 })
 
+test_that("tunable.step_kmeans_smote", {
+  res <- tune_tbl(step_kmeans_smote)
+  expect_equal(res$name, c("over_ratio", "neighbors", "num_clusters"))
+  expect_equal(res$call_info[[1]], list(pkg = "dials", fun = "over_ratio"))
+  expect_equal(
+    res$call_info[[2]],
+    list(pkg = "dials", fun = "neighbors", range = c(1, 10))
+  )
+  expect_equal(
+    res$call_info[[3]],
+    list(pkg = "dials", fun = "num_clusters", range = c(2, 10))
+  )
+  expect_all_equal(res$component, "step_kmeans_smote")
+})
+
 test_that("tunable.step_ncl", {
   res <- tune_tbl(step_ncl)
   expect_equal(res$name, c("neighbors", "threshold_clean"))
