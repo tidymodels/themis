@@ -65,6 +65,42 @@
       Error in `step_nearmiss()`:
       ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", "chebyshev", "squared_chord", "matusita", "hellinger", "bhattacharyya", "canberra", "soergel", "lorentzian", "jeffreys", "topsoe", "jensen-shannon", "jensen_difference", "taneja", or "kumar-johnson", not "L2".
 
+# printing shows the nearmiss version
+
+    Code
+      step_nearmiss(recipe(class ~ x + y, data = circle_example), class, version = 2)
+    Message
+      
+      -- Recipe ----------------------------------------------------------------------
+      
+      -- Inputs 
+      Number of variables by role
+      outcome:   1
+      predictor: 2
+      
+      -- Operations 
+      * NEARMISS-2 based on: class
+
+---
+
+    Code
+      prep(step_nearmiss(recipe(class ~ x + y, data = circle_example), class,
+      version = 3))
+    Message
+      
+      -- Recipe ----------------------------------------------------------------------
+      
+      -- Inputs 
+      Number of variables by role
+      outcome:   1
+      predictor: 2
+      
+      -- Training information 
+      Training data contained 400 data points and no incomplete rows.
+      
+      -- Operations 
+      * NEARMISS-3 based on: class | Trained
+
 # bad args
 
     Code
@@ -90,6 +126,22 @@
     Condition
       Error in `step_nearmiss()`:
       ! `seed` must be a whole number, not `TRUE`.
+
+---
+
+    Code
+      step_nearmiss(recipe(~., data = mtcars), version = 4)
+    Condition
+      Error in `step_nearmiss()`:
+      ! `version` must be a whole number between 1 and 3, not the number 4.
+
+---
+
+    Code
+      step_nearmiss(recipe(~., data = mtcars), n_neighbors_ver3 = 0)
+    Condition
+      Error in `step_nearmiss()`:
+      ! `n_neighbors_ver3` must be a whole number larger than or equal to 1, not the number 0.
 
 # unused outcome levels are skipped with a warning (#238)
 

@@ -58,6 +58,8 @@
 
 * `step_ncl()` now documents that `neighbors` defaults to `3` (rather than `5` as in the over-sampling steps) and exposes `threshold_clean` as a tunable parameter (#254).
 
+* `step_nearmiss()` (and its direct-implementation counterpart `nearmiss()`) gains a `version` argument to select between the NearMiss-1, NearMiss-2, and NearMiss-3 variants of Mani & Zhang (2003), together with `n_neighbors_ver3` to control the size of the NearMiss-3 candidate pool. The default `version = 1` preserves the previous behavior (#279).
+
 * `step_nearmiss()` and `step_tomek()` gain a `distance_with` argument to control which variables are used for distance calculations. This allows the steps to be used when non-numeric predictor variables are present in the data (#166).
 
 * `step_rose()` now validates predictor types during `prep()`, giving a clear error for unsupported types consistent with the other sampling steps instead of relying on `ROSE::ROSE()` to fail downstream (#265).
