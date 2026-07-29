@@ -62,6 +62,8 @@ on their distance to points in the minority class.</p>
 <span>  under_ratio <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  neighbors <span class="op">=</span> <span class="fl">5</span>,</span>
 <span>  distance <span class="op">=</span> <span class="st">"euclidean"</span>,</span>
+<span>  version <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  n_neighbors_ver3 <span class="op">=</span> <span class="fl">3</span>,</span>
 <span>  skip <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  seed <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample.int</a></span><span class="op">(</span><span class="fl">10</span><span class="op">^</span><span class="fl">5</span>, <span class="fl">1</span><span class="op">)</span>,</span>
 <span>  distance_with <span class="op">=</span> <span class="fu">recipes</span><span class="fu">::</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span>,</span>
@@ -142,6 +144,17 @@ as proportions or counts normalized per observation, and are generally not
 appropriate for standardized predictors.</p></dd>
 
 
+<dt id="arg-version">version<a class="anchor" aria-label="anchor" href="#arg-version"></a></dt>
+<dd><p>An integer. Which of the three NearMiss variants to use,
+<code>1</code>, <code>2</code>, or <code>3</code>. Defaults to <code>1</code>. See the details section.</p></dd>
+
+
+<dt id="arg-n-neighbors-ver-">n_neighbors_ver3<a class="anchor" aria-label="anchor" href="#arg-n-neighbors-ver-"></a></dt>
+<dd><p>An integer. The number of nearest neighbors used
+to build the candidate pool of the NearMiss-3 variant. Only used when
+<code>version = 3</code>. Defaults to <code>3</code>.</p></dd>
+
+
 <dt id="arg-skip">skip<a class="anchor" aria-label="anchor" href="#arg-skip"></a></dt>
 <dd><p>A logical. Should the step be skipped when the recipe is baked by
 <code><a href="https://recipes.tidymodels.org/reference/bake.html" class="external-link">bake()</a></code>? While all operations are baked when <code><a href="https://recipes.tidymodels.org/reference/prep.html" class="external-link">prep()</a></code> is run, some
@@ -175,9 +188,29 @@ the variable used to sample.</p>
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>This implements the NearMiss-1 algorithm. It retains the points from the
-majority class which have the smallest mean distance to the nearest points
-in the minority class.</p>
+    <p>The <code>version</code> argument selects between the three NearMiss variants:</p>
+<dl><dt><code>version = 1</code></dt>
+<dd><p>Retains the points from the majority class which
+have the smallest mean distance to their nearest points in the minority
+class.</p></dd>
+
+<dt><code>version = 2</code></dt>
+<dd><p>Retains the points from the majority class which
+have the smallest mean distance to their farthest points in the minority
+class.</p></dd>
+
+<dt><code>version = 3</code></dt>
+<dd><p>Works in two stages. First, the <code>n_neighbors_ver3</code>
+nearest majority class neighbors of each minority class point form a
+candidate pool, and all other majority class points are removed. Then the
+points of that pool which have the largest mean distance to their nearest
+minority class points are retained.</p></dd>
+
+
+</dl><p>Since the size of the NearMiss-3 candidate pool is governed by
+<code>n_neighbors_ver3</code> rather than by <code>under_ratio</code>, the pool can be smaller
+than the target set by <code>under_ratio</code>. The whole pool is then retained and
+the target is not reached.</p>
 <p>With more than two classes, the mean distance is computed to the nearest
 points across all other classes, not only the minority class. This differs
 from imbalanced-learn, which measures distance to the minority class only.

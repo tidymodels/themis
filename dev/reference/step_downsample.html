@@ -58,6 +58,7 @@ factor level equal.</p>
 <span>  <span class="va">...</span>,</span>
 <span>  under_ratio <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>  ratio <span class="op">=</span> <span class="fu">deprecated</span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  replacement <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  role <span class="op">=</span> <span class="cn">NA</span>,</span>
 <span>  trained <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  column <span class="op">=</span> <span class="cn">NULL</span>,</span>
@@ -97,6 +98,16 @@ twice as many rows than the minority level. See
 
 <dt id="arg-ratio">ratio<a class="anchor" aria-label="anchor" href="#arg-ratio"></a></dt>
 <dd><p>Deprecated argument; same as <code>under_ratio</code></p></dd>
+
+
+<dt id="arg-replacement">replacement<a class="anchor" aria-label="anchor" href="#arg-replacement"></a></dt>
+<dd><p>A logical value indicating whether the
+under-sample should be drawn with replacement. Defaults to
+<code>FALSE</code>, in which case each retained row is distinct. When
+<code>TRUE</code> the same row can be selected more than once, giving a
+bootstrapped under-sample. The number of rows retained for each
+level is unaffected, so no level is sampled up beyond its
+original size.</p></dd>
 
 
 <dt id="arg-role">role<a class="anchor" aria-label="anchor" href="#arg-role"></a></dt>

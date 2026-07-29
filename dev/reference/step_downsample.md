@@ -12,6 +12,7 @@ step_downsample(
   ...,
   under_ratio = 1,
   ratio = deprecated(),
+  replacement = FALSE,
   role = NA,
   trained = FALSE,
   column = NULL,
@@ -49,6 +50,15 @@ step_downsample(
 - ratio:
 
   Deprecated argument; same as `under_ratio`
+
+- replacement:
+
+  A logical value indicating whether the under-sample should be drawn
+  with replacement. Defaults to `FALSE`, in which case each retained row
+  is distinct. When `TRUE` the same row can be selected more than once,
+  giving a bootstrapped under-sample. The number of rows retained for
+  each level is unaffected, so no level is sampled up beyond its
+  original size.
 
 - role:
 

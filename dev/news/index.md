@@ -194,6 +194,13 @@
   matching the other steps that tune `neighbors`
   ([\#254](https://github.com/tidymodels/themis/issues/254)).
 
+- [`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md)
+  gains a `replacement` argument. When set to `TRUE` the under-sample is
+  drawn with replacement, giving a bootstrapped under-sample where the
+  same row can be selected more than once. The default `FALSE` keeps the
+  current behavior
+  ([\#325](https://github.com/tidymodels/themis/issues/325)).
+
 - [`step_enn()`](https://themis.tidymodels.org/dev/reference/step_enn.md)
   (and its direct-implementation counterpart
   [`enn()`](https://themis.tidymodels.org/dev/reference/enn.md)) gain a
@@ -218,6 +225,15 @@
   now documents that `neighbors` defaults to `3` (rather than `5` as in
   the over-sampling steps) and exposes `threshold_clean` as a tunable
   parameter ([\#254](https://github.com/tidymodels/themis/issues/254)).
+
+- [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md)
+  (and its direct-implementation counterpart
+  [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md))
+  gains a `version` argument to select between the NearMiss-1,
+  NearMiss-2, and NearMiss-3 variants of Mani & Zhang (2003), together
+  with `n_neighbors_ver3` to control the size of the NearMiss-3
+  candidate pool. The default `version = 1` preserves the previous
+  behavior ([\#279](https://github.com/tidymodels/themis/issues/279)).
 
 - [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md)
   and
