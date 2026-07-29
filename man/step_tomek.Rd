@@ -189,6 +189,7 @@ the ambiguous points that over-sampling creates near the class boundary
 (the equivalent of imbalanced-learn's \code{SMOTETomek}).
 
 Other Steps for under-sampling:
+\code{\link[=step_cluster_centroids]{step_cluster_centroids()}},
 \code{\link[=step_cnn]{step_cnn()}},
 \code{\link[=step_downsample]{step_downsample()}},
 \code{\link[=step_enn]{step_enn()}},

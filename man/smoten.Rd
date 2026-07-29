@@ -67,6 +67,7 @@ Journal of Artificial Intelligence Research, 16:321-357.
 Other Direct Implementations:
 \code{\link[=adasyn]{adasyn()}},
 \code{\link[=bsmote]{bsmote()}},
+\code{\link[=cluster_centroids]{cluster_centroids()}},
 \code{\link[=cnn]{cnn()}},
 \code{\link[=enn]{enn()}},
 \code{\link[=instance_hardness]{instance_hardness()}},

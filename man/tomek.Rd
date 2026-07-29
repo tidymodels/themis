@@ -75,6 +75,7 @@ Tomek. Two modifications of cnn. IEEE Trans. Syst. Man Cybern.,
 Other Direct Implementations:
 \code{\link[=adasyn]{adasyn()}},
 \code{\link[=bsmote]{bsmote()}},
+\code{\link[=cluster_centroids]{cluster_centroids()}},
 \code{\link[=cnn]{cnn()}},
 \code{\link[=enn]{enn()}},
 \code{\link[=instance_hardness]{instance_hardness()}},

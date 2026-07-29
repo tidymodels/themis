@@ -193,6 +193,7 @@ Transactions on Information Theory, 14(3), 515-516.
 \code{\link[=cnn]{cnn()}} for direct implementation
 
 Other Steps for under-sampling:
+\code{\link[=step_cluster_centroids]{step_cluster_centroids()}},
 \code{\link[=step_downsample]{step_downsample()}},
 \code{\link[=step_enn]{step_enn()}},
 \code{\link[=step_instance_hardness]{step_instance_hardness()}},

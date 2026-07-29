@@ -2,6 +2,8 @@
 
 ## New steps
 
+* `step_cluster_centroids()` (and its direct-implementation counterpart `cluster_centroids()`) was added. It under-samples the majority classes by running k-means within each class and replacing the class with one representative per cluster, either the centroid itself (`voting = "soft"`) or the observation closest to it (`voting = "hard"`) (#318).
+
 * `step_cnn()` (and its direct-implementation counterpart `cnn()`) was added. It under-samples the majority classes using Condensed Nearest Neighbors, keeping only a consistent subset of observations that correctly classifies the data using a 1-nearest-neighbor rule (#113).
 
 * `step_enn()` (and its direct-implementation counterpart `enn()`) was added. It cleans the data using the Edited Nearest Neighbors rule, removing observations whose class differs from the majority of their nearest neighbors (#115).

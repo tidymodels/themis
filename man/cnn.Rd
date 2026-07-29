@@ -83,6 +83,7 @@ Transactions on Information Theory, 14(3), 515-516.
 Other Direct Implementations:
 \code{\link[=adasyn]{adasyn()}},
 \code{\link[=bsmote]{bsmote()}},
+\code{\link[=cluster_centroids]{cluster_centroids()}},
 \code{\link[=enn]{enn()}},
 \code{\link[=instance_hardness]{instance_hardness()}},
 \code{\link[=ncl]{ncl()}},

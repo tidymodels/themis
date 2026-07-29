@@ -32,6 +32,13 @@ test_that("tunable.step_bsmote", {
   expect_all_equal(res$component, "step_bsmote")
 })
 
+test_that("tunable.step_cluster_centroids", {
+  res <- tune_tbl(step_cluster_centroids)
+  expect_equal(res$name, "under_ratio")
+  expect_equal(res$call_info[[1]], list(pkg = "dials", fun = "under_ratio"))
+  expect_all_equal(res$component, "step_cluster_centroids")
+})
+
 test_that("tunable.step_downsample", {
   res <- tune_tbl(step_downsample)
   expect_equal(res$name, "under_ratio")

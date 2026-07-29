@@ -50,9 +50,9 @@ reference:
 - title: Under-sampling
   desc: >
     **Under-sampling** is the act of removing observations from the majority
-    classes. Every under-sampler here uses *prototype selection*, keeping a
-    subset of the real rows, rather than *prototype generation*, which would
-    create new representative rows.
+    classes. Most under-samplers here use *prototype selection*, keeping a
+    subset of the real rows. `step_cluster_centroids()` instead uses *prototype
+    generation*, creating new representative rows.
 - subtitle: Random
   contents:
   - step_downsample
@@ -69,6 +69,9 @@ reference:
 - subtitle: Hardness
   contents:
   - step_instance_hardness
+- subtitle: Prototype generation
+  contents:
+  - step_cluster_centroids
 - title: Regression
   desc: >
     Resampling an imbalanced numeric outcome rather than a class.
@@ -87,6 +90,7 @@ reference:
   - svmsmote
   - adasyn
   - rose
+  - cluster_centroids
   - cnn
   - enn
   - instance_hardness
