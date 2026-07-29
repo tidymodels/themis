@@ -150,6 +150,7 @@ Other Direct Implementations:
 [`cnn()`](https://themis.tidymodels.org/dev/reference/cnn.md),
 [`enn()`](https://themis.tidymodels.org/dev/reference/enn.md),
 [`instance_hardness()`](https://themis.tidymodels.org/dev/reference/instance_hardness.md),
+[`kmeans_smote()`](https://themis.tidymodels.org/dev/reference/kmeans_smote.md),
 [`ncl()`](https://themis.tidymodels.org/dev/reference/ncl.md),
 [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md),
 [`oss()`](https://themis.tidymodels.org/dev/reference/oss.md),

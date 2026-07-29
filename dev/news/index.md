@@ -37,6 +37,15 @@
   k-Disagreeing Neighbors measure
   ([\#172](https://github.com/tidymodels/themis/issues/172)).
 
+- [`step_kmeans_smote()`](https://themis.tidymodels.org/dev/reference/step_kmeans_smote.md)
+  (and its direct-implementation counterpart
+  [`kmeans_smote()`](https://themis.tidymodels.org/dev/reference/kmeans_smote.md))
+  was added. It over-samples the minority classes with KMeans-SMOTE,
+  which clusters the predictor space, generates new examples only inside
+  the clusters where the minority class is dominant, and gives sparser
+  clusters more of the new examples
+  ([\#317](https://github.com/tidymodels/themis/issues/317)).
+
 - [`step_ncl()`](https://themis.tidymodels.org/dev/reference/step_ncl.md)
   (and its direct-implementation counterpart
   [`ncl()`](https://themis.tidymodels.org/dev/reference/ncl.md)) was

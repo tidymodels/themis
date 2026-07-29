@@ -18,6 +18,7 @@
 <url><loc>https://themis.tidymodels.org/dev/reference/enn.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/index.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/instance_hardness.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/kmeans_smote.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/ncl.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/nearmiss.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/oss.html</loc></url>
@@ -35,6 +36,7 @@
 <url><loc>https://themis.tidymodels.org/dev/reference/step_downsample.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/step_enn.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/step_instance_hardness.html</loc></url>
+<url><loc>https://themis.tidymodels.org/dev/reference/step_kmeans_smote.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/step_ncl.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/step_nearmiss.html</loc></url>
 <url><loc>https://themis.tidymodels.org/dev/reference/step_oss.html</loc></url>

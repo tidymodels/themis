@@ -26,6 +26,9 @@ required_pkgs(x, ...)
 # S3 method for class 'step_instance_hardness'
 required_pkgs(x, ...)
 
+# S3 method for class 'step_kmeans_smote'
+required_pkgs(x, ...)
+
 # S3 method for class 'step_ncl'
 required_pkgs(x, ...)
 

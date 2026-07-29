@@ -32,6 +32,10 @@ observations or by synthesizing new ones.
   - [`step_svmsmote()`](https://themis.tidymodels.org/dev/reference/step_svmsmote.md)
     uses a support vector machine to locate the boundary before
     synthesizing.
+  - [`step_kmeans_smote()`](https://themis.tidymodels.org/dev/reference/step_kmeans_smote.md)
+    clusters the predictor space first and synthesizes only inside the
+    clusters where the minority class is dominant, giving sparser
+    clusters more of the new observations.
   - [`step_smotenc()`](https://themis.tidymodels.org/dev/reference/step_smotenc.md)
     handles a mix of numeric and nominal predictors.
   - [`step_smoten()`](https://themis.tidymodels.org/dev/reference/step_smoten.md)

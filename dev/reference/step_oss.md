@@ -217,9 +217,9 @@ training
 #> # A tibble: 4 × 2
 #>   class training
 #>   <fct>    <int>
-#> 1 VF         399
-#> 2 F          552
-#> 3 M          275
+#> 1 VF         383
+#> 2 F          563
+#> 3 M          282
 #> 4 L          259
 
 # Since `skip` defaults to TRUE, baking the step has no effect
@@ -241,9 +241,9 @@ orig |>
 #> # A tibble: 4 × 4
 #>   class  orig training baked
 #>   <fct> <int>    <int> <int>
-#> 1 VF     2211      399  2211
-#> 2 F      1347      552  1347
-#> 3 M       514      275   514
+#> 1 VF     2211      383  2211
+#> 2 F      1347      563  1347
+#> 3 M       514      282   514
 #> 4 L       259      259   259
 
 library(ggplot2)

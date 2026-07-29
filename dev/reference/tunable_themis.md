@@ -26,6 +26,9 @@ tunable(x, ...)
 # S3 method for class 'step_instance_hardness'
 tunable(x, ...)
 
+# S3 method for class 'step_kmeans_smote'
+tunable(x, ...)
+
 # S3 method for class 'step_ncl'
 tunable(x, ...)
 

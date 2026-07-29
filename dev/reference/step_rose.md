@@ -177,6 +177,7 @@ direct implementation
 Other Steps for over-sampling:
 [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
 [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md),
+[`step_kmeans_smote()`](https://themis.tidymodels.org/dev/reference/step_kmeans_smote.md),
 [`step_smogn()`](https://themis.tidymodels.org/dev/reference/step_smogn.md),
 [`step_smote()`](https://themis.tidymodels.org/dev/reference/step_smote.md),
 [`step_smoten()`](https://themis.tidymodels.org/dev/reference/step_smoten.md),
@@ -214,8 +215,8 @@ training
 #> # A tibble: 2 × 2
 #>   class  training
 #>   <fct>     <int>
-#> 1 not VF     2199
-#> 2 VF         2223
+#> 1 not VF     2178
+#> 2 VF         2244
 
 # Since `skip` defaults to TRUE, baking the step has no effect
 baked <- up_rec |>
@@ -234,8 +235,8 @@ orig |>
 #> # A tibble: 2 × 4
 #>   class   orig training baked
 #>   <fct>  <int>    <int> <int>
-#> 1 not VF  2120     2199  2120
-#> 2 VF      2211     2223  2211
+#> 1 not VF  2120     2178  2120
+#> 2 VF      2211     2244  2211
 
 library(ggplot2)
 

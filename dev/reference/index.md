@@ -19,6 +19,8 @@ advanced methods that synthesize new observations.
   : Apply Borderline-SMOTE Algorithm
 - [`step_svmsmote()`](https://themis.tidymodels.org/dev/reference/step_svmsmote.md)
   : Apply SVM-SMOTE Algorithm
+- [`step_kmeans_smote()`](https://themis.tidymodels.org/dev/reference/step_kmeans_smote.md)
+  : Apply KMeans-SMOTE Algorithm
 - [`step_smotenc()`](https://themis.tidymodels.org/dev/reference/step_smotenc.md)
   : Apply SMOTENC Algorithm
 - [`step_smoten()`](https://themis.tidymodels.org/dev/reference/step_smoten.md)
@@ -99,6 +101,8 @@ available as their own functions.
   Borderline-SMOTE Algorithm
 - [`svmsmote()`](https://themis.tidymodels.org/dev/reference/svmsmote.md)
   : SVM-SMOTE Algorithm
+- [`kmeans_smote()`](https://themis.tidymodels.org/dev/reference/kmeans_smote.md)
+  : KMeans-SMOTE Algorithm
 - [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md) :
   Adaptive Synthetic Algorithm
 - [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md) : ROSE
@@ -134,6 +138,7 @@ available as their own functions.
   [`required_pkgs(`*`<step_downsample>`*`)`](https://themis.tidymodels.org/dev/reference/required_pkgs.step.md)
   [`required_pkgs(`*`<step_enn>`*`)`](https://themis.tidymodels.org/dev/reference/required_pkgs.step.md)
   [`required_pkgs(`*`<step_instance_hardness>`*`)`](https://themis.tidymodels.org/dev/reference/required_pkgs.step.md)
+  [`required_pkgs(`*`<step_kmeans_smote>`*`)`](https://themis.tidymodels.org/dev/reference/required_pkgs.step.md)
   [`required_pkgs(`*`<step_ncl>`*`)`](https://themis.tidymodels.org/dev/reference/required_pkgs.step.md)
   [`required_pkgs(`*`<step_nearmiss>`*`)`](https://themis.tidymodels.org/dev/reference/required_pkgs.step.md)
   [`required_pkgs(`*`<step_oss>`*`)`](https://themis.tidymodels.org/dev/reference/required_pkgs.step.md)

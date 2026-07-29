@@ -110,6 +110,10 @@ the class boundary, where errors are most likely.</li>
 <code><a href="../reference/step_svmsmote.html">step_svmsmote()</a></code> uses a support vector machine to locate
 the boundary before synthesizing.</li>
 <li>
+<code><a href="../reference/step_kmeans_smote.html">step_kmeans_smote()</a></code> clusters the predictor space first
+and synthesizes only inside the clusters where the minority class is
+dominant, giving sparser clusters more of the new observations.</li>
+<li>
 <code><a href="../reference/step_smotenc.html">step_smotenc()</a></code> handles a mix of numeric and nominal
 predictors.</li>
 <li>

@@ -209,6 +209,7 @@ direct implementation
 Other Steps for over-sampling:
 [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md),
 [`step_bsmote()`](https://themis.tidymodels.org/dev/reference/step_bsmote.md),
+[`step_kmeans_smote()`](https://themis.tidymodels.org/dev/reference/step_kmeans_smote.md),
 [`step_rose()`](https://themis.tidymodels.org/dev/reference/step_rose.md),
 [`step_smote()`](https://themis.tidymodels.org/dev/reference/step_smote.md),
 [`step_smoten()`](https://themis.tidymodels.org/dev/reference/step_smoten.md),
