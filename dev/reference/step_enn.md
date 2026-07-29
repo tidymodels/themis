@@ -234,6 +234,7 @@ points that over-sampling creates near the class boundary (the
 equivalent of imbalanced-learn's `SMOTEENN`).
 
 Other Steps for under-sampling:
+[`step_cluster_centroids()`](https://themis.tidymodels.org/dev/reference/step_cluster_centroids.md),
 [`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md),
 [`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md),
 [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md),

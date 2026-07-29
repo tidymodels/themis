@@ -139,7 +139,7 @@
       </dl></div><div class="section level2">
       <h2 id="under-sampling">Under-sampling<a class="anchor" aria-label="anchor" href="#under-sampling"></a></h2>
 
-      <div class="section-desc"><p><strong>Under-sampling</strong> is the act of removing observations from the majority classes. Every under-sampler here uses <em>prototype selection</em>, keeping a subset of the real rows, rather than <em>prototype generation</em>, which would create new representative rows.</p></div>
+      <div class="section-desc"><p><strong>Under-sampling</strong> is the act of removing observations from the majority classes. Most under-samplers here use <em>prototype selection</em>, keeping a subset of the real rows. <code><a href="../reference/step_cluster_centroids.html">step_cluster_centroids()</a></code> instead uses <em>prototype generation</em>, creating new representative rows.</p></div>
 
       <dl></dl></div><div class="section level2">
 
@@ -234,6 +234,22 @@
         </dt>
         <dd>Remove hard to classify points</dd>
       </dl></div><div class="section level2">
+
+      <h3 id="prototype-generation">Prototype generation<a class="anchor" aria-label="anchor" href="#prototype-generation"></a></h3>
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="step_cluster_centroids.html">step_cluster_centroids()</a></code>
+
+        </dt>
+        <dd>Under-Sampling by Cluster Centroids</dd>
+      </dl></div><div class="section level2">
       <h2 id="regression">Regression<a class="anchor" aria-label="anchor" href="#regression"></a></h2>
 
       <div class="section-desc"><p>Resampling an imbalanced numeric outcome rather than a class.</p></div>
@@ -317,6 +333,13 @@
 
         <dt>
 
+          <code><a href="cluster_centroids.html">cluster_centroids()</a></code>
+
+        </dt>
+        <dd>ClusterCentroids Algorithm</dd>
+
+        <dt>
+
           <code><a href="cnn.html">cnn()</a></code>
 
         </dt>
@@ -391,7 +414,7 @@
 
       <dl><dt>
 
-          <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_adasyn&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_bsmote&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_cnn&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_downsample&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_enn&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_instance_hardness&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_ncl&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_nearmiss&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_oss&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_rose&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_smogn&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_smote&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_smoten&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_smotenc&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_svmsmote&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_tomek&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_upsample&gt;</i>)</a></code>
+          <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_adasyn&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_bsmote&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_cluster_centroids&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_cnn&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_downsample&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_enn&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_instance_hardness&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_ncl&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_nearmiss&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_oss&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_rose&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_smogn&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_smote&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_smoten&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_smotenc&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_svmsmote&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_tomek&gt;</i>)</a></code> <code><a href="required_pkgs.step.html">required_pkgs(<i>&lt;step_upsample&gt;</i>)</a></code>
 
         </dt>
         <dd>S3 methods for tracking which additional packages are needed for steps.</dd>

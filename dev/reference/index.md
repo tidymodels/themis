@@ -37,9 +37,10 @@ advanced methods that synthesize new observations.
 ## Under-sampling
 
 **Under-sampling** is the act of removing observations from the majority
-classes. Every under-sampler here uses *prototype selection*, keeping a
-subset of the real rows, rather than *prototype generation*, which would
-create new representative rows.
+classes. Most under-samplers here use *prototype selection*, keeping a
+subset of the real rows.
+[`step_cluster_centroids()`](https://themis.tidymodels.org/dev/reference/step_cluster_centroids.md)
+instead uses *prototype generation*, creating new representative rows.
 
 ### Random
 
@@ -69,6 +70,11 @@ create new representative rows.
 - [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md)
   : Remove hard to classify points
 
+### Prototype generation
+
+- [`step_cluster_centroids()`](https://themis.tidymodels.org/dev/reference/step_cluster_centroids.md)
+  : Under-Sampling by Cluster Centroids
+
 ## Regression
 
 Resampling an imbalanced numeric outcome rather than a class.
@@ -97,6 +103,8 @@ available as their own functions.
   Adaptive Synthetic Algorithm
 - [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md) : ROSE
   Algorithm
+- [`cluster_centroids()`](https://themis.tidymodels.org/dev/reference/cluster_centroids.md)
+  : ClusterCentroids Algorithm
 - [`cnn()`](https://themis.tidymodels.org/dev/reference/cnn.md) :
   Condensed Nearest Neighbors
 - [`enn()`](https://themis.tidymodels.org/dev/reference/enn.md) : Edited
@@ -121,6 +129,7 @@ available as their own functions.
 
 - [`required_pkgs(`*`<step_adasyn>`*`)`](https://themis.tidymodels.org/dev/reference/required_pkgs.step.md)
   [`required_pkgs(`*`<step_bsmote>`*`)`](https://themis.tidymodels.org/dev/reference/required_pkgs.step.md)
+  [`required_pkgs(`*`<step_cluster_centroids>`*`)`](https://themis.tidymodels.org/dev/reference/required_pkgs.step.md)
   [`required_pkgs(`*`<step_cnn>`*`)`](https://themis.tidymodels.org/dev/reference/required_pkgs.step.md)
   [`required_pkgs(`*`<step_downsample>`*`)`](https://themis.tidymodels.org/dev/reference/required_pkgs.step.md)
   [`required_pkgs(`*`<step_enn>`*`)`](https://themis.tidymodels.org/dev/reference/required_pkgs.step.md)

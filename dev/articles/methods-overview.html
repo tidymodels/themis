@@ -130,11 +130,11 @@ around the observations.</li>
 <div class="section level2">
 <h2 id="under-sampling">Under-sampling<a class="anchor" aria-label="anchor" href="#under-sampling"></a>
 </h2>
-<p>Under-sampling shrinks the majority classes. Every under-sampler in
-themis performs <em>prototype selection</em>, keeping a subset of the
-real rows. None currently performs <em>prototype generation</em>
-(creating new representative rows), so that category is deliberately
-empty.</p>
+<p>Under-sampling shrinks the majority classes. Most under-samplers in
+themis perform <em>prototype selection</em>, keeping a subset of the
+real rows. One, <code><a href="../reference/step_cluster_centroids.html">step_cluster_centroids()</a></code>, performs
+<em>prototype generation</em>, creating new representative rows
+instead.</p>
 <ul>
 <li>
 <strong>Random.</strong> <code><a href="../reference/step_downsample.html">step_downsample()</a></code> drops
@@ -175,6 +175,12 @@ focused on cleaning the neighborhoods of minority observations.</li>
 <strong>Hardness.</strong> <code><a href="../reference/step_instance_hardness.html">step_instance_hardness()</a></code>
 removes the majority observations that are hardest to classify, measured
 by how often their neighbors disagree.</li>
+<li>
+<strong>Prototype generation.</strong>
+<code><a href="../reference/step_cluster_centroids.html">step_cluster_centroids()</a></code> summarizes each majority class
+with k-means cluster representatives: the centroids themselves with
+<code>voting = "soft"</code>, or the observation nearest each centroid
+with <code>voting = "hard"</code>.</li>
 </ul>
 </div>
 <div class="section level2">

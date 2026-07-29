@@ -174,6 +174,7 @@ on Information Theory, 14(3), 515-516.
 implementation
 
 Other Steps for under-sampling:
+[`step_cluster_centroids()`](https://themis.tidymodels.org/dev/reference/step_cluster_centroids.md),
 [`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md),
 [`step_enn()`](https://themis.tidymodels.org/dev/reference/step_enn.md),
 [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md),
@@ -213,9 +214,9 @@ training
 #> # A tibble: 4 × 2
 #>   class training
 #>   <fct>    <int>
-#> 1 VF         934
-#> 2 F          811
-#> 3 M          340
+#> 1 VF         942
+#> 2 F          797
+#> 3 M          333
 #> 4 L          259
 
 # Since `skip` defaults to TRUE, baking the step has no effect
@@ -237,9 +238,9 @@ orig |>
 #> # A tibble: 4 × 4
 #>   class  orig training baked
 #>   <fct> <int>    <int> <int>
-#> 1 VF     2211      934  2211
-#> 2 F      1347      811  1347
-#> 3 M       514      340   514
+#> 1 VF     2211      942  2211
+#> 2 F      1347      797  1347
+#> 3 M       514      333   514
 #> 4 L       259      259   259
 
 library(ggplot2)

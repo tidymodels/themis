@@ -147,6 +147,7 @@ and the examples on `tidymodels.org`.
 ## See also
 
 Other Steps for under-sampling:
+[`step_cluster_centroids()`](https://themis.tidymodels.org/dev/reference/step_cluster_centroids.md),
 [`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md),
 [`step_enn()`](https://themis.tidymodels.org/dev/reference/step_enn.md),
 [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md),

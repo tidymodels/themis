@@ -4,6 +4,15 @@
 
 ### New steps
 
+- [`step_cluster_centroids()`](https://themis.tidymodels.org/dev/reference/step_cluster_centroids.md)
+  (and its direct-implementation counterpart
+  [`cluster_centroids()`](https://themis.tidymodels.org/dev/reference/cluster_centroids.md))
+  was added. It under-samples the majority classes by running k-means
+  within each class and replacing the class with one representative per
+  cluster, either the centroid itself (`voting = "soft"`) or the
+  observation closest to it (`voting = "hard"`)
+  ([\#318](https://github.com/tidymodels/themis/issues/318)).
+
 - [`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md)
   (and its direct-implementation counterpart
   [`cnn()`](https://themis.tidymodels.org/dev/reference/cnn.md)) was

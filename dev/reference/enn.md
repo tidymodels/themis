@@ -136,6 +136,7 @@ for step function of this method
 Other Direct Implementations:
 [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md),
 [`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md),
+[`cluster_centroids()`](https://themis.tidymodels.org/dev/reference/cluster_centroids.md),
 [`cnn()`](https://themis.tidymodels.org/dev/reference/cnn.md),
 [`instance_hardness()`](https://themis.tidymodels.org/dev/reference/instance_hardness.md),
 [`ncl()`](https://themis.tidymodels.org/dev/reference/ncl.md),

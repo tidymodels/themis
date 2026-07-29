@@ -1,23 +1,24 @@
-# One-Sided Selection
+# Under-Sampling by Cluster Centroids
 
-`step_oss()` creates a *specification* of a recipe step that removes
-majority class observations using One-Sided Selection, combining
-Condensed Nearest Neighbors and Tomek's links.
+`step_cluster_centroids()` creates a *specification* of a recipe step
+that removes majority class instances by replacing each majority class
+with cluster representatives found with k-means.
 
 ## Usage
 
 ``` r
-step_oss(
+step_cluster_centroids(
   recipe,
   ...,
   role = NA,
   trained = FALSE,
   column = NULL,
-  distance = "euclidean",
+  under_ratio = 1,
+  voting = "soft",
   skip = TRUE,
   seed = sample.int(10^5, 1),
   distance_with = recipes::all_predictors(),
-  id = rand_id("oss")
+  id = rand_id("cluster_centroids")
 )
 ```
 
@@ -50,37 +51,20 @@ step_oss(
   A character string of the variable name that will be populated
   (eventually) by the `...` selectors.
 
-- distance:
+- under_ratio:
 
-  A character string specifying the distance metric used for nearest
-  neighbor calculations, defaulting to `"euclidean"`. The available
-  metrics fall into three groups.
+  A numeric value for the ratio of the majority-to-minority frequencies.
+  The default value (1) means that all other levels are sampled down to
+  have the same frequency as the least occurring level. A value of 2
+  would mean that the majority levels will have (at most)
+  (approximately) twice as many rows than the minority level. See
+  `vignette("ratio", package = "themis")` for more details.
 
-  `"euclidean"`, `"cosine"`, and `"mahalanobis"` use approximate nearest
-  neighbors via the RANN package and scale well to large datasets.
+- voting:
 
-  `"squared_chord"`, `"matusita"`, `"hellinger"`, and `"bhattacharyya"`
-  are probability-divergence measures that treat each row as a
-  distribution over the predictors, so they require non-negative values.
-  `"hellinger"` and `"bhattacharyya"` further require each row to sum
-  to 1. All four also use the RANN package and scale well to large
-  datasets.
-
-  `"manhattan"`, `"chebyshev"`, `"canberra"`, `"soergel"`,
-  `"lorentzian"`, `"jeffreys"`, `"topsoe"`, `"jensen-shannon"`,
-  `"jensen_difference"`, `"taneja"`, and `"kumar-johnson"` compute an
-  exact all-pairs distance matrix. This takes time and memory
-  proportional to the square of the number of observations in a class,
-  so these are best suited to smaller datasets. Everything from
-  `"canberra"` onwards is a probability divergence requiring
-  non-negative values, is provided by the philentropy package (which
-  must be installed separately), and in the case of `"jeffreys"`,
-  `"taneja"`, and `"kumar-johnson"` requires strictly positive values,
-  since those divide by individual predictor values.
-
-  The probability divergences are meaningful for compositional
-  predictors such as proportions or counts normalized per observation,
-  and are generally not appropriate for standardized predictors.
+  A character string. Either `"soft"` (the default) to use the cluster
+  centroids themselves, or `"hard"` to use the observation closest to
+  each centroid.
 
 - skip:
 
@@ -99,11 +83,10 @@ step_oss(
 
 - distance_with:
 
-  A call to a selector function to choose which variables are used for
-  distance calculations. Defaults to
+  A call to a selector function to choose which variables are used to
+  compute the clusters. Defaults to
   [`recipes::all_predictors()`](https://recipes.tidymodels.org/reference/has_role.html).
-  The variable selected by `...` is always excluded from the distance
-  calculations.
+  The variable selected by `...` is always excluded from the clustering.
 
 - id:
 
@@ -117,35 +100,49 @@ of existing steps (if any). For the `tidy` method, a tibble with columns
 
 ## Details
 
-One-Sided Selection (OSS) is an under-sampling method that combines two
-cleaning techniques. It first applies Condensed Nearest Neighbors (CNN)
-to reduce the majority classes to a consistent subset that correctly
-classifies the data using a 1-nearest-neighbor rule, discarding
-redundant interior observations. It then applies Tomek's links to the
-remaining observations, removing the majority class observations that
-form Tomek links with minority class observations, cleaning the decision
-boundary.
+Each class larger than the target count is summarized by running k-means
+on the observations of that class, using as many clusters as the target
+count. The class is then replaced by one representative per cluster:
 
-The smallest class is treated as the minority class and is always kept.
-Because the CNN step relies on a random seed observation and a random
-scan order, results depend on the random seed.
+- `voting = "soft"`:
 
-With more than two classes, the Tomek's links step removes both members
-of a majority-majority link, not only links between a majority and the
-minority class. The binary case, the primary intended use, is
-unaffected.
+  the cluster centroids themselves are used, so the returned
+  observations are synthetic points that need not appear in the input.
 
-All variables selected by `distance_with` must be numeric with no
-missing data.
+- `voting = "hard"`:
+
+  the observation closest to each centroid is used, so all returned
+  observations are real rows. The representative is always picked from
+  the class being under-sampled.
+
+This makes it the one *prototype generation* under-sampler in this
+package. The other under-sampling methods perform *prototype selection*,
+keeping a subset of the original rows.
+
+Because two clusters can share the same closest observation,
+`voting = "hard"` can return slightly fewer observations than the target
+count.
 
 All columns in the data are sampled and returned by
 [`recipes::juice()`](https://recipes.tidymodels.org/reference/juice.html)
 and
 [`recipes::bake()`](https://recipes.tidymodels.org/reference/bake.html).
 
+All columns selected by `distance_with` must be numeric with no missing
+data.
+
 When used in modeling, users should strongly consider using the option
 `skip = TRUE` so that the extra sampling is *not* conducted outside of
 the training set.
+
+## Non-predictor columns
+
+With `voting = "soft"` the observations of an under-sampled class are
+replaced by synthetic points, and columns that are not selected by
+`distance_with` have no value for those points. Such columns are set to
+`NA`, as they are for the over-sampling steps that synthesize
+observations. Use `voting = "hard"` if these columns must be kept
+intact.
 
 ## Tidying
 
@@ -161,29 +158,30 @@ this step, a tibble is returned with columns `terms` and `id`:
 
   character, id of this step
 
+## Tuning Parameters
+
+This step has 1 tuning parameters:
+
+- `under_ratio`: Under-Sampling Ratio (type: double, default: 1)
+
 ## Case weights
 
 The underlying operation does not allow for case weights. Supplying data
 with a case weights column to this step results in an error.
 
-## References
-
-Kubat, M., & Matwin, S. (1997). Addressing the curse of imbalanced
-training sets: one-sided selection. In ICML (Vol. 97, pp. 179-186).
-
 ## See also
 
-[`oss()`](https://themis.tidymodels.org/dev/reference/oss.md) for direct
-implementation
+[`cluster_centroids()`](https://themis.tidymodels.org/dev/reference/cluster_centroids.md)
+for direct implementation
 
 Other Steps for under-sampling:
-[`step_cluster_centroids()`](https://themis.tidymodels.org/dev/reference/step_cluster_centroids.md),
 [`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md),
 [`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md),
 [`step_enn()`](https://themis.tidymodels.org/dev/reference/step_enn.md),
 [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md),
 [`step_ncl()`](https://themis.tidymodels.org/dev/reference/step_ncl.md),
 [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md),
+[`step_oss()`](https://themis.tidymodels.org/dev/reference/step_oss.md),
 [`step_tomek()`](https://themis.tidymodels.org/dev/reference/step_tomek.md)
 
 ## Examples
@@ -207,7 +205,9 @@ orig
 #> 4 L       259
 
 up_rec <- recipe(class ~ ., data = hpc_data0) |>
-  step_oss(class) |>
+  # Bring the majority levels down to about 1000 each
+  # 1000/259 is approx 3.862
+  step_cluster_centroids(class, under_ratio = 3.862) |>
   prep()
 
 training <- up_rec |>
@@ -217,9 +217,9 @@ training
 #> # A tibble: 4 × 2
 #>   class training
 #>   <fct>    <int>
-#> 1 VF         399
-#> 2 F          552
-#> 3 M          275
+#> 1 VF        1000
+#> 2 F         1000
+#> 3 M          514
 #> 4 L          259
 
 # Since `skip` defaults to TRUE, baking the step has no effect
@@ -235,33 +235,22 @@ baked
 #> 3 M       514
 #> 4 L       259
 
-orig |>
-  left_join(training, by = "class") |>
-  left_join(baked, by = "class")
-#> # A tibble: 4 × 4
-#>   class  orig training baked
-#>   <fct> <int>    <int> <int>
-#> 1 VF     2211      399  2211
-#> 2 F      1347      552  1347
-#> 3 M       514      275   514
-#> 4 L       259      259   259
-
 library(ggplot2)
 
 ggplot(circle_example, aes(x, y, color = class)) +
   geom_point() +
-  labs(title = "Without OSS") +
+  labs(title = "Without ClusterCentroids") +
   xlim(c(1, 15)) +
   ylim(c(1, 15))
 
 
 recipe(class ~ x + y, data = circle_example) |>
-  step_oss(class) |>
+  step_cluster_centroids(class) |>
   prep() |>
   bake(new_data = NULL) |>
   ggplot(aes(x, y, color = class)) +
   geom_point() +
-  labs(title = "With OSS") +
+  labs(title = "With ClusterCentroids") +
   xlim(c(1, 15)) +
   ylim(c(1, 15))
 ```

@@ -14,6 +14,9 @@ tunable(x, ...)
 # S3 method for class 'step_bsmote'
 tunable(x, ...)
 
+# S3 method for class 'step_cluster_centroids'
+tunable(x, ...)
+
 # S3 method for class 'step_downsample'
 tunable(x, ...)
 

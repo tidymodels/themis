@@ -48,10 +48,12 @@ observations or by synthesizing new ones.
 
 ## Under-sampling
 
-Under-sampling shrinks the majority classes. Every under-sampler in
-themis performs *prototype selection*, keeping a subset of the real
-rows. None currently performs *prototype generation* (creating new
-representative rows), so that category is deliberately empty.
+Under-sampling shrinks the majority classes. Most under-samplers in
+themis perform *prototype selection*, keeping a subset of the real rows.
+One,
+[`step_cluster_centroids()`](https://themis.tidymodels.org/dev/reference/step_cluster_centroids.md),
+performs *prototype generation*, creating new representative rows
+instead.
 
 - **Random.**
   [`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md)
@@ -82,6 +84,11 @@ representative rows), so that category is deliberately empty.
   [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md)
   removes the majority observations that are hardest to classify,
   measured by how often their neighbors disagree.
+- **Prototype generation.**
+  [`step_cluster_centroids()`](https://themis.tidymodels.org/dev/reference/step_cluster_centroids.md)
+  summarizes each majority class with k-means cluster representatives:
+  the centroids themselves with `voting = "soft"`, or the observation
+  nearest each centroid with `voting = "hard"`.
 
 ## Combination
 
