@@ -304,6 +304,38 @@ test_that("bad distance arg for step_nearmiss()", {
   )
 })
 
+test_that("version argument accepted by step_nearmiss()", {
+  for (version in 1:3) {
+    res <- recipe(class ~ x + y, data = circle_example) |>
+      step_nearmiss(class, version = version) |>
+      prep() |>
+      bake(new_data = NULL)
+    expect_gt(nrow(res), 0)
+  }
+})
+
+test_that("n_neighbors_ver3 changes the step_nearmiss() result", {
+  bake_with <- function(n_neighbors_ver3) {
+    recipe(class ~ x + y, data = circle_example) |>
+      step_nearmiss(class, version = 3, n_neighbors_ver3 = n_neighbors_ver3) |>
+      prep() |>
+      bake(new_data = NULL)
+  }
+  expect_gt(nrow(bake_with(10)), nrow(bake_with(3)))
+})
+
+test_that("printing shows the nearmiss version", {
+  expect_snapshot(
+    recipe(class ~ x + y, data = circle_example) |>
+      step_nearmiss(class, version = 2)
+  )
+  expect_snapshot(
+    recipe(class ~ x + y, data = circle_example) |>
+      step_nearmiss(class, version = 3) |>
+      prep()
+  )
+})
+
 test_that("bad args", {
   expect_snapshot(
     error = TRUE,
@@ -321,6 +353,16 @@ test_that("bad args", {
     error = TRUE,
     recipe(~., data = mtcars) |>
       step_nearmiss(seed = TRUE)
+  )
+  expect_snapshot(
+    error = TRUE,
+    recipe(~., data = mtcars) |>
+      step_nearmiss(version = 4)
+  )
+  expect_snapshot(
+    error = TRUE,
+    recipe(~., data = mtcars) |>
+      step_nearmiss(n_neighbors_ver3 = 0)
   )
 })
 

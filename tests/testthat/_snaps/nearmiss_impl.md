@@ -46,3 +46,46 @@
       Error in `nearmiss()`:
       ! `under_ratio` must be a number, not `TRUE`.
 
+---
+
+    Code
+      nearmiss(circle_example[, c("x", "y", "class")], var = "class", version = 0)
+    Condition
+      Error in `nearmiss()`:
+      ! `version` must be a whole number between 1 and 3, not the number 0.
+
+---
+
+    Code
+      nearmiss(circle_example[, c("x", "y", "class")], var = "class", version = 4)
+    Condition
+      Error in `nearmiss()`:
+      ! `version` must be a whole number between 1 and 3, not the number 4.
+
+---
+
+    Code
+      nearmiss(circle_example[, c("x", "y", "class")], var = "class", version = "2")
+    Condition
+      Error in `nearmiss()`:
+      ! `version` must be a whole number, not the string "2".
+
+---
+
+    Code
+      nearmiss(circle_example[, c("x", "y", "class")], var = "class",
+      n_neighbors_ver3 = TRUE)
+    Condition
+      Error in `nearmiss()`:
+      ! `n_neighbors_ver3` must be a whole number, not `TRUE`.
+
+# nearmiss version 3 errors when n_neighbors_ver3 is too large
+
+    Code
+      nearmiss(df, var = "class", k = 1, version = 3, n_neighbors_ver3 = 5)
+    Condition
+      Error in `nearmiss()`:
+      ! Not enough observations in "maj" to compute 5 nearest neighbors for the NearMiss-3 candidate pool.
+      i 4 observations were found, but 5 are needed.
+      i Lower `n_neighbors_ver3`.
+
