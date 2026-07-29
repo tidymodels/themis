@@ -27,6 +27,7 @@ Over-sampling grows the minority classes, either by replicating existing observa
   - `step_smote()` is the original SMOTE for numeric predictors.
   - `step_bsmote()` (borderline-SMOTE) synthesizes only near the class boundary, where errors are most likely.
   - `step_svmsmote()` uses a support vector machine to locate the boundary before synthesizing.
+  - `step_kmeans_smote()` clusters the predictor space first and synthesizes only inside the clusters where the minority class is dominant, giving sparser clusters more of the new observations.
   - `step_smotenc()` handles a mix of numeric and nominal predictors.
   - `step_smoten()` handles data sets where every predictor is nominal.
 - **Adaptive.** `step_adasyn()` is like SMOTE but generates more synthetic points for the minority observations that are harder to learn (those surrounded by majority neighbors).

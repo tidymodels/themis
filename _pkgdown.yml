@@ -39,6 +39,7 @@ reference:
   - step_smote
   - step_bsmote
   - step_svmsmote
+  - step_kmeans_smote
   - step_smotenc
   - step_smoten
 - subtitle: Adaptive
@@ -88,6 +89,7 @@ reference:
   - smoten
   - bsmote
   - svmsmote
+  - kmeans_smote
   - adasyn
   - rose
   - cluster_centroids
