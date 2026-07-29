@@ -22,6 +22,11 @@
 #'  always excluded from the distance calculations.
 #' @param seed An integer that will be used as the seed when
 #' applied.
+#' @param version An integer. Which of the three NearMiss variants to use,
+#'  `1`, `2`, or `3`. Defaults to `1`. See the details section.
+#' @param n_neighbors_ver3 An integer. The number of nearest neighbors used
+#'  to build the candidate pool of the NearMiss-3 variant. Only used when
+#'  `version = 3`. Defaults to `3`.
 #' @return An updated version of `recipe` with the new step
 #'  added to the sequence of existing steps (if any). For the
 #'  `tidy` method, a tibble with columns `terms` which is
@@ -132,6 +137,8 @@ step_nearmiss <-
     under_ratio = 1,
     neighbors = 5,
     distance = "euclidean",
+    version = 1,
+    n_neighbors_ver3 = 3,
     skip = TRUE,
     seed = sample.int(10^5, 1),
     distance_with = recipes::all_predictors(),
@@ -139,6 +146,8 @@ step_nearmiss <-
   ) {
     check_number_whole(seed)
     check_distance_arg(distance)
+    check_number_whole(version, min = 1, max = 3)
+    check_number_whole(n_neighbors_ver3, min = 1)
 
     add_step(
       recipe,
@@ -150,6 +159,8 @@ step_nearmiss <-
         under_ratio = under_ratio,
         neighbors = neighbors,
         distance = distance,
+        version = version,
+        n_neighbors_ver3 = n_neighbors_ver3,
         predictors = NULL,
         skip = skip,
         seed = seed,
@@ -168,6 +179,8 @@ step_nearmiss_new <-
     under_ratio,
     neighbors,
     distance,
+    version,
+    n_neighbors_ver3,
     predictors,
     skip,
     seed,
@@ -183,6 +196,8 @@ step_nearmiss_new <-
       under_ratio = under_ratio,
       neighbors = neighbors,
       distance = distance,
+      version = version,
+      n_neighbors_ver3 = n_neighbors_ver3,
       predictors = predictors,
       skip = skip,
       seed = seed,
@@ -197,6 +212,12 @@ prep.step_nearmiss <- function(x, training, info = NULL, ...) {
 
   check_number_decimal(x$under_ratio, arg = "under_ratio", min = 0)
   check_number_whole(x$neighbors, arg = "neighbors", min = 1)
+  check_number_whole(x$version, arg = "version", min = 1, max = 3)
+  check_number_whole(
+    x$n_neighbors_ver3,
+    arg = "n_neighbors_ver3",
+    min = 1
+  )
 
   check_1_selected(col_name)
   check_column_factor(training, col_name)
@@ -222,6 +243,8 @@ prep.step_nearmiss <- function(x, training, info = NULL, ...) {
     under_ratio = x$under_ratio,
     neighbors = x$neighbors,
     distance = x$distance,
+    version = x$version,
+    n_neighbors_ver3 = x$n_neighbors_ver3,
     predictors = predictors,
     skip = x$skip,
     seed = x$seed,
@@ -257,7 +280,9 @@ bake.step_nearmiss <- function(object, new_data, ...) {
         ignore_vars = ignore_vars,
         k = object$neighbors,
         under_ratio = object$under_ratio,
-        distance = object$distance
+        distance = object$distance,
+        version = object$version,
+        n_neighbors_ver3 = object$n_neighbors_ver3
       )
       new_data[[object$column]] <- factor(
         new_data[[object$column]],
@@ -272,7 +297,7 @@ bake.step_nearmiss <- function(object, new_data, ...) {
 #' @export
 print.step_nearmiss <-
   function(x, width = max(20, options()$width - 26), ...) {
-    title <- "NEARMISS-1 based on "
+    title <- paste0("NEARMISS-", x$version, " based on ")
     print_step(x$column, x$terms, x$trained, title, width)
     invisible(x)
   }
