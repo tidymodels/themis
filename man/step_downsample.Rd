@@ -10,6 +10,7 @@ step_downsample(
   ...,
   under_ratio = 1,
   ratio = deprecated(),
+  replacement = FALSE,
   role = NA,
   trained = FALSE,
   column = NULL,
@@ -38,6 +39,14 @@ twice as many rows than the minority level. See
 \code{vignette("ratio", package = "themis")} for more details.}
 
 \item{ratio}{Deprecated argument; same as \code{under_ratio}}
+
+\item{replacement}{A logical value indicating whether the
+under-sample should be drawn with replacement. Defaults to
+\code{FALSE}, in which case each retained row is distinct. When
+\code{TRUE} the same row can be selected more than once, giving a
+bootstrapped under-sample. The number of rows retained for each
+level is unaffected, so no level is sampled up beyond its
+original size.}
 
 \item{role}{Not used by this step since no new variables are
 created.}
