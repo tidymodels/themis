@@ -48,6 +48,8 @@
 
 * `step_bsmote()` now sets the tuning range of its `neighbors` parameter to `c(1, 10)`, matching the other steps that tune `neighbors` (#254).
 
+* `step_downsample()` gains a `replacement` argument. When set to `TRUE` the under-sample is drawn with replacement, giving a bootstrapped under-sample where the same row can be selected more than once. The default `FALSE` keeps the current behavior (#325).
+
 * `step_enn()` (and its direct-implementation counterpart `enn()`) gain a `times` argument to apply the cleaning repeatedly, stopping early on convergence, which corresponds to Repeated Edited Nearest Neighbors (RENN) (#173).
 
 * `step_enn()` (and its direct-implementation counterpart `enn()`) gain an `all_k` argument to apply the cleaning with an increasing number of neighbors, from 1 up to `neighbors`, which corresponds to All k-Nearest Neighbors (AllKNN) (#174).

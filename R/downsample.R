@@ -22,6 +22,13 @@
 #'  twice as many rows than the minority level. See
 #'  `vignette("ratio", package = "themis")` for more details.
 #' @param ratio Deprecated argument; same as `under_ratio`
+#' @param replacement A logical value indicating whether the
+#'  under-sample should be drawn with replacement. Defaults to
+#'  `FALSE`, in which case each retained row is distinct. When
+#'  `TRUE` the same row can be selected more than once, giving a
+#'  bootstrapped under-sample. The number of rows retained for each
+#'  level is unaffected, so no level is sampled up beyond its
+#'  original size.
 #' @param target An integer that will be used to subsample. This
 #'  should not be set by the user and will be populated by `prep`.
 #' @param seed An integer that will be used as the seed when applied.
@@ -124,6 +131,7 @@ step_downsample <-
     ...,
     under_ratio = 1,
     ratio = deprecated(),
+    replacement = FALSE,
     role = NA,
     trained = FALSE,
     column = NULL,
@@ -140,6 +148,7 @@ step_downsample <-
       )
     }
     check_number_whole(seed)
+    check_bool(replacement)
 
     add_step(
       recipe,
@@ -147,6 +156,7 @@ step_downsample <-
         terms = enquos(...),
         under_ratio = under_ratio,
         ratio = NULL,
+        replacement = replacement,
         role = role,
         trained = trained,
         column = column,
@@ -164,6 +174,7 @@ step_downsample_new <-
     terms,
     under_ratio,
     ratio,
+    replacement,
     role,
     trained,
     column,
@@ -178,6 +189,7 @@ step_downsample_new <-
       terms = terms,
       under_ratio = under_ratio,
       ratio = ratio,
+      replacement = replacement,
       role = role,
       trained = trained,
       column = column,
@@ -219,6 +231,7 @@ prep.step_downsample <- function(x, training, info = NULL, ...) {
     terms = x$terms,
     under_ratio = x$under_ratio,
     ratio = x$ratio,
+    replacement = x$replacement,
     role = x$role,
     trained = TRUE,
     column = col_name,
@@ -231,16 +244,15 @@ prep.step_downsample <- function(x, training, info = NULL, ...) {
 }
 
 
-subsamp <- function(x, wts, num) {
+subsamp <- function(x, wts, num, replace = FALSE) {
   n <- nrow(x)
   if (n == 0) {
     return(x)
   }
-  if (nrow(x) == num) {
+  if (!replace && n == num) {
     out <- x
   } else {
-    # downsampling is done without replacement
-    out <- x[sample(seq_len(n), min(num, n), prob = wts), ]
+    out <- x[sample(seq_len(n), min(num, n), replace = replace, prob = wts), ]
   }
   out
 }
@@ -283,13 +295,19 @@ bake.step_downsample <- function(object, new_data, ...) {
         split_data,
         split_wts,
         subsamp,
-        num = object$target
+        num = object$target,
+        replace = isTRUE(object$replacement)
       ) |>
         purrr::list_rbind()
       if (!is.null(missing)) {
         new_data <- bind_rows(
           new_data,
-          subsamp(missing, wts = rep(1, nrow(missing)), num = object$target)
+          subsamp(
+            missing,
+            wts = rep(1, nrow(missing)),
+            num = object$target,
+            replace = isTRUE(object$replacement)
+          )
         )
       }
     }

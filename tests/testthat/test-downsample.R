@@ -109,6 +109,40 @@ test_that("ratio value works when undersampling", {
   )
 })
 
+test_that("replacement = TRUE gives a bootstrapped under-sample", {
+  res <- recipe(~., data = circle_example) |>
+    step_downsample(class, replacement = TRUE, seed = 1) |>
+    prep() |>
+    bake(new_data = NULL)
+
+  expect_equal(
+    as.vector(table(res$class)),
+    rep(min(table(circle_example$class)), length(table(res$class)))
+  )
+  expect_lt(nrow(dplyr::distinct(res)), nrow(res))
+})
+
+test_that("replacement = FALSE doesn't duplicate rows", {
+  res <- recipe(~., data = circle_example) |>
+    step_downsample(class, replacement = FALSE, seed = 1) |>
+    prep() |>
+    bake(new_data = NULL)
+
+  expect_equal(nrow(dplyr::distinct(res)), nrow(res))
+})
+
+test_that("replacement = TRUE resamples the minority level too", {
+  res <- recipe(~., data = circle_example) |>
+    step_downsample(class, replacement = TRUE, seed = 1) |>
+    prep() |>
+    bake(new_data = NULL)
+
+  minority <- names(which.min(table(circle_example$class)))
+  minority_rows <- dplyr::filter(res, class == minority)
+
+  expect_lt(nrow(dplyr::distinct(minority_rows)), nrow(minority_rows))
+})
+
 test_that("allows multi-class", {
   skip_if_not_installed("modeldata")
 
@@ -255,6 +289,11 @@ test_that("bad args", {
     error = TRUE,
     recipe(~., data = mtcars) |>
       step_downsample(seed = TRUE)
+  )
+  expect_snapshot(
+    error = TRUE,
+    recipe(~., data = mtcars) |>
+      step_downsample(replacement = "yes")
   )
 })
 
