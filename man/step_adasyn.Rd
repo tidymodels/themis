@@ -213,6 +213,7 @@ International Joint Conference. pp.1322-1328.
 
 Other Steps for over-sampling:
 \code{\link[=step_bsmote]{step_bsmote()}},
+\code{\link[=step_kmeans_smote]{step_kmeans_smote()}},
 \code{\link[=step_rose]{step_rose()}},
 \code{\link[=step_smogn]{step_smogn()}},
 \code{\link[=step_smote]{step_smote()}},

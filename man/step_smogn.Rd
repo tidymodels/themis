@@ -187,6 +187,7 @@ Learning Research, 74:36-50.
 Other Steps for over-sampling:
 \code{\link[=step_adasyn]{step_adasyn()}},
 \code{\link[=step_bsmote]{step_bsmote()}},
+\code{\link[=step_kmeans_smote]{step_kmeans_smote()}},
 \code{\link[=step_rose]{step_rose()}},
 \code{\link[=step_smote]{step_smote()}},
 \code{\link[=step_smoten]{step_smoten()}},
