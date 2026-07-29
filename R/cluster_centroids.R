@@ -1,0 +1,305 @@
+#' Under-Sampling by Cluster Centroids
+#'
+#' `step_cluster_centroids()` creates a *specification* of a recipe step that
+#' removes majority class instances by replacing each majority class with
+#' cluster representatives found with k-means.
+#'
+#' @inheritParams recipes::step_center
+#' @inheritParams step_downsample
+#' @param ... One or more selector functions to choose which
+#'  variable is used to sample the data. See [recipes::selections]
+#'  for more details. The selection should result in _single
+#'  factor variable_. For the `tidy` method, these are not
+#'  currently used.
+#' @param role Not used by this step since no new variables are
+#'  created.
+#' @param column A character string of the variable name that will
+#'  be populated (eventually) by the `...` selectors.
+#' @param voting A character string. Either `"soft"` (the default) to use the
+#'  cluster centroids themselves, or `"hard"` to use the observation closest to
+#'  each centroid.
+#' @param distance_with A call to a selector function to choose
+#'  which variables are used to compute the clusters. Defaults to
+#'  [recipes::all_predictors()]. The variable selected by `...` is
+#'  always excluded from the clustering.
+#' @param seed An integer that will be used as the seed when
+#' applied.
+#' @return An updated version of `recipe` with the new step
+#'  added to the sequence of existing steps (if any). For the
+#'  `tidy` method, a tibble with columns `terms` which is
+#'  the variable used to sample.
+#'
+#' @template details-cluster_centroids
+#'
+#' @details
+#' All columns in the data are sampled and returned by [recipes::juice()]
+#'  and [recipes::bake()].
+#'
+#' All columns selected by `distance_with` must be numeric with no missing
+#' data.
+#'
+#' When used in modeling, users should strongly consider using the
+#'  option `skip = TRUE` so that the extra sampling is _not_
+#'  conducted outside of the training set.
+#'
+#' # Non-predictor columns
+#'
+#' With `voting = "soft"` the observations of an under-sampled class are
+#' replaced by synthetic points, and columns that are not selected by
+#' `distance_with` have no value for those points. Such columns are set to `NA`,
+#' as they are for the over-sampling steps that synthesize observations. Use
+#' `voting = "hard"` if these columns must be kept intact.
+#'
+#' # Tidying
+#'
+#' When you [`tidy()`][recipes::tidy.recipe()] this step, a tibble is returned with
+#'  columns `terms` and `id`:
+#'
+#' \describe{
+#'   \item{terms}{character, the selectors or variables selected}
+#'   \item{id}{character, id of this step}
+#' }
+#'
+#' ```{r, echo = FALSE, results="asis"}
+#' step <- "step_cluster_centroids"
+#' result <- knitr::knit_child("man/rmd/tunable-args.Rmd")
+#' cat(result)
+#' ```
+#'
+#' @template case-weights-not-supported
+#'
+#' @seealso [cluster_centroids()] for direct implementation
+#' @family Steps for under-sampling
+#'
+#' @export
+#' @examplesIf rlang::is_installed("modeldata")
+#' library(recipes)
+#' library(modeldata)
+#' data(hpc_data)
+#'
+#' hpc_data0 <- hpc_data |>
+#'   select(-protocol, -day)
+#'
+#' orig <- count(hpc_data0, class, name = "orig")
+#' orig
+#'
+#' up_rec <- recipe(class ~ ., data = hpc_data0) |>
+#'   # Bring the majority levels down to about 1000 each
+#'   # 1000/259 is approx 3.862
+#'   step_cluster_centroids(class, under_ratio = 3.862) |>
+#'   prep()
+#'
+#' training <- up_rec |>
+#'   bake(new_data = NULL) |>
+#'   count(class, name = "training")
+#' training
+#'
+#' # Since `skip` defaults to TRUE, baking the step has no effect
+#' baked <- up_rec |>
+#'   bake(new_data = hpc_data0) |>
+#'   count(class, name = "baked")
+#' baked
+#'
+#' library(ggplot2)
+#'
+#' ggplot(circle_example, aes(x, y, color = class)) +
+#'   geom_point() +
+#'   labs(title = "Without ClusterCentroids") +
+#'   xlim(c(1, 15)) +
+#'   ylim(c(1, 15))
+#'
+#' recipe(class ~ x + y, data = circle_example) |>
+#'   step_cluster_centroids(class) |>
+#'   prep() |>
+#'   bake(new_data = NULL) |>
+#'   ggplot(aes(x, y, color = class)) +
+#'   geom_point() +
+#'   labs(title = "With ClusterCentroids") +
+#'   xlim(c(1, 15)) +
+#'   ylim(c(1, 15))
+step_cluster_centroids <-
+  function(
+    recipe,
+    ...,
+    role = NA,
+    trained = FALSE,
+    column = NULL,
+    under_ratio = 1,
+    voting = "soft",
+    skip = TRUE,
+    seed = sample.int(10^5, 1),
+    distance_with = recipes::all_predictors(),
+    id = rand_id("cluster_centroids")
+  ) {
+    check_number_whole(seed)
+    voting <- rlang::arg_match(voting, c("soft", "hard"))
+
+    add_step(
+      recipe,
+      step_cluster_centroids_new(
+        terms = enquos(...),
+        role = role,
+        trained = trained,
+        column = column,
+        under_ratio = under_ratio,
+        voting = voting,
+        predictors = NULL,
+        skip = skip,
+        seed = seed,
+        distance_with = enquos(distance_with),
+        id = id
+      )
+    )
+  }
+
+step_cluster_centroids_new <-
+  function(
+    terms,
+    role,
+    trained,
+    column,
+    under_ratio,
+    voting,
+    predictors,
+    skip,
+    seed,
+    distance_with,
+    id
+  ) {
+    step(
+      subclass = "cluster_centroids",
+      terms = terms,
+      role = role,
+      trained = trained,
+      column = column,
+      under_ratio = under_ratio,
+      voting = voting,
+      predictors = predictors,
+      skip = skip,
+      seed = seed,
+      distance_with = distance_with,
+      id = id
+    )
+  }
+
+#' @export
+prep.step_cluster_centroids <- function(x, training, info = NULL, ...) {
+  col_name <- recipes_eval_select(x$terms, training, info)
+
+  check_number_decimal(x$under_ratio, arg = "under_ratio", min = 0)
+
+  check_1_selected(col_name)
+  check_column_factor(training, col_name)
+  warn_unused_levels(training, col_name)
+
+  distance_cols <- recipes_argument_select(
+    x$distance_with,
+    training,
+    info,
+    single = FALSE,
+    arg_name = "distance_with"
+  )
+  predictors <- setdiff(distance_cols, col_name)
+
+  check_type(training[, predictors], types = c("double", "integer"))
+  check_na(select(training, all_of(c(col_name, predictors))))
+
+  step_cluster_centroids_new(
+    terms = x$terms,
+    role = x$role,
+    trained = TRUE,
+    column = col_name,
+    under_ratio = x$under_ratio,
+    voting = x$voting,
+    predictors = predictors,
+    skip = x$skip,
+    seed = x$seed,
+    distance_with = x$distance_with,
+    id = x$id
+  )
+}
+
+#' @export
+bake.step_cluster_centroids <- function(object, new_data, ...) {
+  col_names <- unique(c(object$predictors, object$column))
+  check_new_data(col_names, object, new_data)
+
+  if (length(object$column) == 0L) {
+    # Empty selection
+    return(new_data)
+  }
+
+  if (nrow(new_data) <= 1) {
+    return(new_data)
+  }
+
+  if (object$voting == "soft") {
+    # Synthetic centroids have no value for the remaining columns.
+    check_case_weights_not_supported(new_data)
+  }
+
+  ignore_vars <- setdiff(names(new_data), col_names)
+
+  # kmeans with seed for reproducibility
+  with_seed(
+    seed = object$seed,
+    code = {
+      original_levels <- levels(new_data[[object$column]])
+      new_data <- cluster_centroids_impl(
+        df = new_data,
+        var = object$column,
+        ignore_vars = ignore_vars,
+        under_ratio = object$under_ratio,
+        voting = object$voting
+      )
+      new_data[[object$column]] <- factor(
+        new_data[[object$column]],
+        levels = original_levels
+      )
+    }
+  )
+
+  new_data
+}
+
+#' @export
+print.step_cluster_centroids <-
+  function(x, width = max(20, options()$width - 26), ...) {
+    title <- "ClusterCentroids based on "
+    print_step(x$column, x$terms, x$trained, title, width)
+    invisible(x)
+  }
+
+#' @rdname step_cluster_centroids
+#' @usage NULL
+#' @export
+tidy.step_cluster_centroids <- function(x, ...) {
+  if (is_trained(x)) {
+    res <- tibble(terms = unname(x$column))
+  } else {
+    term_names <- sel2char(x$terms)
+    res <- tibble(terms = unname(term_names))
+  }
+  res$id <- x$id
+  res
+}
+
+#' @export
+#' @rdname tunable_themis
+tunable.step_cluster_centroids <- function(x, ...) {
+  tibble::tibble(
+    name = "under_ratio",
+    call_info = list(
+      list(pkg = "dials", fun = "under_ratio")
+    ),
+    source = "recipe",
+    component = "step_cluster_centroids",
+    component_id = x$id
+  )
+}
+
+#' @rdname required_pkgs.step
+#' @export
+required_pkgs.step_cluster_centroids <- function(x, ...) {
+  c("themis")
+}
