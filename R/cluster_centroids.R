@@ -296,7 +296,8 @@ tunable.step_cluster_centroids <- function(x, ...) {
     source = "recipe",
     component = "step_cluster_centroids",
     component_id = x$id
-  )
+  ) |>
+    drop_per_class_ratio(x$under_ratio)
 }
 
 #' @rdname required_pkgs.step

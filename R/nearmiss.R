@@ -329,7 +329,8 @@ tunable.step_nearmiss <- function(x, ...) {
     source = "recipe",
     component = "step_nearmiss",
     component_id = x$id
-  )
+  ) |>
+    drop_per_class_ratio(x$under_ratio)
 }
 
 #' @rdname required_pkgs.step

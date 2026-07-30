@@ -334,7 +334,8 @@ tunable.step_smote <- function(x, ...) {
     source = "recipe",
     component = "step_smote",
     component_id = x$id
-  )
+  ) |>
+    drop_per_class_ratio(x$over_ratio)
 }
 
 #' @rdname required_pkgs.step

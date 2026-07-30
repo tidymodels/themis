@@ -304,7 +304,8 @@ tunable.step_instance_hardness <- function(x, ...) {
     source = "recipe",
     component = "step_instance_hardness",
     component_id = x$id
-  )
+  ) |>
+    drop_per_class_ratio(x$under_ratio)
 }
 
 #' @rdname required_pkgs.step

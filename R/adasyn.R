@@ -297,7 +297,8 @@ tunable.step_adasyn <- function(x, ...) {
     source = "recipe",
     component = "step_adasyn",
     component_id = x$id
-  )
+  ) |>
+    drop_per_class_ratio(x$over_ratio)
 }
 
 #' S3 methods for tracking which additional packages are needed for steps.
