@@ -408,6 +408,31 @@ test_that("nearmiss() works with a character `var` (#261)", {
   expect_identical(sum(is.na(res$class)), 0L)
 })
 
+test_that("backwards compatible for arguments added after 1.0.3", {
+  rec <- recipe(class ~ x + y, data = circle_example) |>
+    step_nearmiss(class)
+
+  exp <- bake(prep(rec), new_data = NULL)
+
+  # simulates a recipe created by an older version of themis
+  old <- rec
+  old$steps[[1]]$distance <- NULL
+  old$steps[[1]]$version <- NULL
+  old$steps[[1]]$n_neighbors_ver3 <- NULL
+  old$steps[[1]]$distance_with <- NULL
+
+  expect_identical(bake(prep(old), new_data = NULL), exp)
+
+  # simulates a recipe trained by an older version of themis
+  old_trained <- prep(rec)
+  old_trained$steps[[1]]$distance <- NULL
+  old_trained$steps[[1]]$version <- NULL
+  old_trained$steps[[1]]$n_neighbors_ver3 <- NULL
+  old_trained$steps[[1]]$distance_with <- NULL
+
+  expect_identical(bake(old_trained, new_data = NULL), exp)
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {
