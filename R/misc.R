@@ -131,6 +131,19 @@ check_var <- function(var, df, call = caller_env()) {
   }
 }
 
+# Steps created by older versions of themis have no field for arguments that
+# were added later, so reading them returns `NULL`. Fill in the defaults to
+# keep those recipes working. Called from both `prep()` and `bake()` since the
+# fields are used at bake time, and trained steps are never re-prepped.
+fill_new_args <- function(x, defaults) {
+  for (arg in names(defaults)) {
+    if (is.null(x[[arg]])) {
+      x[[arg]] <- defaults[[arg]]
+    }
+  }
+  x
+}
+
 add_indicator_column <- function(new_data, n_orig, indicator_column) {
   if (!is.null(indicator_column)) {
     new_data[[indicator_column]] <- c(
