@@ -19,7 +19,14 @@
 #'  that all other levels are sampled down to have the same
 #'  frequency as the least occurring level. A value of 2 would mean
 #'  that the majority levels will have (at most) (approximately)
-#'  twice as many rows than the minority level. See
+#'  twice as many rows than the minority level.
+#'
+#'  A named numeric vector can be used instead to give different levels
+#'  different targets, for example `c(a = 2, b = 3)`. The names must be levels
+#'  of the outcome and the values are ratios of the minority level, exactly as
+#'  in the single-number case. Levels that are not named are left untouched, as
+#'  are rows with a missing outcome. Because a vector of targets is not a
+#'  single value, supplying one means this argument can no longer be tuned. See
 #'  `vignette("ratio", package = "themis")` for more details.
 #' @param ratio Deprecated argument; same as `under_ratio`
 #' @param replacement A logical value indicating whether the
@@ -29,8 +36,9 @@
 #'  bootstrapped under-sample. The number of rows retained for each
 #'  level is unaffected, so no level is sampled up beyond its
 #'  original size.
-#' @param target An integer that will be used to subsample. This
-#'  should not be set by the user and will be populated by `prep`.
+#' @param target A named numeric vector giving the number of rows to sample
+#'  each level down to. This should not be set by the user and will be
+#'  populated by `prep`.
 #' @param seed An integer that will be used as the seed when applied.
 #' @return An updated version of `recipe` with the new step
 #'  added to the sequence of existing steps (if any). For the
@@ -111,6 +119,14 @@
 #' orig |>
 #'   left_join(training, by = "class") |>
 #'   left_join(baked, by = "class")
+#'
+#' # A named vector gives each level its own target. Here only "VF" is
+#' # sampled down, to about twice the size of the minority level.
+#' recipe(class ~ ., data = hpc_data0) |>
+#'   step_downsample(class, under_ratio = c(VF = 2)) |>
+#'   prep() |>
+#'   bake(new_data = NULL) |>
+#'   count(class)
 #'
 #' library(ggplot2)
 #'
@@ -205,7 +221,7 @@ step_downsample_new <-
 prep.step_downsample <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
 
-  check_number_decimal(x$under_ratio, arg = "under_ratio", min = 0)
+  check_ratio(x$under_ratio, arg = "under_ratio")
 
   wts <- recipes::get_case_weights(info, training)
   were_weights_used <- recipes::are_weights_used(wts, unsupervised = TRUE)
@@ -218,13 +234,20 @@ prep.step_downsample <- function(x, training, info = NULL, ...) {
   warn_unused_levels(training, col_name)
 
   if (length(col_name) == 0) {
-    minority <- 1
+    target <- numeric(0)
   } else {
     obs_freq <- weighted_table(
       droplevels(training[[col_name]]),
       as.integer(wts)
     )
-    minority <- min(obs_freq)
+    target <- floor(under_target(obs_freq, x$under_ratio))
+    # A level without a target of its own must be left alone, which `Inf`
+    # encodes. Its own count would not be enough: with `replacement = TRUE`
+    # that would resample the level to the same size instead of keeping it.
+    if (!is.null(names(x$under_ratio))) {
+      untouched <- !names(target) %in% names(x$under_ratio)
+      target[untouched] <- Inf
+    }
   }
 
   step_downsample_new(
@@ -235,7 +258,7 @@ prep.step_downsample <- function(x, training, info = NULL, ...) {
     role = x$role,
     trained = TRUE,
     column = col_name,
-    target = floor(minority * x$under_ratio),
+    target = target,
     skip = x$skip,
     seed = x$seed,
     id = x$id,
@@ -247,6 +270,10 @@ prep.step_downsample <- function(x, training, info = NULL, ...) {
 subsamp <- function(x, wts, num, replace = FALSE) {
   n <- nrow(x)
   if (n == 0) {
+    return(x)
+  }
+  # `Inf` marks a group with no target of its own, which is left untouched
+  if (is.infinite(num)) {
     return(x)
   }
   if (!replace && n == num) {
@@ -279,6 +306,14 @@ bake.step_downsample <- function(object, new_data, ...) {
     wts <- rep(1, nrow(new_data))
   }
 
+  # A per-class target has no entry for the `NA` group, so those rows are passed
+  # through unchanged rather than sampled towards the shared scalar target.
+  if (is.null(names(object$under_ratio))) {
+    missing_target <- object$target[[1]]
+  } else {
+    missing_target <- Inf
+  }
+
   if (any(is.na(new_data[[col_names]]))) {
     missing <- new_data[is.na(new_data[[col_names]]), ]
   } else {
@@ -286,16 +321,18 @@ bake.step_downsample <- function(object, new_data, ...) {
   }
   split_data <- split(new_data, new_data[[col_names]])
   split_wts <- split(wts, new_data[[col_names]])
+  split_target <- purrr::map_dbl(
+    names(split_data),
+    \(name) class_target(object$target, name, untouched = Inf)
+  )
 
   # Downsample with seed for reproducibility
   with_seed(
     seed = object$seed,
     code = {
-      new_data <- purrr::map2(
-        split_data,
-        split_wts,
+      new_data <- purrr::pmap(
+        list(split_data, split_wts, split_target),
         subsamp,
-        num = object$target,
         replace = isTRUE(object$replacement)
       ) |>
         purrr::list_rbind()
@@ -305,7 +342,7 @@ bake.step_downsample <- function(object, new_data, ...) {
           subsamp(
             missing,
             wts = rep(1, nrow(missing)),
-            num = object$target,
+            num = missing_target,
             replace = isTRUE(object$replacement)
           )
         )
@@ -356,7 +393,8 @@ tunable.step_downsample <- function(x, ...) {
     source = "recipe",
     component = "step_downsample",
     component_id = x$id
-  )
+  ) |>
+    drop_per_class_ratio(x$under_ratio)
 }
 
 #' @rdname required_pkgs.step
