@@ -53,7 +53,7 @@ bsmote <- function(
   check_data_frame(df)
   check_var(var, df)
   check_number_whole(k, min = 1)
-  check_number_decimal(over_ratio)
+  check_ratio(over_ratio)
   check_bool(all_neighbors)
   check_distance_arg(distance)
 
@@ -76,10 +76,9 @@ bsmote_impl <- function(
 ) {
   df[[var]] <- as.factor(df[[var]])
   counts <- table(drop_unused_levels(df[[var]]))
-  majority_count <- max(counts)
-  ratio_target <- round(majority_count * over_ratio)
+  ratio_target <- round(over_target(counts, over_ratio, call = call))
   which_upsample <- which(counts < ratio_target)
-  samples_needed <- ratio_target - counts[which_upsample]
+  samples_needed <- ratio_target[which_upsample] - counts[which_upsample]
   min_names <- names(samples_needed)
   out_dfs <- list()
   data_mat <- as.matrix(df[names(df) != var])

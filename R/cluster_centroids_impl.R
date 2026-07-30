@@ -35,7 +35,7 @@ cluster_centroids <- function(
 ) {
   check_data_frame(df)
   check_var(var, df)
-  check_number_decimal(under_ratio, min = 0)
+  check_ratio(under_ratio)
   voting <- rlang::arg_match(voting, c("soft", "hard"))
 
   predictors <- setdiff(colnames(df), var)
@@ -62,7 +62,9 @@ cluster_centroids_impl <- function(
 ) {
   predictors <- setdiff(names(df), c(var, ignore_vars))
   counts <- table(drop_unused_levels(df[[var]]))
-  n_target <- max(1, floor(min(counts) * under_ratio))
+  # `pmax()` copies attributes from its first argument, so the target must come
+  # first for the class names to survive.
+  n_target <- pmax(floor(under_target(counts, under_ratio, call = call)), 1)
   under_classes <- names(counts)[counts > n_target]
 
   if (length(under_classes) == 0) {
@@ -75,7 +77,7 @@ cluster_centroids_impl <- function(
   for (class in under_classes) {
     rows <- which(df[[var]] == class)
     class_data <- as.matrix(df[rows, predictors, drop = FALSE])
-    centers <- kmeans_centers(class_data, n_target, class, call = call)
+    centers <- kmeans_centers(class_data, n_target[[class]], class, call = call)
 
     if (voting == "hard") {
       # The representative must come from the class being under-sampled, so the

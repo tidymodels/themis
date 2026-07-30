@@ -47,7 +47,7 @@ kmeans_smote <- function(
   check_data_frame(df)
   check_var(var, df)
   check_number_whole(k, min = 1)
-  check_number_decimal(over_ratio, min = 0)
+  check_ratio(over_ratio)
   check_number_whole(num_clusters, min = 2, allow_null = TRUE)
   check_number_decimal(
     cluster_balance_threshold,
@@ -88,10 +88,9 @@ kmeans_smote_impl <- function(
   df[[var]] <- as.factor(df[[var]])
   predictors <- setdiff(names(df), var)
   counts <- table(drop_unused_levels(df[[var]]))
-  majority_count <- max(counts)
-  ratio_target <- round(majority_count * over_ratio)
+  ratio_target <- round(over_target(counts, over_ratio, call = call))
   which_upsample <- which(counts < ratio_target)
-  samples_needed <- ratio_target - counts[which_upsample]
+  samples_needed <- ratio_target[which_upsample] - counts[which_upsample]
   min_names <- names(samples_needed)
 
   if (length(samples_needed) == 0) {
