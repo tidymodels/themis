@@ -99,6 +99,18 @@
       Unused factor level "unused" in `class` was dropped.
       i  Level with zero observations is skipped when computing sampling targets.
 
+# step_smoten() checks `over_ratio` names when prepped (#323)
+
+    Code
+      prep(step_smoten(recipe(class ~ ., data = df), class, over_ratio = c(a = 1,
+        potato = 1)))
+    Condition
+      Error in `step_smoten()`:
+      Caused by error in `prep()`:
+      ! `over_ratio` names must be levels of the outcome.
+      x Unknown name: "potato".
+      i Available levels: "a", "b", and "c".
+
 # bake method errors when needed non-standard role columns are missing
 
     Code

@@ -191,26 +191,75 @@ test_that("tunable works with extract_parameter_set_dials", {
   expect_identical(nrow(params), 2L)
 })
 
-test_that("a named ratio vector opts the step out of tuning (#323)", {
-  rec <- recipe(~., data = mtcars) |>
-    step_smote(all_predictors(), over_ratio = c(a = 1, b = 0.5))
-  expect_equal(tunable(rec$steps[[1]])$name, "neighbors")
+over_ratio_steps <- c(
+  "step_adasyn",
+  "step_bsmote",
+  "step_kmeans_smote",
+  "step_smote",
+  "step_smoten",
+  "step_smotenc",
+  "step_svmsmote",
+  "step_upsample"
+)
 
-  rec <- recipe(~., data = mtcars) |>
-    step_nearmiss(all_predictors(), under_ratio = c(a = 1, b = 2))
-  expect_equal(tunable(rec$steps[[1]])$name, "neighbors")
+under_ratio_steps <- c(
+  "step_cluster_centroids",
+  "step_downsample",
+  "step_instance_hardness",
+  "step_nearmiss"
+)
 
+tune_names <- function(step_name, ...) {
+  step_fn <- getFromNamespace(step_name, "themis")
   rec <- recipe(~., data = mtcars) |>
-    step_upsample(all_predictors(), over_ratio = c(a = 1))
-  expect_equal(nrow(tunable(rec$steps[[1]])), 0L)
+    step_fn(all_predictors(), ...)
+  tunable(rec$steps[[1]])$name
+}
+
+test_that("a named ratio vector opts every step out of tuning (#323)", {
+  for (step_name in over_ratio_steps) {
+    scalar <- tune_names(step_name)
+    vector <- tune_names(step_name, over_ratio = c(a = 1, b = 0.5))
+
+    expect_true("over_ratio" %in% scalar)
+    expect_equal(vector, setdiff(scalar, "over_ratio"))
+  }
+
+  for (step_name in under_ratio_steps) {
+    scalar <- tune_names(step_name)
+    vector <- tune_names(step_name, under_ratio = c(a = 1, b = 2))
+
+    expect_true("under_ratio" %in% scalar)
+    expect_equal(vector, setdiff(scalar, "under_ratio"))
+  }
 })
 
 test_that("a `tune()` ratio is still tunable (#323)", {
-  rec <- recipe(~., data = mtcars) |>
-    step_smote(all_predictors(), over_ratio = hardhat::tune())
-  expect_equal(tunable(rec$steps[[1]])$name, c("over_ratio", "neighbors"))
+  # `names(quote(tune(id = "x")))` is not NULL, so the opt-out guard has to
+  # look at more than the names to avoid dropping a tuned parameter.
+  for (step_name in over_ratio_steps) {
+    expect_equal(
+      tune_names(step_name, over_ratio = hardhat::tune()),
+      tune_names(step_name)
+    )
+    expect_equal(
+      tune_names(step_name, over_ratio = hardhat::tune(id = "ratio")),
+      tune_names(step_name)
+    )
+  }
 
-  rec <- recipe(~., data = mtcars) |>
-    step_smote(all_predictors(), over_ratio = hardhat::tune(id = "ratio"))
-  expect_equal(tunable(rec$steps[[1]])$name, c("over_ratio", "neighbors"))
+  for (step_name in under_ratio_steps) {
+    expect_equal(
+      tune_names(step_name, under_ratio = hardhat::tune()),
+      tune_names(step_name)
+    )
+  }
+})
+
+test_that("step_rose() keeps a scalar `over_ratio` tunable (#323)", {
+  expect_equal(tune_names("step_rose"), "over_ratio")
+  expect_equal(
+    tune_names("step_rose", over_ratio = hardhat::tune()),
+    "over_ratio"
+  )
 })

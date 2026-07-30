@@ -435,6 +435,54 @@ test_that("smotenc() targets a single class with a named vector (#323)", {
   expect_equal(as.numeric(table(res$class)), c(80, 40, 80))
 })
 
+test_that("step_smotenc() samples each class to its own target (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(140),
+    y = factor(sample(LETTERS[1:3], 140, replace = TRUE)),
+    class = factor(c(rep("a", 20), rep("b", 40), rep("c", 80)))
+  )
+
+  res <- recipe(class ~ ., data = df) |>
+    step_smotenc(class, over_ratio = c(a = 1, b = 0.75)) |>
+    prep() |>
+    bake(new_data = NULL)
+
+  expect_equal(as.numeric(table(res$class)), c(80, 60, 80))
+})
+
+test_that("step_smotenc() leaves a class alone when its target is on the wrong side (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(140),
+    y = factor(sample(LETTERS[1:3], 140, replace = TRUE)),
+    class = factor(c(rep("a", 20), rep("b", 40), rep("c", 80)))
+  )
+
+  res <- recipe(class ~ ., data = df) |>
+    step_smotenc(class, over_ratio = c(c = 0.5)) |>
+    prep() |>
+    bake(new_data = NULL)
+
+  expect_equal(as.numeric(table(res$class)), c(20, 40, 80))
+})
+
+test_that("step_smotenc() checks `over_ratio` names when prepped (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(140),
+    y = factor(sample(LETTERS[1:3], 140, replace = TRUE)),
+    class = factor(c(rep("a", 20), rep("b", 40), rep("c", 80)))
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    recipe(class ~ ., data = df) |>
+      step_smotenc(class, over_ratio = c(a = 1, potato = 1)) |>
+      prep()
+  )
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {

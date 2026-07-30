@@ -439,6 +439,68 @@ test_that("nearmiss() with a constant vector matches the scalar (#323)", {
   )
 })
 
+test_that("step_nearmiss() samples each class to its own target (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(70),
+    y = rnorm(70),
+    class = factor(c(rep("a", 10), rep("b", 20), rep("c", 40)))
+  )
+
+  res <- recipe(class ~ ., data = df) |>
+    step_nearmiss(class, under_ratio = c(b = 1.5, c = 2)) |>
+    prep() |>
+    bake(new_data = NULL)
+
+  expect_equal(as.numeric(table(res$class)), c(10, 15, 20))
+})
+
+test_that("step_nearmiss() leaves a class alone when its target is on the wrong side (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(70),
+    y = rnorm(70),
+    class = factor(c(rep("a", 10), rep("b", 20), rep("c", 40)))
+  )
+
+  res <- recipe(class ~ ., data = df) |>
+    step_nearmiss(class, under_ratio = c(a = 5)) |>
+    prep() |>
+    bake(new_data = NULL)
+
+  expect_equal(as.numeric(table(res$class)), c(10, 20, 40))
+})
+
+test_that("step_nearmiss() checks `under_ratio` names when prepped (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(70),
+    y = rnorm(70),
+    class = factor(c(rep("a", 10), rep("b", 20), rep("c", 40)))
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    recipe(class ~ ., data = df) |>
+      step_nearmiss(class, under_ratio = c(a = 1, potato = 1)) |>
+      prep()
+  )
+})
+
+
+test_that("nearmiss() targets a single class with a named vector (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(70),
+    y = rnorm(70),
+    class = factor(c(rep("a", 10), rep("b", 20), rep("c", 40)))
+  )
+
+  res <- nearmiss(df, "class", under_ratio = c(b = 1.5, c = 2))
+
+  expect_equal(as.numeric(table(res$class)), c(10, 15, 20))
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {

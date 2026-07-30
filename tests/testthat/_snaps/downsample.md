@@ -120,6 +120,18 @@
       Caused by error in `prep()`:
       ! `under_ratio` must have unique names, but "a" is duplicated.
 
+# step_downsample() checks `under_ratio` names when prepped (#323)
+
+    Code
+      prep(step_downsample(recipe(class ~ ., data = df), class, under_ratio = c(a = 1,
+        potato = 1)))
+    Condition
+      Error in `step_downsample()`:
+      Caused by error in `prep()`:
+      ! `under_ratio` names must be levels of the outcome.
+      x Unknown name: "potato".
+      i Available levels: "a", "b", and "c".
+
 # bake method errors when needed non-standard role columns are missing
 
     Code

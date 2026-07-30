@@ -460,6 +460,54 @@ test_that("step_upsample() errors on a bad `over_ratio` vector (#323)", {
   )
 })
 
+test_that("step_upsample() samples each class to its own target (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(70),
+    y = rnorm(70),
+    class = factor(c(rep("a", 10), rep("b", 20), rep("c", 40)))
+  )
+
+  res <- recipe(class ~ ., data = df) |>
+    step_upsample(class, over_ratio = c(a = 1, b = 0.75)) |>
+    prep() |>
+    bake(new_data = NULL)
+
+  expect_equal(as.numeric(table(res$class)), c(40, 30, 40))
+})
+
+test_that("step_upsample() leaves a class alone when its target is on the wrong side (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(70),
+    y = rnorm(70),
+    class = factor(c(rep("a", 10), rep("b", 20), rep("c", 40)))
+  )
+
+  res <- recipe(class ~ ., data = df) |>
+    step_upsample(class, over_ratio = c(c = 0.5)) |>
+    prep() |>
+    bake(new_data = NULL)
+
+  expect_equal(as.numeric(table(res$class)), c(10, 20, 40))
+})
+
+test_that("step_upsample() checks `over_ratio` names when prepped (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(70),
+    y = rnorm(70),
+    class = factor(c(rep("a", 10), rep("b", 20), rep("c", 40)))
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    recipe(class ~ ., data = df) |>
+      step_upsample(class, over_ratio = c(a = 1, potato = 1)) |>
+      prep()
+  )
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {
