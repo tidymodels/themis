@@ -13,6 +13,10 @@
 #'  currently used.
 #' @param column A character string of the variable name that will
 #'  be populated (eventually) by the `...` selectors.
+#' @param over_ratio A numeric value for the total size of the synthetic data
+#'  relative to twice the size of the majority class. Unlike the other
+#'  over-sampling steps this is not a per-class target, so a named vector of
+#'  ratios is not accepted here.
 #' @param minority_prop A numeric value between 0 and 1 for the proportion of
 #'  synthetic observations from the minority class. Defaults to 0.5, which
 #'  generates an equal split of minority and majority synthetic observations.
@@ -196,7 +200,7 @@ step_rose_new <-
 prep.step_rose <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
 
-  check_number_decimal(x$over_ratio, arg = "over_ratio", min = 0)
+  check_scalar_ratio(x$over_ratio, arg = "over_ratio")
 
   check_1_selected(col_name)
   check_column_factor(training, col_name)
@@ -360,7 +364,7 @@ rose <- function(
 ) {
   check_data_frame(df)
   check_var(var, df)
-  check_number_decimal(over_ratio, min = 0)
+  check_scalar_ratio(over_ratio)
   check_number_decimal(minority_prop, min = 0, max = 1)
   check_number_decimal(minority_smoothness, min = 0)
   check_number_decimal(majority_smoothness, min = 0)
