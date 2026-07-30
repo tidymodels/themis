@@ -552,6 +552,83 @@ test_that("bsmote() works with a character `var` (#261)", {
   expect_identical(sum(is.na(res$class)), 0L)
 })
 
+test_that("bsmote() with a constant vector matches the scalar (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(70),
+    y = rnorm(70),
+    class = factor(c(rep("a", 10), rep("b", 20), rep("c", 40)))
+  )
+
+  set.seed(2)
+  res_vec <- bsmote(df, "class", over_ratio = c(a = 0.5, b = 0.5, c = 0.5))
+  set.seed(2)
+  res_scalar <- bsmote(df, "class", over_ratio = 0.5)
+
+  expect_equal(res_vec, res_scalar)
+})
+
+test_that("bsmote() targets a single class with a named vector (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(70),
+    y = rnorm(70),
+    class = factor(c(rep("a", 10), rep("b", 20), rep("c", 40)))
+  )
+
+  res <- bsmote(df, "class", over_ratio = c(a = 1))
+
+  expect_equal(as.numeric(table(res$class)), c(40, 20, 40))
+})
+
+test_that("step_bsmote() samples each class to its own target (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(70),
+    y = rnorm(70),
+    class = factor(c(rep("a", 10), rep("b", 20), rep("c", 40)))
+  )
+
+  res <- recipe(class ~ ., data = df) |>
+    step_bsmote(class, over_ratio = c(a = 1, b = 0.75)) |>
+    prep() |>
+    bake(new_data = NULL)
+
+  expect_equal(as.numeric(table(res$class)), c(40, 30, 40))
+})
+
+test_that("step_bsmote() leaves a class alone when its target is on the wrong side (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(70),
+    y = rnorm(70),
+    class = factor(c(rep("a", 10), rep("b", 20), rep("c", 40)))
+  )
+
+  res <- recipe(class ~ ., data = df) |>
+    step_bsmote(class, over_ratio = c(c = 0.5)) |>
+    prep() |>
+    bake(new_data = NULL)
+
+  expect_equal(as.numeric(table(res$class)), c(10, 20, 40))
+})
+
+test_that("step_bsmote() checks `over_ratio` names when prepped (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(70),
+    y = rnorm(70),
+    class = factor(c(rep("a", 10), rep("b", 20), rep("c", 40)))
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    recipe(class ~ ., data = df) |>
+      step_bsmote(class, over_ratio = c(a = 1, potato = 1)) |>
+      prep()
+  )
+})
+
 test_that("backwards compatible for arguments added after 1.0.3", {
   rec <- recipe(class ~ x + y, data = circle_example) |>
     step_bsmote(class)

@@ -102,6 +102,188 @@ warn_unused_levels <- function(data, column, call = caller_env()) {
   invisible()
 }
 
+# `over_ratio` and `under_ratio` accept either a single number (applied to every
+# class) or a named numeric vector giving per-class ratios. This only validates
+# the shape of the argument; names are checked against the observed levels by
+# check_ratio_levels() once the data is known.
+check_ratio <- function(ratio, arg = caller_arg(ratio), call = caller_env()) {
+  if (length(ratio) == 1 && is.null(names(ratio))) {
+    check_number_decimal(ratio, arg = arg, min = 0, call = call)
+    return(invisible(NULL))
+  }
+
+  if (!is.numeric(ratio) || length(ratio) == 0) {
+    cli::cli_abort(
+      "{.arg {arg}} must be a single number or a named numeric vector, \\
+       not {.obj_type_friendly {ratio}}.",
+      call = call
+    )
+  }
+
+  nms <- names(ratio)
+  if (is.null(nms) || any(is.na(nms)) || any(nms == "")) {
+    cli::cli_abort(
+      c(
+        "{.arg {arg}} must be a single number or a named numeric vector.",
+        i = "Every element must be named with a level of the outcome."
+      ),
+      call = call
+    )
+  }
+
+  dupes <- unique(nms[duplicated(nms)])
+  if (length(dupes) > 0) {
+    cli::cli_abort(
+      "{.arg {arg}} must have unique names, \\
+       but {.val {dupes}} {?is/are} duplicated.",
+      call = call
+    )
+  }
+
+  if (!all(is.finite(ratio))) {
+    cli::cli_abort(
+      "{.arg {arg}} must be finite, not missing or infinite.",
+      call = call
+    )
+  }
+
+  if (any(ratio < 0)) {
+    cli::cli_abort(
+      "{.arg {arg}} must be larger than or equal to 0.",
+      call = call
+    )
+  }
+
+  invisible(NULL)
+}
+
+check_ratio_levels <- function(
+  ratio,
+  levels,
+  arg = caller_arg(ratio),
+  call = caller_env()
+) {
+  if (is.null(names(ratio))) {
+    return(invisible(NULL))
+  }
+
+  unknown <- setdiff(names(ratio), levels)
+  if (length(unknown) > 0) {
+    if (length(levels) == 0) {
+      available <- "No levels were observed in the outcome."
+    } else {
+      available <- "Available {cli::qty(levels)}level{?s}: {.val {levels}}."
+    }
+    cli::cli_abort(
+      c(
+        "{.arg {arg}} names must be levels of the outcome.",
+        x = "Unknown {cli::qty(unknown)}name{?s}: {.val {unknown}}.",
+        i = available
+      ),
+      call = call
+    )
+  }
+
+  invisible(NULL)
+}
+
+# Same check, done at prep() time against the outcome column, so a typo fails
+# fast instead of surfacing from the implementation during bake().
+check_ratio_column <- function(
+  ratio,
+  data,
+  column,
+  arg = caller_arg(ratio),
+  call = caller_env()
+) {
+  if (length(column) != 1 || is.null(names(ratio))) {
+    return(invisible(NULL))
+  }
+
+  levels <- levels(drop_unused_levels(as.factor(data[[column]])))
+  check_ratio_levels(ratio, levels, arg = arg, call = call)
+}
+
+# Per-class target counts, aligned to and named like `counts`. Classes not named
+# in `ratio` keep their current count, which leaves them untouched downstream.
+ratio_target <- function(
+  counts,
+  ratio,
+  reference,
+  arg = caller_arg(ratio),
+  call = caller_env()
+) {
+  target <- stats::setNames(as.numeric(counts), names(counts))
+
+  check_ratio_levels(ratio, names(target), arg = arg, call = call)
+
+  if (length(target) == 0) {
+    return(target)
+  }
+
+  ref <- reference(counts)
+
+  if (is.null(names(ratio))) {
+    target[] <- ref * ratio
+    return(target)
+  }
+
+  # Index by position. Assigning by name appends for a name that isn't present,
+  # which would leave `target` longer than `counts` and silently recycle.
+  target[match(names(ratio), names(target))] <- ref * ratio
+  target
+}
+
+over_target <- function(
+  counts,
+  over_ratio,
+  arg = "over_ratio",
+  call = caller_env()
+) {
+  ratio_target(counts, over_ratio, max, arg = arg, call = call)
+}
+
+under_target <- function(
+  counts,
+  under_ratio,
+  arg = "under_ratio",
+  call = caller_env()
+) {
+  ratio_target(counts, under_ratio, min, arg = arg, call = call)
+}
+
+# ROSE scales the size of the whole generated sample rather than setting a
+# target per class, so per-class ratios have no meaning there.
+check_scalar_ratio <- function(
+  ratio,
+  arg = caller_arg(ratio),
+  call = caller_env()
+) {
+  if (!is.null(names(ratio))) {
+    cli::cli_abort(
+      c(
+        "{.arg {arg}} must be a single number, not a named vector.",
+        i = "Per-class ratios are not supported here because {.arg {arg}} \\
+             scales the size of the total generated sample."
+      ),
+      call = call
+    )
+  }
+  check_number_decimal(ratio, arg = arg, min = 0, call = call)
+}
+
+# Target for a single class at bake() time. Levels that were not present in the
+# training data have no target and are left untouched, which `untouched` encodes
+# as the count that makes the sampler a no-op (0 when up-sampling, `Inf` when
+# down-sampling).
+class_target <- function(target, name, untouched) {
+  if (length(name) == 1 && !is.na(name) && name %in% names(target)) {
+    target[[name]]
+  } else {
+    untouched
+  }
+}
+
 check_column_numeric <- function(data, column, call = caller_env()) {
   if (length(column) == 1 && !is.numeric(data[[column]])) {
     cli::cli_abort(

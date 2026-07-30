@@ -42,7 +42,7 @@ smoten <- function(df, var, k = 5, over_ratio = 1) {
   check_data_frame(df)
   check_var(var, df)
   check_number_whole(k, min = 1)
-  check_number_decimal(over_ratio)
+  check_ratio(over_ratio)
 
   check_na(select(df, -all_of(var)))
   check_all_categorical(select(df, -all_of(var)))
@@ -59,15 +59,13 @@ smoten_impl <- function(df, var, k, over_ratio, call = caller_env()) {
 
   # split data into list names by classes
   data <- split(df, df[[var]])
-  # Number of majority instances
   counts <- table(drop_unused_levels(df[[var]]))
-  majority_count <- max(counts)
-  # How many minority samples do we want in total?
-  ratio_target <- round(majority_count * over_ratio)
+  # How many samples do we want in total, per class?
+  ratio_target <- round(over_target(counts, over_ratio, call = call))
   # Which classes need upsampling
   which_upsample <- which(counts < ratio_target)
   # For each minority class, determine how many more samples are needed
-  samples_needed <- ratio_target - counts[which_upsample]
+  samples_needed <- ratio_target[which_upsample] - counts[which_upsample]
   min_names <- names(samples_needed)
 
   out_dfs <- list()

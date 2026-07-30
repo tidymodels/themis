@@ -186,11 +186,12 @@ step_cluster_centroids_new <-
 prep.step_cluster_centroids <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
 
-  check_number_decimal(x$under_ratio, arg = "under_ratio", min = 0)
+  check_ratio(x$under_ratio, arg = "under_ratio")
 
   check_1_selected(col_name)
   check_column_factor(training, col_name)
   warn_unused_levels(training, col_name)
+  check_ratio_column(x$under_ratio, training, col_name, arg = "under_ratio")
 
   distance_cols <- recipes_argument_select(
     x$distance_with,
@@ -295,7 +296,8 @@ tunable.step_cluster_centroids <- function(x, ...) {
     source = "recipe",
     component = "step_cluster_centroids",
     component_id = x$id
-  )
+  ) |>
+    drop_per_class_ratio(x$under_ratio)
 }
 
 #' @rdname required_pkgs.step

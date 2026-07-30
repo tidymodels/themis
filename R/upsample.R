@@ -19,11 +19,19 @@
 #'  that all other levels are sampled up to have the same
 #'  frequency as the most occurring level. A value of 0.5 would mean
 #'  that the minority levels will have (at most) (approximately)
-#'  half as many rows as the majority level. See
-#'  `vignette("ratio", package = "themis")` for more details.
+#'  half as many rows as the majority level.
+#'
+#'  A named numeric vector can be used instead to give different levels
+#'  different targets, for example `c(a = 1, b = 0.5)`. The names must be
+#'  levels of the outcome and the values are ratios of the majority level,
+#'  exactly as in the single-number case. Levels that are not named are left
+#'  untouched, as are rows with a missing outcome. Because a vector of targets
+#'  is not a single value, supplying one means this argument can no longer be
+#'  tuned. See `vignette("ratio", package = "themis")` for more details.
 #' @param ratio Deprecated argument; same as `over_ratio`.
-#' @param target An integer that will be used to subsample. This
-#'  should not be set by the user and will be populated by `prep`.
+#' @param target A named numeric vector giving the number of rows to sample
+#'  each level up to. This should not be set by the user and will be
+#'  populated by `prep`.
 #' @param indicator_column A single string or `NULL` (the default). If a
 #'  string is given, a logical column with that name is added to the output,
 #'  marking rows added by the step (`TRUE`) vs rows from the original data
@@ -199,7 +207,7 @@ step_upsample_new <-
 prep.step_upsample <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
 
-  check_number_decimal(x$over_ratio, arg = "over_ratio", min = 0)
+  check_ratio(x$over_ratio, arg = "over_ratio")
 
   wts <- recipes::get_case_weights(info, training)
   were_weights_used <- recipes::are_weights_used(wts, unsupervised = TRUE)
@@ -212,10 +220,13 @@ prep.step_upsample <- function(x, training, info = NULL, ...) {
   warn_unused_levels(training, col_name)
 
   if (length(col_name) == 0) {
-    majority <- 0
+    target <- numeric(0)
   } else {
-    obs_freq <- weighted_table(training[[col_name]], as.integer(wts))
-    majority <- max(obs_freq)
+    obs_freq <- weighted_table(
+      drop_unused_levels(training[[col_name]]),
+      as.integer(wts)
+    )
+    target <- floor(over_target(obs_freq, x$over_ratio))
   }
 
   recipes::check_name(
@@ -232,7 +243,7 @@ prep.step_upsample <- function(x, training, info = NULL, ...) {
     role = x$role,
     trained = TRUE,
     column = col_name,
-    target = floor(majority * x$over_ratio),
+    target = target,
     indicator_column = x$indicator_column,
     skip = x$skip,
     id = x$id,
@@ -292,6 +303,15 @@ bake.step_upsample <- function(object, new_data, ...) {
     wts <- rep(1, nrow(new_data))
   }
 
+  # A per-class target has no entry for the `NA` group, so those rows are passed
+  # through unchanged (a target of 0 is a no-op) rather than sampled towards the
+  # shared scalar target.
+  if (is.null(names(object$over_ratio))) {
+    missing_target <- object$target[[1]]
+  } else {
+    missing_target <- 0
+  }
+
   if (any(is.na(new_data[[col_names]]))) {
     missing <- new_data[is.na(new_data[[col_names]]), ]
   } else {
@@ -299,17 +319,19 @@ bake.step_upsample <- function(object, new_data, ...) {
   }
   split_data <- split(new_data, new_data[[col_names]])
   split_wts <- split(wts, new_data[[col_names]])
+  split_target <- purrr::map_dbl(
+    names(split_data),
+    \(name) class_target(object$target, name, untouched = 0)
+  )
 
   # Upsample with seed for reproducibility
   if (!is.null(object$indicator_column)) {
     with_seed(
       seed = object$seed,
       code = {
-        result_list <- purrr::map2(
-          split_data,
-          split_wts,
-          supsamp_with_indicator,
-          num = object$target
+        result_list <- purrr::pmap(
+          list(split_data, split_wts, split_target),
+          supsamp_with_indicator
         )
         new_data <- purrr::map(result_list, "data") |> purrr::list_rbind()
         is_new <- purrr::map(result_list, "is_new") |> purrr::list_c()
@@ -317,7 +339,7 @@ bake.step_upsample <- function(object, new_data, ...) {
           missing_result <- supsamp_with_indicator(
             missing,
             wts = rep(1, nrow(missing)),
-            num = object$target
+            num = missing_target
           )
           new_data <- bind_rows(new_data, missing_result$data)
           is_new <- c(is_new, missing_result$is_new)
@@ -329,17 +351,15 @@ bake.step_upsample <- function(object, new_data, ...) {
     with_seed(
       seed = object$seed,
       code = {
-        new_data <- purrr::map2(
-          split_data,
-          split_wts,
-          supsamp,
-          num = object$target
+        new_data <- purrr::pmap(
+          list(split_data, split_wts, split_target),
+          supsamp
         ) |>
           purrr::list_rbind()
         if (!is.null(missing)) {
           new_data <- bind_rows(
             new_data,
-            supsamp(missing, wts = rep(1, nrow(missing)), num = object$target)
+            supsamp(missing, wts = rep(1, nrow(missing)), num = missing_target)
           )
         }
       }
@@ -389,7 +409,8 @@ tunable.step_upsample <- function(x, ...) {
     source = "recipe",
     component = "step_upsample",
     component_id = x$id
-  )
+  ) |>
+    drop_per_class_ratio(x$over_ratio)
 }
 
 #' @rdname required_pkgs.step

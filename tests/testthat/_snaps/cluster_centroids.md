@@ -62,6 +62,18 @@
       Error in `step_cluster_centroids()`:
       ! `seed` must be a whole number, not `TRUE`.
 
+# step_cluster_centroids() checks `under_ratio` names when prepped (#323)
+
+    Code
+      prep(step_cluster_centroids(recipe(class ~ ., data = df), class, under_ratio = c(
+        a = 1, potato = 1)))
+    Condition
+      Error in `step_cluster_centroids()`:
+      Caused by error in `prep()`:
+      ! `under_ratio` names must be levels of the outcome.
+      x Unknown name: "potato".
+      i Available levels: "a", "b", and "c".
+
 # bake method errors when needed non-standard role columns are missing
 
     Code

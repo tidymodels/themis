@@ -130,6 +130,47 @@
       ! This step does not support case weights.
       i The case weights column `wts` must be removed before this step.
 
+# smote() errors on a bad `over_ratio` vector (#323)
+
+    Code
+      smote(df, "class", over_ratio = c(potato = 1))
+    Condition
+      Error in `smote()`:
+      ! `over_ratio` names must be levels of the outcome.
+      x Unknown name: "potato".
+      i Available levels: "a" and "b".
+
+---
+
+    Code
+      smote(df, "class", over_ratio = c(a = -1))
+    Condition
+      Error in `smote()`:
+      ! `over_ratio` must be larger than or equal to 0.
+
+# step_smote() checks `over_ratio` names in prep() (#323)
+
+    Code
+      prep(step_smote(recipe(class ~ x + y, data = df), class, over_ratio = c(potato = 1)))
+    Condition
+      Error in `step_smote()`:
+      Caused by error in `prep()`:
+      ! `over_ratio` names must be levels of the outcome.
+      x Unknown name: "potato".
+      i Available levels: "a" and "b".
+
+# step_smote() checks `over_ratio` names when prepped (#323)
+
+    Code
+      prep(step_smote(recipe(class ~ ., data = df), class, over_ratio = c(a = 1,
+        potato = 1)))
+    Condition
+      Error in `step_smote()`:
+      Caused by error in `prep()`:
+      ! `over_ratio` names must be levels of the outcome.
+      x Unknown name: "potato".
+      i Available levels: "a", "b", and "c".
+
 # bake method errors when needed non-standard role columns are missing
 
     Code

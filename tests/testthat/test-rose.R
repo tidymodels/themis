@@ -416,6 +416,24 @@ test_that("unused outcome levels are skipped with a warning (#238)", {
   expect_gt(nrow(res), 0)
 })
 
+test_that("step_rose() rejects a named `over_ratio` vector (#323)", {
+  expect_snapshot(
+    error = TRUE,
+    recipe(class ~ x + y, data = circle_example) |>
+      step_rose(class, over_ratio = c(Circle = 1)) |>
+      prep()
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    rose(
+      circle_example[c("x", "y", "class")],
+      "class",
+      over_ratio = c(Circle = 1)
+    )
+  )
+})
+
 test_that("backwards compatible for arguments added after 1.0.3", {
   rec <- recipe(class ~ x + y, data = circle_example) |>
     step_rose(class)

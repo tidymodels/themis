@@ -45,7 +45,7 @@ instance_hardness <- function(
   check_data_frame(df)
   check_var(var, df)
   check_number_whole(k, min = 1)
-  check_number_decimal(under_ratio)
+  check_ratio(under_ratio)
   check_distance_arg(distance)
 
   predictors <- setdiff(colnames(df), var)
@@ -72,7 +72,7 @@ instance_hardness_impl <- function(
   distance = "euclidean",
   call = caller_env()
 ) {
-  classes <- downsample_count(df, var, under_ratio)
+  classes <- downsample_count(df, var, under_ratio, call = call)
 
   if (length(classes) == 0) {
     return(df)
