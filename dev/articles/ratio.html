@@ -266,6 +266,59 @@ already has fewer than 60 observations and is left unchanged:</p>
 </div>
 </div>
 <div class="section level2">
+<h2 id="per-class-targets">Per-class targets<a class="anchor" aria-label="anchor" href="#per-class-targets"></a>
+</h2>
+<p>A single ratio applies the same target to every class, which can be
+restrictive with more than two classes. If class <code>"c"</code> needs
+a lot of help and class <code>"b"</code> only a little, one number
+cannot express that.</p>
+<p>Both arguments also accept a named numeric vector, where the names
+are levels of the outcome. The values mean exactly what the single
+number means, a ratio of the reference class, so
+<code>c(b = 0.5, c = 0.8)</code> asks for <code>"b"</code> at half the
+majority size and <code>"c"</code> at 80% of it. Levels that are not
+named are left untouched:</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html" class="external-link">recipe</a></span><span class="op">(</span><span class="va">class</span> <span class="op">~</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">imbalanced_data</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/step_upsample.html">step_upsample</a></span><span class="op">(</span><span class="va">class</span>, over_ratio <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>b <span class="op">=</span> <span class="fl">0.5</span>, c <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/prep.html" class="external-link">prep</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/bake.html" class="external-link">bake</a></span><span class="op">(</span>new_data <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">class</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
+<span><span class="co">#&gt;   class     n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> a       100</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> b        65</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> c        80</span></span></code></pre></div>
+<p>Class <code>"c"</code> is upsampled to
+<code>floor(100 * 0.8) = 80</code>. Class <code>"b"</code> has a target
+of <code>floor(100 * 0.5) = 50</code>, which it already exceeds, so it
+is left unchanged; over-sampling never removes rows. Class
+<code>"a"</code> was not named at all, so it is untouched as well.</p>
+<p>The same applies to <code>under_ratio</code>, where the values are
+ratios of the minority class:</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html" class="external-link">recipe</a></span><span class="op">(</span><span class="va">class</span> <span class="op">~</span> <span class="va">x</span>, data <span class="op">=</span> <span class="va">imbalanced_data</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/step_downsample.html">step_downsample</a></span><span class="op">(</span><span class="va">class</span>, under_ratio <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>a <span class="op">=</span> <span class="fl">2</span>, b <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/prep.html" class="external-link">prep</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/bake.html" class="external-link">bake</a></span><span class="op">(</span>new_data <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">class</span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 2</span></span></span>
+<span><span class="co">#&gt;   class     n</span></span>
+<span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> a        40</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> b        60</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> c        20</span></span></code></pre></div>
+<p>Class <code>"a"</code> is downsampled to
+<code>floor(20 * 2) = 40</code> and class <code>"b"</code> to
+<code>floor(20 * 3) = 60</code>. Class <code>"c"</code> is the minority
+class and was not named, so it keeps all 20 of its observations.</p>
+<p>Two things to keep in mind. The names must all be levels of the
+outcome; a typo is an error rather than a silently ignored target. And a
+vector of targets is not a single value, so a step given one can no
+longer have that argument tuned.</p>
+</div>
+<div class="section level2">
 <h2 id="choosing-a-ratio">Choosing a ratio<a class="anchor" aria-label="anchor" href="#choosing-a-ratio"></a>
 </h2>
 <p>Choosing the right ratio depends on your data and the model you are
@@ -281,6 +334,9 @@ the cost of a less balanced class distribution.</p></li>
 majority class, upsampling to perfect balance can generate a very large
 amount of synthetic data. Using <code>over_ratio &lt; 1</code> limits
 the amount of synthetic data generated.</p></li>
+<li><p><strong>Targeting individual classes</strong>: When the imbalance
+differs from class to class, a named vector gives each level its own
+target. See the section above.</p></li>
 </ul>
 <p>In practice, <code>over_ratio</code> and <code>under_ratio</code> are
 often treated as tunable hyperparameters and selected by

@@ -56,12 +56,10 @@ step_rose(
 
 - over_ratio:
 
-  A numeric value for the ratio of the minority-to-majority frequencies.
-  The default value (1) means that all other levels are sampled up to
-  have the same frequency as the most occurring level. A value of 0.5
-  would mean that the minority levels will have (at most)
-  (approximately) half as many rows as the majority level. See
-  `vignette("ratio", package = "themis")` for more details.
+  A numeric value for the total size of the synthetic data relative to
+  twice the size of the majority class. Unlike the other over-sampling
+  steps this is not a per-class target, so a named vector of ratios is
+  not accepted here.
 
 - minority_prop:
 
@@ -215,8 +213,8 @@ training
 #> # A tibble: 2 × 2
 #>   class  training
 #>   <fct>     <int>
-#> 1 not VF     2178
-#> 2 VF         2244
+#> 1 not VF     2254
+#> 2 VF         2168
 
 # Since `skip` defaults to TRUE, baking the step has no effect
 baked <- up_rec |>
@@ -235,8 +233,8 @@ orig |>
 #> # A tibble: 2 × 4
 #>   class   orig training baked
 #>   <fct>  <int>    <int> <int>
-#> 1 not VF  2120     2178  2120
-#> 2 VF      2211     2244  2211
+#> 1 not VF  2120     2254  2120
+#> 2 VF      2211     2168  2211
 
 library(ggplot2)
 

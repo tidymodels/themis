@@ -44,8 +44,16 @@ step_upsample(
   The default value (1) means that all other levels are sampled up to
   have the same frequency as the most occurring level. A value of 0.5
   would mean that the minority levels will have (at most)
-  (approximately) half as many rows as the majority level. See
-  `vignette("ratio", package = "themis")` for more details.
+  (approximately) half as many rows as the majority level.
+
+  A named numeric vector can be used instead to give different levels
+  different targets, for example `c(a = 1, b = 0.5)`. The names must be
+  levels of the outcome and the values are ratios of the majority level,
+  exactly as in the single-number case. Levels that are not named are
+  left untouched, as are rows with a missing outcome. Because a vector
+  of targets is not a single value, supplying one means this argument
+  can no longer be tuned. See `vignette("ratio", package = "themis")`
+  for more details.
 
 - ratio:
 
@@ -68,8 +76,9 @@ step_upsample(
 
 - target:
 
-  An integer that will be used to subsample. This should not be set by
-  the user and will be populated by `prep`.
+  A named numeric vector giving the number of rows to sample each level
+  up to. This should not be set by the user and will be populated by
+  `prep`.
 
 - indicator_column:
 

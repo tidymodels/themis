@@ -58,8 +58,16 @@ step_smote(
   The default value (1) means that all other levels are sampled up to
   have the same frequency as the most occurring level. A value of 0.5
   would mean that the minority levels will have (at most)
-  (approximately) half as many rows as the majority level. See
-  `vignette("ratio", package = "themis")` for more details.
+  (approximately) half as many rows as the majority level.
+
+  A named numeric vector can be used instead to give different levels
+  different targets, for example `c(a = 1, b = 0.5)`. The names must be
+  levels of the outcome and the values are ratios of the majority level,
+  exactly as in the single-number case. Levels that are not named are
+  left untouched, as are rows with a missing outcome. Because a vector
+  of targets is not a single value, supplying one means this argument
+  can no longer be tuned. See `vignette("ratio", package = "themis")`
+  for more details.
 
 - neighbors:
 
@@ -275,6 +283,21 @@ orig |>
 #> 2 F      1347     1347  1347
 #> 3 M       514     1000   514
 #> 4 L       259     1000   259
+
+# A named vector gives each level its own target. Here "VF" is left
+# untouched and only "L" is brought up to the size of the majority level.
+recipe(class ~ ., data = hpc_data0) |>
+  step_smote(class, over_ratio = c(L = 1)) |>
+  prep() |>
+  bake(new_data = NULL) |>
+  count(class)
+#> # A tibble: 4 × 2
+#>   class     n
+#>   <fct> <int>
+#> 1 VF     2211
+#> 2 F      1347
+#> 3 M       514
+#> 4 L      2211
 
 library(ggplot2)
 

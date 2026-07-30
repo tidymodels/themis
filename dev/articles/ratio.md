@@ -214,6 +214,65 @@ recipe(class ~ x, data = imbalanced_data) |>
 #> 3 c        20
 ```
 
+## Per-class targets
+
+A single ratio applies the same target to every class, which can be
+restrictive with more than two classes. If class `"c"` needs a lot of
+help and class `"b"` only a little, one number cannot express that.
+
+Both arguments also accept a named numeric vector, where the names are
+levels of the outcome. The values mean exactly what the single number
+means, a ratio of the reference class, so `c(b = 0.5, c = 0.8)` asks for
+`"b"` at half the majority size and `"c"` at 80% of it. Levels that are
+not named are left untouched:
+
+``` r
+
+recipe(class ~ x, data = imbalanced_data) |>
+  step_upsample(class, over_ratio = c(b = 0.5, c = 0.8)) |>
+  prep() |>
+  bake(new_data = NULL) |>
+  count(class)
+#> # A tibble: 3 × 2
+#>   class     n
+#>   <fct> <int>
+#> 1 a       100
+#> 2 b        65
+#> 3 c        80
+```
+
+Class `"c"` is upsampled to `floor(100 * 0.8) = 80`. Class `"b"` has a
+target of `floor(100 * 0.5) = 50`, which it already exceeds, so it is
+left unchanged; over-sampling never removes rows. Class `"a"` was not
+named at all, so it is untouched as well.
+
+The same applies to `under_ratio`, where the values are ratios of the
+minority class:
+
+``` r
+
+recipe(class ~ x, data = imbalanced_data) |>
+  step_downsample(class, under_ratio = c(a = 2, b = 3)) |>
+  prep() |>
+  bake(new_data = NULL) |>
+  count(class)
+#> # A tibble: 3 × 2
+#>   class     n
+#>   <fct> <int>
+#> 1 a        40
+#> 2 b        60
+#> 3 c        20
+```
+
+Class `"a"` is downsampled to `floor(20 * 2) = 40` and class `"b"` to
+`floor(20 * 3) = 60`. Class `"c"` is the minority class and was not
+named, so it keeps all 20 of its observations.
+
+Two things to keep in mind. The names must all be levels of the outcome;
+a typo is an error rather than a silently ignored target. And a vector
+of targets is not a single value, so a step given one can no longer have
+that argument tuned.
+
 ## Choosing a ratio
 
 Choosing the right ratio depends on your data and the model you are
@@ -230,6 +289,10 @@ balance is preferable:
   upsampling to perfect balance can generate a very large amount of
   synthetic data. Using `over_ratio < 1` limits the amount of synthetic
   data generated.
+
+- **Targeting individual classes**: When the imbalance differs from
+  class to class, a named vector gives each level its own target. See
+  the section above.
 
 In practice, `over_ratio` and `under_ratio` are often treated as tunable
 hyperparameters and selected by cross-validation. See the

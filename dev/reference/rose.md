@@ -31,12 +31,10 @@ rose(
 
 - over_ratio:
 
-  A numeric value for the ratio of the minority-to-majority frequencies.
-  The default value (1) means that all other levels are sampled up to
-  have the same frequency as the most occurring level. A value of 0.5
-  would mean that the minority levels will have (at most)
-  (approximately) half as many rows as the majority level. See
-  `vignette("ratio", package = "themis")` for more details.
+  A numeric value for the total size of the synthetic data relative to
+  twice the size of the majority class. Unlike the other over-sampling
+  steps this is not a per-class target, so a named vector of ratios is
+  not accepted here.
 
 - minority_prop:
 

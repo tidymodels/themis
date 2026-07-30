@@ -92,7 +92,13 @@ majority-to-minority frequencies. The default value (1) means
 that all other levels are sampled down to have the same
 frequency as the least occurring level. A value of 2 would mean
 that the majority levels will have (at most) (approximately)
-twice as many rows than the minority level. See
+twice as many rows than the minority level.</p>
+<p>A named numeric vector can be used instead to give different levels
+different targets, for example <code>c(a = 2, b = 3)</code>. The names must be levels
+of the outcome and the values are ratios of the minority level, exactly as
+in the single-number case. Levels that are not named are left untouched, as
+are rows with a missing outcome. Because a vector of targets is not a
+single value, supplying one means this argument can no longer be tuned. See
 <code>vignette("ratio", package = "themis")</code> for more details.</p></dd>
 
 
@@ -126,8 +132,9 @@ be populated (eventually) by the <code>...</code> selectors.</p></dd>
 
 
 <dt id="arg-target">target<a class="anchor" aria-label="anchor" href="#arg-target"></a></dt>
-<dd><p>An integer that will be used to subsample. This
-should not be set by the user and will be populated by <code>prep</code>.</p></dd>
+<dd><p>A named numeric vector giving the number of rows to sample
+each level down to. This should not be set by the user and will be
+populated by <code>prep</code>.</p></dd>
 
 
 <dt id="arg-skip">skip<a class="anchor" aria-label="anchor" href="#arg-skip"></a></dt>
@@ -271,6 +278,21 @@ To use them, see the documentation in <a href="https://recipes.tidymodels.org/re
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> F      <span style="text-decoration: underline;">1</span>347     <span style="text-decoration: underline;">1</span>000  <span style="text-decoration: underline;">1</span>347</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> M       514      514   514</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> L       259      259   259</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># A named vector gives each level its own target. Here only "VF" is</span></span></span>
+<span class="r-in"><span><span class="co"># sampled down, to about twice the size of the minority level.</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html" class="external-link">recipe</a></span><span class="op">(</span><span class="va">class</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">hpc_data0</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu">step_downsample</span><span class="op">(</span><span class="va">class</span>, under_ratio <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>VF <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/prep.html" class="external-link">prep</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/bake.html" class="external-link">bake</a></span><span class="op">(</span>new_data <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/count.html" class="external-link">count</a></span><span class="op">(</span><span class="va">class</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 4 × 2</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   class     n</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">1</span> VF      518</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">2</span> F      <span style="text-decoration: underline;">1</span>347</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">3</span> M       514</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> L       259</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>

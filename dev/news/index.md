@@ -104,6 +104,35 @@
 - Added a new article explaining how `over_ratio` and `under_ratio` work
   ([\#141](https://github.com/tidymodels/themis/issues/141)).
 
+- The `over_ratio` and `under_ratio` arguments now accept a named
+  numeric vector in addition to a single number, giving each outcome
+  level its own sampling target. The names are levels of the outcome and
+  the values are ratios of the reference class, exactly as in the
+  single-number case, so `over_ratio = c(a = 1, b = 0.5)` brings `"a"`
+  up to the size of the majority level and `"b"` up to half of it.
+  Levels that are not named are left untouched, as are rows with a
+  missing outcome, and supplying a vector means the argument can no
+  longer be tuned.
+  [`step_rose()`](https://themis.tidymodels.org/dev/reference/step_rose.md)
+  is the exception and still requires a single number, since its
+  `over_ratio` scales the size of the total generated sample rather than
+  setting a target per class
+  ([\#323](https://github.com/tidymodels/themis/issues/323)).
+
+- The direct-implementation functions
+  [`adasyn()`](https://themis.tidymodels.org/dev/reference/adasyn.md),
+  [`bsmote()`](https://themis.tidymodels.org/dev/reference/bsmote.md),
+  [`instance_hardness()`](https://themis.tidymodels.org/dev/reference/instance_hardness.md),
+  [`nearmiss()`](https://themis.tidymodels.org/dev/reference/nearmiss.md),
+  [`smote()`](https://themis.tidymodels.org/dev/reference/smote.md),
+  [`smoten()`](https://themis.tidymodels.org/dev/reference/smoten.md),
+  [`smotenc()`](https://themis.tidymodels.org/dev/reference/smotenc.md),
+  and
+  [`svmsmote()`](https://themis.tidymodels.org/dev/reference/svmsmote.md)
+  now reject a negative `over_ratio` or `under_ratio`, matching the
+  validation their recipe steps already performed
+  ([\#323](https://github.com/tidymodels/themis/issues/323)).
+
 - Added standalone
   [`rose()`](https://themis.tidymodels.org/dev/reference/rose.md)
   function as a thin wrapper around
