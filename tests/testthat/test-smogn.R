@@ -64,6 +64,46 @@ test_that("custom relevance control points are respected", {
   )
 })
 
+test_that("errors if no rare values are found", {
+  rel <- cbind(range(circle_example$y), c(0, 0))
+
+  expect_snapshot(
+    error = TRUE,
+    recipe(y ~ x, data = circle_example) |>
+      step_smogn(y, relevance = rel) |>
+      prep()
+  )
+})
+
+test_that("errors if relevance cannot be derived from a constant outcome", {
+  df <- circle_example[, c("x", "y")]
+  df$y <- 5
+
+  expect_snapshot(
+    error = TRUE,
+    recipe(y ~ x, data = df) |>
+      step_smogn(y) |>
+      prep()
+  )
+})
+
+test_that("errors if relevance is not a two-column matrix", {
+  rec <- recipe(y ~ x, data = circle_example)
+
+  expect_snapshot(
+    error = TRUE,
+    rec |>
+      step_smogn(y, relevance = 1:3) |>
+      prep()
+  )
+  expect_snapshot(
+    error = TRUE,
+    rec |>
+      step_smogn(y, relevance = matrix(1:3, ncol = 1)) |>
+      prep()
+  )
+})
+
 test_that("`seed` produces identical sampling", {
   step_with_seed <- function(seed = sample.int(10^5, 1)) {
     recipe(y ~ x, data = circle_example) |>

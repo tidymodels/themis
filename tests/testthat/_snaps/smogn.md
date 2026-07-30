@@ -7,6 +7,45 @@
       Error in `step_smogn()`:
       ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", "chebyshev", "squared_chord", "matusita", "hellinger", "bhattacharyya", "canberra", "soergel", "lorentzian", "jeffreys", "topsoe", "jensen-shannon", "jensen_difference", "taneja", or "kumar-johnson", not "L2".
 
+# errors if no rare values are found
+
+    Code
+      prep(step_smogn(recipe(y ~ x, data = circle_example), y, relevance = rel))
+    Condition
+      Error in `step_smogn()`:
+      Caused by error in `bake()`:
+      ! No rare values were found in `y` with the current `threshold`.
+      i Lower `threshold` or supply relevance control points via `relevance`.
+
+# errors if relevance cannot be derived from a constant outcome
+
+    Code
+      prep(step_smogn(recipe(y ~ x, data = df), y))
+    Condition
+      Error in `step_smogn()`:
+      Caused by error in `bake()`:
+      ! Unable to determine rare values automatically for the outcome.
+      i The outcome distribution is degenerate (zero interquartile range or heavily tied values), so relevance control points cannot be derived from its boxplot extremes.
+      i Supply relevance control points via the `relevance` argument.
+
+# errors if relevance is not a two-column matrix
+
+    Code
+      prep(step_smogn(rec, y, relevance = 1:3))
+    Condition
+      Error in `step_smogn()`:
+      Caused by error in `bake()`:
+      ! `relevance` must be a matrix with at least two columns (outcome value and relevance).
+
+---
+
+    Code
+      prep(step_smogn(rec, y, relevance = matrix(1:3, ncol = 1)))
+    Condition
+      Error in `step_smogn()`:
+      Caused by error in `bake()`:
+      ! `relevance` must be a matrix with at least two columns (outcome value and relevance).
+
 # bad data
 
     Code

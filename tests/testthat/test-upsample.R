@@ -323,6 +323,27 @@ test_that("NA values in outcome are handled", {
   )
 })
 
+test_that("indicator_column marks new rows when the outcome has NA", {
+  df <- data.frame(
+    x = 1:10,
+    class = factor(c(NA, "A", "A", "A", "A", "B", "B", "B", "B", "B"))
+  )
+
+  result <- recipe(~., data = df) |>
+    step_upsample(class, indicator_column = ".new_row", seed = 1) |>
+    prep() |>
+    bake(new_data = NULL)
+
+  expect_equal(sum(!result$.new_row), nrow(df))
+  expect_equal(
+    result[!result$.new_row, c("x", "class")],
+    tibble::as_tibble(df[order(df$class), ]),
+    ignore_attr = TRUE
+  )
+  # the NA group is upsampled towards the shared target like any other class
+  expect_equal(sum(is.na(result$class)), 5L)
+})
+
 test_that("unused outcome levels are skipped with a warning (#238)", {
   circle_example$class <- factor(
     circle_example$class,
