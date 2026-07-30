@@ -317,3 +317,82 @@ test_that("drop_self_neighbor() removes self by row index for duplicates (#247)"
   idx <- rbind(c(2L, 3L, 4L), c(3L, 4L, 1L))
   expect_identical(drop_self_neighbor(idx), rbind(c(2L, 3L), c(3L, 4L)))
 })
+
+test_that("over_target() and under_target() apply a single ratio to every class", {
+  counts <- table(factor(c(rep("a", 10), rep("b", 20), rep("c", 40))))
+
+  expect_identical(over_target(counts, 1), c(a = 40, b = 40, c = 40))
+  expect_identical(over_target(counts, 0.5), c(a = 20, b = 20, c = 20))
+  expect_identical(under_target(counts, 1), c(a = 10, b = 10, c = 10))
+  expect_identical(under_target(counts, 2), c(a = 20, b = 20, c = 20))
+})
+
+test_that("over_target() and under_target() leave unnamed classes untouched", {
+  counts <- table(factor(c(rep("a", 10), rep("b", 20), rep("c", 40))))
+
+  expect_identical(
+    over_target(counts, c(a = 1, b = 0.5)),
+    c(a = 40, b = 20, c = 40)
+  )
+  expect_identical(under_target(counts, c(c = 2)), c(a = 10, b = 20, c = 20))
+
+  # Order of the names does not matter, targets stay aligned to `counts`
+  expect_identical(
+    over_target(counts, c(b = 0.5, a = 1)),
+    over_target(counts, c(a = 1, b = 0.5))
+  )
+})
+
+test_that("ratio_target() handles zero-length counts", {
+  counts <- table(factor(character(0)))
+
+  expect_identical(over_target(counts, 1), stats::setNames(numeric(0), NULL))
+  expect_snapshot(error = TRUE, over_target(counts, c(a = 1)))
+})
+
+test_that("check_ratio() accepts a single number and a named numeric vector", {
+  expect_null(check_ratio(1))
+  expect_null(check_ratio(0))
+  expect_null(check_ratio(c(a = 1, b = 0.5)))
+  expect_null(check_ratio(c(a = 1)))
+})
+
+test_that("check_ratio() rejects malformed ratios", {
+  expect_snapshot(error = TRUE, check_ratio(-1, arg = "over_ratio"))
+  expect_snapshot(
+    error = TRUE,
+    check_ratio(c(a = 1, b = -1), arg = "over_ratio")
+  )
+  expect_snapshot(error = TRUE, check_ratio(c(1, 2), arg = "over_ratio"))
+  expect_snapshot(error = TRUE, check_ratio(c(a = 1, 2), arg = "over_ratio"))
+  expect_snapshot(
+    error = TRUE,
+    check_ratio(c(a = 1, a = 2), arg = "over_ratio")
+  )
+  expect_snapshot(
+    error = TRUE,
+    check_ratio(c(a = 1, b = NA), arg = "over_ratio")
+  )
+  expect_snapshot(error = TRUE, check_ratio(c(a = "1"), arg = "over_ratio"))
+})
+
+test_that("ratio_target() errors on names that are not levels", {
+  counts <- table(factor(c(rep("a", 10), rep("b", 20))))
+
+  expect_snapshot(error = TRUE, over_target(counts, c(a = 1, potato = 2)))
+
+  # A level with zero observations has been dropped from `counts`
+  counts_zero <- table(droplevels(factor(
+    c("a", "b"),
+    levels = c("a", "b", "c")
+  )))
+  expect_snapshot(error = TRUE, under_target(counts_zero, c(c = 1)))
+})
+
+test_that("check_scalar_ratio() rejects a named vector", {
+  expect_null(check_scalar_ratio(1, arg = "over_ratio"))
+  expect_snapshot(
+    error = TRUE,
+    check_scalar_ratio(c(a = 1), arg = "over_ratio")
+  )
+})

@@ -57,7 +57,7 @@ nearmiss <- function(
   check_data_frame(df)
   check_var(var, df)
   check_number_whole(k, min = 1)
-  check_number_decimal(under_ratio)
+  check_ratio(under_ratio)
   check_distance_arg(distance)
   check_number_whole(version, min = 1, max = 3)
   check_number_whole(n_neighbors_ver3, min = 1)
@@ -90,7 +90,7 @@ nearmiss_impl <- function(
   n_neighbors_ver3 = 3,
   call = caller_env()
 ) {
-  classes <- downsample_count(df, var, under_ratio)
+  classes <- downsample_count(df, var, under_ratio, call = call)
 
   deleted_rows <- integer()
   for (i in seq_along(classes)) {
@@ -168,12 +168,14 @@ nearmiss_impl <- function(
   df
 }
 
-downsample_count <- function(data, var, ratio) {
+# Number of rows to remove from each class that sits above its target. Left
+# unrounded on purpose; the callers compare it against ranks, which tolerates
+# fractional values, and rounding here would shift existing results.
+downsample_count <- function(data, var, ratio, call = caller_env()) {
   counts <- table(drop_unused_levels(data[[var]]))
-  min_count <- min(counts)
-  ratio_target <- min_count * ratio
+  ratio_target <- under_target(counts, ratio, call = call)
   which_class <- which(counts > ratio_target)
-  counts[which_class] - ratio_target
+  counts[which_class] - ratio_target[which_class]
 }
 
 subset_to_matrix <- function(data, var, class, equal = TRUE) {

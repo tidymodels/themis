@@ -129,6 +129,14 @@
 #'   left_join(training, by = "class") |>
 #'   left_join(baked, by = "class")
 #'
+#' # A named vector gives each level its own target. Here "VF" is left
+#' # untouched and only "L" is brought up to the size of the majority level.
+#' recipe(class ~ ., data = hpc_data0) |>
+#'   step_smote(class, over_ratio = c(L = 1)) |>
+#'   prep() |>
+#'   bake(new_data = NULL) |>
+#'   count(class)
+#'
 #' library(ggplot2)
 #'
 #' ggplot(circle_example, aes(x, y, color = class)) +
@@ -216,12 +224,13 @@ step_smote_new <-
 prep.step_smote <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
 
-  check_number_decimal(x$over_ratio, arg = "over_ratio", min = 0)
+  check_ratio(x$over_ratio, arg = "over_ratio")
   check_number_whole(x$neighbors, arg = "neighbors", min = 1)
 
   check_1_selected(col_name)
   check_column_factor(training, col_name)
   warn_unused_levels(training, col_name)
+  check_ratio_column(x$over_ratio, training, col_name, arg = "over_ratio")
 
   recipes::check_name(
     tibble(x = logical(0)),
@@ -325,7 +334,8 @@ tunable.step_smote <- function(x, ...) {
     source = "recipe",
     component = "step_smote",
     component_id = x$id
-  )
+  ) |>
+    drop_per_class_ratio(x$over_ratio)
 }
 
 #' @rdname required_pkgs.step

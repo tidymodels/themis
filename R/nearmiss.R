@@ -210,7 +210,7 @@ step_nearmiss_new <-
 prep.step_nearmiss <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
 
-  check_number_decimal(x$under_ratio, arg = "under_ratio", min = 0)
+  check_ratio(x$under_ratio, arg = "under_ratio")
   check_number_whole(x$neighbors, arg = "neighbors", min = 1)
   check_number_whole(x$version, arg = "version", min = 1, max = 3)
   check_number_whole(
@@ -222,6 +222,7 @@ prep.step_nearmiss <- function(x, training, info = NULL, ...) {
   check_1_selected(col_name)
   check_column_factor(training, col_name)
   warn_unused_levels(training, col_name)
+  check_ratio_column(x$under_ratio, training, col_name, arg = "under_ratio")
 
   distance_cols <- recipes_argument_select(
     x$distance_with,
@@ -328,7 +329,8 @@ tunable.step_nearmiss <- function(x, ...) {
     source = "recipe",
     component = "step_nearmiss",
     component_id = x$id
-  )
+  ) |>
+    drop_per_class_ratio(x$under_ratio)
 }
 
 #' @rdname required_pkgs.step

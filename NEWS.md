@@ -30,6 +30,10 @@
 
 * Added a new article explaining how `over_ratio` and `under_ratio` work (#141).
 
+* The `over_ratio` and `under_ratio` arguments now accept a named numeric vector in addition to a single number, giving each outcome level its own sampling target. The names are levels of the outcome and the values are ratios of the reference class, exactly as in the single-number case, so `over_ratio = c(a = 1, b = 0.5)` brings `"a"` up to the size of the majority level and `"b"` up to half of it. Levels that are not named are left untouched, as are rows with a missing outcome, and supplying a vector means the argument can no longer be tuned. `step_rose()` is the exception and still requires a single number, since its `over_ratio` scales the size of the total generated sample rather than setting a target per class (#323).
+
+* The direct-implementation functions `adasyn()`, `bsmote()`, `instance_hardness()`, `nearmiss()`, `smote()`, `smoten()`, `smotenc()`, and `svmsmote()` now reject a negative `over_ratio` or `under_ratio`, matching the validation their recipe steps already performed (#323).
+
 * Added standalone `rose()` function as a thin wrapper around `ROSE::ROSE()`, making it consistent with the other algorithms in the package that expose a direct implementation alongside their recipe step (#195).
 
 * All upsampling steps gain an `indicator_column` argument. When set, a logical column is added to the baked data marking rows added by the step (`TRUE`) vs rows from the original data (`FALSE`). For `step_rose()`, all rows are `TRUE` since ROSE generates a fully synthetic dataset (#58).

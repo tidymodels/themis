@@ -57,7 +57,7 @@ svmsmote <- function(
   check_data_frame(df)
   check_var(var, df)
   check_number_whole(k, min = 1)
-  check_number_decimal(over_ratio)
+  check_ratio(over_ratio)
   check_distance_arg(distance)
   check_number_whole(m_neighbors, min = 1, allow_null = TRUE)
   check_number_decimal(out_step, min = 0)
@@ -107,10 +107,9 @@ svmsmote_impl <- function(
   }
 
   counts <- table(drop_unused_levels(df[[var]]))
-  majority_count <- max(counts)
-  ratio_target <- round(majority_count * over_ratio)
+  ratio_target <- round(over_target(counts, over_ratio, call = call))
   which_upsample <- which(counts < ratio_target)
-  samples_needed <- ratio_target - counts[which_upsample]
+  samples_needed <- ratio_target[which_upsample] - counts[which_upsample]
   min_names <- names(samples_needed)
   out_dfs <- list()
 

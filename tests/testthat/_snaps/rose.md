@@ -196,6 +196,26 @@
       Unused factor level "unused" in `class` was dropped.
       i  Level with zero observations is skipped when computing sampling targets.
 
+# step_rose() rejects a named `over_ratio` vector (#323)
+
+    Code
+      prep(step_rose(recipe(class ~ x + y, data = circle_example), class, over_ratio = c(
+        Circle = 1)))
+    Condition
+      Error in `step_rose()`:
+      Caused by error in `prep()`:
+      ! `over_ratio` must be a single number, not a named vector.
+      i Per-class ratios are not supported here because `over_ratio` scales the size of the total generated sample.
+
+---
+
+    Code
+      rose(circle_example[c("x", "y", "class")], "class", over_ratio = c(Circle = 1))
+    Condition
+      Error in `rose()`:
+      ! `over_ratio` must be a single number, not a named vector.
+      i Per-class ratios are not supported here because `over_ratio` scales the size of the total generated sample.
+
 # bake method errors when needed non-standard role columns are missing
 
     Code
