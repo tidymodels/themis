@@ -538,6 +538,39 @@ test_that("step_kmeans_smote() errors with case weights (#243)", {
   )
 })
 
+test_that("kmeans_smote() with a constant vector matches the scalar (#323)", {
+  set.seed(3)
+  df <- data.frame(
+    x = c(rnorm(10, 0), rnorm(20, 10), rnorm(40, 20)),
+    y = c(rnorm(10, 0), rnorm(20, 10), rnorm(40, 20)),
+    class = factor(c(rep("a", 10), rep("b", 20), rep("c", 40)))
+  )
+
+  set.seed(2)
+  res_vec <- kmeans_smote(
+    df,
+    "class",
+    over_ratio = c(a = 0.5, b = 0.5, c = 0.5)
+  )
+  set.seed(2)
+  res_scalar <- kmeans_smote(df, "class", over_ratio = 0.5)
+
+  expect_equal(res_vec, res_scalar)
+})
+
+test_that("kmeans_smote() targets a single class with a named vector (#323)", {
+  set.seed(3)
+  df <- data.frame(
+    x = c(rnorm(10, 0), rnorm(20, 10), rnorm(40, 20)),
+    y = c(rnorm(10, 0), rnorm(20, 10), rnorm(40, 20)),
+    class = factor(c(rep("a", 10), rep("b", 20), rep("c", 40)))
+  )
+
+  res <- kmeans_smote(df, "class", over_ratio = c(a = 1))
+
+  expect_equal(as.numeric(table(res$class)), c(40, 20, 40))
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {

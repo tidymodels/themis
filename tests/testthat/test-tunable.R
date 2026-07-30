@@ -190,3 +190,27 @@ test_that("tunable works with extract_parameter_set_dials", {
   expect_s3_class(params, "parameters")
   expect_identical(nrow(params), 2L)
 })
+
+test_that("a named ratio vector opts the step out of tuning (#323)", {
+  rec <- recipe(~., data = mtcars) |>
+    step_smote(all_predictors(), over_ratio = c(a = 1, b = 0.5))
+  expect_equal(tunable(rec$steps[[1]])$name, "neighbors")
+
+  rec <- recipe(~., data = mtcars) |>
+    step_nearmiss(all_predictors(), under_ratio = c(a = 1, b = 2))
+  expect_equal(tunable(rec$steps[[1]])$name, "neighbors")
+
+  rec <- recipe(~., data = mtcars) |>
+    step_upsample(all_predictors(), over_ratio = c(a = 1))
+  expect_equal(nrow(tunable(rec$steps[[1]])), 0L)
+})
+
+test_that("a `tune()` ratio is still tunable (#323)", {
+  rec <- recipe(~., data = mtcars) |>
+    step_smote(all_predictors(), over_ratio = hardhat::tune())
+  expect_equal(tunable(rec$steps[[1]])$name, c("over_ratio", "neighbors"))
+
+  rec <- recipe(~., data = mtcars) |>
+    step_smote(all_predictors(), over_ratio = hardhat::tune(id = "ratio"))
+  expect_equal(tunable(rec$steps[[1]])$name, c("over_ratio", "neighbors"))
+})

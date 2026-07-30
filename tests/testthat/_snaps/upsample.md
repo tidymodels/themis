@@ -119,6 +119,29 @@
       Unused factor level "unused" in `class` was dropped.
       i  Level with zero observations is skipped when computing sampling targets.
 
+# step_upsample() errors on a bad `over_ratio` vector (#323)
+
+    Code
+      prep(step_upsample(recipe(class ~ x, data = df), class, over_ratio = c(a = 1,
+        potato = 1)))
+    Condition
+      Error in `step_upsample()`:
+      Caused by error in `prep()`:
+      ! `over_ratio` names must be levels of the outcome.
+      x Unknown name: "potato".
+      i Available levels: "a" and "b".
+
+---
+
+    Code
+      prep(step_upsample(recipe(class ~ x, data = df), class, over_ratio = c(a = 1,
+        -1)))
+    Condition
+      Error in `step_upsample()`:
+      Caused by error in `prep()`:
+      ! `over_ratio` must be a single number or a named numeric vector.
+      i Every element must be named with a level of the outcome.
+
 # bake method errors when needed non-standard role columns are missing
 
     Code

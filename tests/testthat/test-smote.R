@@ -461,6 +461,66 @@ test_that("step_smote() errors with case weights (#243)", {
   )
 })
 
+test_that("step_smote() accepts a named `over_ratio` vector (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(70),
+    y = rnorm(70),
+    class = factor(c(rep("a", 10), rep("b", 20), rep("c", 40)))
+  )
+
+  res <- recipe(class ~ x + y, data = df) |>
+    step_smote(class, over_ratio = c(a = 1, b = 0.75)) |>
+    prep() |>
+    bake(new_data = NULL)
+
+  expect_equal(as.numeric(table(res$class)), c(40, 30, 40))
+})
+
+test_that("smote() with a constant vector matches the scalar (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(70),
+    y = rnorm(70),
+    class = factor(c(rep("a", 10), rep("b", 20), rep("c", 40)))
+  )
+
+  set.seed(2)
+  res_vec <- smote(df, "class", over_ratio = c(a = 0.5, b = 0.5, c = 0.5))
+  set.seed(2)
+  res_scalar <- smote(df, "class", over_ratio = 0.5)
+
+  expect_equal(res_vec, res_scalar)
+})
+
+test_that("smote() errors on a bad `over_ratio` vector (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(30),
+    y = rnorm(30),
+    class = factor(c(rep("a", 10), rep("b", 20)))
+  )
+
+  expect_snapshot(error = TRUE, smote(df, "class", over_ratio = c(potato = 1)))
+  expect_snapshot(error = TRUE, smote(df, "class", over_ratio = c(a = -1)))
+})
+
+test_that("step_smote() checks `over_ratio` names in prep() (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(30),
+    y = rnorm(30),
+    class = factor(c(rep("a", 10), rep("b", 20)))
+  )
+
+  expect_snapshot(
+    error = TRUE,
+    recipe(class ~ x + y, data = df) |>
+      step_smote(class, over_ratio = c(potato = 1)) |>
+      prep()
+  )
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {

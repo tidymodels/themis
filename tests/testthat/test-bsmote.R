@@ -552,6 +552,35 @@ test_that("bsmote() works with a character `var` (#261)", {
   expect_identical(sum(is.na(res$class)), 0L)
 })
 
+test_that("bsmote() with a constant vector matches the scalar (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(70),
+    y = rnorm(70),
+    class = factor(c(rep("a", 10), rep("b", 20), rep("c", 40)))
+  )
+
+  set.seed(2)
+  res_vec <- bsmote(df, "class", over_ratio = c(a = 0.5, b = 0.5, c = 0.5))
+  set.seed(2)
+  res_scalar <- bsmote(df, "class", over_ratio = 0.5)
+
+  expect_equal(res_vec, res_scalar)
+})
+
+test_that("bsmote() targets a single class with a named vector (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(70),
+    y = rnorm(70),
+    class = factor(c(rep("a", 10), rep("b", 20), rep("c", 40)))
+  )
+
+  res <- bsmote(df, "class", over_ratio = c(a = 1))
+
+  expect_equal(as.numeric(table(res$class)), c(40, 20, 40))
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {

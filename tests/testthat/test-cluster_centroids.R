@@ -275,6 +275,42 @@ test_that("tunable is setup to works with extract_parameter_set_dials", {
   expect_identical(nrow(params), 1L)
 })
 
+test_that("step_cluster_centroids() accepts a named `under_ratio` vector (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(70),
+    y = rnorm(70),
+    class = factor(c(rep("a", 10), rep("b", 20), rep("c", 40)))
+  )
+
+  res <- recipe(class ~ x + y, data = df) |>
+    step_cluster_centroids(class, under_ratio = c(c = 2)) |>
+    prep() |>
+    bake(new_data = NULL)
+
+  expect_equal(as.numeric(table(res$class)), c(10, 20, 20))
+})
+
+test_that("cluster_centroids() with a constant vector matches the scalar (#323)", {
+  set.seed(1)
+  df <- data.frame(
+    x = rnorm(70),
+    y = rnorm(70),
+    class = factor(c(rep("a", 10), rep("b", 20), rep("c", 40)))
+  )
+
+  set.seed(2)
+  res_vec <- cluster_centroids(
+    df,
+    "class",
+    under_ratio = c(a = 1.5, b = 1.5, c = 1.5)
+  )
+  set.seed(2)
+  res_scalar <- cluster_centroids(df, "class", under_ratio = 1.5)
+
+  expect_equal(res_vec, res_scalar)
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {
