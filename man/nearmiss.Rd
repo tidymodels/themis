@@ -28,7 +28,14 @@ majority-to-minority frequencies. The default value (1) means
 that all other levels are sampled down to have the same
 frequency as the least occurring level. A value of 2 would mean
 that the majority levels will have (at most) (approximately)
-twice as many rows than the minority level. See
+twice as many rows than the minority level.
+
+A named numeric vector can be used instead to give different levels
+different targets, for example \code{c(a = 2, b = 3)}. The names must be levels
+of the outcome and the values are ratios of the minority level, exactly as
+in the single-number case. Levels that are not named are left untouched, as
+are rows with a missing outcome. Because a vector of targets is not a
+single value, supplying one means this argument can no longer be tuned. See
 \code{vignette("ratio", package = "themis")} for more details.}
 
 \item{distance}{A character string specifying the distance metric used for

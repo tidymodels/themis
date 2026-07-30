@@ -39,13 +39,10 @@ been estimated.}
 \item{column}{A character string of the variable name that will
 be populated (eventually) by the \code{...} selectors.}
 
-\item{over_ratio}{A numeric value for the ratio of the
-minority-to-majority frequencies. The default value (1) means
-that all other levels are sampled up to have the same
-frequency as the most occurring level. A value of 0.5 would mean
-that the minority levels will have (at most) (approximately)
-half as many rows as the majority level. See
-\code{vignette("ratio", package = "themis")} for more details.}
+\item{over_ratio}{A numeric value for the total size of the synthetic data
+relative to twice the size of the majority class. Unlike the other
+over-sampling steps this is not a per-class target, so a named vector of
+ratios is not accepted here.}
 
 \item{minority_prop}{A numeric value between 0 and 1 for the proportion of
 synthetic observations from the minority class. Defaults to 0.5, which
