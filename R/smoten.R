@@ -170,12 +170,13 @@ step_smoten_new <-
 prep.step_smoten <- function(x, training, info = NULL, ...) {
   col_name <- recipes_eval_select(x$terms, training, info)
 
-  check_number_decimal(x$over_ratio, arg = "over_ratio", min = 0)
+  check_ratio(x$over_ratio, arg = "over_ratio")
   check_number_whole(x$neighbors, arg = "neighbors", min = 1)
 
   check_1_selected(col_name)
   check_column_factor(training, col_name)
   warn_unused_levels(training, col_name)
+  check_ratio_column(x$over_ratio, training, col_name, arg = "over_ratio")
 
   recipes::check_name(
     tibble(x = logical(0)),
