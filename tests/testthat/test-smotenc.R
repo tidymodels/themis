@@ -483,6 +483,31 @@ test_that("step_smotenc() checks `over_ratio` names when prepped (#323)", {
   )
 })
 
+test_that("backwards compatible for arguments added after 1.0.3", {
+  df <- data.frame(
+    x = circle_example$x,
+    y = factor(rep(letters[1:2], length.out = nrow(circle_example))),
+    class = circle_example$class
+  )
+
+  rec <- recipe(class ~ ., data = df) |>
+    step_smotenc(class)
+
+  exp <- bake(prep(rec), new_data = NULL)
+
+  # simulates a recipe created by an older version of themis
+  old <- rec
+  old$steps[[1]]$indicator_column <- NULL
+
+  expect_identical(bake(prep(old), new_data = NULL), exp)
+
+  # simulates a recipe trained by an older version of themis
+  old_trained <- prep(rec)
+  old_trained$steps[[1]]$indicator_column <- NULL
+
+  expect_identical(bake(old_trained, new_data = NULL), exp)
+})
+
 # Infrastructure ---------------------------------------------------------------
 
 test_that("bake method errors when needed non-standard role columns are missing", {

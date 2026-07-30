@@ -201,6 +201,8 @@ step_bsmote_new <-
 
 #' @export
 prep.step_bsmote <- function(x, training, info = NULL, ...) {
+  x <- fill_new_args(x, list(distance = "euclidean"))
+
   col_name <- recipes_eval_select(x$terms, training, info)
 
   check_ratio(x$over_ratio, arg = "over_ratio")
@@ -243,6 +245,8 @@ prep.step_bsmote <- function(x, training, info = NULL, ...) {
 
 #' @export
 bake.step_bsmote <- function(object, new_data, ...) {
+  object <- fill_new_args(object, list(distance = "euclidean"))
+
   col_names <- unique(c(object$predictors, object$column))
   check_new_data(col_names, object, new_data)
 

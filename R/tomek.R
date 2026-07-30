@@ -165,8 +165,17 @@ step_tomek_new <-
     )
   }
 
+tomek_new_args <- function() {
+  list(
+    distance = "euclidean",
+    distance_with = rlang::quos(recipes::all_predictors())
+  )
+}
+
 #' @export
 prep.step_tomek <- function(x, training, info = NULL, ...) {
+  x <- fill_new_args(x, tomek_new_args())
+
   col_name <- recipes_eval_select(x$terms, training, info)
 
   check_1_selected(col_name)
@@ -201,6 +210,8 @@ prep.step_tomek <- function(x, training, info = NULL, ...) {
 
 #' @export
 bake.step_tomek <- function(object, new_data, ...) {
+  object <- fill_new_args(object, tomek_new_args())
+
   col_names <- unique(c(object$predictors, object$column))
   check_new_data(col_names, object, new_data)
 

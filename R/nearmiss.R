@@ -206,8 +206,19 @@ step_nearmiss_new <-
     )
   }
 
+nearmiss_new_args <- function() {
+  list(
+    distance = "euclidean",
+    version = 1,
+    n_neighbors_ver3 = 3,
+    distance_with = rlang::quos(recipes::all_predictors())
+  )
+}
+
 #' @export
 prep.step_nearmiss <- function(x, training, info = NULL, ...) {
+  x <- fill_new_args(x, nearmiss_new_args())
+
   col_name <- recipes_eval_select(x$terms, training, info)
 
   check_ratio(x$under_ratio, arg = "under_ratio")
@@ -256,6 +267,8 @@ prep.step_nearmiss <- function(x, training, info = NULL, ...) {
 
 #' @export
 bake.step_nearmiss <- function(object, new_data, ...) {
+  object <- fill_new_args(object, nearmiss_new_args())
+
   col_names <- unique(c(object$predictors, object$column))
   check_new_data(col_names, object, new_data)
 
@@ -298,7 +311,7 @@ bake.step_nearmiss <- function(object, new_data, ...) {
 #' @export
 print.step_nearmiss <-
   function(x, width = max(20, options()$width - 26), ...) {
-    title <- paste0("NEARMISS-", x$version, " based on ")
+    title <- paste0("NEARMISS-", x$version %||% 1, " based on ")
     print_step(x$column, x$terms, x$trained, title, width)
     invisible(x)
   }
