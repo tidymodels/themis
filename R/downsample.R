@@ -203,6 +203,8 @@ step_downsample_new <-
 
 #' @export
 prep.step_downsample <- function(x, training, info = NULL, ...) {
+  x <- fill_new_args(x, list(replacement = FALSE))
+
   col_name <- recipes_eval_select(x$terms, training, info)
 
   check_number_decimal(x$under_ratio, arg = "under_ratio", min = 0)
@@ -259,6 +261,8 @@ subsamp <- function(x, wts, num, replace = FALSE) {
 
 #' @export
 bake.step_downsample <- function(object, new_data, ...) {
+  object <- fill_new_args(object, list(replacement = FALSE))
+
   col_names <- object$column
   check_new_data(col_names, object, new_data)
 
