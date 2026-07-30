@@ -444,6 +444,8 @@ test_that("svmsmote() works with a character `var` (#261)", {
 })
 
 test_that("svmsmote() with a constant vector matches the scalar (#323)", {
+  skip_if_not_installed("kernlab")
+
   set.seed(1)
   df <- data.frame(
     x = rnorm(70),
@@ -460,6 +462,8 @@ test_that("svmsmote() with a constant vector matches the scalar (#323)", {
 })
 
 test_that("svmsmote() targets a single class with a named vector (#323)", {
+  skip_if_not_installed("kernlab")
+
   set.seed(1)
   df <- data.frame(
     x = rnorm(70),
