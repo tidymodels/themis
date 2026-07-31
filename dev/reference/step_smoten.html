@@ -183,7 +183,7 @@ perform the SMOTEN algorithm.</p>
     <h2 id="value-difference-metric">Value Difference Metric<a class="anchor" aria-label="anchor" href="#value-difference-metric"></a></h2>
     <p>The Value Difference Metric (VDM) used here deviates from Chawla's stated
 form in two ways. The per-feature deltas are aggregated by summing them
-(<code>r = 1</code>) rather than by taking their Euclidean norm (<code>r = 2</code>), and when a
+(r = 1) rather than by taking their Euclidean norm (r = 2), and when a
 synthetic value is chosen by majority vote of the nearest neighbors the seed
 observation itself is excluded from the vote. The metric is internally
 consistent and is a valid VDM variant, but be aware of these choices when
@@ -200,8 +200,12 @@ columns <code>terms</code> and <code>id</code>:</p>
 <dd><p>character, id of this step</p></dd>
 
 
-</dl><p></p><div class="sourceCode {r, echo = FALSE, results=" asis><pre><code></code></pre><p></p></div>
-    </div>
+</dl></div>
+    <div class="section level2">
+    <h2 id="tuning-parameters">Tuning Parameters<a class="anchor" aria-label="anchor" href="#tuning-parameters"></a></h2>
+    <p>This step has 2 tuning parameters:</p><ul><li><p><code>over_ratio</code>: Over-Sampling Ratio (type: double, default: 1)</p></li>
+<li><p><code>neighbors</code>: # Nearest Neighbors (type: integer, default: 5)</p></li>
+</ul></div>
     <div class="section level2">
     <h2 id="case-weights">Case weights<a class="anchor" aria-label="anchor" href="#case-weights"></a></h2>
 
