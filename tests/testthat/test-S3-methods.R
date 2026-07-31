@@ -8,6 +8,16 @@ r7 <- r1 |> step_smote(class)
 r8 <- r1 |> step_tomek(class)
 r9 <- r1 |> step_upsample(class)
 r10 <- r1 |> step_instance_hardness(class)
+r11 <- r1 |> step_cluster_centroids(class)
+r12 <- r1 |> step_cnn(class)
+r13 <- r1 |> step_enn(class)
+r14 <- r1 |> step_kmeans_smote(class)
+r15 <- r1 |> step_ncl(class)
+r16 <- r1 |> step_oss(class)
+r17 <- r1 |> step_smogn(x)
+r18 <- r1 |> step_smoten(class)
+r19 <- r1 |> step_smotenc(class)
+r20 <- r1 |> step_svmsmote(class)
 
 # ------------------------------------------------------------------------------
 
@@ -21,6 +31,16 @@ test_that("required packages", {
   expect_equal(required_pkgs(r8), c("recipes", "themis"))
   expect_equal(required_pkgs(r9), c("recipes", "themis"))
   expect_equal(required_pkgs(r10), c("recipes", "themis"))
+  expect_equal(required_pkgs(r11), c("recipes", "themis"))
+  expect_equal(required_pkgs(r12), c("recipes", "themis"))
+  expect_equal(required_pkgs(r13), c("recipes", "themis"))
+  expect_equal(required_pkgs(r14), c("recipes", "themis"))
+  expect_equal(required_pkgs(r15), c("recipes", "themis"))
+  expect_equal(required_pkgs(r16), c("recipes", "themis"))
+  expect_equal(required_pkgs(r17), c("recipes", "themis"))
+  expect_equal(required_pkgs(r18), c("recipes", "themis"))
+  expect_equal(required_pkgs(r19), c("recipes", "themis"))
+  expect_equal(required_pkgs(r20), c("recipes", "themis", "kernlab"))
 })
 
 test_that("tunable arguments", {

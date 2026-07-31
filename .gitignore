@@ -10,3 +10,4 @@ revdep/data.sqlite
 .httr-oauth
 revdep/cloud.noindex/*
 tests/testthat/testthat-problems.rds
+.positai

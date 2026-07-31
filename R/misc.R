@@ -764,14 +764,6 @@ condense_scan <- function(candidates, in_store, predictors, outcome, distance) {
   list(in_store = in_store, added = added)
 }
 
-weighted_table <- function(x, wts = NULL) {
-  if (is.null(wts)) {
-    wts <- rep(1, length(x))
-  }
-
-  if (!is.factor(x)) {
-    x <- factor(x)
-  }
-
+weighted_table <- function(x, wts) {
   hardhat::weighted_table(x, weights = wts)
 }

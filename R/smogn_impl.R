@@ -194,15 +194,6 @@ smogn_relevance <- function(y, relevance = NULL, call = caller_env()) {
       cx <- c(cx, stats[5])
       cy <- c(cy, 1)
     }
-    if (length(cx) < 2) {
-      cli::cli_abort(
-        c(
-          "Unable to determine rare values automatically for the outcome.",
-          i = "Supply relevance control points via the {.arg relevance} argument."
-        ),
-        call = call
-      )
-    }
   } else {
     if (!is.matrix(relevance) || ncol(relevance) < 2) {
       cli::cli_abort(
