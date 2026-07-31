@@ -115,6 +115,7 @@ is the ratio of the minority-to-majority frequencies.
 | Borderline SMOTE-1 | `step_bsmote(all_neighbors = FALSE)` | :heavy_check_mark: |
 | Borderline SMOTE-2 | `step_bsmote(all_neighbors = TRUE)` | :heavy_check_mark: |
 | Support-vector SMOTE | `step_svmsmote()` | :heavy_check_mark: |
+| KMeans-SMOTE | `step_kmeans_smote()` | :heavy_check_mark: |
 | Adaptive synthetic sampling approach for imbalanced learning | `step_adasyn()` | :heavy_check_mark: |
 | Generation of synthetic data by Randomly Over Sampling Examples | `step_rose()` |  |
 
@@ -159,8 +160,9 @@ frequencies.
 | name | function | Multi-class | under_ratio |
 |----|----|----|----|
 | Random majority under-sampling with replacement | `step_downsample()` | :heavy_check_mark: | :heavy_check_mark: |
-| NearMiss-1 | `step_nearmiss()` | :heavy_check_mark: | :heavy_check_mark: |
+| NearMiss-1, NearMiss-2, and NearMiss-3 | `step_nearmiss(version = )` | :heavy_check_mark: | :heavy_check_mark: |
 | Instance hardness threshold | `step_instance_hardness()` | :heavy_check_mark: | :heavy_check_mark: |
+| Cluster centroids | `step_cluster_centroids()` | :heavy_check_mark: | :heavy_check_mark: |
 | Condensed nearest neighbors | `step_cnn()` | :heavy_check_mark: |  |
 | Edited nearest neighbors | `step_enn()` | :heavy_check_mark: |  |
 | Neighborhood cleaning rule | `step_ncl()` | :heavy_check_mark: |  |
