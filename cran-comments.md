@@ -2,7 +2,7 @@
 
 Fixed arXiv issue in description, and should have resolved all other notes.
 
-This is the 11th CRAN release of themis.
+This is the 12th CRAN release of themis.
 
 ## R CMD check results
 
@@ -10,7 +10,7 @@ This is the 11th CRAN release of themis.
 
 ## revdepcheck results
 
-We checked 3 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
+We checked 10 reverse dependencies, comparing R CMD check results across CRAN and dev versions of this package.
 
  * We saw 0 new problems
  * We failed to check 0 packages
