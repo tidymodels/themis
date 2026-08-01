@@ -77,7 +77,6 @@
 #' orig
 #'
 #' up_rec <- recipe(class ~ ., data = hpc_data) |>
-#'   step_impute_knn(all_predictors()) |>
 #'   # Bring the minority levels up to about 1000 each
 #'   # 1000/2211 is approx 0.4523
 #'   step_smotenc(class, over_ratio = 0.4523) |>
