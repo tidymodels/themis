@@ -80,22 +80,43 @@ bsmote_impl <- function(
   which_upsample <- which(counts < ratio_target)
   samples_needed <- ratio_target[which_upsample] - counts[which_upsample]
   min_names <- names(samples_needed)
+
+  # Danger points are only the seeds; the neighbor search itself runs over the
+  # whole minority class, so that is what needs more than `k` observations.
+  # Checked before `nn_indices()` below, which searches the full data and would
+  # otherwise fail first on very small data sets.
+  for (i in seq_along(min_names)) {
+    n_min <- counts[[min_names[i]]]
+    if (n_min <= k) {
+      cli::cli_abort(
+        c(
+          "The minority class {.val {min_names[i]}} does not have enough observations to perform BSMOTE.",
+          i = "{n_min} observation{?s} {?was/were} found, but {k + 1} {?is/are} needed."
+        ),
+        call = call
+      )
+    }
+  }
+
   out_dfs <- list()
   data_mat <- as.matrix(df[names(df) != var])
   ids <- nn_indices(data_mat, k, distance)
   for (i in seq_along(min_names)) {
     min_class_in <- df[[var]] == min_names[i]
 
-    danger_ids <- danger(
+    on_border <- danger(
       x = rowSums(matrix((min_class_in)[ids], ncol = ncol(ids))) - 1,
       k = k
     )
+    # `danger()` also flags majority rows sitting on the border; only minority
+    # rows are eligible seeds.
+    danger_ids <- on_border & min_class_in
 
-    if (sum(danger_ids) <= k) {
+    if (!any(danger_ids)) {
       cli::cli_abort(
         c(
-          "The minority class {.val {min_names[i]}} does not have enough danger observations to perform BSMOTE.",
-          i = "{sum(danger_ids)} danger observation{?s} {?was/were} found, but {k + 1} {?is/are} needed."
+          "The minority class {.val {min_names[i]}} has no danger observations to perform BSMOTE.",
+          i = "Every observation of that class is either noise (none of its {k} nearest neighbors are from the same class) or safe (more than half of them are)."
         ),
         call = call
       )
@@ -109,7 +130,7 @@ bsmote_impl <- function(
           data = data_mat,
           k = k,
           n_samples = samples_needed[i],
-          smote_ids = which(danger_ids & min_class_in),
+          smote_ids = which(danger_ids),
           distance = distance,
           majority_neighbors = !min_class_in
         )

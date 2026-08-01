@@ -68,6 +68,47 @@ test_that("danger() classifies minority points correctly by neighbor composition
   expect_equal(danger_flags, c(FALSE, FALSE, TRUE, TRUE, TRUE, FALSE))
 })
 
+test_that("bsmote() seeds from minority danger points only, however few (#345)", {
+  # 6 minority points, of which exactly one (x = 0.9) borders the majority
+  # class. The other danger point is a majority row and must not be counted.
+  df <- data.frame(
+    x = c(0, 0.05, 0.1, 0.15, 0.5, 0.9, seq(1, 3.8, by = 0.4)),
+    y = 1,
+    class = factor(c(rep("min", 6), rep("maj", 8)))
+  )
+
+  set.seed(1)
+  res <- bsmote(df, var = "class", k = 3)
+  synthetic <- res[-seq_len(nrow(df)), ]
+
+  expect_equal(as.numeric(table(res$class)), c(8, 8))
+  # convex combinations of the lone seed and its minority neighbors, rather
+  # than the zero-filled rows a single seed id used to leave behind
+  expect_all_equal(synthetic$y, 1)
+  expect_all_true(synthetic$x >= 0.1 & synthetic$x <= 0.9)
+})
+
+test_that("bsmote() errors when the minority class has no danger observations", {
+  # well-separated classes, so every minority point is safe
+  df <- data.frame(
+    x = c(seq(0, 0.5, length.out = 8), seq(10, 11, length.out = 12)),
+    y = 1,
+    class = factor(c(rep("min", 8), rep("maj", 12)))
+  )
+
+  expect_snapshot(error = TRUE, bsmote(df, var = "class", k = 3))
+})
+
+test_that("bsmote() errors when the minority class is smaller than `k`", {
+  df <- data.frame(
+    x = c(0, 0.1, 0.2, seq(1, 2, length.out = 10)),
+    y = 1,
+    class = factor(c(rep("min", 3), rep("maj", 10)))
+  )
+
+  expect_snapshot(error = TRUE, bsmote(df, var = "class", k = 5))
+})
+
 test_that("bsmote all_neighbors=FALSE keeps synthetic points within minority x-range", {
   # Minority at even positions, majority at odd + larger positions (interleaved)
   # → danger minority points exist and generate synthetic samples

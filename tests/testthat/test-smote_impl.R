@@ -109,6 +109,16 @@ test_that("samples stay inside convex hull of data.", {
   expect_true(all(dplyr::between(smote_data(rdata, 3, 100), 0, 1)))
 })
 
+test_that("smote_data() samples from a single seed id (#345)", {
+  data <- as.matrix(data.frame(x = 1:10, y = 1:10))
+
+  set.seed(1)
+  res <- smote_data(data, k = 3, n_samples = 5, smote_ids = 7L)
+
+  # `sample(7L)` would draw seeds from 1:7 and leave most rows zero-filled
+  expect_all_true(res[, 1] >= 5 & res[, 1] <= 9)
+})
+
 test_that("order doesn't matter", {
   df <- data.frame(
     target = rep(c("Yes", "No"), c(10, 50)),

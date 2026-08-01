@@ -90,11 +90,15 @@
 
 * `step_adasyn()`, `step_bsmote()`, `step_smote()`, and `step_smotenc()` (and their direct-implementation counterparts) now round the fractional oversampling target instead of truncating it, so a fractional `over_ratio` lands on the nearest integer count (#248).
 
+* `step_bsmote()` (and its direct-implementation counterpart `bsmote()`) no longer errors when only a few observations sit on the class border. The check demanded `neighbors + 1` danger observations and counted them across all classes, even though the algorithm only needs a single minority danger observation to seed from and searches for neighbors among the whole minority class. It now errors only when no minority observation is in danger, and separately reports when the minority class itself is too small, replacing an error from RANN (#345).
+
 * `step_bsmote()` (and its direct-implementation counterpart `bsmote()`) now selects the correct "danger" observations on the class border. The danger criterion had inverted the roles of minority and majority neighbors, causing it to oversample safe interior points instead of borderline ones (#235).
 
 * `step_bsmote()` (and its direct-implementation counterpart `bsmote()`) with `all_neighbors = TRUE` now seeds synthetic points only from minority-class danger observations and takes a reduced step toward majority-class neighbors, matching borderline-SMOTE2. Previously it could seed from border-adjacent majority rows, generating minority-labeled points around majority centers (#242).
 
 * `step_bsmote()` now works correctly when there is only a single predictor (#151).
+
+* `step_bsmote()` and `step_svmsmote()` (and their direct-implementation counterparts) now generate valid synthetic points when a single observation is eligible as a seed. The seed index was passed to `sample()`, which treats a single number `n` as `1:n`, so points were interpolated from arbitrary other rows and the remaining synthetic rows were left filled with zeros (#345).
 
 * `step_downsample()` and `step_upsample()` now correctly handle `NA` values in the outcome variable instead of erroring (#177).
 

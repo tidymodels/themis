@@ -14,8 +14,8 @@
     Condition
       Error in `step_bsmote()`:
       Caused by error in `bake()`:
-      ! The minority class "dummy" does not have enough danger observations to perform BSMOTE.
-      i 0 danger observations were found, but 6 are needed.
+      ! The minority class "dummy" does not have enough observations to perform BSMOTE.
+      i 1 observation was found, but 6 are needed.
 
 # bad data
 

@@ -112,7 +112,11 @@ smote_data <- function(
   majority_neighbors = NULL
 ) {
   ids <- drop_self_neighbor(nn_indices(data, k, distance))
-  indexes <- rep(sample(smote_ids), length.out = n_samples)
+  # not `sample()`, which would treat a length-1 `smote_ids` as `1:smote_ids`
+  indexes <- rep(
+    smote_ids[sample.int(length(smote_ids))],
+    length.out = n_samples
+  )
   index_len <- tabulate(indexes, NROW(data))
   out <- matrix(0, nrow = n_samples, ncol = ncol(data))
   sampleids <- sample.int(k, n_samples, TRUE)
