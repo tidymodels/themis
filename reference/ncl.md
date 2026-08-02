@@ -1,0 +1,128 @@
+# Neighborhood Cleaning Rule
+
+Under-samples the majority classes by cleaning noisy observations and
+observations that pollute the neighborhood of minority class
+observations.
+
+## Usage
+
+``` r
+ncl(df, var, neighbors = 3, distance = "euclidean", threshold_clean = 0.5)
+```
+
+## Arguments
+
+- df:
+
+  data.frame or tibble. Must have 1 factor variable and remaining
+  numeric variables.
+
+- var:
+
+  Character, name of variable containing factor variable.
+
+- neighbors:
+
+  An integer. Number of nearest neighbor that are used to decide whether
+  an observation is removed. Defaults to `3`, unlike the over-sampling
+  steps which default to `5`.
+
+- distance:
+
+  A character string specifying the distance metric used for nearest
+  neighbor calculations, defaulting to `"euclidean"`. The available
+  metrics fall into three groups.
+
+  `"euclidean"`, `"cosine"`, and `"mahalanobis"` use approximate nearest
+  neighbors via the RANN package and scale well to large datasets.
+
+  `"squared_chord"`, `"matusita"`, `"hellinger"`, and `"bhattacharyya"`
+  are probability-divergence measures that treat each row as a
+  distribution over the predictors, so they require non-negative values.
+  `"hellinger"` and `"bhattacharyya"` further require each row to sum
+  to 1. All four also use the RANN package and scale well to large
+  datasets.
+
+  `"manhattan"`, `"chebyshev"`, `"canberra"`, `"soergel"`,
+  `"lorentzian"`, `"jeffreys"`, `"topsoe"`, `"jensen-shannon"`,
+  `"jensen_difference"`, `"taneja"`, and `"kumar-johnson"` compute an
+  exact all-pairs distance matrix. This takes time and memory
+  proportional to the square of the number of observations in a class,
+  so these are best suited to smaller datasets. Everything from
+  `"canberra"` onwards is a probability divergence requiring
+  non-negative values, is provided by the philentropy package (which
+  must be installed separately), and in the case of `"jeffreys"`,
+  `"taneja"`, and `"kumar-johnson"` requires strictly positive values,
+  since those divide by individual predictor values.
+
+  The probability divergences are meaningful for compositional
+  predictors such as proportions or counts normalized per observation,
+  and are generally not appropriate for standardized predictors.
+
+- threshold_clean:
+
+  A numeric. Majority classes are only cleaned around minority class
+  observations when their size is greater than `threshold_clean` times
+  the size of the minority class. Defaults to `0.5`.
+
+## Value
+
+A data.frame or tibble, depending on type of `df`.
+
+## Details
+
+The Neighborhood Cleaning Rule (NCL) is a cleaning method that combines
+two passes over the data. First, it applies the Edited Nearest Neighbors
+rule, removing majority class observations whose class differs from the
+majority of their `neighbors` nearest neighbors. Second, for each
+minority class observation that is itself misclassified by its
+neighbors, the majority class observations among those neighbors are
+removed. Compared to Edited Nearest Neighbors, this focuses the cleaning
+on the neighborhoods of minority class observations.
+
+The smallest class is treated as the minority class. Only majority
+classes larger than `threshold_clean` times the size of the minority
+class are cleaned in the second pass.
+
+All columns used in this function must be numeric with no missing data.
+
+## References
+
+Laurikkala, J. (2001). Improving identification of difficult small
+classes by balancing class distribution. In Conference on Artificial
+Intelligence in Medicine in Europe (pp. 63-66). Springer.
+
+## See also
+
+[`step_ncl()`](https://themis.tidymodels.org/reference/step_ncl.md) for
+step function of this method
+
+Other Direct Implementations:
+[`adasyn()`](https://themis.tidymodels.org/reference/adasyn.md),
+[`bsmote()`](https://themis.tidymodels.org/reference/bsmote.md),
+[`cluster_centroids()`](https://themis.tidymodels.org/reference/cluster_centroids.md),
+[`cnn()`](https://themis.tidymodels.org/reference/cnn.md),
+[`enn()`](https://themis.tidymodels.org/reference/enn.md),
+[`instance_hardness()`](https://themis.tidymodels.org/reference/instance_hardness.md),
+[`kmeans_smote()`](https://themis.tidymodels.org/reference/kmeans_smote.md),
+[`nearmiss()`](https://themis.tidymodels.org/reference/nearmiss.md),
+[`oss()`](https://themis.tidymodels.org/reference/oss.md),
+[`rose()`](https://themis.tidymodels.org/reference/rose.md),
+[`smogn()`](https://themis.tidymodels.org/reference/smogn.md),
+[`smote()`](https://themis.tidymodels.org/reference/smote.md),
+[`smoten()`](https://themis.tidymodels.org/reference/smoten.md),
+[`smotenc()`](https://themis.tidymodels.org/reference/smotenc.md),
+[`svmsmote()`](https://themis.tidymodels.org/reference/svmsmote.md),
+[`tomek()`](https://themis.tidymodels.org/reference/tomek.md)
+
+## Examples
+
+``` r
+circle_numeric <- circle_example[, c("x", "y", "class")]
+
+res <- ncl(circle_numeric, var = "class")
+
+res <- ncl(circle_numeric, var = "class", neighbors = 5)
+
+res <- ncl(circle_numeric, var = "class", distance = "manhattan")
+```

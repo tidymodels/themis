@@ -1,0 +1,594 @@
+# Changelog
+
+## themis 1.1.0
+
+CRAN release: 2026-08-02
+
+### New steps
+
+- [`step_cluster_centroids()`](https://themis.tidymodels.org/reference/step_cluster_centroids.md)
+  (and its direct-implementation counterpart
+  [`cluster_centroids()`](https://themis.tidymodels.org/reference/cluster_centroids.md))
+  under-samples the majority classes by running k-means within each
+  class and replacing the class with one representative per cluster,
+  either the centroid itself (`voting = "soft"`) or the observation
+  closest to it (`voting = "hard"`)
+  ([\#318](https://github.com/tidymodels/themis/issues/318)).
+
+- [`step_cnn()`](https://themis.tidymodels.org/reference/step_cnn.md)
+  (and its direct-implementation counterpart
+  [`cnn()`](https://themis.tidymodels.org/reference/cnn.md))
+  under-samples the majority classes using Condensed Nearest Neighbors,
+  keeping only a consistent subset of observations that correctly
+  classifies the data using a 1-nearest-neighbor rule
+  ([\#113](https://github.com/tidymodels/themis/issues/113)).
+
+- [`step_enn()`](https://themis.tidymodels.org/reference/step_enn.md)
+  (and its direct-implementation counterpart
+  [`enn()`](https://themis.tidymodels.org/reference/enn.md)) cleans the
+  data using the Edited Nearest Neighbors rule, removing observations
+  whose class differs from the majority of their nearest neighbors. A
+  `times` argument applies the cleaning repeatedly, stopping early on
+  convergence, which corresponds to Repeated Edited Nearest Neighbors
+  (RENN), and an `all_k` argument applies it with an increasing number
+  of neighbors, from 1 up to `neighbors`, which corresponds to All
+  k-Nearest Neighbors (AllKNN)
+  ([\#115](https://github.com/tidymodels/themis/issues/115),
+  [\#173](https://github.com/tidymodels/themis/issues/173),
+  [\#174](https://github.com/tidymodels/themis/issues/174)).
+
+- [`step_instance_hardness()`](https://themis.tidymodels.org/reference/step_instance_hardness.md)
+  (and its direct-implementation counterpart
+  [`instance_hardness()`](https://themis.tidymodels.org/reference/instance_hardness.md))
+  under-samples the majority classes by removing the observations that
+  are hardest to classify, estimated using the k-Disagreeing Neighbors
+  measure ([\#172](https://github.com/tidymodels/themis/issues/172)).
+
+- [`step_kmeans_smote()`](https://themis.tidymodels.org/reference/step_kmeans_smote.md)
+  (and its direct-implementation counterpart
+  [`kmeans_smote()`](https://themis.tidymodels.org/reference/kmeans_smote.md))
+  over-samples the minority classes with KMeans-SMOTE, which clusters
+  the predictor space, generates new examples only inside the clusters
+  where the minority class is dominant, and gives sparser clusters more
+  of the new examples
+  ([\#317](https://github.com/tidymodels/themis/issues/317)).
+
+- [`step_ncl()`](https://themis.tidymodels.org/reference/step_ncl.md)
+  (and its direct-implementation counterpart
+  [`ncl()`](https://themis.tidymodels.org/reference/ncl.md)) cleans the
+  data using the Neighborhood Cleaning Rule, removing majority class
+  observations that are noisy or that pollute the neighborhood of
+  minority class observations
+  ([\#116](https://github.com/tidymodels/themis/issues/116)).
+
+- [`step_oss()`](https://themis.tidymodels.org/reference/step_oss.md)
+  (and its direct-implementation counterpart
+  [`oss()`](https://themis.tidymodels.org/reference/oss.md))
+  under-samples the majority classes using One-Sided Selection,
+  combining Condensed Nearest Neighbors to reduce redundant majority
+  class observations with Tomek’s links to remove majority class
+  observations on the decision boundary
+  ([\#114](https://github.com/tidymodels/themis/issues/114)).
+
+- [`step_smogn()`](https://themis.tidymodels.org/reference/step_smogn.md)
+  (and its direct-implementation counterpart
+  [`smogn()`](https://themis.tidymodels.org/reference/smogn.md))
+  over-samples rare regions of a numeric outcome for imbalanced
+  regression using a combination of SMOTE-style interpolation and
+  Gaussian noise, while under-sampling common regions
+  ([\#49](https://github.com/tidymodels/themis/issues/49)).
+
+- [`step_smoten()`](https://themis.tidymodels.org/reference/step_smoten.md)
+  (and its direct-implementation counterpart
+  [`smoten()`](https://themis.tidymodels.org/reference/smoten.md))
+  over-samples the minority classes for data sets where all predictors
+  are categorical, using the Value Difference Metric to find nearest
+  neighbors and majority voting to generate new examples
+  ([\#54](https://github.com/tidymodels/themis/issues/54)).
+
+- [`step_svmsmote()`](https://themis.tidymodels.org/reference/step_svmsmote.md)
+  (and its direct-implementation counterpart
+  [`svmsmote()`](https://themis.tidymodels.org/reference/svmsmote.md))
+  over-samples the minority classes near the decision boundary by
+  fitting a support vector machine and generating new examples around
+  the minority class support vectors, interpolating toward minority
+  neighbors where majority neighbors dominate the boundary and
+  extrapolating outward where the support vector sits in a dense
+  minority region
+  ([\#170](https://github.com/tidymodels/themis/issues/170)).
+
+### Improvements
+
+- New “Common pitfalls” article on resampling only the training set
+  (`skip = TRUE`) and avoiding cross-validation leakage
+  ([\#320](https://github.com/tidymodels/themis/issues/320)).
+
+- New “Methods overview” article organizing the sampling steps into a
+  taxonomy and documenting the SMOTE + ENN / SMOTE + Tomek composition
+  ([\#319](https://github.com/tidymodels/themis/issues/319),
+  [\#321](https://github.com/tidymodels/themis/issues/321)).
+
+- New article explaining how `over_ratio` and `under_ratio` work
+  ([\#141](https://github.com/tidymodels/themis/issues/141)).
+
+- `over_ratio` and `under_ratio` now accept a named numeric vector in
+  addition to a single number, giving each outcome level its own
+  sampling target. The names are levels of the outcome and the values
+  are ratios of the reference class, exactly as in the single-number
+  case, so `over_ratio = c(a = 1, b = 0.5)` brings `"a"` up to the size
+  of the majority level and `"b"` up to half of it. Levels that are not
+  named are left untouched, as are rows with a missing outcome, and
+  supplying a vector means the argument can no longer be tuned.
+  [`step_rose()`](https://themis.tidymodels.org/reference/step_rose.md)
+  is the exception and still requires a single number, since its
+  `over_ratio` scales the size of the total generated sample rather than
+  setting a target per class
+  ([\#323](https://github.com/tidymodels/themis/issues/323)).
+
+- All upsampling steps gain an `indicator_column` argument. When set, a
+  logical column is added to the baked data marking rows added by the
+  step (`TRUE`) vs rows from the original data (`FALSE`). For
+  [`step_rose()`](https://themis.tidymodels.org/reference/step_rose.md),
+  all rows are `TRUE` since ROSE generates a fully synthetic dataset
+  ([\#58](https://github.com/tidymodels/themis/issues/58)).
+
+- The `distance` argument of every step that performs nearest neighbor
+  calculations gains four probability-divergence metrics:
+  `"squared_chord"`, `"matusita"`, `"hellinger"`, and `"bhattacharyya"`.
+  These treat each row as a distribution over the predictors and so
+  require non-negative values, with `"hellinger"` and `"bhattacharyya"`
+  further requiring each row to sum to 1. All four run on the fast
+  approximate nearest neighbor path and scale to large data
+  ([\#234](https://github.com/tidymodels/themis/issues/234)).
+
+- The `distance` argument of every step that performs nearest neighbor
+  calculations gains nine further probability-divergence metrics,
+  provided by the philentropy package: `"canberra"`, `"soergel"`,
+  `"lorentzian"`, `"jeffreys"`, `"topsoe"`, `"jensen-shannon"`,
+  `"jensen_difference"`, `"taneja"`, and `"kumar-johnson"`. philentropy
+  is an optional dependency, and since these metrics compute an exact
+  all-pairs distance matrix they are best suited to smaller datasets
+  ([\#234](https://github.com/tidymodels/themis/issues/234)).
+
+- `distance = "mahalanobis"` now fails with an informative error when
+  the predictors have a singular covariance matrix, instead of a
+  low-level message from [`chol()`](https://rdrr.io/r/base/chol.html) or
+  silently returning distances computed from a numerically unusable
+  inverse. This covers collinear and constant predictors as well as
+  duplicated rows
+  ([\#246](https://github.com/tidymodels/themis/issues/246)).
+
+- [`adasyn()`](https://themis.tidymodels.org/reference/adasyn.md),
+  [`bsmote()`](https://themis.tidymodels.org/reference/bsmote.md),
+  [`nearmiss()`](https://themis.tidymodels.org/reference/nearmiss.md),
+  [`smote()`](https://themis.tidymodels.org/reference/smote.md), and
+  [`smotenc()`](https://themis.tidymodels.org/reference/smotenc.md) now
+  reject a negative `over_ratio` or `under_ratio`, matching the
+  validation their recipe steps already performed
+  ([\#323](https://github.com/tidymodels/themis/issues/323)).
+
+- [`rose()`](https://themis.tidymodels.org/reference/rose.md) is a new
+  thin wrapper around
+  [`ROSE::ROSE()`](https://rdrr.io/pkg/ROSE/man/ROSE.html), making it
+  consistent with the other algorithms in the package that expose a
+  direct implementation alongside their recipe step
+  ([\#195](https://github.com/tidymodels/themis/issues/195)).
+
+- [`step_adasyn()`](https://themis.tidymodels.org/reference/step_adasyn.md),
+  [`step_bsmote()`](https://themis.tidymodels.org/reference/step_bsmote.md),
+  [`step_nearmiss()`](https://themis.tidymodels.org/reference/step_nearmiss.md),
+  [`step_smote()`](https://themis.tidymodels.org/reference/step_smote.md),
+  and
+  [`step_smotenc()`](https://themis.tidymodels.org/reference/step_smotenc.md)
+  now document the minimum number of observations needed to perform the
+  algorithm ([\#104](https://github.com/tidymodels/themis/issues/104)).
+
+- [`step_adasyn()`](https://themis.tidymodels.org/reference/step_adasyn.md),
+  [`step_bsmote()`](https://themis.tidymodels.org/reference/step_bsmote.md),
+  [`step_nearmiss()`](https://themis.tidymodels.org/reference/step_nearmiss.md),
+  [`step_smote()`](https://themis.tidymodels.org/reference/step_smote.md),
+  and
+  [`step_tomek()`](https://themis.tidymodels.org/reference/step_tomek.md)
+  (and their direct-implementation counterparts
+  [`adasyn()`](https://themis.tidymodels.org/reference/adasyn.md),
+  [`bsmote()`](https://themis.tidymodels.org/reference/bsmote.md),
+  [`nearmiss()`](https://themis.tidymodels.org/reference/nearmiss.md),
+  [`smote()`](https://themis.tidymodels.org/reference/smote.md), and
+  [`tomek()`](https://themis.tidymodels.org/reference/tomek.md)) gain a
+  `distance` argument to control which distance metric is used for
+  nearest neighbor calculations. Supported metrics are `"euclidean"`
+  (default), `"cosine"`, `"mahalanobis"`, `"manhattan"`, and
+  `"chebyshev"`
+  ([\#171](https://github.com/tidymodels/themis/issues/171)).
+
+- [`step_adasyn()`](https://themis.tidymodels.org/reference/step_adasyn.md)
+  (and its direct-implementation counterpart
+  [`adasyn()`](https://themis.tidymodels.org/reference/adasyn.md)) is
+  now faster on large data, computing the full-data nearest neighbors
+  only for the minority observations it needs. Results are unchanged
+  ([\#257](https://github.com/tidymodels/themis/issues/257)).
+
+- [`step_bsmote()`](https://themis.tidymodels.org/reference/step_bsmote.md)
+  now sets the tuning range of its `neighbors` parameter to `c(1, 10)`,
+  matching the other steps that tune `neighbors`
+  ([\#254](https://github.com/tidymodels/themis/issues/254)).
+
+- [`step_downsample()`](https://themis.tidymodels.org/reference/step_downsample.md)
+  gains a `replacement` argument. When set to `TRUE` the under-sample is
+  drawn with replacement, giving a bootstrapped under-sample where the
+  same row can be selected more than once. The default `FALSE` keeps the
+  current behavior
+  ([\#325](https://github.com/tidymodels/themis/issues/325)).
+
+- [`step_nearmiss()`](https://themis.tidymodels.org/reference/step_nearmiss.md)
+  (and its direct-implementation counterpart
+  [`nearmiss()`](https://themis.tidymodels.org/reference/nearmiss.md))
+  gains a `version` argument to select between the NearMiss-1,
+  NearMiss-2, and NearMiss-3 variants of Mani & Zhang (2003), together
+  with `n_neighbors_ver3` to control the size of the NearMiss-3
+  candidate pool. The default `version = 1` preserves the previous
+  behavior ([\#279](https://github.com/tidymodels/themis/issues/279)).
+
+- [`step_nearmiss()`](https://themis.tidymodels.org/reference/step_nearmiss.md)
+  and
+  [`step_tomek()`](https://themis.tidymodels.org/reference/step_tomek.md)
+  gain a `distance_with` argument to control which variables are used
+  for distance calculations. This allows the steps to be used when
+  non-numeric predictor variables are present in the data
+  ([\#166](https://github.com/tidymodels/themis/issues/166)).
+
+- [`step_rose()`](https://themis.tidymodels.org/reference/step_rose.md)
+  now validates predictor types during
+  [`prep()`](https://recipes.tidymodels.org/reference/prep.html), giving
+  a clear error for unsupported types consistent with the other sampling
+  steps instead of relying on
+  [`ROSE::ROSE()`](https://rdrr.io/pkg/ROSE/man/ROSE.html) to fail
+  downstream ([\#265](https://github.com/tidymodels/themis/issues/265)).
+
+- [`step_rose()`](https://themis.tidymodels.org/reference/step_rose.md)
+  now documents `minority_prop` better, clarifying that it controls the
+  proportion of synthetic observations from the minority class, and how
+  it differs from `over_ratio`
+  ([\#144](https://github.com/tidymodels/themis/issues/144)).
+
+- [`step_rose()`](https://themis.tidymodels.org/reference/step_rose.md)
+  now validates that `minority_prop` is at most 1, since it is a
+  proportion ([\#269](https://github.com/tidymodels/themis/issues/269)).
+
+- [`step_smotenc()`](https://themis.tidymodels.org/reference/step_smotenc.md)
+  now validates that all predictors are numeric or nominal, erroring on
+  unsupported column types such as dates instead of failing later
+  ([\#254](https://github.com/tidymodels/themis/issues/254)).
+
+### Bug fixes
+
+- All sampling steps now handle an unused (zero-count) factor level in
+  the outcome gracefully, dropping it with a warning before computing
+  sampling targets instead of deleting all rows or erroring
+  ([\#238](https://github.com/tidymodels/themis/issues/238)).
+
+- All `step_*()` functions now correctly handle 0 and 1 row inputs in
+  [`bake()`](https://recipes.tidymodels.org/reference/bake.html)
+  ([\#160](https://github.com/tidymodels/themis/issues/160)).
+
+- Over-sampling steps
+  ([`step_adasyn()`](https://themis.tidymodels.org/reference/step_adasyn.md),
+  [`step_bsmote()`](https://themis.tidymodels.org/reference/step_bsmote.md),
+  [`step_rose()`](https://themis.tidymodels.org/reference/step_rose.md),
+  [`step_smote()`](https://themis.tidymodels.org/reference/step_smote.md),
+  and
+  [`step_smotenc()`](https://themis.tidymodels.org/reference/step_smotenc.md))
+  now error when supplied a case weights column instead of silently
+  filling synthetic rows’ weights with `NA`. These steps have never
+  supported case weights
+  ([\#243](https://github.com/tidymodels/themis/issues/243)).
+
+- Nearest-neighbor computations in
+  [`step_adasyn()`](https://themis.tidymodels.org/reference/step_adasyn.md),
+  [`step_smote()`](https://themis.tidymodels.org/reference/step_smote.md),
+  [`step_smotenc()`](https://themis.tidymodels.org/reference/step_smotenc.md),
+  and
+  [`step_tomek()`](https://themis.tidymodels.org/reference/step_tomek.md)
+  (and their direct-implementation counterparts) now exclude each
+  observation from its own neighbor list by row index rather than
+  assuming it is always the first neighbor returned. Exact-duplicate
+  coordinates could previously leave a point as its own neighbor or make
+  the farthest candidate unreachable
+  ([\#247](https://github.com/tidymodels/themis/issues/247)).
+
+- [`adasyn()`](https://themis.tidymodels.org/reference/adasyn.md),
+  [`bsmote()`](https://themis.tidymodels.org/reference/bsmote.md),
+  [`nearmiss()`](https://themis.tidymodels.org/reference/nearmiss.md),
+  [`smote()`](https://themis.tidymodels.org/reference/smote.md), and
+  [`tomek()`](https://themis.tidymodels.org/reference/tomek.md) now
+  correctly attribute errors from non-numeric columns to the user-facing
+  function ([\#181](https://github.com/tidymodels/themis/issues/181)).
+
+- [`adasyn()`](https://themis.tidymodels.org/reference/adasyn.md),
+  [`bsmote()`](https://themis.tidymodels.org/reference/bsmote.md),
+  [`smote()`](https://themis.tidymodels.org/reference/smote.md), and
+  [`smotenc()`](https://themis.tidymodels.org/reference/smotenc.md) now
+  return a proper factor outcome when called with a character `var`,
+  instead of an all-`NA`, zero-level factor
+  ([\#261](https://github.com/tidymodels/themis/issues/261)).
+
+- [`bsmote()`](https://themis.tidymodels.org/reference/bsmote.md) now
+  correctly passes the `all_neighbors` argument to the underlying
+  implementation
+  ([\#176](https://github.com/tidymodels/themis/issues/176)).
+
+- [`smotenc()`](https://themis.tidymodels.org/reference/smotenc.md) now
+  only suppresses the specific benign warning from
+  [`gower::gower_topn()`](https://rdrr.io/pkg/gower/man/gower_topn.html)
+  about variables with zero range, rather than all warnings
+  ([\#182](https://github.com/tidymodels/themis/issues/182)).
+
+- [`step_adasyn()`](https://themis.tidymodels.org/reference/step_adasyn.md)
+  (and its direct-implementation counterpart
+  [`adasyn()`](https://themis.tidymodels.org/reference/adasyn.md)) now
+  weights minority observations by their exact majority-neighbor count.
+  An off-by-one subtraction previously undercounted majority neighbors,
+  zeroing out the weight of border points with a single majority
+  neighbor and biasing sampling away from the class boundary
+  ([\#239](https://github.com/tidymodels/themis/issues/239)).
+
+- [`step_adasyn()`](https://themis.tidymodels.org/reference/step_adasyn.md)
+  (and its direct-implementation counterpart
+  [`adasyn()`](https://themis.tidymodels.org/reference/adasyn.md)) no
+  longer errors with a cryptic message when a minority class is well
+  separated from the majority classes; it now falls back to uniform
+  sampling and checks the minority class size before sampling
+  ([\#240](https://github.com/tidymodels/themis/issues/240)).
+
+- [`step_adasyn()`](https://themis.tidymodels.org/reference/step_adasyn.md),
+  [`step_bsmote()`](https://themis.tidymodels.org/reference/step_bsmote.md),
+  [`step_smote()`](https://themis.tidymodels.org/reference/step_smote.md),
+  and
+  [`step_smotenc()`](https://themis.tidymodels.org/reference/step_smotenc.md)
+  (and their direct-implementation counterparts) now round the
+  fractional oversampling target instead of truncating it, so a
+  fractional `over_ratio` lands on the nearest integer count
+  ([\#248](https://github.com/tidymodels/themis/issues/248)).
+
+- [`step_bsmote()`](https://themis.tidymodels.org/reference/step_bsmote.md)
+  (and its direct-implementation counterpart
+  [`bsmote()`](https://themis.tidymodels.org/reference/bsmote.md)) no
+  longer errors when only a few observations sit on the class border.
+  The check demanded `neighbors + 1` danger observations and counted
+  them across all classes, even though the algorithm only needs a single
+  minority danger observation to seed from and searches for neighbors
+  among the whole minority class. It now errors only when no minority
+  observation is in danger, and separately reports when the minority
+  class itself is too small, replacing an error from RANN
+  ([\#345](https://github.com/tidymodels/themis/issues/345)).
+
+- [`step_bsmote()`](https://themis.tidymodels.org/reference/step_bsmote.md)
+  (and its direct-implementation counterpart
+  [`bsmote()`](https://themis.tidymodels.org/reference/bsmote.md)) now
+  selects the correct “danger” observations on the class border. The
+  danger criterion had inverted the roles of minority and majority
+  neighbors, causing it to oversample safe interior points instead of
+  borderline ones
+  ([\#235](https://github.com/tidymodels/themis/issues/235)).
+
+- [`step_bsmote()`](https://themis.tidymodels.org/reference/step_bsmote.md)
+  (and its direct-implementation counterpart
+  [`bsmote()`](https://themis.tidymodels.org/reference/bsmote.md)) with
+  `all_neighbors = TRUE` now seeds synthetic points only from
+  minority-class danger observations and takes a reduced step toward
+  majority-class neighbors, matching borderline-SMOTE2. Previously it
+  could seed from border-adjacent majority rows, generating
+  minority-labeled points around majority centers
+  ([\#242](https://github.com/tidymodels/themis/issues/242)).
+
+- [`step_bsmote()`](https://themis.tidymodels.org/reference/step_bsmote.md)
+  now works correctly when there is only a single predictor
+  ([\#151](https://github.com/tidymodels/themis/issues/151)).
+
+- [`step_bsmote()`](https://themis.tidymodels.org/reference/step_bsmote.md)
+  and
+  [`step_svmsmote()`](https://themis.tidymodels.org/reference/step_svmsmote.md)
+  (and their direct-implementation counterparts) now generate valid
+  synthetic points when a single observation is eligible as a seed. The
+  seed index was passed to
+  [`sample()`](https://rdrr.io/r/base/sample.html), which treats a
+  single number `n` as `1:n`, so points were interpolated from arbitrary
+  other rows and the remaining synthetic rows were left filled with
+  zeros ([\#345](https://github.com/tidymodels/themis/issues/345)).
+
+- [`step_downsample()`](https://themis.tidymodels.org/reference/step_downsample.md)
+  and
+  [`step_upsample()`](https://themis.tidymodels.org/reference/step_upsample.md)
+  now correctly handle `NA` values in the outcome variable instead of
+  erroring ([\#177](https://github.com/tidymodels/themis/issues/177)).
+
+- [`step_nearmiss()`](https://themis.tidymodels.org/reference/step_nearmiss.md)
+  (and its direct-implementation counterpart
+  [`nearmiss()`](https://themis.tidymodels.org/reference/nearmiss.md))
+  now keeps the majority observations that are genuinely closest to the
+  minority class, rather than selecting rows by their position in the
+  data ([\#236](https://github.com/tidymodels/themis/issues/236)).
+
+- [`step_nearmiss()`](https://themis.tidymodels.org/reference/step_nearmiss.md)
+  (and its direct-implementation counterpart
+  [`nearmiss()`](https://themis.tidymodels.org/reference/nearmiss.md))
+  now returns true cosine-distance magnitudes with
+  `distance = "cosine"`. Previously the cosine branch L2-normalized and
+  took Euclidean distances, returning `sqrt(2 - 2 * cos_sim)` instead of
+  `1 - cos_sim`. Neighbor ordering was unaffected, but the
+  neighbor-distance averages used the wrong magnitudes
+  ([\#244](https://github.com/tidymodels/themis/issues/244)).
+
+- [`step_smotenc()`](https://themis.tidymodels.org/reference/step_smotenc.md)
+  (and its direct-implementation counterpart
+  [`smotenc()`](https://themis.tidymodels.org/reference/smotenc.md)) now
+  sets each synthetic sample’s nominal features to the majority vote
+  across the seed’s k nearest neighbors, matching the SMOTENC algorithm,
+  rather than voting over the randomly chosen interpolation partners
+  ([\#241](https://github.com/tidymodels/themis/issues/241)).
+
+- [`step_tomek()`](https://themis.tidymodels.org/reference/step_tomek.md)
+  (and its direct-implementation counterpart
+  [`tomek()`](https://themis.tidymodels.org/reference/tomek.md)) now
+  removes only the majority-class member of each Tomek link, retaining
+  the minority-class member, matching the documented behavior.
+  Previously it removed both members of the pair
+  ([\#262](https://github.com/tidymodels/themis/issues/262)).
+
+- [`step_upsample()`](https://themis.tidymodels.org/reference/step_upsample.md)
+  now names itself, rather than
+  [`step_downsample()`](https://themis.tidymodels.org/reference/step_downsample.md),
+  in the deprecation message shown when the defunct `ratio` argument is
+  supplied ([\#252](https://github.com/tidymodels/themis/issues/252)).
+
+- [`step_upsample()`](https://themis.tidymodels.org/reference/step_upsample.md)
+  now leaves classes that already meet or exceed the target size
+  untouched instead of resampling them with replacement, and produces
+  the same rows whether or not `indicator_column` is set
+  ([\#263](https://github.com/tidymodels/themis/issues/263)).
+
+## themis 1.0.3
+
+CRAN release: 2025-01-22
+
+### Improvements
+
+- Calling `?tidy.step_*()` now sends you to the documentation for
+  `step_*()` where the outcome is documented.
+  ([\#142](https://github.com/tidymodels/themis/issues/142))
+
+- Documentation now correctly specifies majority-to-minority and
+  minority-to-majority.
+  ([\#143](https://github.com/tidymodels/themis/issues/143),
+  [\#110](https://github.com/tidymodels/themis/issues/110))
+
+- Documentation for tidy methods for all steps has been improved to
+  describe the return value more accurately.
+  ([\#148](https://github.com/tidymodels/themis/issues/148))
+
+- All messages, warnings and errors has been translated to use {cli}
+  package ([\#153](https://github.com/tidymodels/themis/issues/153),
+  [\#155](https://github.com/tidymodels/themis/issues/155)).
+
+## themis 1.0.2
+
+CRAN release: 2023-08-14
+
+### Improvements
+
+- Many internal changes to improve consistency and slight speed
+  increases.
+
+## themis 1.0.1
+
+CRAN release: 2023-04-14
+
+### Improvements
+
+- Fixed bug where some upsampling functions would error if no upsampling
+  was needed. ([\#119](https://github.com/tidymodels/themis/issues/119))
+
+- Steps with tunable arguments now have those arguments listed in the
+  documentation.
+
+## themis 1.0.0
+
+CRAN release: 2022-07-02
+
+- Added case weights support for
+  [`step_upsample()`](https://themis.tidymodels.org/reference/step_upsample.md)
+  and
+  [`step_downsample()`](https://themis.tidymodels.org/reference/step_downsample.md)
+
+## themis 0.2.2
+
+CRAN release: 2022-05-11
+
+- [`tomek()`](https://themis.tidymodels.org/reference/tomek.md) has been
+  added, rewritten to apply to multiple classes, removing the need for
+  the unbalanced package, which has been removed as a dependency.
+
+## themis 0.2.1
+
+CRAN release: 2022-04-13
+
+- A bug was fixed in
+  [`step_downsample()`](https://themis.tidymodels.org/reference/step_downsample.md)
+  and
+  [`step_upsample()`](https://themis.tidymodels.org/reference/step_upsample.md)
+  that made the steps unable to be tuned.
+  ([\#90](https://github.com/tidymodels/themis/issues/90))
+
+## themis 0.2.0
+
+CRAN release: 2022-03-30
+
+### New steps
+
+- [`step_smotenc()`](https://themis.tidymodels.org/reference/step_smotenc.md)
+  have been added to implement SMOTENC which can handle categorical as
+  well as numerical values. Thanks to
+  [@RobertGregg](https://github.com/RobertGregg)
+  ([\#82](https://github.com/tidymodels/themis/issues/82))
+
+### Improvements and Other Changes
+
+- export
+  [`nearmiss()`](https://themis.tidymodels.org/reference/nearmiss.md)
+  functions to users.
+- Update examples to no longer use `iris` or `okc` data sets.
+- All recipe steps now officially support empty selections to be more
+  aligned with dplyr and other packages that use tidyselect
+  ([\#55](https://github.com/tidymodels/themis/issues/55))
+
+### Bug fixes
+
+- [`step_rose()`](https://themis.tidymodels.org/reference/step_rose.md)
+  now correctly allows you to use characters variables.
+  ([\#26](https://github.com/tidymodels/themis/issues/26))
+- [`step_tomek()`](https://themis.tidymodels.org/reference/step_tomek.md)
+  now ignore non-predictor variables when appropriate.
+  ([\#51](https://github.com/tidymodels/themis/issues/51))
+- Fix bug where wrong ordering of columns caused error in
+  [`smote()`](https://themis.tidymodels.org/reference/smote.md).
+  ([\#76](https://github.com/tidymodels/themis/issues/76))
+
+## themis 0.1.4
+
+CRAN release: 2021-06-12
+
+- export [`smote()`](https://themis.tidymodels.org/reference/smote.md),
+  [`adasyn()`](https://themis.tidymodels.org/reference/adasyn.md), and
+  [`bsmote()`](https://themis.tidymodels.org/reference/bsmote.md)
+  functions to users.
+
+## themis 0.1.3
+
+CRAN release: 2020-11-12
+
+- Steps that use nearest neighbors gives cleaner errors.
+
+## themis 0.1.2
+
+CRAN release: 2020-08-14
+
+- tuneable steps now properly work with tune package.
+- Steps now Retain original factor level ordering.
+  ([\#22](https://github.com/tidymodels/themis/issues/22))
+- Oversampling steps now ignore non-predictor variables when
+  appropriate. ([\#20](https://github.com/tidymodels/themis/issues/20))
+
+## themis 0.1.1
+
+CRAN release: 2020-05-17
+
+- [`step_smote()`](https://themis.tidymodels.org/reference/step_smote.md)
+  now work regardless of order of classes. Thanks to
+  [@sebastien-foulle](https://github.com/sebastien-foulle) for point it
+  out [\#14](https://github.com/tidymodels/themis/issues/14).
+
+## themis 0.1.0
+
+CRAN release: 2020-01-13
+
+- Added a `NEWS.md` file to track changes to the package.

@@ -1,0 +1,162 @@
+# Borderline-SMOTE Algorithm
+
+BSMOTE generates new examples of the minority class using nearest
+neighbors of these cases in the border region between classes.
+
+## Usage
+
+``` r
+bsmote(
+  df,
+  var,
+  k = 5,
+  over_ratio = 1,
+  all_neighbors = FALSE,
+  distance = "euclidean"
+)
+```
+
+## Arguments
+
+- df:
+
+  data.frame or tibble. Must have 1 factor variable and remaining
+  numeric variables.
+
+- var:
+
+  Character, name of variable containing factor variable.
+
+- k:
+
+  An integer. Number of nearest neighbor that are used to generate the
+  new examples of the minority class.
+
+- over_ratio:
+
+  A numeric value for the ratio of the minority-to-majority frequencies.
+  The default value (1) means that all other levels are sampled up to
+  have the same frequency as the most occurring level. A value of 0.5
+  would mean that the minority levels will have (at most)
+  (approximately) half as many rows as the majority level.
+
+  A named numeric vector can be used instead to give different levels
+  different targets, for example `c(a = 1, b = 0.5)`. The names must be
+  levels of the outcome and the values are ratios of the majority level,
+  exactly as in the single-number case. Levels that are not named are
+  left untouched, as are rows with a missing outcome. Because a vector
+  of targets is not a single value, supplying one means this argument
+  can no longer be tuned. See `vignette("ratio", package = "themis")`
+  for more details.
+
+- all_neighbors:
+
+  Type of two borderline-SMOTE method. Defaults to FALSE. See details.
+
+- distance:
+
+  A character string specifying the distance metric used for nearest
+  neighbor calculations, defaulting to `"euclidean"`. The available
+  metrics fall into three groups.
+
+  `"euclidean"`, `"cosine"`, and `"mahalanobis"` use approximate nearest
+  neighbors via the RANN package and scale well to large datasets.
+
+  `"squared_chord"`, `"matusita"`, `"hellinger"`, and `"bhattacharyya"`
+  are probability-divergence measures that treat each row as a
+  distribution over the predictors, so they require non-negative values.
+  `"hellinger"` and `"bhattacharyya"` further require each row to sum
+  to 1. All four also use the RANN package and scale well to large
+  datasets.
+
+  `"manhattan"`, `"chebyshev"`, `"canberra"`, `"soergel"`,
+  `"lorentzian"`, `"jeffreys"`, `"topsoe"`, `"jensen-shannon"`,
+  `"jensen_difference"`, `"taneja"`, and `"kumar-johnson"` compute an
+  exact all-pairs distance matrix. This takes time and memory
+  proportional to the square of the number of observations in a class,
+  so these are best suited to smaller datasets. Everything from
+  `"canberra"` onwards is a probability divergence requiring
+  non-negative values, is provided by the philentropy package (which
+  must be installed separately), and in the case of `"jeffreys"`,
+  `"taneja"`, and `"kumar-johnson"` requires strictly positive values,
+  since those divide by individual predictor values.
+
+  The probability divergences are meaningful for compositional
+  predictors such as proportions or counts normalized per observation,
+  and are generally not appropriate for standardized predictors.
+
+## Value
+
+A data.frame or tibble, depending on type of `df`.
+
+## Details
+
+BSMOTE (borderline-SMOTE) works the same way as SMOTE, except that
+instead of generating points around every point of the minority class
+each point is first classified into the boxes "danger" and "not". For
+each point the nearest neighbors are calculated. If all the neighbors
+come from a different class it is labeled noise and put into the "not"
+box. If more than half of the neighbors come from a different class it
+is labeled "danger". Points are generated around points labeled
+"danger".
+
+If `all_neighbors = FALSE` then points are generated between nearest
+neighbors in its own class. If `all_neighbors = TRUE` then points are
+generated between any nearest neighbors. See examples for visualization.
+
+SMOTE generates new examples of the minority class using nearest
+neighbors of these cases. For each existing minority class example, new
+examples are created by interpolating between the example and its
+nearest neighbors. The number of nearest neighbors used is controlled by
+the number of neighbors argument (`k` in
+[`smote()`](https://themis.tidymodels.org/reference/smote.md),
+`neighbors` in
+[`step_smote()`](https://themis.tidymodels.org/reference/step_smote.md)),
+and the number of new examples generated is controlled by `over_ratio`.
+
+All columns used in this function must be numeric with no missing data.
+
+## References
+
+Hui Han, Wen-Yuan Wang, and Bing-Huan Mao. Borderline-smote: a new
+over-sampling method in imbalanced data sets learning. In International
+Conference on Intelligent Computing, pages 878–887. Springer, 2005.
+
+## See also
+
+[`step_bsmote()`](https://themis.tidymodels.org/reference/step_bsmote.md)
+for step function of this method
+
+Other Direct Implementations:
+[`adasyn()`](https://themis.tidymodels.org/reference/adasyn.md),
+[`cluster_centroids()`](https://themis.tidymodels.org/reference/cluster_centroids.md),
+[`cnn()`](https://themis.tidymodels.org/reference/cnn.md),
+[`enn()`](https://themis.tidymodels.org/reference/enn.md),
+[`instance_hardness()`](https://themis.tidymodels.org/reference/instance_hardness.md),
+[`kmeans_smote()`](https://themis.tidymodels.org/reference/kmeans_smote.md),
+[`ncl()`](https://themis.tidymodels.org/reference/ncl.md),
+[`nearmiss()`](https://themis.tidymodels.org/reference/nearmiss.md),
+[`oss()`](https://themis.tidymodels.org/reference/oss.md),
+[`rose()`](https://themis.tidymodels.org/reference/rose.md),
+[`smogn()`](https://themis.tidymodels.org/reference/smogn.md),
+[`smote()`](https://themis.tidymodels.org/reference/smote.md),
+[`smoten()`](https://themis.tidymodels.org/reference/smoten.md),
+[`smotenc()`](https://themis.tidymodels.org/reference/smotenc.md),
+[`svmsmote()`](https://themis.tidymodels.org/reference/svmsmote.md),
+[`tomek()`](https://themis.tidymodels.org/reference/tomek.md)
+
+## Examples
+
+``` r
+circle_numeric <- circle_example[, c("x", "y", "class")]
+
+res <- bsmote(circle_numeric, var = "class")
+
+res <- bsmote(circle_numeric, var = "class", k = 10)
+
+res <- bsmote(circle_numeric, var = "class", over_ratio = 0.8)
+
+res <- bsmote(circle_numeric, var = "class", all_neighbors = TRUE)
+
+res <- bsmote(circle_numeric, var = "class", distance = "manhattan")
+```

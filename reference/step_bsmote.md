@@ -1,0 +1,324 @@
+# Apply Borderline-SMOTE Algorithm
+
+`step_bsmote()` creates a *specification* of a recipe step that generate
+new examples of the minority class using nearest neighbors of these
+cases in the border region between classes.
+
+## Usage
+
+``` r
+step_bsmote(
+  recipe,
+  ...,
+  role = NA,
+  trained = FALSE,
+  column = NULL,
+  over_ratio = 1,
+  neighbors = 5,
+  all_neighbors = FALSE,
+  distance = "euclidean",
+  indicator_column = NULL,
+  skip = TRUE,
+  seed = sample.int(10^5, 1),
+  id = rand_id("bsmote")
+)
+```
+
+## Arguments
+
+- recipe:
+
+  A recipe object. The step will be added to the sequence of operations
+  for this recipe.
+
+- ...:
+
+  One or more selector functions to choose which variable is used to
+  sample the data. See
+  [recipes::selections](https://recipes.tidymodels.org/reference/selections.html)
+  for more details. The selection should result in *single factor
+  variable*. For the `tidy` method, these are not currently used.
+
+- role:
+
+  Not used by this step since no new variables are created.
+
+- trained:
+
+  A logical to indicate if the quantities for preprocessing have been
+  estimated.
+
+- column:
+
+  A character string of the variable name that will be populated
+  (eventually) by the `...` selectors.
+
+- over_ratio:
+
+  A numeric value for the ratio of the minority-to-majority frequencies.
+  The default value (1) means that all other levels are sampled up to
+  have the same frequency as the most occurring level. A value of 0.5
+  would mean that the minority levels will have (at most)
+  (approximately) half as many rows as the majority level.
+
+  A named numeric vector can be used instead to give different levels
+  different targets, for example `c(a = 1, b = 0.5)`. The names must be
+  levels of the outcome and the values are ratios of the majority level,
+  exactly as in the single-number case. Levels that are not named are
+  left untouched, as are rows with a missing outcome. Because a vector
+  of targets is not a single value, supplying one means this argument
+  can no longer be tuned. See `vignette("ratio", package = "themis")`
+  for more details.
+
+- neighbors:
+
+  An integer. Number of nearest neighbor that are used to generate the
+  new examples of the minority class.
+
+- all_neighbors:
+
+  Type of two borderline-SMOTE method. Defaults to FALSE. See details.
+
+- distance:
+
+  A character string specifying the distance metric used for nearest
+  neighbor calculations, defaulting to `"euclidean"`. The available
+  metrics fall into three groups.
+
+  `"euclidean"`, `"cosine"`, and `"mahalanobis"` use approximate nearest
+  neighbors via the RANN package and scale well to large datasets.
+
+  `"squared_chord"`, `"matusita"`, `"hellinger"`, and `"bhattacharyya"`
+  are probability-divergence measures that treat each row as a
+  distribution over the predictors, so they require non-negative values.
+  `"hellinger"` and `"bhattacharyya"` further require each row to sum
+  to 1. All four also use the RANN package and scale well to large
+  datasets.
+
+  `"manhattan"`, `"chebyshev"`, `"canberra"`, `"soergel"`,
+  `"lorentzian"`, `"jeffreys"`, `"topsoe"`, `"jensen-shannon"`,
+  `"jensen_difference"`, `"taneja"`, and `"kumar-johnson"` compute an
+  exact all-pairs distance matrix. This takes time and memory
+  proportional to the square of the number of observations in a class,
+  so these are best suited to smaller datasets. Everything from
+  `"canberra"` onwards is a probability divergence requiring
+  non-negative values, is provided by the philentropy package (which
+  must be installed separately), and in the case of `"jeffreys"`,
+  `"taneja"`, and `"kumar-johnson"` requires strictly positive values,
+  since those divide by individual predictor values.
+
+  The probability divergences are meaningful for compositional
+  predictors such as proportions or counts normalized per observation,
+  and are generally not appropriate for standardized predictors.
+
+- indicator_column:
+
+  A single string or `NULL` (the default). If a string is given, a
+  logical column with that name is added to the output, marking rows
+  added by the step (`TRUE`) vs rows from the original data (`FALSE`).
+
+- skip:
+
+  A logical. Should the step be skipped when the recipe is baked by
+  [`bake()`](https://recipes.tidymodels.org/reference/bake.html)? While
+  all operations are baked when
+  [`prep()`](https://recipes.tidymodels.org/reference/prep.html) is run,
+  some operations may not be able to be conducted on new data (e.g.
+  processing the outcome variable(s)). Care should be taken when using
+  `skip = TRUE` as it may affect the computations for subsequent
+  operations.
+
+- seed:
+
+  An integer that will be used as the seed when applied.
+
+- id:
+
+  A character string that is unique to this step to identify it.
+
+## Value
+
+An updated version of `recipe` with the new step added to the sequence
+of existing steps (if any). For the `tidy` method, a tibble with columns
+`terms` which is the variable used to sample.
+
+## Details
+
+BSMOTE (borderline-SMOTE) works the same way as SMOTE, except that
+instead of generating points around every point of the minority class
+each point is first classified into the boxes "danger" and "not". For
+each point the nearest neighbors are calculated. If all the neighbors
+come from a different class it is labeled noise and put into the "not"
+box. If more than half of the neighbors come from a different class it
+is labeled "danger". Points are generated around points labeled
+"danger".
+
+If `all_neighbors = FALSE` then points are generated between nearest
+neighbors in its own class. If `all_neighbors = TRUE` then points are
+generated between any nearest neighbors. See examples for visualization.
+
+SMOTE generates new examples of the minority class using nearest
+neighbors of these cases. For each existing minority class example, new
+examples are created by interpolating between the example and its
+nearest neighbors. The number of nearest neighbors used is controlled by
+the number of neighbors argument (`k` in
+[`smote()`](https://themis.tidymodels.org/reference/smote.md),
+`neighbors` in
+[`step_smote()`](https://themis.tidymodels.org/reference/step_smote.md)),
+and the number of new examples generated is controlled by `over_ratio`.
+
+All columns in the data are sampled and returned by
+[`recipes::juice()`](https://recipes.tidymodels.org/reference/juice.html)
+and
+[`recipes::bake()`](https://recipes.tidymodels.org/reference/bake.html).
+
+All columns used in this step must be numeric with no missing data.
+
+When used in modeling, users should strongly consider using the option
+`skip = TRUE` so that the extra sampling is *not* conducted outside of
+the training set.
+
+## Minimum observations
+
+Each minority class must have at least `neighbors + 1` observations to
+perform the BSMOTE algorithm.
+
+## Tidying
+
+When you
+[`tidy()`](https://recipes.tidymodels.org/reference/tidy.recipe.html)
+this step, a tibble is returned with columns `terms` and `id`:
+
+- terms:
+
+  character, the selectors or variables selected
+
+- id:
+
+  character, id of this step
+
+## Tuning Parameters
+
+This step has 3 tuning parameters:
+
+- `over_ratio`: Over-Sampling Ratio (type: double, default: 1)
+
+- `neighbors`: \# Nearest Neighbors (type: integer, default: 5)
+
+- `all_neighbors`: All Neighbors (type: logical, default: FALSE)
+
+## Case weights
+
+The underlying operation does not allow for case weights. Supplying data
+with a case weights column to this step results in an error.
+
+## References
+
+Hui Han, Wen-Yuan Wang, and Bing-Huan Mao. Borderline-smote: a new
+over-sampling method in imbalanced data sets learning. In International
+Conference on Intelligent Computing, pages 878–887. Springer, 2005.
+
+## See also
+
+[`bsmote()`](https://themis.tidymodels.org/reference/bsmote.md) for
+direct implementation
+
+Other Steps for over-sampling:
+[`step_adasyn()`](https://themis.tidymodels.org/reference/step_adasyn.md),
+[`step_kmeans_smote()`](https://themis.tidymodels.org/reference/step_kmeans_smote.md),
+[`step_rose()`](https://themis.tidymodels.org/reference/step_rose.md),
+[`step_smogn()`](https://themis.tidymodels.org/reference/step_smogn.md),
+[`step_smote()`](https://themis.tidymodels.org/reference/step_smote.md),
+[`step_smoten()`](https://themis.tidymodels.org/reference/step_smoten.md),
+[`step_smotenc()`](https://themis.tidymodels.org/reference/step_smotenc.md),
+[`step_svmsmote()`](https://themis.tidymodels.org/reference/step_svmsmote.md),
+[`step_upsample()`](https://themis.tidymodels.org/reference/step_upsample.md)
+
+## Examples
+
+``` r
+library(recipes)
+library(modeldata)
+data(hpc_data)
+
+hpc_data0 <- hpc_data |>
+  select(-protocol, -day)
+
+orig <- count(hpc_data0, class, name = "orig")
+orig
+#> # A tibble: 4 × 2
+#>   class  orig
+#>   <fct> <int>
+#> 1 VF     2211
+#> 2 F      1347
+#> 3 M       514
+#> 4 L       259
+
+up_rec <- recipe(class ~ ., data = hpc_data0) |>
+  # Bring the minority levels up to about 1000 each
+  # 1000/2211 is approx 0.4523
+  step_bsmote(class, over_ratio = 0.4523) |>
+  prep()
+
+training <- up_rec |>
+  bake(new_data = NULL) |>
+  count(class, name = "training")
+training
+#> # A tibble: 4 × 2
+#>   class training
+#>   <fct>    <int>
+#> 1 VF        2211
+#> 2 F         1347
+#> 3 M         1000
+#> 4 L         1000
+
+# Since `skip` defaults to TRUE, baking the step has no effect
+baked <- up_rec |>
+  bake(new_data = hpc_data0) |>
+  count(class, name = "baked")
+baked
+#> # A tibble: 4 × 2
+#>   class baked
+#>   <fct> <int>
+#> 1 VF     2211
+#> 2 F      1347
+#> 3 M       514
+#> 4 L       259
+
+# Note that if the original data contained more rows than the
+# target n (= ratio * majority_n), the data are left alone:
+orig |>
+  left_join(training, by = "class") |>
+  left_join(baked, by = "class")
+#> # A tibble: 4 × 4
+#>   class  orig training baked
+#>   <fct> <int>    <int> <int>
+#> 1 VF     2211     2211  2211
+#> 2 F      1347     1347  1347
+#> 3 M       514     1000   514
+#> 4 L       259     1000   259
+
+library(ggplot2)
+
+ggplot(circle_example, aes(x, y, color = class)) +
+  geom_point() +
+  labs(title = "Without SMOTE")
+
+
+recipe(class ~ x + y, data = circle_example) |>
+  step_bsmote(class, all_neighbors = FALSE) |>
+  prep() |>
+  bake(new_data = NULL) |>
+  ggplot(aes(x, y, color = class)) +
+  geom_point() +
+  labs(title = "With borderline-SMOTE, all_neighbors = FALSE")
+
+
+recipe(class ~ x + y, data = circle_example) |>
+  step_bsmote(class, all_neighbors = TRUE) |>
+  prep() |>
+  bake(new_data = NULL) |>
+  ggplot(aes(x, y, color = class)) +
+  geom_point() +
+  labs(title = "With borderline-SMOTE, all_neighbors = TRUE")
+```

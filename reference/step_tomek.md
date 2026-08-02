@@ -1,0 +1,262 @@
+# Remove Tomek's Links
+
+`step_tomek()` creates a *specification* of a recipe step that removes
+majority class instances of tomek links.
+
+## Usage
+
+``` r
+step_tomek(
+  recipe,
+  ...,
+  role = NA,
+  trained = FALSE,
+  column = NULL,
+  distance = "euclidean",
+  skip = TRUE,
+  seed = sample.int(10^5, 1),
+  distance_with = recipes::all_predictors(),
+  id = rand_id("tomek")
+)
+```
+
+## Arguments
+
+- recipe:
+
+  A recipe object. The step will be added to the sequence of operations
+  for this recipe.
+
+- ...:
+
+  One or more selector functions to choose which variable is used to
+  sample the data. See
+  [recipes::selections](https://recipes.tidymodels.org/reference/selections.html)
+  for more details. The selection should result in *single factor
+  variable*. For the `tidy` method, these are not currently used.
+
+- role:
+
+  Not used by this step since no new variables are created.
+
+- trained:
+
+  A logical to indicate if the quantities for preprocessing have been
+  estimated.
+
+- column:
+
+  A character string of the variable name that will be populated
+  (eventually) by the `...` selectors.
+
+- distance:
+
+  A character string specifying the distance metric used for nearest
+  neighbor calculations, defaulting to `"euclidean"`. The available
+  metrics fall into three groups.
+
+  `"euclidean"`, `"cosine"`, and `"mahalanobis"` use approximate nearest
+  neighbors via the RANN package and scale well to large datasets.
+
+  `"squared_chord"`, `"matusita"`, `"hellinger"`, and `"bhattacharyya"`
+  are probability-divergence measures that treat each row as a
+  distribution over the predictors, so they require non-negative values.
+  `"hellinger"` and `"bhattacharyya"` further require each row to sum
+  to 1. All four also use the RANN package and scale well to large
+  datasets.
+
+  `"manhattan"`, `"chebyshev"`, `"canberra"`, `"soergel"`,
+  `"lorentzian"`, `"jeffreys"`, `"topsoe"`, `"jensen-shannon"`,
+  `"jensen_difference"`, `"taneja"`, and `"kumar-johnson"` compute an
+  exact all-pairs distance matrix. This takes time and memory
+  proportional to the square of the number of observations in a class,
+  so these are best suited to smaller datasets. Everything from
+  `"canberra"` onwards is a probability divergence requiring
+  non-negative values, is provided by the philentropy package (which
+  must be installed separately), and in the case of `"jeffreys"`,
+  `"taneja"`, and `"kumar-johnson"` requires strictly positive values,
+  since those divide by individual predictor values.
+
+  The probability divergences are meaningful for compositional
+  predictors such as proportions or counts normalized per observation,
+  and are generally not appropriate for standardized predictors.
+
+- skip:
+
+  A logical. Should the step be skipped when the recipe is baked by
+  [`bake()`](https://recipes.tidymodels.org/reference/bake.html)? While
+  all operations are baked when
+  [`prep()`](https://recipes.tidymodels.org/reference/prep.html) is run,
+  some operations may not be able to be conducted on new data (e.g.
+  processing the outcome variable(s)). Care should be taken when using
+  `skip = TRUE` as it may affect the computations for subsequent
+  operations.
+
+- seed:
+
+  An integer that will be used as the seed when applied.
+
+- distance_with:
+
+  A call to a selector function to choose which variables are used for
+  distance calculations. Defaults to
+  [`recipes::all_predictors()`](https://recipes.tidymodels.org/reference/has_role.html).
+  The variable selected by `...` is always excluded from the distance
+  calculations.
+
+- id:
+
+  A character string that is unique to this step to identify it.
+
+## Value
+
+An updated version of `recipe` with the new step added to the sequence
+of existing steps (if any). For the `tidy` method, a tibble with columns
+`terms` which is the variable used to sample.
+
+## Details
+
+A Tomek link is a pair of points from different classes that are each
+other's nearest neighbors. Such pairs sit on or very near the decision
+boundary and are considered noise or borderline cases. The algorithm
+identifies all Tomek links and removes the majority class instance from
+each pair, cleaning the class boundary without discarding non-boundary
+majority examples. Because only boundary points are removed, this
+typically discards far fewer observations than other under-sampling
+methods.
+
+All variables selected by `distance_with` must be numeric with no
+missing data.
+
+All columns in the data are sampled and returned by
+[`recipes::juice()`](https://recipes.tidymodels.org/reference/juice.html)
+and
+[`recipes::bake()`](https://recipes.tidymodels.org/reference/bake.html).
+
+When used in modeling, users should strongly consider using the option
+`skip = TRUE` so that the extra sampling is *not* conducted outside of
+the training set.
+
+## Tidying
+
+When you
+[`tidy()`](https://recipes.tidymodels.org/reference/tidy.recipe.html)
+this step, a tibble is returned with columns `terms` and `id`:
+
+- terms:
+
+  character, the selectors or variables selected
+
+- id:
+
+  character, id of this step
+
+## Case weights
+
+The underlying operation does not allow for case weights. Supplying data
+with a case weights column to this step results in an error.
+
+## References
+
+Tomek. Two modifications of cnn. IEEE Trans. Syst. Man Cybern.,
+6:769-772, 1976.
+
+## See also
+
+[`tomek()`](https://themis.tidymodels.org/reference/tomek.md) for direct
+implementation
+
+[`step_smote()`](https://themis.tidymodels.org/reference/step_smote.md),
+which is commonly composed before `step_tomek()` to clean the ambiguous
+points that over-sampling creates near the class boundary (the
+equivalent of imbalanced-learn's `SMOTETomek`).
+
+Other Steps for under-sampling:
+[`step_cluster_centroids()`](https://themis.tidymodels.org/reference/step_cluster_centroids.md),
+[`step_cnn()`](https://themis.tidymodels.org/reference/step_cnn.md),
+[`step_downsample()`](https://themis.tidymodels.org/reference/step_downsample.md),
+[`step_enn()`](https://themis.tidymodels.org/reference/step_enn.md),
+[`step_instance_hardness()`](https://themis.tidymodels.org/reference/step_instance_hardness.md),
+[`step_ncl()`](https://themis.tidymodels.org/reference/step_ncl.md),
+[`step_nearmiss()`](https://themis.tidymodels.org/reference/step_nearmiss.md),
+[`step_oss()`](https://themis.tidymodels.org/reference/step_oss.md)
+
+## Examples
+
+``` r
+library(recipes)
+library(modeldata)
+data(hpc_data)
+
+hpc_data0 <- hpc_data |>
+  select(-protocol, -day)
+
+orig <- count(hpc_data0, class, name = "orig")
+orig
+#> # A tibble: 4 × 2
+#>   class  orig
+#>   <fct> <int>
+#> 1 VF     2211
+#> 2 F      1347
+#> 3 M       514
+#> 4 L       259
+
+up_rec <- recipe(class ~ ., data = hpc_data0) |>
+  step_tomek(class) |>
+  prep()
+
+training <- up_rec |>
+  bake(new_data = NULL) |>
+  count(class, name = "training")
+training
+#> # A tibble: 4 × 2
+#>   class training
+#>   <fct>    <int>
+#> 1 VF        1911
+#> 2 F         1264
+#> 3 M          487
+#> 4 L          259
+
+# Since `skip` defaults to TRUE, baking the step has no effect
+baked <- up_rec |>
+  bake(new_data = hpc_data0) |>
+  count(class, name = "baked")
+baked
+#> # A tibble: 4 × 2
+#>   class baked
+#>   <fct> <int>
+#> 1 VF     2211
+#> 2 F      1347
+#> 3 M       514
+#> 4 L       259
+
+orig |>
+  left_join(training, by = "class") |>
+  left_join(baked, by = "class")
+#> # A tibble: 4 × 4
+#>   class  orig training baked
+#>   <fct> <int>    <int> <int>
+#> 1 VF     2211     1911  2211
+#> 2 F      1347     1264  1347
+#> 3 M       514      487   514
+#> 4 L       259      259   259
+
+library(ggplot2)
+
+ggplot(circle_example, aes(x, y, color = class)) +
+  geom_point() +
+  labs(title = "Without Tomek") +
+  xlim(c(1, 15)) +
+  ylim(c(1, 15))
+
+
+recipe(class ~ x + y, data = circle_example) |>
+  step_tomek(class) |>
+  prep() |>
+  bake(new_data = NULL) |>
+  ggplot(aes(x, y, color = class)) +
+  geom_point() +
+  labs(title = "With Tomek") +
+  xlim(c(1, 15)) +
+  ylim(c(1, 15))
+```
