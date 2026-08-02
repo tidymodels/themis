@@ -7,10 +7,9 @@ cases using SMOTE 2011
 [doi:10.48550/arXiv.1106.1813](https://doi.org/10.48550/arXiv.1106.1813)
 , BorderlineSMOTE 2005
 [doi:10.1007/11538059_91](https://doi.org/10.1007/11538059_91) and
-ADASYN 2008 <https://ieeexplore.ieee.org/document/4633969>. Or by
-decreasing the number of majority cases using NearMiss 2003
-<https://www.site.uottawa.ca/~nat/Workshop2003/jzhang.pdf> or Tomek link
-removal 1976 <https://ieeexplore.ieee.org/document/4309452>.
+ADASYN 2008. Or by decreasing the number of majority cases using
+NearMiss 2003 <https://www.site.uottawa.ca/~nat/Workshop2003/jzhang.pdf>
+or Tomek link removal 1976.
 
 ## See also
 

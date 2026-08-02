@@ -108,6 +108,7 @@ is the ratio of the minority-to-majority frequencies.
 | Borderline SMOTE-1 | `step_bsmote(all_neighbors = FALSE)` | ✔️ |
 | Borderline SMOTE-2 | `step_bsmote(all_neighbors = TRUE)` | ✔️ |
 | Support-vector SMOTE | [`step_svmsmote()`](https://themis.tidymodels.org/dev/reference/step_svmsmote.md) | ✔️ |
+| KMeans-SMOTE | [`step_kmeans_smote()`](https://themis.tidymodels.org/dev/reference/step_kmeans_smote.md) | ✔️ |
 | Adaptive synthetic sampling approach for imbalanced learning | [`step_adasyn()`](https://themis.tidymodels.org/dev/reference/step_adasyn.md) | ✔️ |
 | Generation of synthetic data by Randomly Over Sampling Examples | [`step_rose()`](https://themis.tidymodels.org/dev/reference/step_rose.md) |  |
 
@@ -159,8 +160,9 @@ frequencies.
 | name | function | Multi-class | under_ratio |
 |----|----|----|----|
 | Random majority under-sampling with replacement | [`step_downsample()`](https://themis.tidymodels.org/dev/reference/step_downsample.md) | ✔️ | ✔️ |
-| NearMiss-1 | [`step_nearmiss()`](https://themis.tidymodels.org/dev/reference/step_nearmiss.md) | ✔️ | ✔️ |
+| NearMiss-1, NearMiss-2, and NearMiss-3 | `step_nearmiss(version = )` | ✔️ | ✔️ |
 | Instance hardness threshold | [`step_instance_hardness()`](https://themis.tidymodels.org/dev/reference/step_instance_hardness.md) | ✔️ | ✔️ |
+| Cluster centroids | [`step_cluster_centroids()`](https://themis.tidymodels.org/dev/reference/step_cluster_centroids.md) | ✔️ | ✔️ |
 | Condensed nearest neighbors | [`step_cnn()`](https://themis.tidymodels.org/dev/reference/step_cnn.md) | ✔️ |  |
 | Edited nearest neighbors | [`step_enn()`](https://themis.tidymodels.org/dev/reference/step_enn.md) | ✔️ |  |
 | Neighborhood cleaning rule | [`step_ncl()`](https://themis.tidymodels.org/dev/reference/step_ncl.md) | ✔️ |  |

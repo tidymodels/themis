@@ -16,7 +16,7 @@ variables, the most common category along neighbors is chosen."><meta property="
 
     <a class="navbar-brand me-2" href="../index.html">themis</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.3.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -239,7 +239,6 @@ its properties. Biometrics 27(4):857-871. (For the distance metric used)</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">4</span> L       259</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">up_rec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://recipes.tidymodels.org/reference/recipe.html" class="external-link">recipe</a></span><span class="op">(</span><span class="va">class</span> <span class="op">~</span> <span class="va">.</span>, data <span class="op">=</span> <span class="va">hpc_data</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
-<span class="r-in"><span>  <span class="fu"><a href="https://recipes.tidymodels.org/reference/step_impute_knn.html" class="external-link">step_impute_knn</a></span><span class="op">(</span><span class="fu"><a href="https://recipes.tidymodels.org/reference/has_role.html" class="external-link">all_predictors</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>
 <span class="r-in"><span>  <span class="co"># Bring the minority levels up to about 1000 each</span></span></span>
 <span class="r-in"><span>  <span class="co"># 1000/2211 is approx 0.4523</span></span></span>
 <span class="r-in"><span>  <span class="fu">step_smotenc</span><span class="op">(</span><span class="va">class</span>, over_ratio <span class="op">=</span> <span class="fl">0.4523</span><span class="op">)</span> <span class="op">|&gt;</span></span></span>

@@ -18,8 +18,8 @@
 <link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
 <link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Extra Recipes Steps for Dealing with Unbalanced Data">
-<meta name="description" content="A dataset with an uneven number of cases in each class is said to be unbalanced. Many models produce a subpar performance on unbalanced datasets. A dataset can be balanced by increasing the number of minority cases using SMOTE 2011 &lt;doi:10.48550/arXiv.1106.1813&gt;, BorderlineSMOTE 2005 &lt;doi:10.1007/11538059_91&gt; and ADASYN 2008 &lt;https://ieeexplore.ieee.org/document/4633969&gt;. Or by decreasing the number of majority cases using NearMiss 2003 &lt;https://www.site.uottawa.ca/~nat/Workshop2003/jzhang.pdf&gt; or Tomek link removal 1976 &lt;https://ieeexplore.ieee.org/document/4309452&gt;.">
-<meta property="og:description" content="A dataset with an uneven number of cases in each class is said to be unbalanced. Many models produce a subpar performance on unbalanced datasets. A dataset can be balanced by increasing the number of minority cases using SMOTE 2011 &lt;doi:10.48550/arXiv.1106.1813&gt;, BorderlineSMOTE 2005 &lt;doi:10.1007/11538059_91&gt; and ADASYN 2008 &lt;https://ieeexplore.ieee.org/document/4633969&gt;. Or by decreasing the number of majority cases using NearMiss 2003 &lt;https://www.site.uottawa.ca/~nat/Workshop2003/jzhang.pdf&gt; or Tomek link removal 1976 &lt;https://ieeexplore.ieee.org/document/4309452&gt;.">
+<meta name="description" content="A dataset with an uneven number of cases in each class is said to be unbalanced. Many models produce a subpar performance on unbalanced datasets. A dataset can be balanced by increasing the number of minority cases using SMOTE 2011 &lt;doi:10.48550/arXiv.1106.1813&gt;, BorderlineSMOTE 2005 &lt;doi:10.1007/11538059_91&gt; and ADASYN 2008. Or by decreasing the number of majority cases using NearMiss 2003 &lt;https://www.site.uottawa.ca/~nat/Workshop2003/jzhang.pdf&gt; or Tomek link removal 1976.">
+<meta property="og:description" content="A dataset with an uneven number of cases in each class is said to be unbalanced. Many models produce a subpar performance on unbalanced datasets. A dataset can be balanced by increasing the number of minority cases using SMOTE 2011 &lt;doi:10.48550/arXiv.1106.1813&gt;, BorderlineSMOTE 2005 &lt;doi:10.1007/11538059_91&gt; and ADASYN 2008. Or by decreasing the number of majority cases using NearMiss 2003 &lt;https://www.site.uottawa.ca/~nat/Workshop2003/jzhang.pdf&gt; or Tomek link removal 1976.">
 <meta property="og:image" content="https://themis.tidymodels.org/logo.png">
 <meta name="robots" content="noindex">
 <script src="https://cdn.jsdelivr.net/gh/posit-dev/supported-by-posit/js/badge.min.js" data-max-height="43" data-light-bg="#666f76" data-light-fg="#f9f9f9"></script><!-- Privacy-friendly analytics by Plausible --><script async src="https://plausible.io/js/pa-iRPZwdy8p-n7xYPq_6hNJ.js"></script><script>
@@ -35,7 +35,7 @@
 
     <a class="navbar-brand me-2" href="index.html">themis</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.0.3.9000</small>
+    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="In-development version">1.1.0.9000</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -191,6 +191,11 @@
 <td><span class="emoji" data-emoji="heavy_check_mark">✔️</span></td>
 </tr>
 <tr>
+<td>KMeans-SMOTE</td>
+<td><code><a href="reference/step_kmeans_smote.html">step_kmeans_smote()</a></code></td>
+<td><span class="emoji" data-emoji="heavy_check_mark">✔️</span></td>
+</tr>
+<tr>
 <td>Adaptive synthetic sampling approach for imbalanced learning</td>
 <td><code><a href="reference/step_adasyn.html">step_adasyn()</a></code></td>
 <td><span class="emoji" data-emoji="heavy_check_mark">✔️</span></td>
@@ -247,14 +252,20 @@
 <td><span class="emoji" data-emoji="heavy_check_mark">✔️</span></td>
 </tr>
 <tr>
-<td>NearMiss-1</td>
-<td><code><a href="reference/step_nearmiss.html">step_nearmiss()</a></code></td>
+<td>NearMiss-1, NearMiss-2, and NearMiss-3</td>
+<td><code>step_nearmiss(version = )</code></td>
 <td><span class="emoji" data-emoji="heavy_check_mark">✔️</span></td>
 <td><span class="emoji" data-emoji="heavy_check_mark">✔️</span></td>
 </tr>
 <tr>
 <td>Instance hardness threshold</td>
 <td><code><a href="reference/step_instance_hardness.html">step_instance_hardness()</a></code></td>
+<td><span class="emoji" data-emoji="heavy_check_mark">✔️</span></td>
+<td><span class="emoji" data-emoji="heavy_check_mark">✔️</span></td>
+</tr>
+<tr>
+<td>Cluster centroids</td>
+<td><code><a href="reference/step_cluster_centroids.html">step_cluster_centroids()</a></code></td>
 <td><span class="emoji" data-emoji="heavy_check_mark">✔️</span></td>
 <td><span class="emoji" data-emoji="heavy_check_mark">✔️</span></td>
 </tr>
