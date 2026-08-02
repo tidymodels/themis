@@ -6,6 +6,24 @@
       Error in `bsmote()`:
       ! `distance` must be one of "euclidean", "cosine", "mahalanobis", "manhattan", "chebyshev", "squared_chord", "matusita", "hellinger", "bhattacharyya", "canberra", "soergel", "lorentzian", "jeffreys", "topsoe", "jensen-shannon", "jensen_difference", "taneja", or "kumar-johnson", not "minkowski".
 
+# bsmote() errors when the minority class has no danger observations
+
+    Code
+      bsmote(df, var = "class", k = 3)
+    Condition
+      Error in `bsmote()`:
+      ! The minority class "min" has no danger observations to perform BSMOTE.
+      i Every observation of that class is either noise (none of its 3 nearest neighbors are from the same class) or safe (more than half of them are).
+
+# bsmote() errors when the minority class is smaller than `k`
+
+    Code
+      bsmote(df, var = "class", k = 5)
+    Condition
+      Error in `bsmote()`:
+      ! The minority class "min" does not have enough observations to perform BSMOTE.
+      i 3 observations were found, but 6 are needed.
+
 # bsmote() interfaces correctly
 
     Code

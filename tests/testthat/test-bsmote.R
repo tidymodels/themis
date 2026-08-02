@@ -59,6 +59,18 @@ test_that("errors if there isn't enough data", {
   )
 })
 
+test_that("works when only a few observations are in danger (#345)", {
+  mtcars_vs <- mtcars
+  mtcars_vs$vs <- as.factor(mtcars_vs$vs)
+
+  res <- recipe(mpg ~ ., data = mtcars_vs) |>
+    step_bsmote(vs) |>
+    prep() |>
+    bake(new_data = NULL)
+
+  expect_equal(as.numeric(table(res$vs)), c(18, 18))
+})
+
 test_that("all minority classes are upsampled", {
   skip_if_not_installed("modeldata")
 
